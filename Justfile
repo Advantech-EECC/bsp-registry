@@ -138,3 +138,6 @@ ros-mbsp machine="rsb3720" ros="humble" yocto="walnascar": docker-debian
 ros-shell machine="rsb3720" ros="humble" yocto="walnascar": docker-debian
     @. "{{ dotenv }}" && \
     KAS_BUILD_DIR="$PWD/build-ros-{{ros}}-mbsp-{{yocto}}-{{machine}}" kas-container shell adv-mbsp-oenxp-{{yocto}}-{{machine}}.yaml:features/ros2/{{ros}}.yml
+
+mtk-bsp machine yocto:
+    @KAS_BUILD_DIR="$PWD/build-mtk-mbsp-{{yocto}}-{{machine}}" kas-container build bsp-oemtk-{{yocto}}-{{machine}}.yaml

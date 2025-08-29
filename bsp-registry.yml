@@ -61,6 +61,19 @@ registry:
           - adv-mbsp-isar-debian-trixie-rsb3720.yaml
 
     # =====================================
+    # Mediatek BSPs
+    # =====================================
+
+    - name: oemtk-scarthgap-genio-350-evk
+      description: "GENIO Scarthgap BSP"
+      build:
+        path: build/oemtk-scarthgap-genio-350-evk
+        environment:
+          container: "ubuntu-22.04"
+        configuration:
+          - bsp-oemtk-scarthgap-genio-350-evk.yaml
+
+    # =====================================
     # Advantech RSB3730 BSPs
     # =====================================
 
