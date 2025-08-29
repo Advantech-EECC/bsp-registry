@@ -146,5 +146,6 @@ mtk-bsp machine="rsb3810" yocto="scarthgap" docker="ubuntu:22.04" kas="5.2": (do
 
 # Build Qualcomm BSP for a specified machine
 [group('qcom')]
-qcom-bsp machine yocto: docker-debian
-    @KAS_BUILD_DIR="$PWD/build-qcom-mbsp-{{yocto}}-{{machine}}" kas-container build bsp-oeqcom-{{yocto}}-{{machine}}.yaml
+qcom-bsp machine yocto docker="ubuntu:22.04" kas="5.2": (docker-ubuntu docker kas)
+    @. "{{ dotenv }}" && \
+    KAS_BUILD_DIR="$PWD/build-qcom-mbsp-{{yocto}}-{{machine}}" kas-container build bsp-oeqcom-{{yocto}}-{{machine}}.yaml
