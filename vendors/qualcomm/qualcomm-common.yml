@@ -1,0 +1,7 @@
+header:
+  version: 14
+
+distro: qcom-wayland
+
+target: 
+  - qcom-console-image

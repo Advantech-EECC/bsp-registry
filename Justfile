@@ -143,3 +143,8 @@ ros-shell machine="rsb3720" ros="humble" yocto="walnascar": docker-debian
 mtk-bsp machine="rsb3810" yocto="scarthgap" docker="ubuntu:22.04" kas="5.2": (docker-ubuntu docker kas)
     @. "{{ dotenv }}" && \
     KAS_BUILD_DIR="$PWD/build-mtk-mbsp-{{yocto}}-{{machine}}" kas-container build {{kas_build_args}} adv-mbsp-oemtk-{{yocto}}-{{machine}}.yaml
+
+# Build Qualcomm BSP for a specified machine
+[group('qcom')]
+qcom-bsp machine yocto: docker-debian
+    @KAS_BUILD_DIR="$PWD/build-qcom-mbsp-{{yocto}}-{{machine}}" kas-container build bsp-oeqcom-{{yocto}}-{{machine}}.yaml

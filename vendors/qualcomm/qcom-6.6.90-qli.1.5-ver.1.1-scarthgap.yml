@@ -1,0 +1,51 @@
+header:
+  version: 14
+  includes:
+    - compilers/clang/scarthgap.yml
+    - features/deep-learning/tensorflow.yml
+    - features/ota/ostree/scarthgap.yml
+    - vendors/qualcomm/qualcomm-common.yml
+
+repos:
+  meta-qcom:
+    url: "https://github.com/Linaro/meta-qcom"
+    commit: "ec80a36bce11d8182b4bb2a6fa0359adfeccde0a"
+    branch: "scarthgap"
+    path: "layers/meta-qcom"
+    layers:
+      .:
+
+  meta-qcom-hwe:
+    url: "https://github.com/qualcomm-linux/meta-qcom-hwe"
+    commit: "a5fdd68fe7111e9666d39e42980d270ca9f83bcf"
+    path: "layers/meta-qcom-hwe"
+    layers:
+      .:
+
+  meta-qcom-distro:
+    url: "https://github.com/qualcomm-linux/meta-qcom-distro"
+    commit: "08cc4b0bcbe2c0b23d9f786e48a3a826a593bc18"
+    path: "layers/meta-qcom-distro"
+    layers:
+      .:
+
+  # meta-tensorflow:
+  #   commit: "eeee54cfa3c51c1fd99604a0d5f173096bdcf1da"
+
+  # meta-updater:
+  #   commit: "92f0e7aa93966e184beb1ccdfea6c8fdb27d2b18"
+
+  # meta-selinux:
+  #   commit: "4fbbcab2cb452c9430cba780e7cb11b2165c997a"
+
+  # meta-virtualization:
+  #   commit: "94ee980814d7c5824449b2745a934664adbf3007"
+
+  # meta-security:
+  #   commit: "bc865c5276c2ab4031229916e8d7c20148dfbac3"
+
+  # poky:
+  #   commit: "0ce88bc3474d29122e6f319cf474e5c5dce55419"
+
+  # meta-openembedded:
+  #   commit: "6c9f1f8d4538119803bf793747b65e4d23c33544"

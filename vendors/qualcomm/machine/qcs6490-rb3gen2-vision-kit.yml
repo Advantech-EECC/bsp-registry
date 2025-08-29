@@ -1,0 +1,4 @@
+header:
+  version: 14
+
+machine: qcs6490-rb3gen2-vision-kit

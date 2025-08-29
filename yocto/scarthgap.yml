@@ -63,6 +63,12 @@ repos:
       meta-webserver:
       meta-xfce:
 
+  meta-selinux:
+    url: "https://git.yoctoproject.org/meta-selinux"
+    path: "layers/meta-selinux"
+    layers:
+      .:
+
 local_conf_header:
   distro: |
     WARN_QA:remove = "license-exists"
