@@ -139,11 +139,34 @@ To synchronize the time between two Advantech RSB-3720 devices using PTP (Precis
   - Use Gigabit Ethernet to minimize jitter and latency.
   - Opt for a dedicated isolated network for PTP.
 
+```ascii
++-----------------------+              +-----------------+              +-----------------------+
+|   RSB-3720 (Master)   |              | Ethernet Switch |              |   RSB-3720 (Slave)    |
+|                       |  Ethernet    |                 |  Ethernet    |                       |
+| IP: 192.168.1.10      |<------------>| (PTP Transparent|<------------>| IP: 192.168.1.11      |
+|                       |              |    Preferred)   |              |                       |
++-----------------------+              +-----------------+              +-----------------------+
+```
+
 ### 3.2. Install Necessary Software
-- **Linux PTP (linuxptp)**: Ensure that both devices have the `linuxptp` package installed:
+
+**Linux PTP (linuxptp)**: Ensure that both devices have the `linuxptp` package installed:
+ 
   ```bash
-  sudo apt-get install linuxptp
+  dpkg -l linuxptp
   ```
+
+output
+
+```
+root@rsb3720-6g:~# dpkg -l | grep linuxptp
+ii  linuxptp                                                                        4.4-r0                             arm64        linuxptp package for linux
+
+```  
+
+**note**
+
+Our BSPs for RSB3720 already contain linuxptp.
 
 ### 3.3. Verify Hardware Support
 On both devices, check if the Ethernet interface supports hardware timestamping:
@@ -322,6 +345,15 @@ Run the compiled application on the target device. The application accepts the P
 
 # Run with a specific device
 ./ptp-test /dev/ptp1
+```
+
+sample output 
+
+```
+root@rsb3720-6g:~# ./test_ptp /dev/ptp0
+PTP Clock Time: 8446 seconds, 876772690 nanoseconds
+PTP Clock adjusted by 10 sec and 500 nsec.
+PPS signal enabled for time offset measurement.
 ```
 
 *Note: You likely need `sudo` privileges to interact with the PTP character devices.*
