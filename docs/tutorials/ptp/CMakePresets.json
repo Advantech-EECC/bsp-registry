@@ -1,0 +1,74 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "installDir": "${sourceDir}/install/${presetName}"
+    },
+    {
+      "name": "linux-native-debug",
+      "displayName": "Linux Native Debug",
+      "description": "Debug build for the host system",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-native-release",
+      "displayName": "Linux Native Release",
+      "description": "Release build for the host system",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "yocto-arm64-debug",
+      "displayName": "Yocto ARM64 Debug",
+      "description": "Debug build using Yocto SDK toolchain",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/x86_64-pokysdk-linux/usr/share/cmake/OEToolchainConfig.cmake"
+      },
+      "environment": {
+        "SDKTARGETSYSROOT": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/armv8a-poky-linux"
+      }
+    },
+    {
+      "name": "yocto-arm64-release",
+      "displayName": "Yocto ARM64 Release",
+      "description": "Release build using Yocto SDK toolchain",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_TOOLCHAIN_FILE": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/x86_64-pokysdk-linux/usr/share/cmake/OEToolchainConfig.cmake"
+      },
+      "environment": {
+        "SDKTARGETSYSROOT": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/armv8a-poky-linux"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux-native-debug",
+      "configurePreset": "linux-native-debug"
+    },
+    {
+      "name": "linux-native-release",
+      "configurePreset": "linux-native-release"
+    },
+    {
+      "name": "yocto-arm64-debug",
+      "configurePreset": "yocto-arm64-debug"
+    },
+    {
+      "name": "yocto-arm64-release",
+      "configurePreset": "yocto-arm64-release"
+    }
+  ]
+}

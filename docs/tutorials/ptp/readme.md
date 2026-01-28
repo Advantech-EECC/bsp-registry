@@ -32,6 +32,8 @@
     - [4.1. Setting up the Yocto SDK](#41-setting-up-the-yocto-sdk)
     - [4.2. Prerequisites](#42-prerequisites)
     - [4.3. Compilation](#43-compilation)
+      - [Option A: Using CMake Presets (Recommended)](#option-a-using-cmake-presets-recommended)
+      - [Option B: Manual Configuration](#option-b-manual-configuration)
     - [4.4. Deploying to Target](#44-deploying-to-target)
     - [4.5. Usage](#45-usage)
 
@@ -255,6 +257,24 @@ To compile the application, you need:
 
 ### 4.3. Compilation
 
+You can compile using standard CMake commands or using CMake Presets (recommended).
+
+#### Option A: Using CMake Presets (Recommended)
+
+1.  **Configure**:
+    ```bash
+    cmake --preset yocto-arm64-release
+    ```
+
+2.  **Build**:
+    ```bash
+    cmake --build --preset yocto-arm64-release
+    ```
+
+    The binary will be generated in `build/yocto-arm64-release/ptp-test`.
+
+#### Option B: Manual Configuration
+
 1. **Create a Build Directory**:
    ```bash
    mkdir build
@@ -277,12 +297,19 @@ To compile the application, you need:
    make
    ```
 
-   This will generate the `ptp-test` executable.
+   This will generate the `ptp-test` executable in the `build/` directory.
 
 ### 4.4. Deploying to Target
-Once built, upload the executable to your RSB-3720 device using `scp`:
+Once built, upload the executable to your RSB-3720 device using `scp`.
+
+If using presets:
 ```bash
-scp ptp-test user@<target-ip>:/home/user/
+scp build/yocto-arm64-release/ptp-test user@<target-ip>:/home/user/
+```
+
+If using manual build:
+```bash
+scp build/ptp-test user@<target-ip>:/home/user/
 ```
 
 ### 4.5. Usage

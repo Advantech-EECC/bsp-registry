@@ -1,0 +1,39 @@
+# Prerequisites
+*.d
+*.o
+*.obj
+*.elf
+*.lib
+*.a
+*.la
+*.lo
+
+# Compiled Object files
+*.slo
+
+# Executables
+ptp-test
+
+# CMake
+build/
+install/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+*.cmake
+!CMakeLists.txt
+!OEToolchainConfig.cmake
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+compile_commands.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
