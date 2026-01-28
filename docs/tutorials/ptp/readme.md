@@ -10,6 +10,7 @@
   - [2. Enabling PTP Support](#2-enabling-ptp-support)
     - [2.1. Understand the Hardware Capabilities](#21-understand-the-hardware-capabilities)
     - [2.2. Prepare the Linux Kernel](#22-prepare-the-linux-kernel)
+      - [2.2.1 Checking running system kernel](#221-checking-running-system-kernel)
     - [2.3. Configure and Update Device Tree](#23-configure-and-update-device-tree)
     - [2.4. Install LinuxPTP Tools](#24-install-linuxptp-tools)
     - [2.5. Test and Debug Settings](#25-test-and-debug-settings)
@@ -86,6 +87,22 @@ Ensure your Linux kernel has the following configurations enabled:
 - Network support for PTP-enabled Ethernet drivers.
 
 You will also need to include support for the Ethernet controllers (ENET/ENET_QOS) of the i.MX8 in your kernel build.
+
+#### 2.2.1 Checking running system kernel
+
+```
+root@rsb3720-6g:~# cat /proc/config.gz | gunzip | grep 1588
+CONFIG_PTP_1588_CLOCK=y
+CONFIG_PTP_1588_CLOCK_OPTIONAL=y
+CONFIG_PTP_1588_CLOCK_QORIQ=y
+CONFIG_PTP_1588_CLOCK_KVM=y
+# CONFIG_PTP_1588_CLOCK_IDT82P33 is not set
+# CONFIG_PTP_1588_CLOCK_IDTCM is not set
+# CONFIG_PTP_1588_CLOCK_FC3W is not set
+# CONFIG_PTP_1588_CLOCK_MOCK is not set
+# CONFIG_PTP_1588_CLOCK_OCP is not set
+CONFIG_PTP_1588_CLOCK_NETC=y
+```
 
 ### 2.3. Configure and Update Device Tree
 
@@ -327,12 +344,12 @@ Once built, upload the executable to your RSB-3720 device using `scp`.
 
 If using presets:
 ```bash
-scp build/yocto-arm64-release/ptp-test user@<target-ip>:/home/user/
+scp build/yocto-arm64-release/ptp-test root@<target-ip>:/root/
 ```
 
 If using manual build:
 ```bash
-scp build/ptp-test user@<target-ip>:/home/user/
+scp build/ptp-test root@<target-ip>:/root/
 ```
 
 ### 4.5. Usage
