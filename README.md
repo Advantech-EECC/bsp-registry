@@ -20,16 +20,16 @@ The registry supports two build systems:
   - [2.1. NXP Boards Compatibility Matrix](#21-nxp-boards-compatibility-matrix)
     - [2.1.1. Alternative View](#211-alternative-view)
       - [2.1.1.1. Yocto releases](#2111-yocto-releases)
-  - [2.2. Isar Build System Support](#22-isar-build-system-support)
-    - [2.2.1. Isar Overview](#221-isar-overview)
+- [2.2. Isar Build System Support](#22-isar-build-system-support)
+  - [2.2.1. Isar Overview](#221-isar-overview)
     - [2.2.2. Isar Hardware Support](#222-isar-hardware-support)
     - [2.2.3. Building Isar BSPs](#223-building-isar-bsps)
     - [2.2.4. Isar Container Configuration](#224-isar-container-configuration)
     - [2.2.5. Isar Resources](#225-isar-resources)
-    - [2.1.2. OTA Update Support](#212-ota-update-support)
-      - [2.1.2.1. Supported OTA Technologies](#2121-supported-ota-technologies)
-      - [2.1.2.2. OTA Support Matrix](#2122-ota-support-matrix)
-      - [2.1.2.3. Building Images with OTA Support](#2123-building-images-with-ota-support)
+    - [2.3. OTA Update Support](#23-ota-update-support)
+      - [2.3.1. Supported OTA Technologies](#231-supported-ota-technologies)
+      - [2.3.2. OTA Support Matrix](#232-ota-support-matrix)
+      - [2.3.3. Building Images with OTA Support](#233-building-images-with-ota-support)
   - [2.3. MediaTek Boards Compatibility Matrix](#23-mediatek-boards-compatibility-matrix)
     - [2.3.1. Building MediaTek BSPs](#231-building-mediatek-bsps)
   - [2.4. Qualcomm Boards Compatibility Matrix](#24-qualcomm-boards-compatibility-matrix)
@@ -42,7 +42,7 @@ The registry supports two build systems:
   - [3.5. Configuration File Structure](#35-configuration-file-structure)
   - [3.6. Command Reference](#36-command-reference)
     - [3.6.1. Checkout and Validation](#361-checkout-and-validation)
-  - [4. HowTo Assemble BSPs](#4-howto-assemble-bsps)
+- [4. HowTo Assemble BSPs](#4-howto-assemble-bsps)
     - [4.1. Host System dependencies](#41-host-system-dependencies)
       - [4.1.1. Setup Python virtual environment](#411-setup-python-virtual-environment)
         - [4.1.1.1. Advanced Tools for Managing Multiple Python Environments](#4111-advanced-tools-for-managing-multiple-python-environments)
@@ -58,14 +58,19 @@ The registry supports two build systems:
   - [4.3. HowTo build a BSP using KAS](#43-howto-build-a-bsp-using-kas)
     - [4.3.1. Building a BSP image using KAS in a container](#431-building-a-bsp-image-using-kas-in-a-container)
     - [4.3.2. Bitbake development shell](#432-bitbake-development-shell)
-  - [4.4. HowTo build a BSP using Repo Tool](#44-howto-build-a-bsp-using-repo-tool)
+  - [4.4. Building and Installing Yocto SDK](#44-building-and-installing-yocto-sdk)
+    - [4.4.1. Building SDK via KAS](#441-building-sdk-via-kas)
+    - [4.4.2. Building SDK via Bitbake Shell](#442-building-sdk-via-bitbake-shell)
+    - [4.4.3. Installing the SDK](#443-installing-the-sdk)
+  - [4.5. HowTo build a BSP using Repo Tool](#45-howto-build-a-bsp-using-repo-tool)
   - [5. Advanced Topics](#5-advanced-topics)
     - [5.1. Export KAS configuration](#51-export-kas-configuration)
     - [5.2. Lock KAS configuration](#52-lock-kas-configuration)
     - [5.3. Reusing BSP Registry configurations](#53-reusing-bsp-registry-configurations)
-  - [6. Patches](#6-patches)
-  - [7. Links](#7-links)
-
+- [6. Tutorials](#6-tutorials)
+  - [6.1. IMX8 PTP Hardware Support](#61-imx8-ptp-hardware-support)
+- [7. Patches](#7-patches)
+- [8. Links](#8-links)
 ---
 
 # 1. Build System Architecture
@@ -166,11 +171,11 @@ This list below covers the most recent and commonly referenced Yocto releases:
 
 The full overview of Yocto releases can be found here https://www.yoctoproject.org/development/releases/
 
-## 2.2. Isar Build System Support
+# 2.2. Isar Build System Support
 
 In addition to Yocto-based BSPs, this registry supports **Isar** (Integration System for Automated Root filesystem generation), a build system specifically designed for creating Debian-based embedded Linux systems. Isar uses Debian's native packaging tools (apt, dpkg) rather than BitBake, providing a more familiar environment for developers experienced with Debian/Ubuntu systems.
 
-### 2.2.1. Isar Overview
+## 2.2.1. Isar Overview
 
 📖 **For detailed information**, see the **[Isar Directory README](isar/README.md)** which includes comprehensive documentation on configuration, build architecture, and ASCII diagrams of the image generation process.
 
@@ -247,17 +252,17 @@ The container definition in `bsp-registry.yml`:
 * [Isar GitHub Repository](https://github.com/ilbers/isar)
 * [Advantech Isar Modular BSP](https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp)
 
-### 2.1.2. OTA Update Support
+### 2.3. OTA Update Support
 
 The BSP registry includes Over-The-Air (OTA) update configurations for supported boards. OTA updates enable remote software updates without physical access to devices, critical for production deployments.
 
-#### 2.1.2.1. Supported OTA Technologies
+#### 2.3.1. Supported OTA Technologies
 
 * **RAUC** (Robust Auto-Update Controller): A safe and reliable software update framework that supports atomic updates with rollback capabilities
 * **SWUpdate**: A software update framework designed for embedded systems with support for multiple update strategies
 * **OSTree**: An upgrade system for Linux-based operating systems that performs atomic upgrades of complete filesystem trees
 
-#### 2.1.2.2. OTA Support Matrix
+#### 2.3.2. OTA Support Matrix
 
 The following boards support OTA updates with the indicated technologies and Yocto releases:
 
@@ -273,7 +278,7 @@ The following boards support OTA updates with the indicated technologies and Yoc
 | **ROM5721-2G-DB5901** | ✅ | ✅ | ✅ | walnascar |
 | **ROM5722-DB2510** | ✅ | ✅ | ✅ | walnascar, styhead, scarthgap |
 
-#### 2.1.2.3. Building Images with OTA Support
+#### 2.3.3. Building Images with OTA Support
 
 To build a BSP image with OTA support, use the `just ota-mbsp` command:
 
@@ -554,7 +559,7 @@ python bsp.py build adv-mbsp-oenxp-walnascar-rsb3720-6g
 
 ---
 
-## 4. HowTo Assemble BSPs
+# 4. HowTo Assemble BSPs
 
 This chapter explains how to assemble modular BSPs using KAS configuration files. It provides step‑by‑step instructions for setting up prerequisites, selecting the right configuration, and running builds to generate reproducible BSP images tailored to specific hardware platforms.
 
@@ -805,7 +810,69 @@ kas-container shell adv-mbsp-oenxp-walnascar-rsb3720-6g.yaml
 kas-container shell adv-mbsp-oenxp-walnascar-rsb3720-4g.yaml
 ```
 
-## 4.4. HowTo build a BSP using Repo Tool
+## 4.4. Building and Installing Yocto SDK
+
+To develop applications for the target device (like the PTP test application), an SDK (Software Development Kit) is required. It contains the cross-compiler, libraries, and headers matching the target image.
+
+### 4.4.1. Building SDK via KAS
+
+To build the SDK using KAS, use the `--task` (or `-c`) parameter with the `populate_sdk` task.
+
+```bash
+# General syntax
+kas build <configuration-file> --task populate_sdk
+
+# Example
+kas build adv-mbsp-oenxp-walnascar-rsb3720-6g.yaml --task populate_sdk
+```
+
+If using `kas-container`:
+
+```bash
+kas-container build adv-mbsp-oenxp-walnascar-rsb3720-6g.yaml --task populate_sdk
+```
+
+### 4.4.2. Building SDK via Bitbake Shell
+
+You can also build the SDK from within the bitbake development shell:
+
+1. **Enter the shell**:
+   ```bash
+   just mbsp-shell rsb3720 walnascar
+
+   # or
+
+   python bsp.py shell <bsp-name>
+   ```
+
+
+2. **Run bitbake**:
+   ```bash
+   bitbake -c populate_sdk imx-image-full
+   ```
+
+### 4.4.3. Installing the SDK
+
+After the build completes, the SDK installer script (a `.sh` file) will be located in the deploy directory (typically `build/tmp/deploy/sdk/`).
+
+1. **Locate the installer**:
+   ```bash
+   find build/tmp/deploy/sdk/ -name "*.sh"
+   ```
+
+2. **Run the installer**:
+   ```bash
+   ./build/tmp/deploy/sdk/fsl-imx-xwayland-glibc-x86_64-imx-image-core-armv8a-rsb3720-6g-toolchain-6.12-walnascar.sh
+   ```
+
+3. **Follow the prompts** to specify the installation directory (default is usually `/opt/poky/...` or `/opt/fsl-imx-xwayland/...`).
+
+4. **Source the environment** to use the SDK:
+   ```bash
+   source /path/to/sdk/environment-setup-aarch64-poky-linux
+   ```
+
+## 4.5. HowTo build a BSP using Repo Tool
 
 For users who prefer the traditional Yocto workflow using the `repo` tool and standard BitBake commands, we provide comprehensive documentation in a separate guide.
 
@@ -917,7 +984,25 @@ LAYERDEPENDS_custom = "eecc-nxp"
 
 ---
 
-## 6. Patches
+# 6. Tutorials
+
+This section provides step-by-step guides for advanced features and specific use cases to help you get the most out of your BSP.
+
+## 6.1. IMX8 PTP Hardware Support
+
+Learn how to enable, configure, and verify Precision Time Protocol (PTP) hardware support on i.MX8 platforms. This comprehensive tutorial covers:
+
+* Understanding hardware capabilities
+* Kernel and device tree configuration
+* Installing LinuxPTP tools
+* Setting up Master/Slave synchronization
+* Verifying and debugging clock synchronization
+
+[📖 **Go to PTP Tutorial**](docs/tutorials/ptp/readme.md)
+
+---
+
+# 7. Patches
 
 The BSP registry uses patches to fix build issues, add hardware support, and ensure compatibility across different Yocto releases. Patches are organized by vendor and Yocto version to maintain stability and reproducibility.
 
@@ -937,7 +1022,7 @@ For detailed information about each patch, including what they fix and which com
 
 ---
 
-## 7. Links
+# 8. Links
 
 * [Building Modular BSP using Repo Tool](BUILDING_WITH_REPO.md) - Alternative build method using Google's repo tool
 * [KAS Container](https://kas.readthedocs.io/en/latest/userguide/kas-container.html)
