@@ -71,6 +71,7 @@ The registry supports two build systems:
   - [6.1. IMX8 PTP Hardware Support](#61-imx8-ptp-hardware-support)
 - [7. Patches](#7-patches)
 - [8. Links](#8-links)
+
 ---
 
 # 1. Build System Architecture
