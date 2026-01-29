@@ -145,11 +145,9 @@ For user-space management:
 2. [AN12149: NXP IEEE 1588 Implementation Guide](https://www.nxp.com/docs/en/nxp/application-notes/AN12149.pdf)
 3. Additional resources on i.MX-specific implementations: [AN12149 Documentation](https://docs.nxp.com/bundle/AN12149/page/topics/ieee_1588_implementation_for_imx_rt.html)
 
-To synchronize the time between two Advantech RSB-3720 devices using PTP (Precision Time Protocol), you can configure one as the **PTP master** and the other as the **PTP slave**. Below are the key steps:
-
----
-
 ## 3. PTP Synchronization Tutorial
+
+To synchronize the time between two Advantech RSB-3720 devices using PTP (Precision Time Protocol), you can configure one as the **PTP master** and the other as the **PTP slave**. Below are the key steps:
 
 ### 3.1. Setup the Network
 - Connect the two RSB-3720 devices with a direct Ethernet cable, or use an Ethernet switch that doesn’t interfere with PTP packets. To ensure the best precision:
