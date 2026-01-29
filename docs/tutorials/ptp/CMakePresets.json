@@ -29,27 +29,27 @@
     {
       "name": "yocto-arm64-debug",
       "displayName": "Yocto ARM64 Debug",
-      "description": "Debug build using Yocto SDK toolchain",
+      "description": "Debug build using Yocto SDK toolchain (requires YOCTO_SDK_ROOT to be set)",
       "inherits": "base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_TOOLCHAIN_FILE": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/x86_64-pokysdk-linux/usr/share/cmake/OEToolchainConfig.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "$env{YOCTO_SDK_ROOT}/sysroots/x86_64-pokysdk-linux/usr/share/cmake/OEToolchainConfig.cmake"
       },
       "environment": {
-        "SDKTARGETSYSROOT": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/armv8a-poky-linux"
+        "SDKTARGETSYSROOT": "$env{YOCTO_SDK_ROOT}/sysroots/armv8a-poky-linux"
       }
     },
     {
       "name": "yocto-arm64-release",
       "displayName": "Yocto ARM64 Release",
-      "description": "Release build using Yocto SDK toolchain",
+      "description": "Release build using Yocto SDK toolchain (requires YOCTO_SDK_ROOT to be set)",
       "inherits": "base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_TOOLCHAIN_FILE": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/x86_64-pokysdk-linux/usr/share/cmake/OEToolchainConfig.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "$env{YOCTO_SDK_ROOT}/sysroots/x86_64-pokysdk-linux/usr/share/cmake/OEToolchainConfig.cmake"
       },
       "environment": {
-        "SDKTARGETSYSROOT": "/opt/fsl-imx-xwayland/6.12-walnascar/sysroots/armv8a-poky-linux"
+        "SDKTARGETSYSROOT": "$env{YOCTO_SDK_ROOT}/sysroots/armv8a-poky-linux"
       }
     }
   ],
