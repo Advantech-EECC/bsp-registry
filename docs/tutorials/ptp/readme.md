@@ -1,8 +1,8 @@
-# IMX8 PTP Hardware support
+# i.MX8 PTP Hardware support
 
 ## Table of Contents
 
-- [IMX8 PTP Hardware support](#imx8-ptp-hardware-support)
+- [i.MX8 PTP Hardware support](#imx8-ptp-hardware-support)
   - [Table of Contents](#table-of-contents)
   - [1. Summary](#1-summary)
     - [References](#references)
