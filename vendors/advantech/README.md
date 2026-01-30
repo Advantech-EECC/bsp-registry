@@ -166,22 +166,27 @@ Advantech boards support Over-The-Air (OTA) updates using multiple technologies:
 
 - **RAUC** - Robust Auto-Update Controller with atomic updates
 - **SWUpdate** - Flexible software update framework
-- **OSTree** - Git-like upgrade system for complete filesystem trees
+- **OSTree** - Git-like upgrade system for complete filesystem trees (⚠️ Under Development)
 
 ### OTA Support Matrix
 
 | Board | RAUC | SWUpdate | OSTree | Supported Releases |
 |-------|:----:|:--------:|:------:|-------------------|
-| **RSB-3720** | ✅ | ✅ | ✅ | walnascar, styhead, scarthgap |
+| **RSB-3720** | ✅ | ✅ | 🟡 | walnascar, styhead, scarthgap |
 | **RSB-3720-4G** | ✅ | ✅ | ❌ | walnascar |
 | **RSB-3720-6G** | ✅ | ✅ | ❌ | walnascar |
-| **ROM-2620** | ✅ | ✅ | ✅ | walnascar, styhead, scarthgap |
-| **ROM-2820** | ✅ | ✅ | ✅ | walnascar, styhead, scarthgap |
-| **ROM-5720** | ✅ | ✅ | ✅ | walnascar, styhead, scarthgap |
-| **ROM-5721** | ✅ | ✅ | ✅ | walnascar, styhead, scarthgap |
-| **ROM-5721-1G** | ✅ | ✅ | ✅ | walnascar |
-| **ROM-5721-2G** | ✅ | ✅ | ✅ | walnascar |
-| **ROM-5722** | ✅ | ✅ | ✅ | walnascar, styhead, scarthgap |
+| **ROM-2620** | ✅ | ✅ | 🟡 | walnascar, styhead, scarthgap |
+| **ROM-2820** | ✅ | ✅ | 🟡 | walnascar, styhead, scarthgap |
+| **ROM-5720** | ✅ | ✅ | 🟡 | walnascar, styhead, scarthgap |
+| **ROM-5721** | ✅ | ✅ | 🟡 | walnascar, styhead, scarthgap |
+| **ROM-5721-1G** | ✅ | ✅ | 🟡 | walnascar |
+| **ROM-5721-2G** | ✅ | ✅ | 🟡 | walnascar |
+| **ROM-5722** | ✅ | ✅ | 🟡 | walnascar, styhead, scarthgap |
+
+**Legend:**
+- ✅ Stable and production-ready
+- 🟡 Under development
+- ❌ Not supported
 
 ## Usage
 
@@ -219,7 +224,7 @@ just ota-mbsp rsb3720 rauc walnascar
 # Build with SWUpdate OTA support
 just ota-mbsp rom5720-db5901 swupdate scarthgap
 
-# Build with OSTree OTA support
+# Build with OSTree OTA support (⚠️ Under Development)
 just ota-mbsp rom5722-db2510 ostree styhead
 ```
 
