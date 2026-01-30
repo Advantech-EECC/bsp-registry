@@ -16,6 +16,11 @@ The registry supports two build systems:
 - [1. Build System Architecture](#1-build-system-architecture)
   - [1.1. Component Overview](#11-component-overview)
     - [1.1.1. Details](#111-details)
+- [Available Features](#available-features)
+  - [Feature Categories](#feature-categories)
+    - [📚 Complete Features Documentation](#-complete-features-documentation)
+    - [Quick Feature Overview](#quick-feature-overview)
+    - [Using Features in Your Build](#using-features-in-your-build)
 - [2. Supported Hardware](#2-supported-hardware)
   - [2.1. NXP Boards Compatibility Matrix](#21-nxp-boards-compatibility-matrix)
     - [2.1.1. Alternative View](#211-alternative-view)
@@ -103,9 +108,66 @@ The build system follows a layered architecture that ensures reproducibility, is
 | **Yocto Project / Isar Build System** | Core build systems | Yocto: BitBake, OpenEmbedded, meta-layers; Isar: apt, dpkg, Debian packages |
 | **Source Layers / Debian Packages** | BSP components | Yocto: Machine configs, recipes, kernel; Isar: Debian packages, system configuration |
 
+# Available Features
+
+The BSP Registry provides a comprehensive set of optional features that can be integrated into your BSP build. These features extend the base system with additional capabilities for specialized use cases.
+
+## Feature Categories
+
+```
+┌────────────────────────────────────────────────────────┐
+│               BSP Feature Ecosystem                    │
+├────────────────────────────────────────────────────────┤
+│  User Interfaces  │  Vision & AI    │  Connectivity   │
+│  • Browser        │  • Cameras      │  • Protocols    │
+│  • Qt             │  • Deep Learning│  • ROS2         │
+│                   │  • Python AI    │                 │
+├────────────────────────────────────────────────────────┤
+│  Maintenance      │                                    │
+│  • OTA Updates    │                                    │
+│  • SBOM/Security  │                                    │
+└────────────────────────────────────────────────────────┘
+```
+
+### 📚 [Complete Features Documentation](features/README.md)
+
+For detailed information about each feature, including architecture diagrams, use cases, and integration examples, see the [Features Documentation](features/README.md).
+
+### Quick Feature Overview
+
+| Feature | Description | Use Cases |
+|---------|-------------|-----------|
+| **[Browser](features/browser/README.md)** | Chromium web browser with hardware acceleration | Web HMI, digital signage, kiosks |
+| **[Cameras](features/cameras/README.md)** | Intel RealSense depth cameras | 3D vision, robotics, AR/VR |
+| **[Deep Learning](features/deep-learning/README.md)** | Hailo AI accelerators (26 TOPS) | Object detection, classification, inference |
+| **[OTA](features/ota/README.md)** | Over-the-air updates (OSTree/RAUC/SWUpdate) | Remote firmware updates, fleet management |
+| **[Protocols](features/protocols/README.md)** | Zenoh pub/sub protocol | Distributed systems, IoT, robotics |
+| **[Python AI](features/python-ai/README.md)** | NumPy, SciPy, scientific computing | ML, data analysis, signal processing |
+| **[Qt](features/qt/README.md)** | Qt 6.x application framework | Industrial HMI, GUI applications |
+| **[ROS2](features/ros2/README.md)** | Robot Operating System 2 | Autonomous robots, mobile platforms |
+| **[SBOM](features/sbom/README.md)** | Software Bill of Materials & vulnerability scanning | Security, compliance, auditing |
+
+### Using Features in Your Build
+
+Features can be easily added to any BSP build:
+
+```bash
+# Add single feature
+just bsp rsb3720 scarthgap browser
+
+# Add multiple features
+just bsp rsb3720 scarthgap qt/qt6.8 cameras/realsense
+
+# OTA-enabled build (Modular BSP)
+just mbsp rsb3720 scarthgap ota/rauc sbom/timesys-scarthgap
+```
+
+For detailed documentation on each feature, including architecture diagrams, configuration options, and code examples, visit the [Features Directory](features/).
+
 ---
 
 # 2. Supported Hardware
+=======
 
 The BSP build system is designed to support a wide range of hardware platforms, including reference boards, evaluation kits, and custom embedded devices. Each supported target is defined through configuration files that specify processor architecture, memory layout, peripherals, and drivers, ensuring that builds are tailored to the unique requirements of the hardware.
 
