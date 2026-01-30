@@ -2,6 +2,8 @@
 
 This directory contains Board Support Package (BSP) configurations for NXP i.MX processors. These configurations provide the base reference implementations for building Yocto-based Linux distributions on NXP evaluation boards.
 
+📖 **For detailed information about the NXP i.MX boot process and bootable image generation, see [BOOT_PROCESS.md](BOOT_PROCESS.md)**
+
 ## Overview
 
 NXP i.MX processors are a family of applications processors built on Arm Cortex-A cores, designed for industrial and embedded applications. The BSP configurations in this directory enable building complete Linux distributions using the Yocto Project build system.
@@ -175,6 +177,10 @@ To customize a BSP:
 
 ## Resources
 
+**Local Documentation**:
+- [Boot Process and Bootable Image Generation](BOOT_PROCESS.md) - Detailed low-level overview of NXP i.MX boot process
+
+**NXP Official Resources**:
 - [NXP i.MX Software and Tools](https://www.nxp.com/design/software/embedded-software/i-mx-software:IMX-SW)
 - [NXP i.MX Yocto Project User's Guide](https://www.nxp.com/docs/en/user-guide/IMX_YOCTO_PROJECT_USERS_GUIDE.pdf)
 - [Yocto Project Documentation](https://docs.yoctoproject.org/)
