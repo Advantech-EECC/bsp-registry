@@ -168,20 +168,23 @@ Software Bill of Materials generation and vulnerability management with Timesys 
 
 ### 1. Choose Your Features
 
-Select features based on your application requirements:
+Select features based on your application requirements. Features are included by referencing their YAML configuration files in your BSP configuration, or by using dedicated just recipes for specific features:
+
 ```bash
-# Example: HMI with browser and camera
-just bsp rsb3720 scarthgap browser cameras/realsense
+# Example: Basic BSP build (no additional features)
+just bsp rsb3720 scarthgap
 
-# Example: Robotics with ROS2 and sensors
-just bsp rsb3720 scarthgap ros2/humble cameras/realsense
+# Example: Modular BSP build
+just mbsp rsb3720 scarthgap
 
-# Example: AI-powered vision system
-just bsp rsb3720 scarthgap deep-learning/hailo cameras/realsense
+# Example: Robotics with ROS2
+just ros-mbsp rsb3720 humble scarthgap
 
-# Example: IoT gateway with OTA
-just mbsp rsb3720 scarthgap protocols/zenoh ota/rauc
+# Example: BSP with OTA updates
+just ota-mbsp rsb3720 rauc scarthgap
 ```
+
+To add other features (browser, cameras, Qt, deep learning, etc.), you need to create or modify YAML configuration files that include the desired feature YAML files. See the "HowTo build a BSP using KAS" section in the main README for details on working with KAS configuration files.
 
 ### 2. Feature Combinations
 

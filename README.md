@@ -149,18 +149,23 @@ For detailed information about each feature, including architecture diagrams, us
 
 ### Using Features in Your Build
 
-Features can be easily added to any BSP build:
+Features are integrated into BSP builds through dedicated just recipes or by including feature YAML files in KAS configurations:
 
 ```bash
-# Add single feature
-just bsp rsb3720 scarthgap browser
+# Basic BSP build (no additional features)
+just bsp rsb3720 scarthgap
 
-# Add multiple features
-just bsp rsb3720 scarthgap qt/qt6.8 cameras/realsense
+# Modular BSP build
+just mbsp rsb3720 scarthgap
 
-# OTA-enabled build (Modular BSP)
-just mbsp rsb3720 scarthgap ota/rauc sbom/timesys-scarthgap
+# ROS2 support
+just ros-mbsp rsb3720 humble scarthgap
+
+# OTA update support
+just ota-mbsp rsb3720 rauc scarthgap
 ```
+
+For other features (browser, cameras, Qt, deep learning, protocols, Python AI, SBOM), you need to create or modify YAML configuration files to include the feature YAML files. See the [HowTo build a BSP using KAS](#howto-build-a-bsp-using-kas) section for details on working with KAS configuration files.
 
 For detailed documentation on each feature, including architecture diagrams, configuration options, and code examples, visit the [Features Directory](features/).
 
