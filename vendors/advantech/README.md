@@ -2,7 +2,46 @@
 
 This directory contains Advantech-customized Board Support Package (BSP) configurations for NXP i.MX-based Advantech embedded computing platforms. These configurations extend the base NXP BSP with Advantech-specific hardware support, drivers, and features.
 
-## Overview
+## Table of Contents
+
+1. [Overview](#1-overview)
+2. [Supported Hardware](#2-supported-hardware)
+   - 2.1 [i.MX 8 Based Platforms](#21-imx-8-based-platforms)
+   - 2.2 [i.MX 9 Based Platforms](#22-imx-9-based-platforms)
+3. [Release Information](#3-release-information)
+   - 3.1 [Yocto Release Support Matrix](#31-yocto-release-support-matrix)
+   - 3.2 [Available Releases](#32-available-releases)
+4. [Architecture](#4-architecture)
+   - 4.1 [Advantech BSP Layer Architecture](#41-advantech-bsp-layer-architecture)
+   - 4.2 [Relationship to NXP BSP](#42-relationship-to-nxp-bsp)
+5. [OTA Update Support](#5-ota-update-support)
+   - 5.1 [Supported OTA Technologies](#51-supported-ota-technologies)
+   - 5.2 [OTA Support Matrix](#52-ota-support-matrix)
+6. [Usage](#6-usage)
+   - 6.1 [Building Standard BSP Images](#61-building-standard-bsp-images)
+   - 6.2 [Building Modular BSP Images](#62-building-modular-bsp-images)
+   - 6.3 [Building with OTA Support](#63-building-with-ota-support)
+7. [Advantech-Specific Features](#7-advantech-specific-features)
+   - 7.1 [Hardware Enablement](#71-hardware-enablement)
+   - 7.2 [Industrial Features](#72-industrial-features)
+   - 7.3 [Security Features](#73-security-features)
+   - 7.4 [Customization](#74-customization)
+8. [Configuration Files](#8-configuration-files)
+   - 8.1 [BSP Configuration Files](#81-bsp-configuration-files)
+   - 8.2 [Machine Configuration Files](#82-machine-configuration-files)
+9. [Technical Specifications](#9-technical-specifications)
+   - 9.1 [RSB-3720 Series (i.MX 8M Plus)](#91-rsb-3720-series-imx-8m-plus)
+   - 9.2 [ROM Series (COM Express Compact)](#92-rom-series-com-express-compact)
+10. [Resources](#10-resources)
+    - 10.1 [Advantech Resources](#101-advantech-resources)
+    - 10.2 [NXP Resources](#102-nxp-resources)
+    - 10.3 [Yocto Project](#103-yocto-project)
+11. [Support](#11-support)
+12. [License](#12-license)
+
+---
+
+## 1. Overview
 
 Advantech is a global leader in embedded computing platforms. This BSP registry provides configurations for Advantech's industrial-grade boards built on NXP i.MX processors, including COM Express modules, single-board computers, and specialized IoT platforms.
 
@@ -43,9 +82,9 @@ Advantech BSP Structure
     └── meta-eecc-nxp               # Advantech-specific recipes
 ```
 
-## Supported Hardware
+## 2. Supported Hardware
 
-### i.MX 8 Based Platforms
+### 2.1 i.MX 8 Based Platforms
 
 | Board Model | Processor | Form Factor | RAM Options | Status | Product Link |
 |-------------|-----------|-------------|-------------|--------|--------------|
@@ -57,7 +96,7 @@ Advantech BSP Structure
 | **ROM-5721** | i.MX 8M Plus | COM Express Compact | 1GB/2GB/4GB | 🟢 Stable | [Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5721/mod_271dbc68-878b-486d-85cf-30cc9f1f8f16) |
 | **ROM-5722** | i.MX 8M Plus | COM Express Compact | 4GB | 🟢 Stable | [Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5722/mod_11aa0c77-868e-4014-8151-ac7a7a1c5c1b) |
 
-### i.MX 9 Based Platforms
+### 2.2 i.MX 9 Based Platforms
 
 | Board Model | Processor | Form Factor | RAM Options | Status | Product Link |
 |-------------|-----------|-------------|-------------|--------|--------------|
@@ -68,9 +107,9 @@ Advantech BSP Structure
 - 🟡 **Development**: Under active development, may have limitations
 - 🔴 **EOL**: End of Life, not recommended for new projects
 
-## Release Information
+## 3. Release Information
 
-### Yocto Release Support Matrix
+### 3.1 Yocto Release Support Matrix
 
 | Board | Walnascar | Styhead | Scarthgap | Mickledore | Kirkstone |
 |-------|:---------:|:-------:|:---------:|:----------:|:---------:|
@@ -85,32 +124,32 @@ Advantech BSP Structure
 | **ROM-5722** | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **ROM-2820** | ✅ | ✅ | ✅ | ❌ | ❌ |
 
-### Available Releases
+### 3.2 Available Releases
 
-#### Kirkstone (Yocto 4.0 LTS)
+#### 3.2.1 Kirkstone (Yocto 4.0 LTS)
 - **bsp-imx-5.15.52-2.1.0-kirkstone** - Advantech BSP with Linux 5.15.52
 - **imx-5.15.71-2.2.2-kirkstone** - Advantech BSP with Linux 5.15.71
 
-#### Mickledore (Yocto 4.2)
+#### 3.2.2 Mickledore (Yocto 4.2)
 - **bsp-imx-6.1.22-2.0.0-mickledore** - Advantech BSP with Linux 6.1.22
 
-#### Scarthgap (Yocto 5.0 LTS)
+#### 3.2.3 Scarthgap (Yocto 5.0 LTS)
 - **bsp-imx-6.6.23-2.0.0-scarthgap** - Advantech BSP with Linux 6.6.23
 - **bsp-imx-6.6.36-2.1.0-scarthgap** - Advantech BSP with Linux 6.6.36
 - **imx-6.6.52-2.2.0-scarthgap** - Advantech BSP with Linux 6.6.52
 
-#### Styhead (Yocto 5.1)
+#### 3.2.4 Styhead (Yocto 5.1)
 - **imx-6.12.3-1.0.0-styhead** - Advantech BSP with Linux 6.12.3
 
-#### Walnascar (Yocto 5.2)
+#### 3.2.5 Walnascar (Yocto 5.2)
 - **bsp-imx-6.12.20-2.0.0-walnascar** - Advantech BSP with Linux 6.12.20
 - **imx-6.12.20-2.0.0-walnascar** - Advantech BSP with Linux 6.12.20
 - **imx-6.12.34-2.1.0-walnascar** - Advantech BSP with Linux 6.12.34
 - **imx-6.12.49-2.2.0-walnascar** - Advantech BSP with Linux 6.12.49
 
-## Architecture
+## 4. Architecture
 
-### Advantech BSP Layer Architecture
+### 4.1 Advantech BSP Layer Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -139,7 +178,7 @@ Advantech BSP Structure
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Relationship to NXP BSP
+### 4.2 Relationship to NXP BSP
 
 ```
 Dependency Flow
@@ -158,17 +197,17 @@ NXP Base BSP (vendors/nxp/imx-*.yml)
        └─ Extends: Board-specific features
 ```
 
-## OTA Update Support
+## 5. OTA Update Support
 
 Advantech boards support Over-The-Air (OTA) updates using multiple technologies:
 
-### Supported OTA Technologies
+### 5.1 Supported OTA Technologies
 
 - **RAUC** - Robust Auto-Update Controller with atomic updates
 - **SWUpdate** - Flexible software update framework
 - **OSTree** - Git-like upgrade system for complete filesystem trees (⚠️ Under Development)
 
-### OTA Support Matrix
+### 5.2 OTA Support Matrix
 
 | Board | RAUC | SWUpdate | OSTree | Supported Releases |
 |-------|:----:|:--------:|:------:|-------------------|
@@ -188,9 +227,9 @@ Advantech boards support Over-The-Air (OTA) updates using multiple technologies:
 - 🟡 Under development
 - ❌ Not supported
 
-## Usage
+## 6. Usage
 
-### Building Standard BSP Images
+### 6.1 Building Standard BSP Images
 
 ```bash
 # Build standard BSP for RSB-3720 with Walnascar
@@ -203,7 +242,7 @@ just bsp rom5720-db5901 scarthgap
 just bsp rom2820-ed93 styhead
 ```
 
-### Building Modular BSP Images
+### 6.2 Building Modular BSP Images
 
 Modular BSP provides enhanced flexibility with feature composition:
 
@@ -215,7 +254,7 @@ just mbsp rsb3720 walnascar
 just mbsp rom5722-db2510 scarthgap
 ```
 
-### Building with OTA Support
+### 6.3 Building with OTA Support
 
 ```bash
 # Build with RAUC OTA support
@@ -228,37 +267,37 @@ just ota-mbsp rom5720-db5901 swupdate scarthgap
 just ota-mbsp rom5722-db2510 ostree styhead
 ```
 
-## Advantech-Specific Features
+## 7. Advantech-Specific Features
 
 The `meta-eecc-nxp` layer provides:
 
-### Hardware Enablement
+### 7.1 Hardware Enablement
 - Board-specific device tree configurations
 - Custom peripheral drivers
 - Power management optimizations
 - Thermal management configurations
 
-### Industrial Features
+### 7.2 Industrial Features
 - Extended temperature range support
 - Watchdog timer configurations
 - GPIO and industrial I/O support
 - CAN bus and industrial protocol support
 
-### Security Features
+### 7.3 Security Features
 - Secure boot configurations
 - Hardware security module (HSM) support
 - TPM (Trusted Platform Module) integration
 - Encrypted storage support
 
-### Customization
+### 7.4 Customization
 - Advantech-specific utilities and tools
 - Board diagnostics and testing utilities
 - Manufacturing and provisioning tools
 - Custom recovery mechanisms
 
-## Configuration Files
+## 8. Configuration Files
 
-### BSP Configuration Files
+### 8.1 BSP Configuration Files
 
 Advantech BSP configuration files extend NXP base configurations:
 
@@ -275,7 +314,7 @@ repos:
     # Advantech-specific configurations
 ```
 
-### Machine Configuration Files
+### 8.2 Machine Configuration Files
 
 Machine files define Advantech board-specific settings:
 
@@ -291,9 +330,9 @@ local_conf_header:
     SOTA_MACHINE:rsb3720 ?= "rsb3720"
 ```
 
-## Technical Specifications
+## 9. Technical Specifications
 
-### RSB-3720 Series (i.MX 8M Plus)
+### 9.1 RSB-3720 Series (i.MX 8M Plus)
 - **CPU**: Quad-core Arm Cortex-A53 @ 1.8 GHz
 - **GPU**: Vivante GC7000UL
 - **NPU**: 2.3 TOPS Machine Learning accelerator
@@ -302,36 +341,36 @@ local_conf_header:
 - **Storage**: eMMC, SD card, SATA
 - **Industrial**: -20°C to 60°C operating temperature
 
-### ROM Series (COM Express Compact)
+### 9.2 ROM Series (COM Express Compact)
 - **Form Factor**: COM Express Compact Type 6
 - **Processors**: i.MX 8M Mini, i.MX 8M Plus, i.MX 93
 - **Industrial Grade**: Wide temperature range support
 - **Long Lifecycle**: 10+ years product availability
 - **Customization**: ODM services available
 
-## Resources
+## 10. Resources
 
-### Advantech Resources
+### 10.1 Advantech Resources
 - [Advantech Embedded Computing](https://www.advantech.com/products/embedded-boards)
 - [Advantech BSP Wiki](https://ess-wiki.advantech.com.tw/)
 - [Advantech GitHub](https://github.com/Advantech-EECC)
 - [Technical Support](https://www.advantech.com/support)
 
-### NXP Resources
+### 10.2 NXP Resources
 - [NXP i.MX Software and Tools](https://www.nxp.com/design/software/embedded-software/i-mx-software:IMX-SW)
 - [NXP i.MX Yocto Project User's Guide](https://www.nxp.com/docs/en/user-guide/IMX_YOCTO_PROJECT_USERS_GUIDE.pdf)
 
-### Yocto Project
+### 10.3 Yocto Project
 - [Yocto Project Documentation](https://docs.yoctoproject.org/)
 - [Yocto Release Information](https://www.yoctoproject.org/development/releases/)
 
-## Support
+## 11. Support
 
 For Advantech-specific BSP support:
 - **Email**: Contact your Advantech sales representative
 - **GitHub Issues**: [Advantech-EECC/bsp-registry](https://github.com/Advantech-EECC/bsp-registry/issues)
 - **Documentation**: [BSP Registry Main README](../../README.md)
 
-## License
+## 12. License
 
 The configuration files in this directory are provided under the terms specified in the repository's LICENSE file. Advantech BSP configurations may include proprietary software requiring additional license agreements. See individual layer repositories for specific licensing information.

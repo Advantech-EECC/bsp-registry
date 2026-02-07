@@ -4,7 +4,28 @@ This directory contains Board Support Package (BSP) configurations for NXP i.MX 
 
 📖 **For detailed information about the NXP i.MX boot process and bootable image generation, see [BOOT_PROCESS.md](BOOT_PROCESS.md)**
 
-## Overview
+## Table of Contents
+
+1. [Overview](#1-overview)
+2. [Supported Hardware](#2-supported-hardware)
+3. [Release Information](#3-release-information)
+   - 3.1 [Yocto Release Overview](#31-yocto-release-overview)
+   - 3.2 [Available Releases](#32-available-releases)
+4. [Architecture](#4-architecture)
+   - 4.1 [BSP Layer Stack](#41-bsp-layer-stack)
+5. [Configuration Files](#5-configuration-files)
+   - 5.1 [common.yml](#51-commonyml)
+   - 5.2 [Release Configuration Files](#52-release-configuration-files)
+   - 5.3 [Machine Configuration Files](#53-machine-configuration-files)
+6. [Usage](#6-usage)
+   - 6.1 [Building a BSP Image](#61-building-a-bsp-image)
+   - 6.2 [Customization](#62-customization)
+7. [Resources](#7-resources)
+8. [License](#8-license)
+
+---
+
+## 1. Overview
 
 NXP i.MX processors are a family of applications processors built on Arm Cortex-A cores, designed for industrial and embedded applications. The BSP configurations in this directory enable building complete Linux distributions using the Yocto Project build system.
 
@@ -34,7 +55,7 @@ NXP i.MX BSP Structure
     └── imx93-11x11-lpddr4x-evk.yml # i.MX 93 EVK
 ```
 
-## Supported Hardware
+## 2. Supported Hardware
 
 The following NXP evaluation boards are supported:
 
@@ -45,9 +66,9 @@ The following NXP evaluation boards are supported:
 | **imx8ulp-lpddr4-evk** | i.MX 8ULP | NXP i.MX 8ULP Evaluation Kit with low-power features |
 | **imx93-11x11-lpddr4x-evk** | i.MX 93 | NXP i.MX 93 Evaluation Kit with dual-core Cortex-A55 |
 
-## Release Information
+## 3. Release Information
 
-### Yocto Release Overview
+### 3.1 Yocto Release Overview
 
 ```
 Timeline: Yocto Releases
@@ -68,7 +89,7 @@ Timeline: Yocto Releases
    └─ Linux Kernel: 6.12.x
 ```
 
-### Available Releases
+### 3.2 Available Releases
 
 #### Kirkstone (Yocto 4.0 LTS)
 - **imx-5.15.52-2.1.0-kirkstone** - NXP BSP release 2.1.0 with Linux 5.15.52
@@ -90,9 +111,9 @@ Timeline: Yocto Releases
 - **imx-6.12.34-2.1.0-walnascar** - NXP BSP release 2.1.0 with Linux 6.12.34
 - **imx-6.12.49-2.2.0-walnascar** - NXP BSP release 2.2.0 with Linux 6.12.49
 
-## Architecture
+## 4. Architecture
 
-### BSP Layer Stack
+### 4.1 BSP Layer Stack
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -126,9 +147,9 @@ Timeline: Yocto Releases
 └─────────────────────────────────────────────────────────┘
 ```
 
-## Configuration Files
+## 5. Configuration Files
 
-### common.yml
+### 5.1 common.yml
 
 The `common.yml` file contains base configuration settings shared across all NXP i.MX BSP releases:
 
@@ -137,7 +158,7 @@ The `common.yml` file contains base configuration settings shared across all NXP
 - **Features**: OpenGL, Vulkan, seccomp security
 - **Target Images**: imx-image-core, imx-image-multimedia, imx-image-full
 
-### Release Configuration Files
+### 5.2 Release Configuration Files
 
 Each release configuration file (e.g., `imx-6.12.49-2.2.0-walnascar.yml`) includes:
 
@@ -146,7 +167,7 @@ Each release configuration file (e.g., `imx-6.12.49-2.2.0-walnascar.yml`) includ
 3. **Layer definitions**: Which BSP layers to include
 4. **Patches**: Any necessary fixes for the release
 
-### Machine Configuration Files
+### 5.3 Machine Configuration Files
 
 Machine files define board-specific settings:
 
@@ -155,9 +176,9 @@ Machine files define board-specific settings:
 - Kernel device tree
 - Hardware features and capabilities
 
-## Usage
+## 6. Usage
 
-### Building a BSP Image
+### 6.1 Building a BSP Image
 
 To build an image for an NXP evaluation board, use the BSP registry manager:
 
@@ -166,7 +187,7 @@ To build an image for an NXP evaluation board, use the BSP registry manager:
 just bsp <board-name> <yocto-release>
 ```
 
-### Customization
+### 6.2 Customization
 
 To customize a BSP:
 
@@ -175,7 +196,7 @@ To customize a BSP:
 3. Add feature layers as needed (from `features/` directory)
 4. Include the configuration files in your top-level KAS YAML
 
-## Resources
+## 7. Resources
 
 **Local Documentation**:
 - [Boot Process and Bootable Image Generation](BOOT_PROCESS.md) - Detailed low-level overview of NXP i.MX boot process
@@ -187,6 +208,6 @@ To customize a BSP:
 - [meta-freescale Layer](https://github.com/Freescale/meta-freescale)
 - [meta-imx Layer](https://github.com/nxp-imx/meta-imx)
 
-## License
+## 8. License
 
 The configuration files in this directory are provided under the terms specified in the repository's LICENSE file. Note that building images may include software components with various licenses, including proprietary NXP software requiring EULA acceptance.

@@ -4,18 +4,49 @@ This document provides a detailed, low-level overview of how bootable images are
 
 ## Table of Contents
 
-- [Boot Process Overview](#boot-process-overview)
-- [Boot Stages](#boot-stages)
-- [Bootable Image Components](#bootable-image-components)
-- [Image Generation Process](#image-generation-process)
-- [Boot Media Layout](#boot-media-layout)
-- [Processor-Specific Variations](#processor-specific-variations)
-- [Yocto/BitBake Integration](#yoctobitbake-integration)
-- [Troubleshooting](#troubleshooting)
+1. [Boot Process Overview](#1-boot-process-overview)
+2. [Boot Stages](#2-boot-stages)
+   - 2.1 [Stage 1: Boot ROM](#21-stage-1-boot-rom)
+   - 2.2 [Stage 2: SPL (Secondary Program Loader)](#22-stage-2-spl-secondary-program-loader)
+   - 2.3 [Stage 3: ARM Trusted Firmware (ATF)](#23-stage-3-arm-trusted-firmware-atf-imx-89-only)
+   - 2.4 [Stage 4: OP-TEE (Optional Secure OS)](#24-stage-4-op-tee-optional-secure-os)
+   - 2.5 [Stage 5: U-Boot Proper](#25-stage-5-u-boot-proper)
+   - 2.6 [Stage 6: Linux Kernel](#26-stage-6-linux-kernel)
+3. [Bootable Image Components](#3-bootable-image-components)
+   - 3.1 [Primary Firmware Components](#31-primary-firmware-components)
+   - 3.2 [Component Architecture](#32-component-architecture)
+4. [Image Generation Process](#4-image-generation-process)
+   - 4.1 [Overview](#41-overview)
+   - 4.2 [Step-by-Step Process](#42-step-by-step-process)
+5. [Boot Media Layout](#5-boot-media-layout)
+   - 5.1 [SD/eMMC Layout](#51-sdemmc-layout)
+   - 5.2 [Detailed Boot Region Layout](#52-detailed-boot-region-layout-imx-8m-plus-example)
+6. [Processor-Specific Variations](#6-processor-specific-variations)
+   - 6.1 [i.MX 6 Series](#61-imx-6-series-imx-6q-6dl-6s-6sx-6ul-etc)
+   - 6.2 [i.MX 7 Series](#62-imx-7-series-imx-7d-7s-7ulp)
+   - 6.3 [i.MX 8 QuadMax / QuadXPlus](#63-imx-8-quadmax--quadxplus-qmqxp)
+   - 6.4 [i.MX 8M Family](#64-imx-8m-family-8mq-8mm-8mn-8mp)
+   - 6.5 [i.MX 8ULP (Ultra Low Power)](#65-imx-8ulp-ultra-low-power)
+   - 6.6 [i.MX 9 Series](#66-imx-9-series-imx-93)
+7. [Yocto/BitBake Integration](#7-yoctobitbake-integration)
+   - 7.1 [How Yocto Builds imx-boot](#71-how-yocto-builds-imx-boot)
+   - 7.2 [Build Commands](#72-build-commands)
+8. [Troubleshooting](#8-troubleshooting)
+   - 8.1 [Common Boot Issues](#81-common-boot-issues)
+   - 8.2 [Debug Techniques](#82-debug-techniques)
+9. [References](#9-references)
+   - 9.1 [Official Documentation](#91-official-documentation)
+   - 9.2 [Source Code Repositories](#92-source-code-repositories)
+   - 9.3 [Tools](#93-tools)
+   - 9.4 [Community Resources](#94-community-resources)
+10. [Appendix: Quick Reference Commands](#10-appendix-quick-reference-commands)
+    - 10.1 [Build imx-boot (Manual)](#101-build-imx-boot-manual)
+    - 10.2 [Flash to SD Card](#102-flash-to-sd-card)
+    - 10.3 [Yocto Build](#103-yocto-build)
 
 ---
 
-## Boot Process Overview
+## 1. Boot Process Overview
 
 The NXP i.MX processor family uses a multi-stage boot process to initialize the hardware and load the operating system. The boot chain involves several firmware components that execute sequentially:
 
@@ -77,9 +108,9 @@ Power-On / Reset
 
 ---
 
-## Boot Stages
+## 2. Boot Stages
 
-### Stage 1: Boot ROM
+### 2.1 Stage 1: Boot ROM
 
 **Location**: Hardcoded in the SoC silicon (cannot be modified)
 
@@ -104,7 +135,7 @@ Power-On / Reset
 - DCD (Device Configuration Data) - optional for i.MX 6/7
 - Application code (SPL)
 
-### Stage 2: SPL (Secondary Program Loader)
+### 2.2 Stage 2: SPL (Secondary Program Loader)
 
 **File**: `u-boot-spl.bin` or `u-boot-spl-ddr.bin`
 
@@ -124,7 +155,7 @@ Power-On / Reset
 - i.MX 6/7: SPL loads U-Boot directly
 - i.MX 8/9: SPL loads ATF first (secure boot chain)
 
-### Stage 3: ARM Trusted Firmware (ATF) [i.MX 8/9 only]
+### 2.3 Stage 3: ARM Trusted Firmware (ATF) [i.MX 8/9 only]
 
 **File**: `bl31.bin`
 
@@ -141,7 +172,7 @@ Power-On / Reset
 - NXP-specific platform code
 - Configured for specific i.MX variant
 
-### Stage 4: OP-TEE (Optional Secure OS)
+### 2.4 Stage 4: OP-TEE (Optional Secure OS)
 
 **File**: `tee.bin`
 
@@ -152,7 +183,7 @@ Power-On / Reset
 - DRM support
 - Runs in secure world alongside normal world OS
 
-### Stage 5: U-Boot Proper
+### 2.5 Stage 5: U-Boot Proper
 
 **File**: `u-boot.bin` or `u-boot-nodtb.bin` + `u-boot.dtb`
 
@@ -172,7 +203,7 @@ Power-On / Reset
 - DFU (Device Firmware Upgrade)
 - Network boot (TFTP, NFS)
 
-### Stage 6: Linux Kernel
+### 2.6 Stage 6: Linux Kernel
 
 **Files**: `Image`, `zImage`, or `uImage` + Device Tree Blob (`.dtb`)
 
@@ -180,9 +211,9 @@ Standard Linux kernel boot process.
 
 ---
 
-## Bootable Image Components
+## 3. Bootable Image Components
 
-### Primary Firmware Components
+### 3.1 Primary Firmware Components
 
 1. **imx-boot** (or **flash.bin**)
    - Container image combining all boot components
@@ -203,7 +234,7 @@ Standard Linux kernel boot process.
    - **lpddr4_pmu_train_*.bin**: DDR training firmware
    - Embedded in SPL or loaded separately
 
-### Component Architecture
+### 3.2 Component Architecture
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -269,9 +300,9 @@ Standard Linux kernel boot process.
 
 ---
 
-## Image Generation Process
+## 4. Image Generation Process
 
-### Overview
+### 4.1 Overview
 
 The bootable image generation involves:
 1. Building individual firmware components
@@ -279,9 +310,9 @@ The bootable image generation involves:
 3. Creating proper headers and padding
 4. Generating final `imx-boot` or `flash.bin`
 
-### Step-by-Step Process
+### 4.2 Step-by-Step Process
 
-#### Step 1: Build Firmware Components
+#### 4.2.1 Step 1: Build Firmware Components
 
 **U-Boot (SPL + Proper)**:
 ```bash
@@ -316,7 +347,7 @@ make PLATFORM=imx-mx8mpevk ARCH=arm CFG_ARM64_core=y
 # - out/arm-plat-imx/core/tee.bin
 ```
 
-#### Step 2: Obtain NXP Firmware Blobs
+#### 4.2.2 Step 2: Obtain NXP Firmware Blobs
 
 NXP provides closed-source firmware required for certain SoCs:
 
@@ -333,7 +364,7 @@ chmod +x firmware-imx-8.x.bin
 # - firmware/hdmi/cadence/signed_*.bin (HDMI firmware)
 ```
 
-#### Step 3: Use imx-mkimage Tool
+#### 4.2.3 Step 3: Use imx-mkimage Tool
 
 The `imx-mkimage` tool combines all components into a bootable image.
 
@@ -386,7 +417,7 @@ make SOC=iMX8MN flash_evk
 make SOC=iMX9 flash_singleboot_m33
 ```
 
-#### Step 4: Flash to Boot Media
+#### 4.2.4 Step 4: Flash to Boot Media
 
 **SD Card**:
 ```bash
@@ -419,9 +450,9 @@ sf write ${loadaddr} 0 ${filesize}
 
 ---
 
-## Boot Media Layout
+## 5. Boot Media Layout
 
-### SD/eMMC Layout
+### 5.1 SD/eMMC Layout
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -450,7 +481,7 @@ Offset        Content                  Size        Notes
                                                     - /home, /data, etc.
 ```
 
-### Detailed Boot Region Layout (i.MX 8M Plus example)
+### 5.2 Detailed Boot Region Layout (i.MX 8M Plus example)
 
 ```
 imx-boot (flash.bin) Internal Structure:
@@ -468,9 +499,9 @@ Offset        Component                Size
 
 ---
 
-## Processor-Specific Variations
+## 6. Processor-Specific Variations
 
-### i.MX 6 Series (i.MX 6Q, 6DL, 6S, 6SX, 6UL, etc.)
+### 6.1 i.MX 6 Series (i.MX 6Q, 6DL, 6S, 6SX, 6UL, etc.)
 
 **Boot Process**:
 - Boot ROM → SPL → U-Boot → Kernel
@@ -487,7 +518,7 @@ Offset        Component                Size
 **Flash Offset**:
 - SD/eMMC: 1 KB (0x400 bytes)
 
-### i.MX 7 Series (i.MX 7D, 7S, 7ULP)
+### 6.2 i.MX 7 Series (i.MX 7D, 7S, 7ULP)
 
 **Boot Process**:
 - Similar to i.MX 6
@@ -497,7 +528,7 @@ Offset        Component                Size
 - `u-boot-with-spl.imx` for i.MX 7D/7S
 - imx-boot for i.MX 7ULP
 
-### i.MX 8 QuadMax / QuadXPlus (QM/QXP)
+### 6.3 i.MX 8 QuadMax / QuadXPlus (QM/QXP)
 
 **Boot Process**:
 - Boot ROM → SCFW/SECO → SPL → ATF → U-Boot → Kernel
@@ -513,7 +544,7 @@ Offset        Component                Size
 **Tools**:
 - `imx-mkimage` with container support
 
-### i.MX 8M Family (8MQ, 8MM, 8MN, 8MP)
+### 6.4 i.MX 8M Family (8MQ, 8MM, 8MN, 8MP)
 
 **Boot Process**:
 - Boot ROM → SPL → ATF → (OP-TEE) → U-Boot → Kernel
@@ -529,7 +560,7 @@ Offset        Component                Size
 **Flash Offset**:
 - SD/eMMC: 33 KB (0x8400 bytes)
 
-### i.MX 8ULP (Ultra Low Power)
+### 6.5 i.MX 8ULP (Ultra Low Power)
 
 **Boot Process**:
 - Boot ROM → SPL → Cortex-M33 FW → ATF → U-Boot → Kernel
@@ -542,7 +573,7 @@ Offset        Component                Size
 - Single boot mode (A35 only)
 - Dual boot mode (M33 + A35)
 
-### i.MX 9 Series (i.MX 93)
+### 6.6 i.MX 9 Series (i.MX 93)
 
 **Boot Process**:
 - Boot ROM → SPL → Cortex-M33 FW → ATF → U-Boot → Kernel
@@ -555,9 +586,9 @@ Offset        Component                Size
 
 ---
 
-## Yocto/BitBake Integration
+## 7. Yocto/BitBake Integration
 
-### How Yocto Builds imx-boot
+### 7.1 How Yocto Builds imx-boot
 
 In Yocto/OpenEmbedded, the `imx-boot` recipe automates the image generation process.
 
@@ -633,7 +664,7 @@ zstd -d imx-image-full-*.wic.zst
 sudo dd if=imx-image-full-*.wic of=/dev/sdX bs=1M status=progress conv=fsync
 ```
 
-### Build Commands
+### 7.2 Build Commands
 
 ```bash
 # Build only bootloader
@@ -648,11 +679,11 @@ MACHINE=imx8mpevk bitbake imx-image-core
 
 ---
 
-## Troubleshooting
+## 8. Troubleshooting
 
-### Common Boot Issues
+### 8.1 Common Boot Issues
 
-#### 1. Board Doesn't Boot (No Output)
+#### 8.1.1 Issue 1: Board Doesn't Boot (No Output)
 
 **Possible Causes**:
 - Wrong boot offset (33KB vs 1KB)
@@ -672,7 +703,7 @@ sudo dd if=/dev/sdX bs=1k skip=33 count=4096 | hexdump -C | head
 sudo dd if=flash.bin of=/dev/sdX bs=1k seek=33 conv=fsync status=progress
 ```
 
-#### 2. SPL Loads but U-Boot Fails
+#### 8.1.2 Issue 2: SPL Loads but U-Boot Fails
 
 **Symptoms**:
 - Serial output shows SPL banner
@@ -688,7 +719,7 @@ sudo dd if=flash.bin of=/dev/sdX bs=1k seek=33 conv=fsync status=progress
 - Check ATF is loaded: SPL should print "Jumping to ATF"
 - Verify DDR training firmware is present
 
-#### 3. U-Boot Starts but Kernel Fails to Load
+#### 8.1.3 Issue 3: U-Boot Starts but Kernel Fails to Load
 
 **Possible Causes**:
 - Wrong kernel format (Image vs zImage vs uImage)
@@ -713,7 +744,7 @@ fdt addr ${fdt_addr}
 fdt print
 ```
 
-#### 4. Secure Boot / HAB Failures
+#### 8.1.4 Issue 4: Secure Boot / HAB Failures
 
 **Symptoms**:
 - Boot stops with HAB event log
@@ -724,7 +755,7 @@ fdt print
 - Ensure all components in boot chain are signed
 - Burn appropriate fuses (DO NOT DO IN DEVELOPMENT!)
 
-### Debug Techniques
+### 8.2 Debug Techniques
 
 **Serial Console**:
 - Always connect serial console for boot debugging
@@ -768,37 +799,37 @@ uuu> SDP: boot -f flash.bin
 
 ---
 
-## References
+## 9. References
 
-### Official Documentation
+### 9.1 Official Documentation
 
 - [NXP i.MX 8M Plus Reference Manual](https://www.nxp.com/docs/en/reference-manual/IMX8MPRM.pdf)
 - [NXP i.MX Linux User's Guide](https://www.nxp.com/docs/en/user-guide/IMX_LINUX_USERS_GUIDE.pdf)
 - [NXP i.MX Yocto Project User's Guide](https://www.nxp.com/docs/en/user-guide/IMX_YOCTO_PROJECT_USERS_GUIDE.pdf)
 
-### Source Code Repositories
+### 9.2 Source Code Repositories
 
 - [U-Boot for i.MX](https://github.com/nxp-imx/uboot-imx)
 - [ARM Trusted Firmware](https://github.com/nxp-imx/imx-atf)
 - [imx-mkimage Tool](https://github.com/nxp-imx/imx-mkimage)
 - [meta-imx Yocto Layer](https://github.com/nxp-imx/meta-imx)
 
-### Tools
+### 9.3 Tools
 
 - [Universal Update Utility (uuu)](https://github.com/nxp-imx/mfgtools) - USB flashing tool
 - [Code Signing Tool (CST)](https://www.nxp.com/webapp/sps/download/license.jsp?colCode=IMX_CST_TOOL) - For secure boot
 - [bmaptool](https://github.com/intel/bmap-tools) - Fast image flashing
 
-### Community Resources
+### 9.4 Community Resources
 
 - [NXP i.MX Community](https://community.nxp.com/community/imx)
 - [Yocto Project Documentation](https://docs.yoctoproject.org/)
 
 ---
 
-## Appendix: Quick Reference Commands
+## 10. Appendix: Quick Reference Commands
 
-### Build imx-boot (Manual)
+### 10.1 Build imx-boot (Manual)
 
 ```bash
 # 1. Build U-Boot
@@ -820,7 +851,7 @@ cp firmware-imx/firmware/ddr/synopsys/*.bin .
 make SOC=iMX8MP flash_evk
 ```
 
-### Flash to SD Card
+### 10.2 Flash to SD Card
 
 ```bash
 # i.MX 8M family (33KB offset)
@@ -833,7 +864,7 @@ sudo dd if=u-boot-with-spl.imx of=/dev/sdX bs=1k seek=1 conv=fsync
 sudo bmaptool copy image.wic.zst /dev/sdX
 ```
 
-### Yocto Build
+### 10.3 Yocto Build
 
 ```bash
 # Setup build environment
