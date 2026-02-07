@@ -1,10 +1,47 @@
 # ROS2 (Robot Operating System 2) Feature
 
-## Overview
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Architecture](#2-architecture)
+- [3. Supported ROS2 Distributions](#3-supported-ros2-distributions)
+- [4. Repository](#4-repository)
+- [5. ROS2 Communication Patterns](#5-ros2-communication-patterns)
+  - [5.1. 1. Topics (Publish/Subscribe)](#51-1-topics-publishsubscribe)
+  - [5.2. 2. Services (Request/Reply)](#52-2-services-requestreply)
+  - [5.3. 3. Actions (Long-running Tasks)](#53-3-actions-long-running-tasks)
+- [6. Features](#6-features)
+- [7. Use Cases](#7-use-cases)
+- [8. ROS2 Node Graph Example](#8-ros2-node-graph-example)
+- [9. Key ROS2 Concepts](#9-key-ros2-concepts)
+  - [9.1. Nodes](#91-nodes)
+  - [9.2. Topics](#92-topics)
+  - [9.3. Messages](#93-messages)
+  - [9.4. Quality of Service (QoS)](#94-quality-of-service-qos)
+  - [9.5. Launch Files](#95-launch-files)
+- [10. Configuration Files](#10-configuration-files)
+- [11. Usage Example](#11-usage-example)
+- [12. Requirements](#12-requirements)
+- [13. ROS2 Workspace Structure](#13-ros2-workspace-structure)
+- [14. Common ROS2 Packages](#14-common-ros2-packages)
+- [15. Example Code](#15-example-code)
+  - [15.1. Publisher (C++)](#151-publisher-c)
+  - [15.2. Subscriber (Python)](#152-subscriber-python)
+- [16. Data Flow Example](#16-data-flow-example)
+- [17. Quality of Service Profiles](#17-quality-of-service-profiles)
+- [18. Performance Considerations](#18-performance-considerations)
+- [19. ROS2 vs ROS1](#19-ros2-vs-ros1)
+- [20. Debugging Tools](#20-debugging-tools)
+- [21. Known Limitations](#21-known-limitations)
+- [22. Related Features](#22-related-features)
+- [23. Additional Resources](#23-additional-resources)
+
+
+## 1. Overview
 
 The ROS2 feature integrates the Robot Operating System 2 framework into the BSP, providing a flexible framework for writing robot software with support for distributed systems, real-time capabilities, and a rich ecosystem of tools and libraries.
 
-## Architecture
+## 2. Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -28,7 +65,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 └─────────────────────────────────────────────────┘
 ```
 
-## Supported ROS2 Distributions
+## 3. Supported ROS2 Distributions
 
 | Distribution | Release Date | EOL | Ubuntu Base | Key Features |
 |--------------|--------------|-----|-------------|--------------|
@@ -37,15 +74,15 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 | **Kilted Kaiju** | Nov 2024 | Nov 2025 | - | Rolling release features |
 | **Rolling** | Continuous | - | Latest | Cutting-edge, experimental |
 
-## Repository
+## 4. Repository
 
 - **Layer**: meta-ros
 - **Source**: https://github.com/ros/meta-ros.git
 - **Includes**: meta-ros-common, meta-ros2, meta-ros2-{distribution}
 
-## ROS2 Communication Patterns
+## 5. ROS2 Communication Patterns
 
-### 1. Topics (Publish/Subscribe)
+### 5.1. 1. Topics (Publish/Subscribe)
 ```
 ┌──────────┐                    ┌──────────┐
 │Publisher │──► /sensor/data ──►│Subscriber│
@@ -59,7 +96,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
                                 └──────────┘
 ```
 
-### 2. Services (Request/Reply)
+### 5.2. 2. Services (Request/Reply)
 ```
 ┌────────┐                      ┌────────┐
 │ Client │─────► Request ─────► │Service │
@@ -68,7 +105,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 └────────┘                      └────────┘
 ```
 
-### 3. Actions (Long-running Tasks)
+### 5.3. 3. Actions (Long-running Tasks)
 ```
 ┌────────┐                      ┌────────┐
 │ Action │─────► Goal ─────────►│ Action │
@@ -78,7 +115,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 └────────┘                      └────────┘
 ```
 
-## Features
+## 6. Features
 
 - **Distributed Architecture**: Multiple nodes across processes/machines
 - **Real-time Capable**: RTOS support for time-critical applications
@@ -89,7 +126,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 - **Security**: DDS-Security for encrypted communication
 - **Multi-language**: C++, Python, and other language bindings
 
-## Use Cases
+## 7. Use Cases
 
 - **Mobile Robots**: Autonomous navigation and mapping
 - **Industrial Automation**: Robotic arms and manipulators
@@ -100,7 +137,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 - **Research Platforms**: Academic robotics research
 - **Multi-robot Systems**: Swarm and collaborative robots
 
-## ROS2 Node Graph Example
+## 8. ROS2 Node Graph Example
 
 ```
 ┌─────────────┐
@@ -124,43 +161,46 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
                         └───────────────┘
 ```
 
-## Key ROS2 Concepts
+## 9. Key ROS2 Concepts
 
-### Nodes
+### 9.1. Nodes
 Independent processes that perform computation.
 
-### Topics
+### 9.2. Topics
 Named buses for asynchronous data streaming.
 
-### Messages
+### 9.3. Messages
 Data structures for topic communication (sensor_msgs, geometry_msgs, etc.).
 
-### Quality of Service (QoS)
+### 9.4. Quality of Service (QoS)
 Configure reliability, durability, deadline, liveliness.
 
-### Launch Files
+### 9.5. Launch Files
 Declarative configuration for starting multiple nodes.
 
-## Configuration Files
+## 10. Configuration Files
 
 - `humble.yml` - ROS2 Humble Hawksbill (LTS)
 - `jazzy.yml` - ROS2 Jazzy Jalisco (Latest LTS)
 - `kilted.yml` - ROS2 Kilted Kaiju
 - `rolling.yml` - ROS2 Rolling (Development)
 
-## Usage Example
+## 11. Usage Example
 
-To include ROS2 support in your BSP build:
+To include ROS2 support in your BSP build, use the dedicated `ros-mbsp` recipe:
 
 ```bash
-# Using BSP Registry Manager
-just bsp <board-name> <yocto-release> ros2/humble
+# Using the dedicated ROS2 recipe
+just ros-mbsp <machine> <ros-distribution> <yocto-release>
 
-# Example for RSB3720 with Scarthgap
-just bsp rsb3720 scarthgap ros2/humble
+# Example for RSB3720 with ROS2 Humble and Scarthgap
+just ros-mbsp rsb3720 humble scarthgap
+
+# Example for RSB3720 with ROS2 Jazzy and Scarthgap
+just ros-mbsp rsb3720 jazzy scarthgap
 ```
 
-## Requirements
+## 12. Requirements
 
 - **Memory**: 512MB+ RAM (1GB+ recommended)
 - **Storage**: 500MB+ for ROS2 core packages
@@ -168,7 +208,7 @@ just bsp rsb3720 scarthgap ros2/humble
 - **Python 3**: Python 3.8+ for rclpy
 - **C++14/17**: Modern C++ compiler
 
-## ROS2 Workspace Structure
+## 13. ROS2 Workspace Structure
 
 ```
 ros2_workspace/
@@ -181,7 +221,7 @@ ros2_workspace/
 └── log/                    # Build logs
 ```
 
-## Common ROS2 Packages
+## 14. Common ROS2 Packages
 
 | Package | Purpose |
 |---------|---------|
@@ -193,9 +233,9 @@ ros2_workspace/
 | **rviz2** | 3D visualization tool |
 | **rqt** | Qt-based GUI tools |
 
-## Example Code
+## 15. Example Code
 
-### Publisher (C++)
+### 15.1. Publisher (C++)
 ```cpp
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
@@ -220,7 +260,7 @@ private:
 };
 ```
 
-### Subscriber (Python)
+### 15.2. Subscriber (Python)
 ```python
 import rclpy
 from rclpy.node import Node
@@ -240,7 +280,7 @@ node = MinimalSubscriber()
 rclpy.spin(node)
 ```
 
-## Data Flow Example
+## 16. Data Flow Example
 
 ```
 Sensor (Camera)
@@ -266,7 +306,7 @@ Sensor (Camera)
   Motor Driver
 ```
 
-## Quality of Service Profiles
+## 17. Quality of Service Profiles
 
 ```
 Profile: Sensor Data
@@ -282,7 +322,7 @@ Profile: Services
 └── Liveliness: Automatic
 ```
 
-## Performance Considerations
+## 18. Performance Considerations
 
 - **Inter-process**: Use composable nodes for efficiency
 - **Serialization**: Choose appropriate message sizes
@@ -290,7 +330,7 @@ Profile: Services
 - **Network**: Use DDS discovery for multi-machine setups
 - **Real-time**: Consider PREEMPT_RT kernel for determinism
 
-## ROS2 vs ROS1
+## 19. ROS2 vs ROS1
 
 | Feature | ROS1 | ROS2 |
 |---------|------|------|
@@ -301,7 +341,7 @@ Profile: Services
 | **Platforms** | Linux | Linux, Windows, macOS |
 | **Python** | 2.7 | 3.x |
 
-## Debugging Tools
+## 20. Debugging Tools
 
 - **ros2 topic**: List, echo, info about topics
 - **ros2 node**: Inspect running nodes
@@ -309,7 +349,7 @@ Profile: Services
 - **ros2 bag**: Record and replay data
 - **rqt_graph**: Visualize node graph
 
-## Known Limitations
+## 21. Known Limitations
 
 - Large installation size (500MB+ for core)
 - DDS middleware can be complex to configure
@@ -317,7 +357,7 @@ Profile: Services
 - Some ROS1 packages not yet ported to ROS2
 - Real-time performance requires kernel tuning
 
-## Related Features
+## 22. Related Features
 
 - **Cameras**: RealSense with realsense-ros package
 - **Deep Learning**: Integrate AI inference in perception
@@ -325,7 +365,7 @@ Profile: Services
 - **Python AI**: Use NumPy/SciPy in ROS2 nodes
 - **Qt**: Build robot GUIs with rqt
 
-## Additional Resources
+## 23. Additional Resources
 
 - [ROS2 Documentation](https://docs.ros.org/)
 - [ROS2 Tutorials](https://docs.ros.org/en/rolling/Tutorials.html)

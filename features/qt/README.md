@@ -1,10 +1,47 @@
 # Qt Feature
 
-## Overview
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Architecture](#2-architecture)
+- [3. Supported Qt Versions](#3-supported-qt-versions)
+- [4. Repository](#4-repository)
+- [5. Qt Modules Overview](#5-qt-modules-overview)
+- [6. Features](#6-features)
+- [7. Use Cases](#7-use-cases)
+- [8. UI Development Workflow](#8-ui-development-workflow)
+- [9. QML Example](#9-qml-example)
+  - [9.1. Simple Qt Quick Application](#91-simple-qt-quick-application)
+- [10. Platform Backends](#10-platform-backends)
+- [11. Configuration Files](#11-configuration-files)
+- [12. Usage Example](#12-usage-example)
+- [13. Requirements](#13-requirements)
+  - [13.1. Minimum Hardware Requirements](#131-minimum-hardware-requirements)
+  - [13.2. Software Requirements](#132-software-requirements)
+- [14. Performance Optimization](#14-performance-optimization)
+  - [14.1. Rendering Pipeline](#141-rendering-pipeline)
+  - [14.2. Tips](#142-tips)
+- [15. Memory Footprint](#15-memory-footprint)
+- [16. Application Types](#16-application-types)
+  - [16.1. 1. Qt Widgets Application](#161-1-qt-widgets-application)
+  - [16.2. 2. Qt Quick Application](#162-2-qt-quick-application)
+  - [16.3. 3. Hybrid Application](#163-3-hybrid-application)
+- [17. Integration Examples](#17-integration-examples)
+  - [17.1. With Camera](#171-with-camera)
+  - [17.2. With Networking](#172-with-networking)
+  - [17.3. With Database](#173-with-database)
+- [18. Development Tools](#18-development-tools)
+- [19. Known Limitations](#19-known-limitations)
+- [20. Migration from Qt 5](#20-migration-from-qt-5)
+- [21. Related Features](#21-related-features)
+- [22. Additional Resources](#22-additional-resources)
+
+
+## 1. Overview
 
 The Qt feature integrates the Qt application framework into the BSP, enabling development of modern, cross-platform graphical user interfaces and applications with hardware acceleration support.
 
-## Architecture
+## 2. Architecture
 
 ```
 ┌─────────────────────────────────────────┐
@@ -28,7 +65,7 @@ The Qt feature integrates the Qt application framework into the BSP, enabling de
 └─────────────────────────────────────────┘
 ```
 
-## Supported Qt Versions
+## 3. Supported Qt Versions
 
 The Qt feature supports multiple Qt 6 versions:
 
@@ -41,13 +78,13 @@ The Qt feature supports multiple Qt 6 versions:
 | **Qt 6.8.1** | Latest | Bug fixes and stability |
 | **Qt 6.8.3** | Latest | Most recent patch release |
 
-## Repository
+## 4. Repository
 
 - **Layer**: meta-qt6
 - **Source**: https://code.qt.io/yocto/meta-qt6.git
 - **Maintained by**: Qt Company
 
-## Qt Modules Overview
+## 5. Qt Modules Overview
 
 ```
 ┌──────────────────────────────────────────┐
@@ -71,7 +108,7 @@ The Qt feature supports multiple Qt 6 versions:
 └──────────────────────────────────────────┘
 ```
 
-## Features
+## 6. Features
 
 - **Declarative UI**: QML for rapid UI development
 - **Hardware Acceleration**: OpenGL ES, Vulkan support
@@ -82,7 +119,7 @@ The Qt feature supports multiple Qt 6 versions:
 - **Performance**: Optimized for embedded systems
 - **Internationalization**: Multi-language support
 
-## Use Cases
+## 7. Use Cases
 
 - **Industrial HMI**: Human-machine interfaces for factories
 - **Medical Devices**: Touch-based medical equipment UIs
@@ -92,7 +129,7 @@ The Qt feature supports multiple Qt 6 versions:
 - **POS Systems**: Point-of-sale terminals
 - **Instrumentation**: Data visualization and control
 
-## UI Development Workflow
+## 8. UI Development Workflow
 
 ```
 ┌────────────────────────────────────┐
@@ -113,9 +150,9 @@ The Qt feature supports multiple Qt 6 versions:
 └────────────────────────────────────┘
 ```
 
-## QML Example
+## 9. QML Example
 
-### Simple Qt Quick Application
+### 9.1. Simple Qt Quick Application
 ```qml
 import QtQuick
 import QtQuick.Controls
@@ -149,7 +186,7 @@ ApplicationWindow {
 }
 ```
 
-## Platform Backends
+## 10. Platform Backends
 
 ```
 ┌────────────────────────────────────────┐
@@ -163,7 +200,7 @@ ApplicationWindow {
 └────────────────────────────────────────┘
 ```
 
-## Configuration Files
+## 11. Configuration Files
 
 - `qt6.3.yml` - Qt 6.3.x release
 - `qt6.5.yml` - Qt 6.5.x LTS release
@@ -172,34 +209,42 @@ ApplicationWindow {
 - `qt6.8.1.yml` - Qt 6.8.1 release
 - `qt6.8.3.yml` - Qt 6.8.3 release
 
-## Usage Example
+## 12. Usage Example
 
-To include Qt support in your BSP build:
+To include Qt support in your BSP build, you need to create a custom YAML configuration file that includes the Qt feature layer.
 
-```bash
-# Using BSP Registry Manager
-just bsp <board-name> <yocto-release> qt/qt6.8
-
-# Example for RSB3720 with Scarthgap
-just bsp rsb3720 scarthgap qt/qt6.8
+Example YAML configuration (`custom-bsp-with-qt.yaml`):
+```yaml
+header:
+  version: 14
+  includes:
+    - adv-bsp-oenxp-scarthgap-rsb3720.yaml
+    - features/qt/qt6.8.yml
 ```
 
-## Requirements
+Then build with KAS:
+```bash
+kas-container build custom-bsp-with-qt.yaml
+```
 
-### Minimum Hardware Requirements
+See the main README's "HowTo build a BSP using KAS" section for more details on working with KAS configuration files.
+
+## 13. Requirements
+
+### 13.1. Minimum Hardware Requirements
 - **Memory**: 256MB RAM (512MB+ recommended for Qt Quick)
 - **Storage**: 150MB+ for Qt libraries
 - **Display**: Framebuffer or GPU with OpenGL ES 2.0+
 - **Input**: Touch screen or keyboard/mouse
 
-### Software Requirements
+### 13.2. Software Requirements
 - **Compiler**: C++17 support (GCC 8+)
 - **Graphics**: EGL, OpenGL ES, or Vulkan
 - **Fonts**: TrueType font support
 
-## Performance Optimization
+## 14. Performance Optimization
 
-### Rendering Pipeline
+### 14.1. Rendering Pipeline
 ```
 Application (QML)
       │
@@ -213,13 +258,13 @@ OpenGL ES Renderer
 GPU Hardware
 ```
 
-### Tips
+### 14.2. Tips
 - Use `Image` for static content, `Canvas` for dynamic
 - Enable QML caching for faster startup
 - Use hardware layers for complex animations
 - Profile with Qt Creator's performance analyzer
 
-## Memory Footprint
+## 15. Memory Footprint
 
 | Component | Size (Approx) |
 |-----------|--------------|
@@ -231,20 +276,20 @@ GPU Hardware
 | **Total (minimal)** | **25-30 MB** |
 | **Full featured** | **100+ MB** |
 
-## Application Types
+## 16. Application Types
 
-### 1. Qt Widgets Application
+### 16.1. 1. Qt Widgets Application
 Traditional desktop-style UI with buttons, menus, dialogs.
 
-### 2. Qt Quick Application
+### 16.2. 2. Qt Quick Application
 Modern, touch-optimized UI with animations and effects.
 
-### 3. Hybrid Application
+### 16.3. 3. Hybrid Application
 Combines Qt Widgets for tools and Qt Quick for main interface.
 
-## Integration Examples
+## 17. Integration Examples
 
-### With Camera
+### 17.1. With Camera
 ```qml
 import QtMultimedia
 
@@ -258,21 +303,21 @@ Camera {
 }
 ```
 
-### With Networking
+### 17.2. With Networking
 ```cpp
 QNetworkAccessManager manager;
 QNetworkRequest request(QUrl("http://api.example.com/data"));
 manager.get(request);
 ```
 
-### With Database
+### 17.3. With Database
 ```cpp
 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 db.setDatabaseName("app.db");
 db.open();
 ```
 
-## Development Tools
+## 18. Development Tools
 
 - **Qt Creator**: Cross-platform IDE
 - **Qt Design Studio**: Visual design tool
@@ -280,7 +325,7 @@ db.open();
 - **CMake**: Alternative build system
 - **Qt Linguist**: Translation tool
 
-## Known Limitations
+## 19. Known Limitations
 
 - Qt 6 requires newer compilers (C++17)
 - WebEngine requires significant resources
@@ -288,7 +333,7 @@ db.open();
 - Startup time can be slower on low-end hardware
 - Build time is extensive (several hours for full Qt)
 
-## Migration from Qt 5
+## 20. Migration from Qt 5
 
 Qt 6 changes:
 - QML engine improvements (better performance)
@@ -296,14 +341,14 @@ Qt 6 changes:
 - CMake is preferred over qmake
 - Some modules reorganized or deprecated
 
-## Related Features
+## 21. Related Features
 
 - **Browser**: Qt WebEngine for embedded web content
 - **Cameras**: Display camera feeds with Qt Multimedia
 - **Protocols**: Network communication with Qt Network
 - **Python AI**: PyQt bindings for Python-based UIs
 
-## Additional Resources
+## 22. Additional Resources
 
 - [Qt Documentation](https://doc.qt.io/)
 - [Qt for Embedded](https://doc.qt.io/qt-6/embedded-linux.html)

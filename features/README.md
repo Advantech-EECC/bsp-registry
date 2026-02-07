@@ -1,10 +1,46 @@
 # BSP Features Documentation
 
-## Overview
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Features Architecture](#2-features-architecture)
+- [3. Available Features](#3-available-features)
+  - [3.1. 🌐 [Browser](browser/README.md)](#31-browserbrowserreadmemd)
+  - [3.2. 📷 [Cameras](cameras/README.md)](#32-camerascamerasreadmemd)
+  - [3.3. 🤖 [Deep Learning](deep-learning/README.md)](#33-deep-learningdeep-learningreadmemd)
+  - [3.4. 🔄 [OTA (Over-The-Air Updates)](ota/README.md)](#34-ota-over-the-air-updatesotareadmemd)
+  - [3.5. 🌐 [Protocols](protocols/README.md)](#35-protocolsprotocolsreadmemd)
+  - [3.6. 🐍 [Python AI](python-ai/README.md)](#36-python-aipython-aireadmemd)
+  - [3.7. 🖼️ [Qt](qt/README.md)](#37-qtqtreadmemd)
+  - [3.8. 🤖 [ROS2](ros2/README.md)](#38-ros2ros2readmemd)
+  - [3.9. 📋 [SBOM](sbom/README.md)](#39-sbomsbomreadmemd)
+- [4. Quick Start Guide](#4-quick-start-guide)
+  - [4.1. 1. Choose Your Features](#41-1-choose-your-features)
+  - [4.2. 2. Feature Combinations](#42-2-feature-combinations)
+  - [4.3. 3. Build Your BSP](#43-3-build-your-bsp)
+- [5. Feature Compatibility Matrix](#5-feature-compatibility-matrix)
+- [6. Feature Selection Guide](#6-feature-selection-guide)
+  - [6.1. By Industry](#61-by-industry)
+  - [6.2. By Application Type](#62-by-application-type)
+- [7. System Requirements](#7-system-requirements)
+  - [7.1. Minimum Hardware Requirements](#71-minimum-hardware-requirements)
+  - [7.2. Build System Requirements](#72-build-system-requirements)
+- [8. Architecture Decision Guide](#8-architecture-decision-guide)
+- [9. Development Workflow](#9-development-workflow)
+- [10. Support and Resources](#10-support-and-resources)
+  - [10.1. Documentation](#101-documentation)
+  - [10.2. Community](#102-community)
+  - [10.3. Commercial Support](#103-commercial-support)
+- [11. Contributing](#11-contributing)
+- [12. Version History](#12-version-history)
+- [13. License](#13-license)
+
+
+## 1. Overview
 
 This directory contains comprehensive documentation for all available features that can be integrated into Advantech BSP builds. Each feature extends the base BSP with additional capabilities for specific use cases, from web browsers and AI acceleration to robotics and over-the-air updates.
 
-## Features Architecture
+## 2. Features Architecture
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -27,9 +63,9 @@ This directory contains comprehensive documentation for all available features t
 └────────────────────────────────────────────────────────────┘
 ```
 
-## Available Features
+## 3. Available Features
 
-### 🌐 [Browser](browser/README.md)
+### 3.1. 🌐 [Browser](browser/README.md)
 Web browser support with Chromium for embedded web applications and HMI interfaces.
 
 **Key Capabilities:**
@@ -44,7 +80,7 @@ Web browser support with Chromium for embedded web applications and HMI interfac
 
 ---
 
-### 📷 [Cameras](cameras/README.md)
+### 3.2. 📷 [Cameras](cameras/README.md)
 Intel RealSense depth camera support for 3D vision and spatial computing.
 
 **Key Capabilities:**
@@ -59,7 +95,7 @@ Intel RealSense depth camera support for 3D vision and spatial computing.
 
 ---
 
-### 🤖 [Deep Learning](deep-learning/README.md)
+### 3.3. 🤖 [Deep Learning](deep-learning/README.md)
 Hailo AI accelerator integration for hardware-accelerated neural network inference.
 
 **Key Capabilities:**
@@ -74,7 +110,7 @@ Hailo AI accelerator integration for hardware-accelerated neural network inferen
 
 ---
 
-### 🔄 [OTA (Over-The-Air Updates)](ota/README.md)
+### 3.4. 🔄 [OTA (Over-The-Air Updates)](ota/README.md)
 Comprehensive OTA update solutions with multiple strategies for reliable firmware updates.
 
 **Key Capabilities:**
@@ -89,7 +125,7 @@ Comprehensive OTA update solutions with multiple strategies for reliable firmwar
 
 ---
 
-### 🌐 [Protocols](protocols/README.md)
+### 3.5. 🌐 [Protocols](protocols/README.md)
 Zenoh protocol support for high-performance pub/sub communication in distributed systems.
 
 **Key Capabilities:**
@@ -104,7 +140,7 @@ Zenoh protocol support for high-performance pub/sub communication in distributed
 
 ---
 
-### 🐍 [Python AI](python-ai/README.md)
+### 3.6. 🐍 [Python AI](python-ai/README.md)
 Python-based AI and scientific computing libraries with NumPy, SciPy, and Fortran support.
 
 **Key Capabilities:**
@@ -119,7 +155,7 @@ Python-based AI and scientific computing libraries with NumPy, SciPy, and Fortra
 
 ---
 
-### 🖼️ [Qt](qt/README.md)
+### 3.7. 🖼️ [Qt](qt/README.md)
 Qt framework for modern cross-platform GUI applications with hardware acceleration.
 
 **Key Capabilities:**
@@ -134,7 +170,7 @@ Qt framework for modern cross-platform GUI applications with hardware accelerati
 
 ---
 
-### 🤖 [ROS2](ros2/README.md)
+### 3.8. 🤖 [ROS2](ros2/README.md)
 Robot Operating System 2 for advanced robotics applications and autonomous systems.
 
 **Key Capabilities:**
@@ -149,7 +185,7 @@ Robot Operating System 2 for advanced robotics applications and autonomous syste
 
 ---
 
-### 📋 [SBOM](sbom/README.md)
+### 3.9. 📋 [SBOM](sbom/README.md)
 Software Bill of Materials generation and vulnerability management with Timesys Vigiles.
 
 **Key Capabilities:**
@@ -164,9 +200,9 @@ Software Bill of Materials generation and vulnerability management with Timesys 
 
 ---
 
-## Quick Start Guide
+## 4. Quick Start Guide
 
-### 1. Choose Your Features
+### 4.1. 1. Choose Your Features
 
 Select features based on your application requirements. Features are included by referencing their YAML configuration files in your BSP configuration, or by using dedicated just recipes for specific features:
 
@@ -186,7 +222,7 @@ just ota-mbsp rsb3720 rauc scarthgap
 
 To add other features (browser, cameras, Qt, deep learning, etc.), you need to create or modify YAML configuration files that include the desired feature YAML files. See the "HowTo build a BSP using KAS" section in the main README for details on working with KAS configuration files.
 
-### 2. Feature Combinations
+### 4.2. 2. Feature Combinations
 
 Some features work particularly well together:
 
@@ -198,7 +234,7 @@ Some features work particularly well together:
 | **OTA** | SBOM, any feature | Production deployment |
 | **Protocols** | ROS2, Deep Learning | Distributed AI |
 
-### 3. Build Your BSP
+### 4.3. 3. Build Your BSP
 
 ```bash
 # Standard BSP build
@@ -208,7 +244,7 @@ just bsp <board> <yocto-release> <feature1> <feature2> ...
 just mbsp <board> <yocto-release> <feature1> <feature2> ...
 ```
 
-## Feature Compatibility Matrix
+## 5. Feature Compatibility Matrix
 
 | Feature | Kirkstone | Mickledore | Scarthgap | Styhead | Walnascar |
 |---------|-----------|------------|-----------|---------|-----------|
@@ -222,9 +258,9 @@ just mbsp <board> <yocto-release> <feature1> <feature2> ...
 | ROS2 | ✅ | ✅ | ✅ | ✅ | ✅ |
 | SBOM | ✅ | ✅ | ✅ | ✅ | ✅ |
 
-## Feature Selection Guide
+## 6. Feature Selection Guide
 
-### By Industry
+### 6.1. By Industry
 
 **Industrial Automation**
 - Qt (HMI)
@@ -250,7 +286,7 @@ just mbsp <board> <yocto-release> <feature1> <feature2> ...
 - Deep Learning (Perception)
 - OTA (Updates)
 
-### By Application Type
+### 6.2. By Application Type
 
 **Vision Systems**
 - Cameras + Deep Learning + Python AI
@@ -264,9 +300,9 @@ just mbsp <board> <yocto-release> <feature1> <feature2> ...
 **Autonomous System**
 - ROS2 + Cameras + Deep Learning
 
-## System Requirements
+## 7. System Requirements
 
-### Minimum Hardware Requirements
+### 7.1. Minimum Hardware Requirements
 
 | Feature | RAM | Storage | Special Hardware |
 |---------|-----|---------|------------------|
@@ -280,14 +316,14 @@ just mbsp <board> <yocto-release> <feature1> <feature2> ...
 | ROS2 | 512MB | 500MB | - |
 | SBOM | 256MB | 50MB | Network access |
 
-### Build System Requirements
+### 7.2. Build System Requirements
 
 - **Disk Space**: 100GB+ free space
 - **RAM**: 16GB+ recommended (32GB for large builds)
 - **CPU**: Multi-core (8+ cores recommended)
 - **Docker**: For containerized builds
 
-## Architecture Decision Guide
+## 8. Architecture Decision Guide
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -306,7 +342,7 @@ Deep Learn Browser  Cameras         OTA
 Python AI   OTA    Deep Learn      SBOM
 ```
 
-## Development Workflow
+## 9. Development Workflow
 
 1. **Prototype**: Start with minimal features, test quickly
 2. **Integrate**: Add features incrementally, test each addition
@@ -314,21 +350,21 @@ Python AI   OTA    Deep Learn      SBOM
 4. **Secure**: Add SBOM, review vulnerabilities
 5. **Deploy**: Add OTA for production updates
 
-## Support and Resources
+## 10. Support and Resources
 
-### Documentation
+### 10.1. Documentation
 - Each feature has detailed README in its subdirectory
 - See main [BSP Registry README](../README.md) for build instructions
 
-### Community
+### 10.2. Community
 - GitHub Issues: Report bugs or request features
 - GitHub Discussions: Ask questions, share knowledge
 
-### Commercial Support
+### 10.3. Commercial Support
 - Advantech provides commercial BSP support
 - Timesys Vigiles for security monitoring (SBOM feature)
 
-## Contributing
+## 11. Contributing
 
 To add or improve feature documentation:
 1. Follow the existing README structure
@@ -337,14 +373,14 @@ To add or improve feature documentation:
 4. Add code examples where appropriate
 5. Update this central README with links
 
-## Version History
+## 12. Version History
 
 - **2024-01-30**: Initial comprehensive documentation
   - All 9 features documented
   - ASCII diagrams added
   - Central TOC created
 
-## License
+## 13. License
 
 This documentation is part of the Advantech BSP Registry project.
 See [LICENSE](../LICENSE) for details.

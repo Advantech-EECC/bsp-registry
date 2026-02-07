@@ -1,10 +1,33 @@
 # Deep Learning Feature
 
-## Overview
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Architecture](#2-architecture)
+- [3. Supported Hardware](#3-supported-hardware)
+- [4. Repository](#4-repository)
+- [5. Components](#5-components)
+- [6. Features](#6-features)
+- [7. Use Cases](#7-use-cases)
+- [8. Inference Pipeline](#8-inference-pipeline)
+- [9. Performance Metrics](#9-performance-metrics)
+- [10. Configuration Files](#10-configuration-files)
+- [11. Usage Example](#11-usage-example)
+- [12. Requirements](#12-requirements)
+- [13. Model Deployment Workflow](#13-model-deployment-workflow)
+- [14. Integration Examples](#14-integration-examples)
+  - [14.1. GStreamer Pipeline](#141-gstreamer-pipeline)
+  - [14.2. Python API](#142-python-api)
+- [15. Known Limitations](#15-known-limitations)
+- [16. Related Features](#16-related-features)
+- [17. Additional Resources](#17-additional-resources)
+
+
+## 1. Overview
 
 The Deep Learning feature integrates Hailo AI accelerators, providing hardware-accelerated neural network inference for edge AI applications with low power consumption and high performance.
 
-## Architecture
+## 2. Architecture
 
 ```
 ┌─────────────────────────────────────────┐
@@ -26,26 +49,26 @@ The Deep Learning feature integrates Hailo AI accelerators, providing hardware-a
 └─────────────────────────────────────────┘
 ```
 
-## Supported Hardware
+## 3. Supported Hardware
 
 - **Hailo-8**: 26 TOPS AI accelerator
 - **Hailo-8L**: Efficient variant for edge deployment
 - **Form Factors**: PCIe, M.2, Mini PCIe
 
-## Repository
+## 4. Repository
 
 - **Layer**: meta-hailo
 - **Source**: https://github.com/hailo-ai/meta-hailo.git
 - **Branch**: kirkstone (compatible with multiple releases)
 - **Maintained by**: Hailo
 
-## Components
+## 5. Components
 
 The meta-hailo layer includes:
 - **meta-hailo-libhailort**: Core runtime library
 - **meta-hailo-tappas**: TAPPAS framework for video analytics pipelines
 
-## Features
+## 6. Features
 
 - **High Performance**: Up to 26 TOPS inference performance
 - **Low Power**: 2.5W typical power consumption
@@ -54,7 +77,7 @@ The meta-hailo layer includes:
 - **Multi-Stream**: Parallel inference on multiple video streams
 - **Network Flexibility**: Support for various CNN architectures
 
-## Use Cases
+## 7. Use Cases
 
 - **Object Detection**: Real-time detection (YOLO, SSD, etc.)
 - **Image Classification**: Visual recognition and categorization
@@ -65,7 +88,7 @@ The meta-hailo layer includes:
 - **Defect Detection**: Industrial quality control
 - **People Counting**: Retail and crowd analytics
 
-## Inference Pipeline
+## 8. Inference Pipeline
 
 ```
 Video Input (Camera/File)
@@ -87,7 +110,7 @@ Video Input (Camera/File)
   (Alerts, Display, Storage)
 ```
 
-## Performance Metrics
+## 9. Performance Metrics
 
 | Model | Resolution | FPS | Precision |
 |-------|-----------|-----|-----------|
@@ -98,30 +121,38 @@ Video Input (Camera/File)
 
 *Performance on Hailo-8 accelerator
 
-## Configuration Files
+## 10. Configuration Files
 
 - `hailo.yml` - Hailo AI accelerator support configuration
 
-## Usage Example
+## 11. Usage Example
 
-To include Hailo deep learning support in your BSP build:
+To include Hailo deep learning support in your BSP build, you need to create a custom YAML configuration file that includes the Hailo feature layer.
 
-```bash
-# Using BSP Registry Manager
-just bsp <board-name> <yocto-release> deep-learning/hailo
-
-# Example for RSB3720 with Scarthgap
-just bsp rsb3720 scarthgap deep-learning/hailo
+Example YAML configuration (`custom-bsp-with-hailo.yaml`):
+```yaml
+header:
+  version: 14
+  includes:
+    - adv-bsp-oenxp-scarthgap-rsb3720.yaml
+    - features/deep-learning/hailo.yml
 ```
 
-## Requirements
+Then build with KAS:
+```bash
+kas-container build custom-bsp-with-hailo.yaml
+```
+
+See the main README's "HowTo build a BSP using KAS" section for more details on working with KAS configuration files.
+
+## 12. Requirements
 
 - **PCIe/M.2 Slot**: For Hailo accelerator card
 - **Minimum 2GB RAM**: For video processing and buffering
 - **CPU**: ARM or x86 host processor
 - **Kernel**: PCIe drivers and DMA support
 
-## Model Deployment Workflow
+## 13. Model Deployment Workflow
 
 ```
 ┌─────────────────────────────────────┐
@@ -142,16 +173,16 @@ just bsp rsb3720 scarthgap deep-learning/hailo
 └─────────────────────────────────────┘
 ```
 
-## Integration Examples
+## 14. Integration Examples
 
-### GStreamer Pipeline
+### 14.1. GStreamer Pipeline
 ```bash
 gst-launch-1.0 filesrc location=video.mp4 ! \
   decodebin ! hailonet hef-path=model.hef ! \
   hailofilter ! videoconvert ! autovideosink
 ```
 
-### Python API
+### 14.2. Python API
 ```python
 from hailo_platform import HEF, VDevice
 
@@ -160,21 +191,21 @@ target = VDevice()
 network_group = target.configure(hef)
 ```
 
-## Known Limitations
+## 15. Known Limitations
 
 - Requires Hailo Dataflow Compiler for model optimization
 - Some model architectures may need modifications
 - HEF model format is proprietary to Hailo
 - PCIe bandwidth considerations for high-resolution multi-stream
 
-## Related Features
+## 16. Related Features
 
 - **Cameras**: Combine with RealSense for depth-aware AI
 - **Python AI**: Use with Python ML frameworks
 - **Protocols**: Stream inference results over Zenoh
 - **Browser**: Display AI results in web UI
 
-## Additional Resources
+## 17. Additional Resources
 
 - [Hailo Developer Zone](https://hailo.ai/developer-zone/)
 - [TAPPAS Documentation](https://github.com/hailo-ai/tappas)

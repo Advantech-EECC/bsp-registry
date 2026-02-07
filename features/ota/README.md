@@ -1,10 +1,39 @@
 # OTA (Over-The-Air Updates) Feature
 
-## Overview
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Architecture](#2-architecture)
+- [3. Supported OTA Technologies](#3-supported-ota-technologies)
+  - [3.1. 1. OSTree (libostree)](#31-1-ostree-libostree)
+  - [3.2. 2. RAUC (Robust Auto-Update Controller)](#32-2-rauc-robust-auto-update-controller)
+  - [3.3. 3. SWUpdate](#33-3-swupdate)
+- [4. Comparison Matrix](#4-comparison-matrix)
+- [5. Update Process Flow](#5-update-process-flow)
+- [6. Configuration Files](#6-configuration-files)
+  - [6.1. OSTree](#61-ostree)
+  - [6.2. RAUC](#62-rauc)
+  - [6.3. SWUpdate](#63-swupdate)
+- [7. Usage Examples](#7-usage-examples)
+  - [7.1. OSTree-based OTA](#71-ostree-based-ota)
+  - [7.2. RAUC-based OTA](#72-rauc-based-ota)
+  - [7.3. SWUpdate-based OTA](#73-swupdate-based-ota)
+- [8. Requirements](#8-requirements)
+  - [8.1. Common Requirements](#81-common-requirements)
+  - [8.2. Storage Sizing](#82-storage-sizing)
+- [9. Security Considerations](#9-security-considerations)
+- [10. Best Practices](#10-best-practices)
+- [11. Troubleshooting](#11-troubleshooting)
+  - [11.1. Common Issues](#111-common-issues)
+- [12. Related Features](#12-related-features)
+- [13. Additional Resources](#13-additional-resources)
+
+
+## 1. Overview
 
 The OTA feature provides comprehensive over-the-air update capabilities for embedded systems, supporting multiple update strategies and technologies to ensure reliable and secure firmware updates in production environments.
 
-## Architecture
+## 2. Architecture
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -30,9 +59,9 @@ The OTA feature provides comprehensive over-the-air update capabilities for embe
 └─────────────────────────────────────────────────────┘
 ```
 
-## Supported OTA Technologies
+## 3. Supported OTA Technologies
 
-### 1. OSTree (libostree)
+### 3.1. 1. OSTree (libostree)
 
 **Image-based atomic updates with Git-like version control**
 
@@ -60,7 +89,7 @@ OSTree Repository Structure:
 - Container host systems
 - Systems requiring complex update orchestration
 
-### 2. RAUC (Robust Auto-Update Controller)
+### 3.2. 2. RAUC (Robust Auto-Update Controller)
 
 **Partition-based atomic updates with flexible strategies**
 
@@ -93,7 +122,7 @@ RAUC Update Flow:
 - Automotive applications
 - Critical infrastructure devices
 
-### 3. SWUpdate
+### 3.3. 3. SWUpdate
 
 **Flexible software update framework with multiple strategies**
 
@@ -128,7 +157,7 @@ SWUpdate Architecture:
 - Complex update scenarios
 - Multi-component systems
 
-## Comparison Matrix
+## 4. Comparison Matrix
 
 | Feature | OSTree | RAUC | SWUpdate |
 |---------|--------|------|----------|
@@ -141,7 +170,7 @@ SWUpdate Architecture:
 | **Disk Overhead** | Low | High (2x space) | High (2x space) |
 | **Network Efficiency** | High | Low | Medium |
 
-## Update Process Flow
+## 5. Update Process Flow
 
 ```
 ┌──────────────────────────────────────────────────┐
@@ -176,68 +205,68 @@ SWUpdate Architecture:
     └─────────┘      └─────────┘
 ```
 
-## Configuration Files
+## 6. Configuration Files
 
-### OSTree
+### 6.1. OSTree
 - `ostree/scarthgap.yml` - Scarthgap release
 - `ostree/styhead.yml` - Styhead release
 - `ostree/walnascar.yml` - Walnascar release
 - `ostree/adv-ota-*.yml` - Advantech-specific configurations
 
-### RAUC
+### 6.2. RAUC
 - `rauc/scarthgap.yml` - Scarthgap release
 - `rauc/styhead.yml` - Styhead release
 - `rauc/walnascar.yml` - Walnascar release
 - `rauc/adv-ota-*.yml` - Advantech-specific configurations
 
-### SWUpdate
+### 6.3. SWUpdate
 - `swupdate/common.yml` - Common configuration
 - `swupdate/scarthgap.yml` - Scarthgap release
 - `swupdate/styhead.yml` - Styhead release
 - `swupdate/walnascar.yml` - Walnascar release
 - `swupdate/adv-ota-*.yml` - Advantech-specific configurations
 
-## Usage Examples
+## 7. Usage Examples
 
-### OSTree-based OTA
-
-```bash
-# Using BSP Registry Manager
-just mbsp <board-name> <yocto-release> ota/ostree
-
-# Example for RSB3720 with Scarthgap
-just mbsp rsb3720 scarthgap ota/ostree
-```
-
-### RAUC-based OTA
+### 7.1. OSTree-based OTA
 
 ```bash
-# Using BSP Registry Manager
-just mbsp <board-name> <yocto-release> ota/rauc
+# Using the dedicated OTA recipe
+just ota-mbsp <machine> ostree <yocto-release>
 
 # Example for RSB3720 with Scarthgap
-just mbsp rsb3720 scarthgap ota/rauc
+just ota-mbsp rsb3720 ostree scarthgap
 ```
 
-### SWUpdate-based OTA
+### 7.2. RAUC-based OTA
 
 ```bash
-# Using BSP Registry Manager
-just mbsp <board-name> <yocto-release> ota/swupdate
+# Using the dedicated OTA recipe
+just ota-mbsp <machine> rauc <yocto-release>
 
 # Example for RSB3720 with Scarthgap
-just mbsp rsb3720 scarthgap ota/swupdate
+just ota-mbsp rsb3720 rauc scarthgap
 ```
 
-## Requirements
+### 7.3. SWUpdate-based OTA
 
-### Common Requirements
+```bash
+# Using the dedicated OTA recipe
+just ota-mbsp <machine> swupdate <yocto-release>
+
+# Example for RSB3720 with Scarthgap
+just ota-mbsp rsb3720 swupdate scarthgap
+```
+
+## 8. Requirements
+
+### 8.1. Common Requirements
 - **Bootloader**: U-Boot with A/B boot support
 - **Storage**: Sufficient space for dual partitions (or OSTree repo)
 - **Network**: Reliable connectivity to update server
 - **Security**: TPM/secure boot (recommended)
 
-### Storage Sizing
+### 8.2. Storage Sizing
 
 | Technology | Storage Overhead | Example (2GB rootfs) |
 |-----------|------------------|---------------------|
@@ -245,7 +274,7 @@ just mbsp rsb3720 scarthgap ota/swupdate
 | RAUC | ~200% | 4.0 GB |
 | SWUpdate | ~200% | 4.0 GB |
 
-## Security Considerations
+## 9. Security Considerations
 
 ```
 ┌─────────────────────────────────────────┐
@@ -267,7 +296,7 @@ just mbsp rsb3720 scarthgap ota/swupdate
 └─────────────────────────────────────────┘
 ```
 
-## Best Practices
+## 10. Best Practices
 
 1. **Test Updates**: Always test in staging before production
 2. **Staged Rollout**: Deploy to subsets of devices first
@@ -276,9 +305,9 @@ just mbsp rsb3720 scarthgap ota/swupdate
 5. **Fallback**: Ensure rollback mechanism is tested
 6. **Validation**: Implement post-update health checks
 
-## Troubleshooting
+## 11. Troubleshooting
 
-### Common Issues
+### 11.1. Common Issues
 
 | Issue | Solution |
 |-------|----------|
@@ -287,12 +316,12 @@ just mbsp rsb3720 scarthgap ota/swupdate
 | Signature verification fails | Verify signing keys are correctly provisioned |
 | Insufficient space | Check partition sizes, cleanup old artifacts |
 
-## Related Features
+## 12. Related Features
 
 - **Protocols**: Use Zenoh for update notifications
 - **SBOM**: Track component versions and vulnerabilities
 
-## Additional Resources
+## 13. Additional Resources
 
 - [OSTree Documentation](https://ostreedev.github.io/ostree/)
 - [RAUC Documentation](https://rauc.readthedocs.io/)

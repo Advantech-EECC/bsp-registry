@@ -1,10 +1,45 @@
 # SBOM (Software Bill of Materials) Feature
 
-## Overview
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Architecture](#2-architecture)
+- [3. What is SBOM?](#3-what-is-sbom)
+- [4. SBOM Information Flow](#4-sbom-information-flow)
+- [5. Repository](#5-repository)
+- [6. Features](#6-features)
+- [7. Use Cases](#7-use-cases)
+- [8. SBOM Standards](#8-sbom-standards)
+  - [8.1. SPDX (Software Package Data Exchange)](#81-spdx-software-package-data-exchange)
+  - [8.2. CycloneDX](#82-cyclonedx)
+- [9. Vulnerability Severity Levels](#9-vulnerability-severity-levels)
+- [10. Timesys Vigiles Workflow](#10-timesys-vigiles-workflow)
+- [11. Configuration Files](#11-configuration-files)
+- [12. Usage Example](#12-usage-example)
+- [13. Requirements](#13-requirements)
+- [14. SBOM Report Example](#14-sbom-report-example)
+- [15. Integration in CI/CD](#15-integration-in-cicd)
+- [16. Benefits](#16-benefits)
+  - [16.1. Security](#161-security)
+  - [16.2. Compliance](#162-compliance)
+  - [16.3. Risk Management](#163-risk-management)
+- [17. SBOM Lifecycle Management](#17-sbom-lifecycle-management)
+- [18. Best Practices](#18-best-practices)
+- [19. Common Vulnerabilities](#19-common-vulnerabilities)
+- [20. Troubleshooting](#20-troubleshooting)
+  - [20.1. Issue: SBOM Generation Fails](#201-issue-sbom-generation-fails)
+  - [20.2. Issue: False Positives in CVE Report](#202-issue-false-positives-in-cve-report)
+  - [20.3. Issue: Too Many Vulnerabilities](#203-issue-too-many-vulnerabilities)
+- [21. Related Features](#21-related-features)
+- [22. Regulatory Compliance](#22-regulatory-compliance)
+- [23. Additional Resources](#23-additional-resources)
+
+
+## 1. Overview
 
 The SBOM feature integrates Timesys Vigiles vulnerability management and SBOM generation capabilities into the BSP build process, enabling comprehensive tracking of software components, licenses, and security vulnerabilities.
 
-## Architecture
+## 2. Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -30,7 +65,7 @@ The SBOM feature integrates Timesys Vigiles vulnerability management and SBOM ge
 └─────────────────────────────────────────────────┘
 ```
 
-## What is SBOM?
+## 3. What is SBOM?
 
 A Software Bill of Materials (SBOM) is a comprehensive inventory of all software components, libraries, and dependencies used in a product, including:
 
@@ -41,7 +76,7 @@ A Software Bill of Materials (SBOM) is a comprehensive inventory of all software
 - **Suppliers** and origins
 - **Hashes** for integrity verification
 
-## SBOM Information Flow
+## 4. SBOM Information Flow
 
 ```
 Build Process
@@ -67,14 +102,14 @@ Build Process
   └─────────────────────────────┘
 ```
 
-## Repository
+## 5. Repository
 
 - **Layer**: meta-timesys
 - **Source**: https://github.com/TimesysGit/meta-timesys.git
 - **Maintained by**: Timesys Corporation
 - **Service**: Vigiles vulnerability monitoring
 
-## Features
+## 6. Features
 
 - **Automated SBOM Generation**: Automatically create SBOM during build
 - **Vulnerability Scanning**: Check against NVD and other CVE databases
@@ -84,7 +119,7 @@ Build Process
 - **Export Formats**: SPDX, CycloneDX, JSON formats
 - **Supply Chain Security**: Track component provenance
 
-## Use Cases
+## 7. Use Cases
 
 - **Regulatory Compliance**: Meet FDA, automotive safety standards (ISO 26262)
 - **Security Auditing**: Identify and remediate vulnerabilities
@@ -94,9 +129,9 @@ Build Process
 - **Incident Response**: Quick identification of affected products
 - **Procurement**: Vendor software assessment
 
-## SBOM Standards
+## 8. SBOM Standards
 
-### SPDX (Software Package Data Exchange)
+### 8.1. SPDX (Software Package Data Exchange)
 ```
 SPDX Document
 ├── Package: busybox
@@ -110,7 +145,7 @@ SPDX Document
 │   └── CVEs: CVE-2023-XXXXX
 ```
 
-### CycloneDX
+### 8.2. CycloneDX
 ```xml
 <components>
   <component type="library">
@@ -123,7 +158,7 @@ SPDX Document
 </components>
 ```
 
-## Vulnerability Severity Levels
+## 9. Vulnerability Severity Levels
 
 ```
 ┌──────────────────────────────────┐
@@ -137,7 +172,7 @@ SPDX Document
 └──────────────────────────────────┘
 ```
 
-## Timesys Vigiles Workflow
+## 10. Timesys Vigiles Workflow
 
 ```
 ┌────────────────────────────────────────┐
@@ -158,7 +193,7 @@ SPDX Document
 └────────────────────────────────────────┘
 ```
 
-## Configuration Files
+## 11. Configuration Files
 
 - `timesys-kirkstone.yml` - Kirkstone release
 - `timesys-mickledore.yml` - Mickledore release
@@ -168,26 +203,34 @@ SPDX Document
 
 Each configuration is tailored for the specific Yocto release.
 
-## Usage Example
+## 12. Usage Example
 
-To include SBOM generation in your BSP build:
+To include SBOM generation in your BSP build, you need to create a custom YAML configuration file that includes the Timesys feature layer.
 
-```bash
-# Using BSP Registry Manager
-just bsp <board-name> <yocto-release> sbom/timesys-<release>
-
-# Example for RSB3720 with Scarthgap
-just bsp rsb3720 scarthgap sbom/timesys-scarthgap
+Example YAML configuration (`custom-bsp-with-sbom.yaml`):
+```yaml
+header:
+  version: 14
+  includes:
+    - adv-bsp-oenxp-scarthgap-rsb3720.yaml
+    - features/sbom/timesys-scarthgap.yml
 ```
 
-## Requirements
+Then build with KAS:
+```bash
+kas-container build custom-bsp-with-sbom.yaml
+```
+
+See the main README's "HowTo build a BSP using KAS" section for more details on working with KAS configuration files.
+
+## 13. Requirements
 
 - **Vigiles Account**: Timesys Vigiles subscription (or free tier)
 - **API Key**: Configure Vigiles API credentials
 - **Network Access**: Build system needs internet for CVE database
 - **Build Time**: Additional 5-10 minutes for SBOM generation
 
-## SBOM Report Example
+## 14. SBOM Report Example
 
 ```
 ═══════════════════════════════════════════
@@ -219,7 +262,7 @@ License Distribution:
   Other:        67 packages
 ```
 
-## Integration in CI/CD
+## 15. Integration in CI/CD
 
 ```
 ┌────────────────────┐
@@ -248,27 +291,27 @@ License Distribution:
 └────────┘  └─────────┘
 ```
 
-## Benefits
+## 16. Benefits
 
-### Security
+### 16.1. Security
 - Early vulnerability detection
 - Continuous monitoring for new CVEs
 - Reduced time to remediation
 - Supply chain attack prevention
 
-### Compliance
+### 16.2. Compliance
 - Meet regulatory requirements
 - License compliance tracking
 - Audit trail for software components
 - Export reports for customers
 
-### Risk Management
+### 16.3. Risk Management
 - Understand component risks
 - Track outdated/EOL components
 - Prioritize security updates
 - Vendor risk assessment
 
-## SBOM Lifecycle Management
+## 17. SBOM Lifecycle Management
 
 ```
 Development Phase
@@ -291,7 +334,7 @@ End-of-Life
       └─► Archive SBOM for Records
 ```
 
-## Best Practices
+## 18. Best Practices
 
 1. **Regular Scans**: Check for new vulnerabilities weekly
 2. **Prioritize Fixes**: Address critical/high severity first
@@ -301,7 +344,7 @@ End-of-Life
 6. **Automation**: Integrate into CI/CD pipeline
 7. **License Review**: Regularly audit license compliance
 
-## Common Vulnerabilities
+## 19. Common Vulnerabilities
 
 | Type | Example | Risk |
 |------|---------|------|
@@ -311,29 +354,29 @@ End-of-Life
 | **Authentication** | Broken auth | Unauthorized access |
 | **Denial of Service** | Resource exhaustion | Service disruption |
 
-## Troubleshooting
+## 20. Troubleshooting
 
-### Issue: SBOM Generation Fails
+### 20.1. Issue: SBOM Generation Fails
 - Check internet connectivity
 - Verify Vigiles API credentials
 - Check build log for errors
 
-### Issue: False Positives in CVE Report
+### 20.2. Issue: False Positives in CVE Report
 - Review CVE applicability to your use case
 - Mark as false positive in Vigiles
 - Document reasoning for audit trail
 
-### Issue: Too Many Vulnerabilities
+### 20.3. Issue: Too Many Vulnerabilities
 - Prioritize by severity (critical/high first)
 - Check if CVE affects your configuration
 - Plan phased remediation approach
 
-## Related Features
+## 21. Related Features
 
 - **OTA**: Deploy security updates remotely
 - All features benefit from vulnerability tracking
 
-## Regulatory Compliance
+## 22. Regulatory Compliance
 
 SBOMs help meet requirements from:
 - **FDA**: Medical device cybersecurity
@@ -341,7 +384,7 @@ SBOMs help meet requirements from:
 - **EU Cyber Resilience Act**: Product security
 - **Executive Order 14028**: Federal supply chain security
 
-## Additional Resources
+## 23. Additional Resources
 
 - [Timesys Vigiles](https://www.timesys.com/security/vigiles/)
 - [SPDX Specification](https://spdx.dev/)
