@@ -4,21 +4,26 @@ This directory contains vendor-specific Board Support Package (BSP) configuratio
 
 ## Table of Contents
 
-1. [Overview](#1-overview)
-2. [Directory Structure](#2-directory-structure)
-3. [Supported Vendors](#3-supported-vendors)
-   - 3.1 [NXP](#31-nxp)
-   - 3.2 [Advantech](#32-advantech)
-4. [Configuration Organization](#4-configuration-organization)
-   - 4.1 [Vendor Configuration Files](#41-vendor-configuration-files)
-   - 4.2 [Machine Configurations](#42-machine-configurations)
-   - 4.3 [Yocto Release Support](#43-yocto-release-support)
-5. [Adding a New Vendor](#5-adding-a-new-vendor)
-6. [Usage](#6-usage)
-   - 6.1 [Building Vendor BSPs](#61-building-vendor-bsps)
-   - 6.2 [Configuration Inheritance](#62-configuration-inheritance)
-7. [Resources](#7-resources)
-8. [License](#8-license)
+- [Vendor BSP Configurations](#vendor-bsp-configurations)
+  - [Table of Contents](#table-of-contents)
+  - [1. Overview](#1-overview)
+  - [2. Directory Structure](#2-directory-structure)
+  - [3. Supported Vendors](#3-supported-vendors)
+    - [3.1 NXP](#31-nxp)
+    - [3.2 Advantech](#32-advantech)
+  - [4. Configuration Organization](#4-configuration-organization)
+    - [4.1 Vendor Configuration Files](#41-vendor-configuration-files)
+    - [4.2 Machine Configurations](#42-machine-configurations)
+    - [4.3 Yocto Release Support](#43-yocto-release-support)
+  - [5. Adding a New Vendor](#5-adding-a-new-vendor)
+  - [6. Usage](#6-usage)
+    - [6.1 Building Vendor BSPs](#61-building-vendor-bsps)
+    - [6.2 Configuration Inheritance](#62-configuration-inheritance)
+  - [7. Resources](#7-resources)
+    - [General Resources](#general-resources)
+    - [Vendor-Specific Resources](#vendor-specific-resources)
+    - [Development Resources](#development-resources)
+- [Related Documentation](#related-documentation)
 
 ---
 
@@ -335,25 +340,10 @@ Vendor configurations follow an inheritance hierarchy:
 - [Boot Process Documentation](nxp/BOOT_PROCESS.md)
 - [Yocto Mega-Manual](https://docs.yoctoproject.org/singleindex.html)
 
-## 8. License
 
-This BSP configuration registry is licensed under the MIT License. See [LICENSE](../LICENSE) for details.
+# Related Documentation
 
-Individual vendor configurations and meta-layers may have different licenses. Please refer to vendor-specific documentation and layer LICENSE files.
-
----
-
-**Related Documentation**:
 - [NXP Vendor README](nxp/README.md)
 - [Advantech Vendor README](advantech/README.md)
 - [NXP Boot Process Guide](nxp/BOOT_PROCESS.md)
 - [Adding New Boards Guide](advantech/nxp/ADDING_NEW_BOARD.md)
-
-For questions or support:
-- **GitHub Issues**: [Advantech-EECC/bsp-registry](https://github.com/Advantech-EECC/bsp-registry/issues)
-- **Main Documentation**: [BSP Registry README](../README.md)
-
----
-
-*Document Version: 1.0*  
-*Last Updated: 2026-02-07*

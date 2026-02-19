@@ -6,22 +6,28 @@ This directory contains Board Support Package (BSP) configurations for NXP i.MX 
 
 ## Table of Contents
 
-1. [Overview](#1-overview)
-2. [Supported Hardware](#2-supported-hardware)
-3. [Release Information](#3-release-information)
-   - 3.1 [Yocto Release Overview](#31-yocto-release-overview)
-   - 3.2 [Available Releases](#32-available-releases)
-4. [Architecture](#4-architecture)
-   - 4.1 [BSP Layer Stack](#41-bsp-layer-stack)
-5. [Configuration Files](#5-configuration-files)
-   - 5.1 [common.yml](#51-commonyml)
-   - 5.2 [Release Configuration Files](#52-release-configuration-files)
-   - 5.3 [Machine Configuration Files](#53-machine-configuration-files)
-6. [Usage](#6-usage)
-   - 6.1 [Building a BSP Image](#61-building-a-bsp-image)
-   - 6.2 [Customization](#62-customization)
-7. [Resources](#7-resources)
-8. [License](#8-license)
+- [NXP i.MX BSP Configurations](#nxp-imx-bsp-configurations)
+  - [Table of Contents](#table-of-contents)
+  - [1. Overview](#1-overview)
+  - [2. Supported Hardware](#2-supported-hardware)
+  - [3. Release Information](#3-release-information)
+    - [3.1 Yocto Release Overview](#31-yocto-release-overview)
+    - [3.2 Available Releases](#32-available-releases)
+      - [Kirkstone (Yocto 4.0 LTS)](#kirkstone-yocto-40-lts)
+      - [Mickledore (Yocto 4.2)](#mickledore-yocto-42)
+      - [Scarthgap (Yocto 5.0 LTS)](#scarthgap-yocto-50-lts)
+      - [Styhead (Yocto 5.1)](#styhead-yocto-51)
+      - [Walnascar (Yocto 5.2)](#walnascar-yocto-52)
+  - [4. Architecture](#4-architecture)
+    - [4.1 BSP Layer Stack](#41-bsp-layer-stack)
+  - [5. Configuration Files](#5-configuration-files)
+    - [5.1 common.yml](#51-commonyml)
+    - [5.2 Release Configuration Files](#52-release-configuration-files)
+    - [5.3 Machine Configuration Files](#53-machine-configuration-files)
+  - [6. Usage](#6-usage)
+    - [6.1 Building a BSP Image](#61-building-a-bsp-image)
+    - [6.2 Customization](#62-customization)
+  - [7. Resources](#7-resources)
 
 ---
 
@@ -207,7 +213,3 @@ To customize a BSP:
 - [Yocto Project Documentation](https://docs.yoctoproject.org/)
 - [meta-freescale Layer](https://github.com/Freescale/meta-freescale)
 - [meta-imx Layer](https://github.com/nxp-imx/meta-imx)
-
-## 8. License
-
-The configuration files in this directory are provided under the terms specified in the repository's LICENSE file. Note that building images may include software components with various licenses, including proprietary NXP software requiring EULA acceptance.
