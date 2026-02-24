@@ -4,8 +4,7 @@ header:
     - yocto/scarthgap.yml
     - vendors/mediatek/mtk-rity-v25.0-scarthgap.yml
     - common.yml
-
-machine: genio-350-evk
+    - vendors/advantech/mediatek/machine/rsb3810.yaml
 
 target: rity-demo-image
 

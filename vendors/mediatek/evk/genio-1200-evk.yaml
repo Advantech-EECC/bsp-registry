@@ -1,0 +1,15 @@
+header:
+  version: 14
+  includes:
+    - yocto/scarthgap.yml
+    - vendors/mediatek/mtk-rity-v25.0-scarthgap.yml
+    - common.yml
+
+machine: genio-1200-evk
+
+target: rity-demo-image
+
+local_conf_header:
+  mediatek: |
+    DISTRO_FEATURES += "wayland opengl vulkan"
+    LICENSE_FLAGS_ACCEPTED += "commercial"

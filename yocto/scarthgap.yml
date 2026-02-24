@@ -20,6 +20,7 @@ repos:
     commit: "459d837338ca230254baa2994f870bf6eb9d0139"
     path: "layers/meta-security"
     layers:
+      .:
       meta-parsec:
       meta-tpm:
 

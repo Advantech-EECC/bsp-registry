@@ -36,6 +36,9 @@ RUN apt-get install -y parted mtools
 # additional packages
 RUN apt-get install -y gosu binfmt-support
 
+# add crypto++
+RUN apt-get install -y libcrypto++-dev libssl-dev libffi-dev
+
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

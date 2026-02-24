@@ -1,6 +1,7 @@
 header:
   version: 14
   includes:
+    - yocto/scarthgap.yml
     - compilers/clang/scarthgap.yml
     - features/deep-learning/tensorflow.yml
 
@@ -70,21 +71,21 @@ repos:
         repo: this 
         path: patches/mediatek/scarthgap/0002-Fix-git-checkout-for-arm-compute-library.patch
 
-  meta-arm:
-    commit: "f3640941c600d03ea53ce5b9254f0fead18f8bc0"
+  # meta-arm:
+  #   commit: "f3640941c600d03ea53ce5b9254f0fead18f8bc0"
 
-  meta-security:
-    commit: "bc865c5276c2ab4031229916e8d7c20148dfbac3"
-    layers:
-      .:
-      meta-parsec:
-      meta-tpm:
+  # meta-security:
+  #   commit: "bc865c5276c2ab4031229916e8d7c20148dfbac3"
+  #   layers:
+  #     .:
+  #     meta-parsec:
+  #     meta-tpm:
 
-  poky:
-    commit: "78626a6f1861361bbd78a411cb27b093e34b466b"
+  # poky:
+  #   commit: "78626a6f1861361bbd78a411cb27b093e34b466b"
 
-  meta-clang:
-    commit: "eaa08939eaec9f620b14742ff3ac568553683034"
+  # meta-clang:
+  #   commit: "eaa08939eaec9f620b14742ff3ac568553683034"
 
-  meta-openembedded:
-    commit: "67ad83dd7c2485dae0c90eac345007af6195b84d"
+  # meta-openembedded:
+  #   commit: "67ad83dd7c2485dae0c90eac345007af6195b84d"

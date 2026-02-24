@@ -64,14 +64,23 @@ registry:
     # Mediatek BSPs
     # =====================================
 
-    - name: oemtk-scarthgap-genio-350-evk
-      description: "GENIO Scarthgap BSP"
+    - name: oemtk-scarthgap-genio-1200-evk
+      description: "GENIO 1200 Scarthgap BSP"
       build:
-        path: build/oemtk-scarthgap-genio-350-evk
+        path: build/oemtk-scarthgap-genio-1200-evk
         environment:
           container: "ubuntu-22.04"
         configuration:
-          - bsp-oemtk-scarthgap-genio-350-evk.yaml
+          - vendors/mediatek/evk/genio-1200-evk.yaml
+
+    - name: adv-mbsp-oemtk-scarthgap-rsb3810
+      description: "RSB3810 Scarthgap BSP"
+      build:
+        path: build/adv-mbsp-oemtk-scarthgap-rsb3810
+        environment:
+          container: "ubuntu-22.04"
+        configuration:
+          - adv-mbsp-oemtk-scarthgap-rsb3810.yaml
 
     # =====================================
     # Advantech RSB3730 BSPs
