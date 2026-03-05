@@ -21,7 +21,7 @@ cache variables, and the build directory layout.
 
 ### Reference machine configs
 
-- `evk/genio-1200-evk.yaml`
+- `evk/genio-1200-evk.yml`
   - Machine: `genio-1200-evk`
   - Target image: `rity-demo-image`
   - Adds distro features required by the Rity demo distro:
@@ -33,7 +33,7 @@ cache variables, and the build directory layout.
 The top-level registry file `bsp-registry.yml` currently exposes the following MediaTek BSP build targets:
 
 - `oemtk-scarthgap-genio-1200-evk`
-  - Config: `vendors/mediatek/evk/genio-1200-evk.yaml`
+  - Config: `vendors/mediatek/evk/genio-1200-evk.yml`
   - Build dir: `build/oemtk-scarthgap-genio-1200-evk`
   - Container: `ubuntu-22.04`
 
