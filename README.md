@@ -32,6 +32,8 @@ The registry supports two build systems:
       - [2.1.2.3. Building Images with OTA Support](#2123-building-images-with-ota-support)
   - [2.3. MediaTek Boards Compatibility Matrix](#23-mediatek-boards-compatibility-matrix)
     - [2.3.1. Building MediaTek BSPs](#231-building-mediatek-bsps)
+  - [2.4. Qualcomm Boards Compatibility Matrix](#24-qualcomm-boards-compatibility-matrix)
+    - [2.4.1. Building Qualcomm BSPs](#241-building-qualcomm-bsps)
 - [3. BSP Registry Manager](#3-bsp-registry-manager)
   - [3.1. Overview](#31-overview)
   - [3.2. Installation](#32-installation)
@@ -338,6 +340,43 @@ python bsp.py build adv-mbsp-oemtk-scarthgap-rsb3810
 
 # Or use the Justfile shortcut for RSB-3810
 just mtk-bsp rsb3810 scarthgap
+```
+
+---
+
+## 2.4. Qualcomm Boards Compatibility Matrix
+
+The BSP registry supports Qualcomm-based boards through the **Qualcomm Linux (QLI)** BSP stack.
+The current integration targets the Yocto **Scarthgap** release and uses the QLI v1.5 Ver.1.1 layer
+set. For detailed configuration, see the [Qualcomm vendor README](vendors/qualcomm/README.md) and
+the [Advantech Qualcomm overlay README](vendors/advantech/qualcomm/README.md).
+
+| Board \ Yocto         | scarthgap | Status        |
+| --------------------- | :-------: | ------------- |
+| **QCS6490 RB3gen2**   |     ✅     | 🟡 Development |
+| **AOM-2721**          |     ✅     | 🟡 Development |
+
+**Status Legend:**
+
+* 🟢 **Stable**: Production-ready, fully tested and supported
+* 🟡 **Development**: Under active development, may have limitations
+
+| **Hardware**          | **Supported Releases** | **Status**     | **Documentation** |
+|-----------------------|------------------------|----------------|-------------------|
+| **QCS6490 RB3gen2**   | scarthgap              | 🟡 Development | [Qualcomm RB3gen2 Vision Kit](https://www.qualcomm.com/developer/hardware/rb3-gen-2-development-kit) |
+| **AOM-2721**          | scarthgap              | 🟡 Development | [Advantech AOM-2721 Product Page](https://www.advantech.com/en/products/som/aom-2721) |
+
+### 2.4.1. Building Qualcomm BSPs
+
+```bash
+# List available Qualcomm BSPs
+python bsp.py list | grep -i qcom
+
+# Build Qualcomm QCS6490 RB3gen2 EVK (scarthgap)
+python bsp.py build bsp-oeqcom-scarthgap-qcs6490-evk
+
+# Or use the Justfile shortcut
+just qcom-bsp qcs6490-rb3gen2-vision-kit scarthgap
 ```
 
 ---
