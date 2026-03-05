@@ -30,6 +30,8 @@ The registry supports two build systems:
       - [2.1.2.1. Supported OTA Technologies](#2121-supported-ota-technologies)
       - [2.1.2.2. OTA Support Matrix](#2122-ota-support-matrix)
       - [2.1.2.3. Building Images with OTA Support](#2123-building-images-with-ota-support)
+  - [2.3. MediaTek Boards Compatibility Matrix](#23-mediatek-boards-compatibility-matrix)
+    - [2.3.1. Building MediaTek BSPs](#231-building-mediatek-bsps)
 - [3. BSP Registry Manager](#3-bsp-registry-manager)
   - [3.1. Overview](#31-overview)
   - [3.2. Installation](#32-installation)
@@ -298,6 +300,44 @@ python bsp.py build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-6g
 
 # Build RSB3720 4G variant with RAUC OTA support
 python bsp.py build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-4g
+```
+
+## 2.3. MediaTek Boards Compatibility Matrix
+
+The BSP registry supports MediaTek-based boards through the **MediaTek AIoT Rity** BSP stack. The
+current integration targets the Yocto **Scarthgap** release and uses the upstream Rity v25.0 layer
+set. For detailed configuration, see the [MediaTek vendor README](vendors/mediatek/README.md) and the
+[Advantech MediaTek overlay README](vendors/advantech/mediatek/README.md).
+
+| Board \ Yocto  | scarthgap | Status        |
+| -------------- | :-------: | ------------- |
+| **Genio 1200 EVK** | ✅    | 🟡 Development |
+| **RSB-3810**   |     ✅     | 🟡 Development |
+
+**Status Legend:**
+
+* 🟢 **Stable**: Production-ready, fully tested and supported
+* 🟡 **Development**: Under active development, may have limitations
+
+| **Hardware**         | **Supported Releases** | **Status**       | **Documentation** |
+|----------------------|------------------------|------------------|-------------------|
+| **Genio 1200 EVK**   | scarthgap              | 🟡 Development   | [MediaTek Genio 1200 EVK](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/hw/g1200-evk.html) |
+| **RSB-3810**         | scarthgap              | 🟡 Development   | [Advantech RSB-3810](https://ess-wiki.advantech.com.tw/view/AIM-Linux/RSB-3810) |
+
+### 2.3.1. Building MediaTek BSPs
+
+```bash
+# List available MediaTek BSPs
+python bsp.py list | grep -i oemtk
+
+# Build MediaTek Genio 1200 EVK (scarthgap)
+python bsp.py build oemtk-scarthgap-genio-1200-evk
+
+# Build Advantech RSB-3810 (scarthgap)
+python bsp.py build adv-mbsp-oemtk-scarthgap-rsb3810
+
+# Or use the Justfile shortcut for RSB-3810
+just mtk-bsp rsb3810 scarthgap
 ```
 
 ---
@@ -618,6 +658,9 @@ Available recipes:
     [ros]
     ros-mbsp machine="rsb3720" ros="humble" yocto="walnascar" # Enter a "Modular BSP" build environment shell for a machine
     ros-shell machine="rsb3720" ros="humble" yocto="walnascar" # Enter a "Modular BSP" build environment shell with ROS support for a machine
+
+    [mtk]
+    mtk-bsp machine="rsb3810" yocto="scarthgap" docker="ubuntu:22.04" kas="5.2" # Build Mediatek BSP for a specified machine
 ```
 
 ### 4.2.3. Running BSP build
@@ -839,10 +882,11 @@ LAYERDEPENDS_custom = "eecc-nxp"
 
 The BSP registry uses patches to fix build issues, add hardware support, and ensure compatibility across different Yocto releases. Patches are organized by vendor and Yocto version to maintain stability and reproducibility.
 
-The repository contains **15 patches** organized into:
+The repository contains **16 patches** organized into:
 
-* **NXP vendor patches** (13 patches): Address build failures, dependency corrections, and hardware-specific configurations for NXP i.MX platforms
+* **NXP vendor patches** (12 patches): Address build failures, dependency corrections, and hardware-specific configurations for NXP i.MX platforms
 * **OTA feature patches** (2 patches): Enable OSTree-based over-the-air updates for Styhead and Walnascar releases
+* **MediaTek vendor patches** (2 patches): Fix recipe and git checkout issues specific to the MediaTek Rity Scarthgap BSP
 
 All patches are documented with:
 
