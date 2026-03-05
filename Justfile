@@ -1,4 +1,3 @@
-# loads .env file from the current working dir
 #
 # minimal .env contents could be 
 #
@@ -139,5 +138,8 @@ ros-shell machine="rsb3720" ros="humble" yocto="walnascar": docker-debian
     @. "{{ dotenv }}" && \
     KAS_BUILD_DIR="$PWD/build-ros-{{ros}}-mbsp-{{yocto}}-{{machine}}" kas-container shell adv-mbsp-oenxp-{{yocto}}-{{machine}}.yaml:features/ros2/{{ros}}.yml
 
-mtk-bsp machine yocto:
-    @KAS_BUILD_DIR="$PWD/build-mtk-mbsp-{{yocto}}-{{machine}}" kas-container build bsp-oemtk-{{yocto}}-{{machine}}.yaml
+# Build Mediatek BSP for a specified machine
+[group('mtk')]
+mtk-bsp machine="rsb3810" yocto="scarthgap" docker="ubuntu:22.04" kas="5.2": (docker-ubuntu docker kas)
+    @. "{{ dotenv }}" && \
+    KAS_BUILD_DIR="$PWD/build-mtk-mbsp-{{yocto}}-{{machine}}" kas-container build {{kas_build_args}} adv-mbsp-oemtk-{{yocto}}-{{machine}}.yaml
