@@ -4,6 +4,7 @@ header:
     - yocto/scarthgap.yml
     - compilers/clang/scarthgap.yml
     - features/deep-learning/tensorflow.yml
+    - vendors/mediatek/mediatek-common.yml
 
 distro: "rity-demo"
 

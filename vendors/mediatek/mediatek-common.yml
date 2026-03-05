@@ -1,0 +1,24 @@
+header:
+  version: 14
+
+
+target: 
+  - rity-bsp-image
+  - rity-demo-image
+
+local_conf_header:
+  mediatek: |
+    DISTRO_FEATURES += "wayland opengl vulkan"
+    LICENSE_FLAGS_ACCEPTED += "commercial"
+
+  audio_config: |
+    # Enable PipeWire and required features
+    DISTRO_FEATURES:append = " pipewire alsa bluetooth"
+    DISTRO_FEATURES:remove = " pulseaudio"
+    
+    # Set PipeWire as the default audio server
+    VIRTUAL-RUNTIME_audio_server = "pipewire"
+    VIRTUAL-RUNTIME_sound_server = "pipewire"
+    
+    # REQUIRED: Allow building commercial packages (needed for AAC codecs in PipeWire)
+    LICENSE_FLAGS_ACCEPTED += "commercial"
