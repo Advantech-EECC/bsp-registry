@@ -1,14 +1,13 @@
 header:
   version: 14
   includes:
+    - common.yml
     - yocto/scarthgap.yml
     - vendors/mediatek/mtk-rity-v25.0-scarthgap.yml
-    - common.yml
     - vendors/advantech/mediatek/machine/rsb3810.yaml
+    - vendors/advantech/mediatek/mtk-rity-v25.0-scarthgap.yaml
 
-target: rity-demo-image
-
-local_conf_header:
-  mediatek: |
-    DISTRO_FEATURES += "wayland opengl vulkan"
-    LICENSE_FLAGS_ACCEPTED += "commercial"
+# local_conf_header:
+#   mediatek: |
+#     DISTRO_FEATURES += "wayland opengl vulkan"
+#     LICENSE_FLAGS_ACCEPTED += "commercial"

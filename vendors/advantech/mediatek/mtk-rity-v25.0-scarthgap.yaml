@@ -2,9 +2,8 @@ header:
   version: 14
 
 repos:
-  meta-mediatek-bsp:
-    url: "https://gitlab.com/Advantech-EECC/meta-modular-bsp-mediatek.git"
-    branch: "main"
+  meta-modular-bsp-mediatek:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-mediatek.git"
     path: "layers/meta-modular-bsp-mediatek"
     layers:
       .:
