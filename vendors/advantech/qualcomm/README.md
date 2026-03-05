@@ -22,7 +22,7 @@ If you are looking for the **upstream Qualcomm QLI** layer definitions and EVK c
 ## Where it is used
 
 Machine config `vendors/advantech/qualcomm/machine/aom2721.yml` selects the Advantech AOM-2721
-board when composing a full BSP alongside `vendors/qualcomm/qcom-6.6.90-qli.1.5-ver.1.1-scarthgap.yml`.
+board when composing a full BSP alongside `vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml`.
 
 ## Build
 

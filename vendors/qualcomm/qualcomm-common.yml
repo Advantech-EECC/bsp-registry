@@ -4,4 +4,11 @@ header:
 distro: qcom-wayland
 
 target: 
-  - qcom-console-image
+  - qcom-minimal-image
+
+local_conf_header:
+  distro-features: |
+    DISTRO_FEATURES += " \
+      x11 \
+      wayland \
+    "

@@ -9,9 +9,9 @@ selection, cache variables, and the build directory layout.
 
 ### KAS fragments (layers + pins)
 
-- `qcom-6.6.90-qli.1.5-ver.1.1-scarthgap.yml`
+- `qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml`
   - Pulls Qualcomm layers from GitHub and pins them to specific commits matching the
-    [QLI 1.5 Ver.1.1 manifest](https://github.com/qualcomm-linux/qcom-manifest/blob/qcom-linux-scarthgap/qcom-6.6.90-QLI.1.5-Ver.1.1.xml):
+    [QLI 1.5 Ver.1.1 manifest](https://github.com/qualcomm-linux/qcom-manifest/blob/qcom-linux-scarthgap/qcom-6.6.97-qli.1.6-ver.1.2.xml):
     - `meta-qcom` (Linaro upstream)
     - `meta-qcom-hwe` (Qualcomm hardware enablement)
     - `meta-qcom-distro` (Qualcomm distribution layer)
@@ -66,9 +66,9 @@ Build artifacts follow the standard Yocto layout under the registry build direct
 
 - Qualcomm Linux developer portal:
   https://docs.qualcomm.com/bundle/publicresource/topics/80-70015-254/introduction.html
-- Upstream Qualcomm layers (referenced by `qcom-6.6.90-qli.1.5-ver.1.1-scarthgap.yml`):
+- Upstream Qualcomm layers (referenced by `qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml`):
   - https://github.com/Linaro/meta-qcom
   - https://github.com/qualcomm-linux/meta-qcom-hwe
   - https://github.com/qualcomm-linux/meta-qcom-distro
 - QLI 1.5 Ver.1.1 manifest:
-  https://github.com/qualcomm-linux/qcom-manifest/blob/qcom-linux-scarthgap/qcom-6.6.90-QLI.1.5-Ver.1.1.xml
+  https://github.com/qualcomm-linux/qcom-manifest/blob/qcom-linux-scarthgap/qcom-6.6.97-qli.1.6-ver.1.2.xml

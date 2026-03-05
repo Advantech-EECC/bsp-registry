@@ -3,5 +3,5 @@ header:
   includes:
     - yocto/scarthgap.yml
     - vendors/qualcomm/machine/qcs6490-rb3gen2-vision-kit.yml
-    - vendors/qualcomm/qcom-6.6.90-qli.1.5-ver.1.1-scarthgap.yml
+    - vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml
     - common.yml
