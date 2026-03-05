@@ -1,4 +1,3 @@
--e git+ssh://git@github.com/Advantech-EECC/bsp-registry.git@dac348b5bb26edbf22665066149bdcb42750421d#egg=advantech_bsp_registry
 alembic==1.17.2
 attrs==25.3.0
 autobahn==25.11.1
