@@ -1,0 +1,7 @@
+header:
+  version: 14
+  includes:
+    - yocto/scarthgap.yml
+    - vendors/mediatek/mtk-rity-v25.0-scarthgap.yml
+
+machine: genio-1200-evk
