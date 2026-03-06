@@ -1,0 +1,7 @@
+header:
+  version: 14
+  includes:
+    - yocto/scarthgap.yml
+    - vendors/advantech/qualcomm/machine/aom2721.yml
+    - vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml
+    - common.yml
