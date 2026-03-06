@@ -94,7 +94,7 @@ The build system follows a layered architecture that ensures reproducibility, is
 
 | Layer | Purpose | Key Components |
 |-------|---------|----------------|
-| **BSP Registry Manager** | BSP management and container orchestration | `bsp.py` script, YAML configuration, container definitions |
+| **BSP Registry Manager** | BSP management and container orchestration | `bsp` CLI tool (`bsp-registry-tools` package), YAML configuration, container definitions |
 | **Justfile Recipes** | User-friendly command interface | `just bsp`, `just mbsp`, `just ota-mbsp` commands |
 | **KAS Configuration Files** | Build definitions and dependencies | YAML configs for boards, distros, and features |
 | **Docker Container Engine** | Isolated build environment | Consistent toolchains, isolated dependencies |
@@ -204,17 +204,17 @@ Isar builds require privileged container execution to support Debian package man
 
 **Example: Build RSB3720 with Debian Trixie**
 ```bash
-python bsp.py build adv-mbsp-isar-debian-rsb3720
+bsp build adv-mbsp-isar-debian-rsb3720
 ```
 
 **Example: Build QEMU ARM64 with Debian Trixie**
 ```bash
-python bsp.py build isar-qemuarm64-debian-trixie
+bsp build isar-qemuarm64-debian-trixie
 ```
 
 **Example: Build QEMU ARM64 with Ubuntu Noble**
 ```bash
-python bsp.py build isar-qemuarm64-ubuntu-noble
+bsp build isar-qemuarm64-ubuntu-noble
 ```
 
 ### 2.2.4. Isar Container Configuration
@@ -289,17 +289,17 @@ just ota-mbsp rsb3720 swupdate scarthgap
 just ota-mbsp rom5722-db2510 ostree styhead
 ```
 
-Alternatively, you can use the `bsp.py` tool directly:
+Alternatively, you can use the `bsp` CLI tool directly:
 
 ```bash
 # List all available OTA configurations
-python bsp.py list | grep ota
+bsp list | grep ota
 
 # Build a specific OTA configuration
-python bsp.py build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-6g
+bsp build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-6g
 
 # Build RSB3720 4G variant with RAUC OTA support
-python bsp.py build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-4g
+bsp build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-4g
 ```
 
 ## 2.3. MediaTek Boards Compatibility Matrix
@@ -328,13 +328,13 @@ set. For detailed configuration, see the [MediaTek vendor README](vendors/mediat
 
 ```bash
 # List available MediaTek BSPs
-python bsp.py list | grep -i oemtk
+bsp list | grep -i oemtk
 
 # Build MediaTek Genio 1200 EVK (scarthgap)
-python bsp.py build oemtk-scarthgap-genio-1200-evk
+bsp build oemtk-scarthgap-genio-1200-evk
 
 # Build Advantech RSB-3810 (scarthgap)
-python bsp.py build adv-mbsp-oemtk-scarthgap-rsb3810
+bsp build adv-mbsp-oemtk-scarthgap-rsb3810
 
 # Or use the Justfile shortcut for RSB-3810
 just mtk-bsp rsb3810 scarthgap
@@ -344,7 +344,7 @@ just mtk-bsp rsb3810 scarthgap
 
 # 3. BSP Registry Manager
 
-The BSP Registry Manager (`bsp.py`) is a comprehensive Python script that provides a command-line interface for managing and building Yocto-based BSPs using the KAS build system. It features Docker container management, cached builds, and sophisticated configuration management for embedded Linux development.
+The BSP Registry Manager is provided by the [`bsp-registry-tools`](https://pypi.org/project/bsp-registry-tools/) Python package. It offers a command-line interface (`bsp`) for managing and building Yocto-based BSPs using the KAS build system. It features Docker container management, cached builds, and sophisticated configuration management for embedded Linux development.
 
 ## 3.1. Overview
 
@@ -361,40 +361,37 @@ The BSP Registry Manager supports:
 
 ## 3.2. Installation
 
-The BSP Registry Manager requires Python 3.7+ and can be installed using the provided requirements:
+The BSP Registry Manager requires Python 3.7+ and is installed via pip. A virtual environment is recommended to avoid conflicts with system packages:
 
 ```bash
-# Create and activate virtual environment
+# Optional: create and activate a virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Install bsp manager
-pip install -e .
+# Install bsp-registry-tools
+pip3 install bsp-registry-tools
 ```
 
 ## 3.3. Basic Usage
 
 ```bash
 # List available BSPs in the registry
-python bsp.py list
+bsp list
 
 # Checkout and validate a BSP configuration without building (fast)
-python bsp.py build <bsp_name> --checkout
+bsp build <bsp_name> --checkout
 
 # Build a specific BSP
-python bsp.py build <bsp_name>
+bsp build <bsp_name>
 
 # Enter interactive shell for a BSP
-python bsp.py shell <bsp_name>
+bsp shell <bsp_name>
 
 # Export BSP configuration
-python bsp.py export <bsp_name>
+bsp export <bsp_name>
 
 # List available container definitions
-python bsp.py containers
+bsp containers
 ```
 
 ## 3.4. Container Management
@@ -403,7 +400,7 @@ The BSP Registry Manager supports container definitions that can be shared acros
 
 ```bash
 # List all available containers
-python bsp.py containers
+bsp containers
 
 # Example output:
 # Available Containers:
@@ -477,12 +474,12 @@ registry:
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `list` | List all available BSPs | `python bsp.py list` |
-| `build <bsp_name>` | Build a specific BSP | `python bsp.py build imx8mpevk` |
-| `build <bsp_name> --checkout` | Checkout and validate BSP configuration without building (fast) | `python bsp.py build imx8mpevk --checkout` |
-| `shell <bsp_name>` | Enter interactive shell | `python bsp.py shell imx8mpevk` |
-| `export <bsp_name>` | Export KAS configuration | `python bsp.py export imx8mpevk` |
-| `containers` | List available containers | `python bsp.py containers` |
+| `list` | List all available BSPs | `bsp list` |
+| `build <bsp_name>` | Build a specific BSP | `bsp build imx8mpevk` |
+| `build <bsp_name> --checkout` | Checkout and validate BSP configuration without building (fast) | `bsp build imx8mpevk --checkout` |
+| `shell <bsp_name>` | Enter interactive shell | `bsp shell imx8mpevk` |
+| `export <bsp_name>` | Export KAS configuration | `bsp export imx8mpevk` |
+| `containers` | List available containers | `bsp containers` |
 
 ### 3.6.1. Checkout and Validation
 
@@ -504,13 +501,13 @@ The `--checkout` flag provides a fast way to checkout and validate BSP configura
 
 ```bash
 # Checkout and validate configuration for RSB3720 6G board
-python bsp.py build adv-mbsp-oenxp-walnascar-rsb3720-6g --checkout
+bsp build adv-mbsp-oenxp-walnascar-rsb3720-6g --checkout
 
 # Checkout and validate configuration for RSB3720 4G board
-python bsp.py build adv-mbsp-oenxp-walnascar-rsb3720-4g --checkout
+bsp build adv-mbsp-oenxp-walnascar-rsb3720-4g --checkout
 
 # If validation passes, proceed with full build
-python bsp.py build adv-mbsp-oenxp-walnascar-rsb3720-6g
+bsp build adv-mbsp-oenxp-walnascar-rsb3720-6g
 ```
 
 ---
@@ -559,10 +556,10 @@ While venv and virtualenv cover most basic needs, advanced tools provide additio
 
 ##### 4.1.1.2. Install Python packages dependencies
 
-BSP registry repository contains `requirements.txt` file with the list of python modules required to run configuration and build.
+Install the `bsp-registry-tools` package to get the `bsp` CLI tool:
 
 ```bash
-pip3 install -r requirements.txt
+pip3 install bsp-registry-tools
 ```
 
 #### 4.1.2. Setting up Docker engine

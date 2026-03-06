@@ -39,13 +39,13 @@ From the repository root:
 
 ```bash
 # Fast config checkout/validation (no build)
-python bsp.py build adv-mbsp-oemtk-scarthgap-rsb3810 --checkout
+bsp build adv-mbsp-oemtk-scarthgap-rsb3810 --checkout
 
 # Full build
-python bsp.py build adv-mbsp-oemtk-scarthgap-rsb3810
+bsp build adv-mbsp-oemtk-scarthgap-rsb3810
 
 # Enter an interactive build shell
-python bsp.py shell adv-mbsp-oemtk-scarthgap-rsb3810
+bsp shell adv-mbsp-oemtk-scarthgap-rsb3810
 ```
 
 ## References
