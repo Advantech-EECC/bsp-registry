@@ -143,7 +143,7 @@ The following ASCII diagrams illustrate the Isar image generation workflow:
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         User Initiates Build                        │
-│              (python bsp.py build <isar-config>.yaml)               │
+│              (bsp build <isar-config>.yaml)                         │
 └────────────────────────────────┬────────────────────────────────────┘
                                  │
                                  ▼
@@ -521,9 +521,9 @@ Isar performs builds inside a privileged Docker container.
   ```
 
 #### 8.2.2 Python Environment
-To use the BSP Registry Manager (`bsp.py`), install the required Python packages:
+To use the BSP Registry Manager, install the `bsp-registry-tools` package:
 ```bash
-pip3 install -r requirements.txt
+pip3 install bsp-registry-tools
 ```
 
 #### 8.2.3 Cross-Compilation Support (qemu-user-static)
@@ -552,17 +552,17 @@ Building embedded Linux images requires significant resources:
 
 ### 9.2 Using BSP Registry Manager
 
-The recommended method is using the `bsp.py` script:
+The recommended method is using the `bsp` CLI tool from the `bsp-registry-tools` package:
 
 ```bash
 # Build RSB3720 with Debian Trixie
-python bsp.py build adv-mbsp-isar-debian-rsb3720
+bsp build adv-mbsp-isar-debian-rsb3720
 
 # Build QEMU ARM64 with Debian Trixie
-python bsp.py build isar-qemuarm64-debian-trixie
+bsp build isar-qemuarm64-debian-trixie
 
 # Build QEMU ARM64 with Ubuntu Noble
-python bsp.py build isar-qemuarm64-ubuntu-noble
+bsp build isar-qemuarm64-ubuntu-noble
 ```
 
 ### 9.3 Interactive Shell Access
@@ -570,7 +570,7 @@ python bsp.py build isar-qemuarm64-ubuntu-noble
 Enter a build environment for debugging or development:
 
 ```bash
-python bsp.py shell adv-mbsp-isar-debian-rsb3720
+bsp shell adv-mbsp-isar-debian-rsb3720
 ```
 
 ### 9.4 Manual Build with KAS
@@ -620,7 +620,7 @@ This script expects a deploy directory that contains the image artifacts (disk i
 1. Build a QEMU machine configuration (example):
 
   ```bash
-  python bsp.py build isar-qemuarm64-debian-trixie
+  bsp build isar-qemuarm64-debian-trixie
   ```
 
 2. Locate the deploy directory produced by the build (it must contain `*.wic`/`*.img`/`*.ext4`).
@@ -645,7 +645,7 @@ For all options, environment variables, boot modes, and troubleshooting, see [is
 ┌─────────────────────────────────────────────────────────────┐
 │                    Host System                              │
 │  • Docker Engine                                            │
-│  • BSP Registry Manager (bsp.py)                            │
+│  • BSP Registry Manager (bsp-registry-tools)               │
 │  • Configuration Files (YAML)                               │
 └──────────────────┬──────────────────────────────────────────┘
                    │

@@ -2,7 +2,7 @@
 
 This directory contains the **MediaTek vendor BSP integration** for the Advantech BSP Registry.
 The current integration is based on **MediaTek AIoT Rity** for **Yocto Scarthgap** and is intended
-to be built through the registry manager (`bsp.py`) which takes care of container selection,
+to be built through the registry manager (`bsp` CLI from `bsp-registry-tools`) which takes care of container selection,
 cache variables, and the build directory layout.
 
 ## What’s included
@@ -43,16 +43,16 @@ From the repository root:
 
 ```bash
 # List available BSPs
-python bsp.py list | grep -i mtk
+bsp list | grep -i mtk
 
 # Fast config checkout/validation (no build)
-python bsp.py build oemtk-scarthgap-genio-1200-evk --checkout
+bsp build oemtk-scarthgap-genio-1200-evk --checkout
 
 # Full build
-python bsp.py build oemtk-scarthgap-genio-1200-evk
+bsp build oemtk-scarthgap-genio-1200-evk
 
 # Enter an interactive build shell
-python bsp.py shell oemtk-scarthgap-genio-1200-evk
+bsp shell oemtk-scarthgap-genio-1200-evk
 ```
 
 Build artifacts follow the standard Yocto layout under the registry build directory, e.g.:
