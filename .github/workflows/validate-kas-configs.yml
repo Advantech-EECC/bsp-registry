@@ -332,37 +332,33 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          # dacite is required for bsp.py but not in requirements.txt yet
-          pip install dacite
       
-      - name: Test bsp.py list command
+      - name: Test bsp list command
         run: |
-          echo "Testing 'bsp.py list' command..."
-          python3 bsp.py list
-          echo "✓ bsp.py list command works"
+          echo "Testing 'bsp list' command..."
+          bsp --local list
+          echo "✓ bsp list command works"
       
-      - name: Test bsp.py containers command
+      - name: Test bsp containers command
         run: |
-          echo "Testing 'bsp.py containers' command..."
-          python3 bsp.py containers
-          echo "✓ bsp.py containers command works"
+          echo "Testing 'bsp containers' command..."
+          bsp --local containers
+          echo "✓ bsp containers command works"
       
-      - name: Test bsp.py export command
+      - name: Test bsp export command
         run: |
-          echo "Testing 'bsp.py export' command on first available BSP..."
-          # Unset GITCONFIG_FILE to avoid conflicts with default config path
-          unset GITCONFIG_FILE
+          echo "Testing 'bsp export' command on first available BSP..."
           # Get first BSP name from list
-          FIRST_BSP=$(python3 bsp.py list 2>/dev/null | grep '^-' | head -1 | cut -d':' -f1 | sed 's/^- //')
+          FIRST_BSP=$(bsp --local list 2>/dev/null | grep '^-' | head -1 | cut -d':' -f1 | sed 's/^- //')
           if [ -n "$FIRST_BSP" ]; then
             echo "Exporting configuration for: $FIRST_BSP"
-            python3 bsp.py export "$FIRST_BSP" > /tmp/export_test.yml 2>&1 || true
+            bsp --local export "$FIRST_BSP" > /tmp/export_test.yml 2>&1 || true
             if [ -s /tmp/export_test.yml ]; then
-              echo "✓ bsp.py export command works"
+              echo "✓ bsp export command works"
               head -20 /tmp/export_test.yml
             else
-              echo "⚠ bsp.py export may require network access (skipping validation)"
-              echo "✓ bsp.py export command is available"
+              echo "⚠ bsp export may require network access (skipping validation)"
+              echo "✓ bsp export command is available"
             fi
           else
             echo "✗ No BSPs found to test export"
