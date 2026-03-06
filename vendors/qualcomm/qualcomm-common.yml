@@ -5,10 +5,22 @@ distro: qcom-wayland
 
 target: 
   - qcom-minimal-image
+  - qcom-console-image
+  - qcom-multimedia-image
 
 local_conf_header:
   distro-features: |
     DISTRO_FEATURES += " \
       x11 \
+      seccomp \
       wayland \
     "
+
+  audio_config: |
+    # Enable PipeWire and required features
+    DISTRO_FEATURES:append = " pipewire alsa bluetooth"
+    DISTRO_FEATURES:remove = " pulseaudio"
+    
+    # Set PipeWire as the default audio server
+    VIRTUAL-RUNTIME_audio_server = "pipewire"
+    VIRTUAL-RUNTIME_sound_server = "pipewire"
