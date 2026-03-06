@@ -45,6 +45,6 @@ python bsp.py shell bsp-oeqcom-scarthgap-qcs6490-evk
 ## References
 
 - Advantech AOM-2721 product page:
-  https://www.advantech.com/en/products/som/aom-2721
+  [https://www.advantech.com/en/products/som/aom-2721](https://www.advantech.com/en-us/products/8fc6f753-ca1d-49f9-8676-10d53129570f/aom-2721/)
 - Qualcomm QCS6490 SoC:
-  https://www.qualcomm.com/products/internet-of-things/industrial/building-enterprise/qcs6490
+  [https://www.qualcomm.com/products/internet-of-things/industrial/building-enterprise/qcs6490](https://www.qualcomm.com/internet-of-things/products/q6-series/qcs6490)
