@@ -4,7 +4,6 @@ header:
 repos:
   meta-hailo:
     url: https://github.com/hailo-ai/meta-hailo.git
-    branch: "kirkstone"
     path: "layers/meta-hailo"
     layers:
       # meta-hailo-accelerator:

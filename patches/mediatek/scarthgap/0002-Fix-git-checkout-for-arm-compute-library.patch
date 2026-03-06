@@ -1,0 +1,25 @@
+From c117ecfaa50c668d0e308c62bd7153459e8059a4 Mon Sep 17 00:00:00 2001
+From: Mikhail Tsukerman <mikhail.tsukerman@advantech.de>
+Date: Wed, 26 Nov 2025 16:47:01 +0100
+Subject: [PATCH] Fix git checkout for arm-compute-library
+
+---
+ recipes-armnn/arm-compute-library/arm-compute-library_24.02.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/recipes-armnn/arm-compute-library/arm-compute-library_24.02.bb b/recipes-armnn/arm-compute-library/arm-compute-library_24.02.bb
+index d38c46d..4427d2b 100644
+--- a/recipes-armnn/arm-compute-library/arm-compute-library_24.02.bb
++++ b/recipes-armnn/arm-compute-library/arm-compute-library_24.02.bb
+@@ -8,7 +8,7 @@ inherit scons
+ 
+ #recipe based on https://github.com/Witekio/meta-machinelearning/blob/master/recipes-arm/arm-compute-library/arm-compute-library_19.02.bb
+ 
+-SRC_URI = "git://github.com/ARM-software/ComputeLibrary.git;protocol=https;branch=main;name=arm-compute-library \
++SRC_URI = "git://github.com/ARM-software/ComputeLibrary.git;protocol=https;nobranch=1;name=arm-compute-library \
+            file://0001-enable-yocto-build.patch \
+            file://0001-Remove-unknown-variables-treated-as-error.patch \
+            file://0001-Prefer-to-use-libmali-as-the-provider-of-OpenCL.patch \
+-- 
+2.43.0
+

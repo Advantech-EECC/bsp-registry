@@ -1,0 +1,17 @@
+From fa48a843188282fa0fd43dcd67896aa8fbaa657d Mon Sep 17 00:00:00 2001
+From: Mikhail Tsukerman <mikhail-tsukerman@AEU-NBK-1210.AEU.ADVANTECH.CORP>
+Date: Fri, 29 Aug 2025 23:02:28 +0200
+Subject: [PATCH] Fix recipe dtbo name
+
+---
+ .../recipes-kernel/dtbo/{dtbo.bbappend => dtbo_%.bbappend}        | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta-rity-skeleton/recipes-kernel/dtbo/{dtbo.bbappend => dtbo_%.bbappend} (100%)
+
+diff --git a/meta-rity-skeleton/recipes-kernel/dtbo/dtbo.bbappend b/meta-rity-skeleton/recipes-kernel/dtbo/dtbo_%.bbappend
+similarity index 100%
+rename from meta-rity-skeleton/recipes-kernel/dtbo/dtbo.bbappend
+rename to meta-rity-skeleton/recipes-kernel/dtbo/dtbo_%.bbappend
+-- 
+2.43.0
+

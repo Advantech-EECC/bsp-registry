@@ -29,7 +29,7 @@ classifiers = [
 dependencies = [
     "PyYAML>=6.0",
     "dacite>=1.6.0",
-    "kas>=4.7",
+    "kas>=5.0",
     "colorama>=0.4.6",
 ]
 

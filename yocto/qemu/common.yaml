@@ -1,0 +1,13 @@
+header:
+  version: 14
+
+distro: poky
+
+target:
+  - core-image-minimal
+  - core-image-sato
+
+local_conf_header:
+  qemu: |
+    IMAGE_FEATURES += "empty-root-password allow-empty-password allow-root-login post-install-logging"
+    DISTRO_FEATURES += "x11"

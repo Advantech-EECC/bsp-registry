@@ -1,0 +1,14 @@
+header:
+  version: 14
+  includes:
+    - yocto/scarthgap.yml
+    - vendors/advantech/nxp/bsp-imx-6.6.23-2.0.0-scarthgap.yml
+    - common.yml
+
+# Advantech ROM5721 2G DB5901
+machine: imx8mmrom5721a1
+
+local_conf_header:
+  ROM5721: |
+    DISTRO_FEATURES += "systemd"
+    UBOOT_CONFIG="2G"

@@ -1,0 +1,73 @@
+header:
+  version: 14
+  includes:
+    - yocto/scarthgap.yml
+    - compilers/clang/scarthgap.yml
+    - features/deep-learning/tensorflow.yml
+    - vendors/mediatek/mediatek-common.yml
+
+distro: "rity-demo"
+
+repos:
+  this:
+    layers:
+      .: "disabled"    
+
+  meta-mediatek-bsp:
+    url: "https://gitlab.com/mediatek/aiot/rity/meta-mediatek-bsp.git"
+    tag: "refs/tags/rity-scarthgap-v25.0"
+    branch: ""
+    path: "layers/meta-mediatek-bsp"
+    layers:
+      .:
+
+  meta-rity:
+    url: "https://gitlab.com/mediatek/aiot/rity/meta-rity.git"
+    tag: "refs/tags/rity-scarthgap-v25.0"
+    branch: ""
+    path: "layers/meta-rity"
+    layers:
+      meta-rity-bringup:
+      meta-rity-demo:
+      meta-rity-skeleton:
+      meta:
+    patches: 
+      fix-recipe-name:
+        repo: this
+        path: patches/mediatek/scarthgap/0001-Fix-recipe-dtbo-name.patch
+
+  meta-mediatek-tsn:
+    url: "https://gitlab.com/mediatek/aiot/rity/meta-mediatek-tsn.git"
+    tag: "refs/tags/rity-scarthgap-v25.0"
+    branch: ""
+    path: "layers/meta-mediatek-tsn"
+    layers:
+      .:
+
+  meta-mediatek-demo:
+    url: "https://gitlab.com/mediatek/aiot/rity/meta-mediatek-demo.git"
+    tag: "refs/tags/rity-scarthgap-v25.0"
+    branch: ""
+    path: "layers/meta-mediatek-demo"
+    layers:
+      .:
+
+  meta-mediatek-bluedroid:
+    url: "https://gitlab.com/mediatek/aiot/rity/meta-mediatek-bluedroid.git"
+    tag: "refs/tags/rity-scarthgap-v25.0"
+    branch: ""
+    path: "layers/meta-mediatek-bluedroid"
+    layers:
+      .:
+
+  meta-nn:
+    url: "https://gitlab.com/mediatek/aiot/rity/meta-nn.git"
+    tag: "refs/tags/rity-scarthgap-v25.0"
+    branch: ""
+    path: "layers/meta-nn"
+    layers:
+      .:
+    patches:
+      fix-git-checkout-arm-compute-lib:
+        repo: this 
+        path: patches/mediatek/scarthgap/0002-Fix-git-checkout-for-arm-compute-library.patch

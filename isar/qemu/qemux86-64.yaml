@@ -1,0 +1,6 @@
+header:
+  version: 14
+  includes: 
+    - isar/qemu/common.yaml
+
+machine: qemuamd64

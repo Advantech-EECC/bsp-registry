@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+machine: "aom5521-db2510"
+
+local_conf_header:
+  ostree-aom5521-db2510: |
+
+    SOTA_MACHINE:aom5521-db2510 ?= "aom5521-db2510"

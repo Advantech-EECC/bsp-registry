@@ -1,0 +1,12 @@
+header:
+  version: 14
+  includes:
+    - yocto/mickledore.yml
+    - vendors/advantech/nxp/bsp-imx-6.1.22-2.0.0-mickledore.yml
+
+machine: imx8mmrom5721a1
+
+local_conf_header:
+  ROM5721: |
+    DISTRO_FEATURES += "systemd"
+    UBOOT_CONFIG="2G"

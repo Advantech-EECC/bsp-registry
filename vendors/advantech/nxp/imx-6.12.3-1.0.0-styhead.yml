@@ -4,10 +4,10 @@ header:
     - vendors/nxp/imx-6.12.3-1.0.0-styhead.yml
 
 repos:
-  meta-eecc-nxp:
-    url: "https://github.com/Advantech-EECC/meta-eecc-nxp.git"
+  meta-modular-bsp-nxp:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-nxp.git"
     commit: "d636c39f21e30b689eb72cfde12fa4ee12287b46"
-    path: "layers/meta-eecc-nxp"
+    path: "layers/meta-modular-bsp-nxp"
     layers:
       .:
 

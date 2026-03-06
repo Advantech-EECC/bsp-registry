@@ -22,9 +22,6 @@ repos:
 
   meta-imx:
     patches:
-      imx-gst-dependencies-fix:
-        repo: this
-        path: patches/nxp/walnascar/0003-Add-dependencies-for-imx95.patch
       fix-onnxruntime-build:
         repo: this 
         path: patches/nxp/walnascar/0009-Use-lf-6.12.34_2.1.0-branch.patch

@@ -196,8 +196,8 @@ jobs:
     - bash: |
         echo "
         repos:
-          meta-eecc-nxp:
-            url: 'git@ssh.dev.azure.com:v3/AdvEECC/EECC_Internal/preprod-meta-eecc-nxp'
+          meta-modular-bsp-nxp:
+            url: 'git@ssh.dev.azure.com:v3/AdvEECC/EECC_Internal/preprod-meta-modular-bsp-nxp'
 
           meta-modular-bsp-ota:
             url: 'git@ssh.dev.azure.com:v3/AdvEECC/EECC_Internal/preprod-meta-modular-bsp-ota'

@@ -1,0 +1,21 @@
+ARG KAS_VERSION=5.2
+ARG DISTRO=debian-trixie
+
+FROM ghcr.io/siemens/kas/kas-isar:${KAS_VERSION}-${DISTRO}
+
+RUN sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+        qemu-user-static \
+        binfmt-support \
+        qemu-system-aarch64 \
+        qemu-system-x86 \
+        qemu-utils \
+        iproute2 \
+        iptables \
+        net-tools \
+        bridge-utils \
+        dnsmasq \
+        grub-common \
+        parted \
+        mtools \
+        grub2-common \
+        dosfstools \

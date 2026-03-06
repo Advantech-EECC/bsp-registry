@@ -2,3 +2,7 @@ header:
   version: 14
   includes:
     - adv-bsp-oenxp-mickledore-rsb3730-2g.yaml
+
+# TODO: add proper docker container for yocto mickledore (4.2)
+# Advantech RSB3730
+machine: imx8mmrsb3730a2

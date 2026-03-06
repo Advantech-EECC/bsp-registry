@@ -20,12 +20,29 @@ containers:
           value: "4.7"
   - ubuntu-22.04:
       file: Dockerfile.ubuntu
-      image: "advantech/bsp-registry/ubuntu-22.04/kas:5.0"
+      image: "advantech/bsp-registry/ubuntu-22.04/kas:5.2"
       args:
         - name: "DISTRO"
           value: "ubuntu:22.04"
         - name: "KAS_VERSION"
-          value: "5.0"
+          value: "5.2"
+  - debian-13:
+      file: Dockerfile.debian
+      image: "advantech/bsp-registry/debian-13/kas:5.2"
+      args:
+        - name: "KAS_VERSION"
+          value: "5.2"
+        - name: "DISTRO"
+          value: "debian-trixie"
+  - isar-debian-13:
+      file: Dockerfile.isar.debian
+      image: "advantech/bsp-registry/isar/debian-13/kas:5.2"
+      privileged: true
+      args:
+        - name: "KAS_VERSION"
+          value: "5.2"
+        - name: "DISTRO"
+          value: "debian-trixie"
 
 devices:
 
@@ -70,6 +87,14 @@ devices:
       releases:
         walnascar-nxp:
           - adv-bsp-oenxp-walnascar-aom5521a2.yaml
+
+  - aom5521-db2510:
+      vendor: Advantech
+      soc_vendor: NXP
+      machine: aom5521-db2510
+      releases:
+        walnascar-nxp:
+          - adv-mbsp-oenxp-walnascar-aom5521-db2510.yaml
 
   # =====================================
   # Advantech ROM2620 ED91 (i.MX8M)
@@ -120,24 +145,18 @@ devices:
           - adv-mbsp-oenxp-walnascar-rom5720-db5901.yaml
 
   # =====================================
-  # Advantech ROM5721-DB5901 (i.MX8M)
+  # Advantech ROM5721-1G-DB5901 (i.MX8MM)
   # =====================================
-
-  - rom5721-db5901:
-      vendor: Advantech
-      soc_vendor: NXP
-      machine: rom5721-db5901
-      releases:
-        scarthgap-nxp:
-          - adv-mbsp-oenxp-scarthgap-rom5721-db5901.yaml
-        styhead-nxp:
-          - adv-mbsp-oenxp-styhead-rom5721-db5901.yaml
 
   - rom5721-1g-db5901:
       vendor: Advantech
       soc_vendor: NXP
-      machine: rom5721-1g-db5901
+      machine: imx8mmrom5721a1
       releases:
+        mickledore-nxp-acl:
+          - adv-bsp-oenxp-mickledore-rom5721-1g-db5901.yaml
+        scarthgap-nxp-acl:
+          - adv-bsp-oenxp-scarthgap-rom5721-1g-db5901.yaml
         scarthgap-nxp:
           - adv-mbsp-oenxp-scarthgap-rom5721-db5901.yaml
         styhead-nxp:
@@ -145,11 +164,19 @@ devices:
         walnascar-nxp:
           - adv-mbsp-oenxp-walnascar-rom5721-1g-db5901.yaml
 
+  # =====================================
+  # Advantech ROM5721-2G-DB5901 (i.MX8MM)
+  # =====================================
+
   - rom5721-2g-db5901:
       vendor: Advantech
       soc_vendor: NXP
-      machine: rom5721-2g-db5901
+      machine: imx8mmrom5721a1
       releases:
+        mickledore-nxp-acl:
+          - adv-bsp-oenxp-mickledore-rom5721-2g-db5901.yaml
+        scarthgap-nxp-acl:
+          - adv-bsp-oenxp-scarthgap-rom5721-2g-db5901.yaml
         scarthgap-nxp:
           - adv-mbsp-oenxp-scarthgap-rom5721-db5901.yaml
         styhead-nxp:
@@ -208,46 +235,28 @@ devices:
           - adv-mbsp-oenxp-walnascar-rsb3720-6g.yaml
 
   # =====================================
-  # Poky QEMU ARM64
+  # Advantech RSB3810 (MediaTek Genio)
   # =====================================
 
-  - qemuarm64:
-      vendor: Yocto
-      soc_vendor: Poky
-      machine: qemuarm64
+  - rsb3810:
+      vendor: Advantech
+      soc_vendor: MediaTek
+      machine: rsb3810
       releases:
-        poky-master:
-          - yocto/master.yml
-          - compilers/clang/master.yml
-          - yocto/qemu/qemuarm64.yaml
-        poky-kirkstone:
-          - yocto/kirkstone.yml
-          - compilers/clang/kirkstone.yml
-          - yocto/qemu/qemuarm64.yaml
-        poky-nanbield:
-          - yocto/nanbield.yml
-          - compilers/clang/nanbield.yml
-          - yocto/qemu/qemuarm64.yaml
-        poky-mickledore:
-          - yocto/mickledore.yml
-          - compilers/clang/mickledore.yml
-          - yocto/qemu/qemuarm64.yaml
-        poky-scarthgap:
-          - yocto/scarthgap.yml
-          - compilers/clang/scarthgap.yml
-          - yocto/qemu/qemuarm64.yaml
-        poky-styhead:
-          - yocto/styhead.yml
-          - compilers/clang/styhead.yml
-          - yocto/qemu/qemuarm64.yaml
-        poky-walnascar:
-          - yocto/walnascar.yml
-          - compilers/clang/walnascar.yml
-          - yocto/qemu/qemuarm64.yaml
-        poky-whinlatter:
-          - yocto/whinlatter.yml
-          - compilers/clang/whinlatter.yml
-          - yocto/qemu/qemuarm64.yaml
+        scarthgap-mtk:
+          - adv-mbsp-oemtk-scarthgap-rsb3810.yaml
+
+  # =====================================
+  # MediaTek Genio 1200 EVK
+  # =====================================
+
+  - genio-1200-evk:
+      vendor: MediaTek
+      soc_vendor: MediaTek
+      machine: genio-1200-evk
+      releases:
+        scarthgap-mtk:
+          - vendors/mediatek/machine/genio-1200-evk.yml
 
 releases:
 
@@ -256,29 +265,19 @@ releases:
       container: ubuntu-20.04
   - mickledore-nxp:
       container: ubuntu-20.04
+  - mickledore-nxp-acl:
+      container: ubuntu-20.04
   - scarthgap-nxp:
+      container: ubuntu-22.04
+  - scarthgap-nxp-acl:
       container: ubuntu-22.04
   - styhead-nxp:
       container: ubuntu-22.04
   - walnascar-nxp:
       container: ubuntu-22.04
 
-  # Poky releases
-  - poky-master:
-      container: ubuntu-22.04
-  - poky-kirkstone:
-      container: ubuntu-20.04
-  - poky-nanbield:
-      container: ubuntu-20.04
-  - poky-mickledore:
-      container: ubuntu-20.04
-  - poky-scarthgap:
-      container: ubuntu-22.04
-  - poky-styhead:
-      container: ubuntu-22.04
-  - poky-walnascar:
-      container: ubuntu-22.04
-  - poky-whinlatter:
+  # MediaTek releases
+  - scarthgap-mtk:
       container: ubuntu-22.04
 
 features:
@@ -306,7 +305,6 @@ features:
         - features/ota/ostree/adv-ota-styhead.yml
       scarthgap-nxp:
         - features/ota/ostree/adv-ota-scarthgap.yml
-
 registry:
   bsp:
 
@@ -328,6 +326,11 @@ registry:
     # Advantech AOM5521 BSPs
     # =====================================
 
+    - name: adv-mbsp-oenxp-walnascar-aom5521-db2510
+      description: "AOM5521 DB2510 A1 ACL Walnascar Modular BSP"
+      device: aom5521-db2510
+      release: walnascar-nxp
+
     - name: adv-bsp-oenxp-scarthgap-aom5521a1
       description: "AOM5521 A1 ACL Scarthgap BSP"
       device: aom5521a1
@@ -342,6 +345,20 @@ registry:
       description: "AOM5521 A2 ACL Walnascar BSP"
       device: aom5521a2
       release: walnascar-nxp
+
+    # =====================================
+    # MediaTek BSPs
+    # =====================================
+
+    - name: oemtk-scarthgap-genio-1200-evk
+      description: "GENIO 1200 Scarthgap BSP"
+      device: genio-1200-evk
+      release: scarthgap-mtk
+
+    - name: adv-mbsp-oemtk-scarthgap-rsb3810
+      description: "RSB3810 Scarthgap BSP"
+      device: rsb3810
+      release: scarthgap-mtk
 
     # =====================================
     # Advantech ROM2620 ED91 BSPs
@@ -602,7 +619,21 @@ registry:
         - ostree
 
     # =====================================
-    # Advantech ROM5721-1G-DB5901 BSPs
+    # Advantech ROM5721-1G-DB5901 ACL BSPs
+    # =====================================
+
+    - name: adv-bsp-oenxp-mickledore-rom5721-1g-db5901
+      description: "ROM5721-1G-DB5901 ACL Mickledore BSP"
+      device: rom5721-1g-db5901
+      release: mickledore-nxp-acl
+
+    - name: adv-bsp-oenxp-scarthgap-rom5721-1g-db5901
+      description: "ROM5721-1G-DB5901 ACL Scarthgap BSP"
+      device: rom5721-1g-db5901
+      release: scarthgap-nxp-acl
+
+    # =====================================
+    # Advantech ROM5721-1G-DB5901 Modular BSPs
     # =====================================
 
     - name: adv-mbsp-oenxp-scarthgap-rom5721-1g-db5901
@@ -646,7 +677,21 @@ registry:
         - ostree
 
     # =====================================
-    # Advantech ROM5721-2G-DB5901 BSPs
+    # Advantech ROM5721-2G-DB5901 ACL BSPs
+    # =====================================
+
+    - name: adv-bsp-oenxp-mickledore-rom5721-2g-db5901
+      description: "ROM5721-2G-DB5901 ACL Mickledore BSP"
+      device: rom5721-2g-db5901
+      release: mickledore-nxp-acl
+
+    - name: adv-bsp-oenxp-scarthgap-rom5721-2g-db5901
+      description: "ROM5721-2G-DB5901 ACL Scarthgap BSP"
+      device: rom5721-2g-db5901
+      release: scarthgap-nxp-acl
+
+    # =====================================
+    # Advantech ROM5721-2G-DB5901 Modular BSPs
     # =====================================
 
     - name: adv-mbsp-oenxp-scarthgap-rom5721-2g-db5901
@@ -894,45 +939,234 @@ registry:
         - ostree
 
     # =====================================
-    # Poky QEMU ARM64 BSPs
+    # Advantech RSB3720 Isar BSPs
+    # =====================================
+
+    - name: adv-mbsp-isar-debian-trixie-rsb3720
+      description: "RSB3720 Isar Debian Trixie BSP"
+      build:
+        path: build/adv-isar-bsp-rsb3720-debian-trixie
+        environment:
+          container: "isar-debian-13"
+        configuration:
+          - adv-mbsp-isar-debian-trixie-rsb3720.yaml
+
+    # =====================================
+    # Poky QEMU ARM64 BSPs (v1.0 format - runtime_args required)
     # =====================================
 
     - name: poky-qemuarm64-master
       description: "QEMU ARM64 Master BSP"
-      device: qemuarm64
-      release: poky-master
+      build:
+        path: build/qemu-arm64-master
+        environment:
+          container: "ubuntu-22.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/master.yml
+          - compilers/clang/master.yml
+          - yocto/qemu/qemuarm64.yaml
 
     - name: poky-qemuarm64-kirkstone
       description: "QEMU ARM64 Kirkstone BSP"
-      device: qemuarm64
-      release: poky-kirkstone
+      build:
+        path: build/qemu-arm64-kirkstone
+        environment:
+          container: "ubuntu-20.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/kirkstone.yml
+          - compilers/clang/kirkstone.yml
+          - yocto/qemu/qemuarm64.yaml
 
     - name: poky-qemuarm64-nanbield
       description: "QEMU ARM64 Nanbield BSP"
-      device: qemuarm64
-      release: poky-nanbield
+      build:
+        path: build/qemu-arm64-nanbield
+        environment:
+          container: "ubuntu-20.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/nanbield.yml
+          - compilers/clang/nanbield.yml
+          - yocto/qemu/qemuarm64.yaml
 
     - name: poky-qemuarm64-mickledore
       description: "QEMU ARM64 Mickledore BSP"
-      device: qemuarm64
-      release: poky-mickledore
+      build:
+        path: build/qemu-arm64-mickledore
+        environment:
+          container: "ubuntu-20.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/mickledore.yml
+          - compilers/clang/mickledore.yml
+          - yocto/qemu/qemuarm64.yaml
 
     - name: poky-qemuarm64-scarthgap
       description: "QEMU ARM64 Scarthgap BSP"
-      device: qemuarm64
-      release: poky-scarthgap
+      build:
+        path: build/qemu-arm64-scarthgap
+        environment:
+          container: "ubuntu-22.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/scarthgap.yml
+          - compilers/clang/scarthgap.yml
+          - yocto/qemu/qemuarm64.yaml
 
     - name: poky-qemuarm64-styhead
       description: "QEMU ARM64 Styhead BSP"
-      device: qemuarm64
-      release: poky-styhead
+      build:
+        path: build/qemu-arm64-styhead
+        environment:
+          container: "ubuntu-22.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/styhead.yml
+          - compilers/clang/styhead.yml
+          - yocto/qemu/qemuarm64.yaml
 
     - name: poky-qemuarm64-walnascar
       description: "QEMU ARM64 Walnascar BSP"
-      device: qemuarm64
-      release: poky-walnascar
+      build:
+        path: build/qemu-arm64-walnascar
+        environment:
+          container: "ubuntu-22.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/walnascar.yml
+          - compilers/clang/walnascar.yml
+          - yocto/qemu/qemuarm64.yaml
 
     - name: poky-qemuarm64-whinlatter
       description: "QEMU ARM64 Whinlatter BSP"
-      device: qemuarm64
-      release: poky-whinlatter
+      build:
+        path: build/qemu-arm64-whinlatter
+        environment:
+          container: "ubuntu-22.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/whinlatter.yml
+          - compilers/clang/whinlatter.yml
+          - yocto/qemu/qemuarm64.yaml
+
+    - name: poky-qemux86_64-walnascar
+      description: "QEMU x86_64 Walnascar BSP"
+      build:
+        path: build/qemu-x86_64-walnascar
+        environment:
+          container: "ubuntu-22.04"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - yocto/walnascar.yml
+          - compilers/clang/walnascar.yml
+          - yocto/qemu/qemux86-64.yaml
+
+    # =====================================
+    # Isar QEMU BSPs (v1.0 format - runtime_args and copy required)
+    # =====================================
+
+    - name: isar-qemuarm64-debian-trixie
+      description: "QEMU ARM64 Isar debian trixie BSP"
+      build:
+        path: build/qemuarm64-isar-debian-trixie
+        copy:
+          - isar/scripts/isar-runqemu.sh: build/
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/debian-trixie.yaml
+          - isar/qemu/qemuarm64.yaml
+          - isar/isar.yaml
+
+    - name: isar-qemuarm64-ubuntu-noble
+      description: "QEMU ARM64 Isar ubuntu noble BSP"
+      build:
+        path: build/qemuarm64-isar-ubuntu-noble
+        copy:
+          - isar/scripts/isar-runqemu.sh: build/
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/ubuntu-noble.yaml
+
+    - name: isar-qemuarm64-ubuntu-jammy
+      description: "QEMU ARM64 Isar ubuntu jammy BSP"
+      build:
+        path: build/qemuarm64-isar-ubuntu-jammy
+        copy:
+          - isar/scripts/isar-runqemu.sh: build/
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/ubuntu-jammy.yaml
+
+    - name: isar-qemuarm64-ubuntu-focal
+      description: "QEMU ARM64 Isar ubuntu focal BSP"
+      build:
+        path: build/qemuarm64-isar-ubuntu-focal
+        copy:
+          - isar/scripts/isar-runqemu.sh: build/
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/ubuntu-focal.yaml
+
+    - name: isar-qemuarm-debian-trixie
+      description: "QEMU ARM Isar debian trixie BSP"
+      build:
+        path: build/qemuarm-isar-debian-trixie
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/debian-trixie.yaml
+          - isar/qemu/qemuarm.yaml
+          - isar/isar.yaml
+
+    - name: isar-qemux86-64-debian-trixie
+      description: "QEMU x86_64 Isar debian trixie BSP"
+      build:
+        path: build/qemu-x86-64-isar-debian-trixie
+        copy:
+          - isar/scripts/isar-runqemu.sh: build/
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/debian-trixie.yaml
+          - isar/qemu/qemux86-64.yaml
+          - isar/isar.yaml
+
+    - name: isar-qemux86-64-ubuntu-jammy
+      description: "QEMU x86_64 Isar ubuntu jammy BSP"
+      build:
+        path: build/qemu-x86-64-isar-ubuntu-jammy
+        copy:
+          - isar/scripts/isar-runqemu.sh: build/
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/ubuntu-jammy.yaml
+          - isar/qemu/qemux86-64.yaml
+          - isar/isar.yaml
+
+    - name: isar-qemux86-64-ubuntu-noble
+      description: "QEMU x86_64 Isar ubuntu noble BSP"
+      build:
+        path: build/qemu-x86-64-isar-ubuntu-noble
+        copy:
+          - isar/scripts/isar-runqemu.sh: build/
+        environment:
+          container: "isar-debian-13"
+          runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
+        configuration:
+          - isar/distro/ubuntu-noble.yaml
+          - isar/qemu/qemux86-64.yaml
+          - isar/isar.yaml

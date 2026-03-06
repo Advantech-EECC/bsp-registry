@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+repos:
+  meta-modular-bsp-mediatek:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-mediatek.git"
+    path: "layers/meta-modular-bsp-mediatek"
+    layers:
+      .:

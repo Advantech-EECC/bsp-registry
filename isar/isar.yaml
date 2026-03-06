@@ -1,0 +1,24 @@
+header:
+  version: 14
+
+build_system: isar
+
+repos:
+  isar:
+    url: "https://github.com/ilbers/isar.git"
+    tag: "v0.11"
+    commit: "f8558fcf3ecf98e58853b82d89645bcedb24b853"
+    path: "layers/isar"
+    layers:
+      meta:
+      meta-isar:
+      meta-test:
+
+local_conf_header:
+  image: |
+    IMAGE_FSTYPES = "wic"
+
+bblayers_conf_header:
+  standard: |
+    BBPATH = "${TOPDIR}"
+    BBFILES ?= ""

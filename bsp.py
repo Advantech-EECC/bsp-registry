@@ -45,6 +45,7 @@ import argparse
 import dacite
 import tempfile
 import re
+import shutil
 
 import yaml
 from pathlib import Path
@@ -162,10 +163,12 @@ class Docker:
         image: Docker image name/tag for the build environment
         file: Path to Dockerfile for building custom images
         args: List of Docker build arguments (name=value pairs)
+        privileged: Run container in privileged mode (enables --isar for kas-container)
     """
     image: Optional[str]
     file: Optional[str]
     args: List[DockerArg] = field(default_factory=empty_list)
+    privileged: bool = False
 
 @dataclass
 class ContainerDefinition:
@@ -187,9 +190,12 @@ class BuildEnvironment:
     Attributes:
         container: Name of the container to use (references containers in registry)
         docker: Direct Docker configuration (alternative to container reference)
+        runtime_args: Extra container runtime args passed to kas-container via
+            --runtime-args (e.g. "--device=/dev/net/tun --cap-add=NET_ADMIN")
     """
     container: Optional[str] = None
     docker: Optional[Docker] = None
+    runtime_args: Optional[str] = None
 
 @dataclass
 class BuildSetup:
@@ -198,6 +204,7 @@ class BuildSetup:
     
     Attributes:
         path: Build directory path for output artifacts
+        copy: Optional list of copy operations (source -> destination within build directory)
         environment: Build environment settings (Docker, container reference)
         docker: Docker runtime to use (docker, podman, etc.)
         configuration: List of KAS configuration files for the build
@@ -206,6 +213,7 @@ class BuildSetup:
     environment: BuildEnvironment
     docker: Optional[str]
     configuration: List[str]
+    copy: Optional[List[Dict[str, str]]] = field(default_factory=empty_list)
 
 @dataclass
 class Specification:
@@ -363,7 +371,8 @@ def convert_containers_list_to_dict(containers_list: List[Dict[str, Any]]) -> Di
                     image=container_config.get('image'),
                     file=container_config.get('file'),
                     args=[DockerArg(name=arg['name'], value=arg['value']) 
-                          for arg in container_config.get('args', [])]
+                          for arg in container_config.get('args', [])],
+                    privileged=container_config.get('privileged', False)
                 )
             else:
                 logging.warning(f"Invalid container configuration for {container_name}, skipping")
@@ -795,6 +804,8 @@ class KasManager:
     def __init__(self, kas_files: List[str], build_dir: str = "build", use_container: bool = False,
                  download_dir: str = None, sstate_dir: str = None,
                  container_engine: str = None, container_image: str = None,
+                 container_privileged: bool = False,
+                 container_runtime_args: str = None,
                  search_paths: List[str] = None, env_manager: EnvironmentManager = None):
         """
         Initialize KAS manager with configuration.
@@ -807,6 +818,8 @@ class KasManager:
             sstate_dir: Shared state cache directory for build acceleration
             container_engine: Container runtime (docker, podman)
             container_image: Custom container image for kas-container
+            container_privileged: Run container in privileged mode (enables --isar flag)
+            container_runtime_args: Extra container runtime args passed to kas-container via --runtime-args
             search_paths: Additional paths to search for configuration files
             env_manager: Environment configuration manager
             
@@ -822,6 +835,8 @@ class KasManager:
         self.use_container = use_container
         self.container_engine = container_engine
         self.container_image = container_image
+        self.container_privileged = container_privileged
+        self.container_runtime_args = container_runtime_args
         self.search_paths = search_paths or []
         self.download_dir = download_dir
         self.sstate_dir = sstate_dir
@@ -843,9 +858,31 @@ class KasManager:
         resolver.ensure_directory(str(self.build_dir))
 
     def _get_kas_command(self) -> List[str]:
-        """Get the appropriate KAS command (native or container)."""
+        """
+        Get the appropriate KAS command (native or container).
+        
+        For privileged container builds (e.g., ISAR), adds the --isar flag
+        which enables the --privileged Docker flag, granting the container
+        all capabilities including SYS_ADMIN and MKNOD.
+        
+        Note: The --isar flag is a kas-container feature that enables privileged
+        Docker capabilities. Despite the name, it can be used for any build requiring
+        elevated container privileges, not just ISAR builds.
+        
+        See: https://github.com/siemens/kas/blob/master/kas-container
+        
+        Returns:
+            List of command components for KAS execution
+        """
         if self.use_container:
-            return ["kas-container"]
+            cmd = ["kas-container"]
+            # Add --isar flag for privileged builds, which sets --privileged
+            # (granting all capabilities including SYS_ADMIN and MKNOD)
+            if self.container_privileged:
+                cmd.append("--isar")
+            if self.container_runtime_args:
+                cmd.extend(["--runtime-args", self.container_runtime_args])
+            return cmd
         else:
             return ["kas"]
 
@@ -1757,6 +1794,112 @@ class BspManager:
 
         return config_files, build_path
 
+    def _copy_into_build_directory(self, bsp: BSP) -> None:
+        """Apply optional build.copy directives by copying files into the build directory.
+
+        YAML syntax (list of one-entry maps):
+
+            copy:
+              - path/to/src.file: build/
+
+        Destination is interpreted as a path *within* the BSP build directory.
+        Use "." or "./" to refer to the build directory root.
+        """
+        copy_specs = getattr(bsp.build, 'copy', None) if bsp.build else None
+        if not copy_specs:
+            return
+
+        build_dir = Path(bsp.build.path).expanduser().resolve()
+        resolver.ensure_directory(str(build_dir))
+
+        def ensure_within_build_dir(dst: Path) -> None:
+            try:
+                if not dst.resolve().is_relative_to(build_dir):
+                    raise ConfigurationError(f"Copy destination escapes build directory: {dst}")
+            except AttributeError:
+                # Python < 3.9 fallback
+                resolved_dst = dst.resolve()
+                resolved_build = build_dir.resolve()
+                if os.path.commonpath([str(resolved_dst), str(resolved_build)]) != str(resolved_build):
+                    raise ConfigurationError(f"Copy destination escapes build directory: {dst}")
+
+        for item in copy_specs:
+            if isinstance(item, dict):
+                pairs = list(item.items())
+            elif isinstance(item, str):
+                # Optional shorthand: "src:dst"
+                if ':' not in item:
+                    raise ConfigurationError(f"Invalid copy entry (expected 'src:dst'): {item}")
+                src_s, dst_s = item.split(':', 1)
+                pairs = [(src_s, dst_s)]
+            else:
+                raise ConfigurationError(f"Invalid copy entry type: {type(item)}")
+
+            for src, dst in pairs:
+                if not isinstance(src, str) or not isinstance(dst, str):
+                    raise ConfigurationError(f"Invalid copy mapping: {src} -> {dst}")
+
+                src_path = Path(src).expanduser()
+                if not src_path.is_absolute():
+                    src_path = (Path.cwd() / src_path)
+                src_path = src_path.resolve()
+
+                if not src_path.exists():
+                    raise ConfigurationError(f"Copy source does not exist: {src}")
+
+                dst_raw = dst.strip()
+                dst_is_dir_hint = dst_raw.endswith('/')
+
+                # Allow "." / "./" as a shorthand for build directory root.
+                if dst_raw in {".", "./"}:
+                    dst_raw = ""
+
+                # Prevent path traversal / absolute destinations
+                if Path(dst_raw).is_absolute():
+                    raise ConfigurationError(f"Copy destination must be relative (got absolute): {dst}")
+                if '..' in Path(dst_raw).parts:
+                    raise ConfigurationError(f"Copy destination must not contain '..': {dst}")
+
+                dst_path = (build_dir / dst_raw).resolve()
+                ensure_within_build_dir(dst_path)
+
+                if src_path.is_file():
+                    if dst_is_dir_hint or dst_raw == "" or dst_path.exists() and dst_path.is_dir():
+                        resolver.ensure_directory(str(dst_path))
+                        final_path = dst_path / src_path.name
+                    else:
+                        resolver.ensure_directory(str(dst_path.parent))
+                        final_path = dst_path
+
+                    logging.info(f"Copying file: {src_path} -> {final_path}")
+                    shutil.copy2(src_path, final_path)
+
+                elif src_path.is_dir():
+                    if dst_raw == "" or dst_is_dir_hint or (dst_path.exists() and dst_path.is_dir()):
+                        final_dir = dst_path / src_path.name
+                    else:
+                        final_dir = dst_path
+
+                    resolver.ensure_directory(str(final_dir.parent))
+                    logging.info(f"Copying directory: {src_path} -> {final_dir}")
+                    try:
+                        shutil.copytree(src_path, final_dir, dirs_exist_ok=True)
+                    except TypeError:
+                        # Python < 3.8 fallback
+                        if final_dir.exists():
+                            for child in src_path.rglob('*'):
+                                rel = child.relative_to(src_path)
+                                target = final_dir / rel
+                                if child.is_dir():
+                                    resolver.ensure_directory(str(target))
+                                else:
+                                    resolver.ensure_directory(str(target.parent))
+                                    shutil.copy2(child, target)
+                        else:
+                            shutil.copytree(src_path, final_dir)
+                else:
+                    raise ConfigurationError(f"Copy source must be a file or directory: {src}")
+
     def _get_kas_manager_for_bsp(self, bsp: BSP, use_container: bool = True) -> KasManager:
         """
         Create and configure a KAS manager for the specified BSP.
@@ -1770,6 +1913,11 @@ class BspManager:
         """
         # Get container configuration
         container_config = self.get_container_config_for_bsp(bsp)
+
+        # Optional per-BSP kas-container runtime args (e.g. for QEMU networking)
+        container_runtime_args = None
+        if use_container and bsp.build and bsp.build.environment:
+            container_runtime_args = bsp.build.environment.runtime_args
         
         # Get cache directories from environment manager
         downloads = None
@@ -1802,6 +1950,8 @@ class BspManager:
             sstate_dir=sstate, 
             use_container=use_container, 
             container_image=container_config.image if use_container else None,
+            container_privileged=container_config.privileged if use_container else False,
+            container_runtime_args=container_runtime_args,
             env_manager=self.env_manager
         )
 
@@ -1853,10 +2003,13 @@ class BspManager:
         # Prepare build directory
         build_path = bsp.build.path if not self._is_v2_format(bsp) else f"build/{bsp.name}"
         self.prepare_build_directory(build_path)
-        
+
+        # Copy optional helper files into build dir (v1.0 format only)
+        self._copy_into_build_directory(bsp)
+
         # Get KAS manager - use native KAS for checkout, container for builds
         kas_mgr = self._get_kas_manager_for_bsp(bsp, use_container=not checkout_only)
-        
+
         # Dump configuration for verification (debugging)
         config_output = kas_mgr.dump_config(show_output=False)
         if config_output:
@@ -1911,6 +2064,9 @@ class BspManager:
         # Prepare build directory
         build_path = bsp.build.path if not self._is_v2_format(bsp) else f"build/{bsp.name}"
         self.prepare_build_directory(build_path)
+
+        # Copy optional helper files into build dir (v1.0 format only)
+        self._copy_into_build_directory(bsp)
         
         # Get KAS manager and start shell session
         kas_mgr = self._get_kas_manager_for_bsp(bsp)

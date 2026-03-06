@@ -91,6 +91,6 @@ repos:
       path-fix:
         repo: this
         path: patches/nxp/walnascar/0001-meta-imx-folder-name-walnascar.patch
-      imx-gst-dependencies-fix:
+      alsa-tools-imx9:
         repo: this
-        path: patches/nxp/walnascar/0002-Add-alsa-tools-to-dependencies-to-fix-build.patch
+        path: patches/nxp/walnascar/0010-Add-alsa-tools-to-dependencies-for-imx9.patch

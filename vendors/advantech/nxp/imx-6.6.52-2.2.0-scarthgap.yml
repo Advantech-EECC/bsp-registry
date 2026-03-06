@@ -4,10 +4,10 @@ header:
     - vendors/nxp/imx-6.6.52-2.2.0-scarthgap.yml
 
 repos:
-  meta-eecc-nxp:
-    url: "https://github.com/Advantech-EECC/meta-eecc-nxp.git"
+  meta-modular-bsp-nxp:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-nxp.git"
     branch: "scarthgap"
-    path: "layers/meta-eecc-nxp"
+    path: "layers/meta-modular-bsp-nxp"
     layers:
       .:
 

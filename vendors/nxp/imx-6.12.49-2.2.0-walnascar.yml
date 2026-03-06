@@ -85,7 +85,7 @@ repos:
 
   meta-imx:
     url: "https://github.com/nxp-imx/meta-imx.git"
-    commit: "714ad5475c81d7a02aa111fa35a7013b517a8779"
+    commit: "1cfbbb8f9ce1d6071775ea6083b79d98597c8206"
     # tag: "refs/tags/rel_imx_6.12.49_2.2.0"
     branch: ""
     path: "layers/meta-imx"
@@ -96,6 +96,6 @@ repos:
       meta-imx-sdk:
       meta-imx-v2x:
     patches: 
-      imx-gst-dependencies-fix:
+      alsa-tools-imx9:
         repo: this
-        path: patches/nxp/walnascar/0002-Add-alsa-tools-to-dependencies-to-fix-build.patch
+        path: patches/nxp/walnascar/0010-Add-alsa-tools-to-dependencies-for-imx9.patch
