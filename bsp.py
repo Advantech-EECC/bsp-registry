@@ -1795,7 +1795,10 @@ class BspManager:
         return config_files, build_path
 
     def _copy_into_build_directory(self, bsp: BSP) -> None:
-        """Apply optional build.copy directives by copying files into the build directory.
+        """Apply optional copy directives by copying files into the build directory.
+
+        For v2.0 BSPs, copy specs come from the device definition's ``copy`` key.
+        For v1.0 BSPs, copy specs come from ``build.copy``.
 
         YAML syntax (list of one-entry maps):
 
@@ -1805,11 +1808,18 @@ class BspManager:
         Destination is interpreted as a path *within* the BSP build directory.
         Use "." or "./" to refer to the build directory root.
         """
-        copy_specs = getattr(bsp.build, 'copy', None) if bsp.build else None
-        if not copy_specs:
+        if self._is_v2_format(bsp):
+            device_cfg = self.devices.get(bsp.device, {})
+            copy_specs = device_cfg.get('copy', None)
+            _, build_path = self._resolve_v2_bsp(bsp)
+        else:
+            copy_specs = getattr(bsp.build, 'copy', None) if bsp.build else None
+            build_path = bsp.build.path if bsp.build else None
+
+        if not copy_specs or not build_path:
             return
 
-        build_dir = Path(bsp.build.path).expanduser().resolve()
+        build_dir = Path(build_path).expanduser().resolve()
         resolver.ensure_directory(str(build_dir))
 
         def ensure_within_build_dir(dst: Path) -> None:
@@ -1916,8 +1926,14 @@ class BspManager:
 
         # Optional per-BSP kas-container runtime args (e.g. for QEMU networking)
         container_runtime_args = None
-        if use_container and bsp.build and bsp.build.environment:
-            container_runtime_args = bsp.build.environment.runtime_args
+        if use_container:
+            if self._is_v2_format(bsp):
+                # v2.0 format: runtime_args comes from device definition
+                device_cfg = self.devices.get(bsp.device, {})
+                container_runtime_args = device_cfg.get('runtime_args', None)
+            elif bsp.build and bsp.build.environment:
+                # v1.0 format: runtime_args from build.environment
+                container_runtime_args = bsp.build.environment.runtime_args
         
         # Get cache directories from environment manager
         downloads = None
