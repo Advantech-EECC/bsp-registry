@@ -5,3 +5,5 @@ repos:
   realsense:
     url: "https://github.com/robwoolley/meta-intel-realsense.git"
     path: "layers/meta-intel-realsense"
+    layers:
+      .:

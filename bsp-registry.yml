@@ -482,7 +482,7 @@ registry:
       description: "Yocto 5.0 LTS (Scarthgap)"
       yocto_version: "5.0"
       includes:
-        - compilers/clang/scarthgap.yml
+        - compilers/clang/clang.yml
         - yocto/releases/scarthgap.yml
       vendor_overrides:             
         - vendor: mediatek
@@ -532,7 +532,7 @@ registry:
       description: "Yocto 5.1 (Styhead)"
       yocto_version: "5.1"
       includes:
-        - compilers/clang/styhead.yml
+        - compilers/clang/clang.yml
         - yocto/releases/styhead.yml
       vendor_overrides:               
         - vendor: advantech-europe
@@ -552,7 +552,7 @@ registry:
       description: "Yocto 5.2 (Walnascar)"
       yocto_version: "5.2"
       includes:
-        - compilers/clang/walnascar.yml
+        - compilers/clang/clang.yml
         - yocto/releases/walnascar.yml
       vendor_overrides:               
         - vendor: advantech
@@ -665,6 +665,18 @@ registry:
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
       includes:
         - yocto/features/usrmerge.yaml
+
+    - slug: rauc
+      description: "Enable RAUC support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - features/ota/rauc/rauc.yml
+      vendor_overrides:               
+        - vendor: advantech
+          soc_vendors:
+            - vendor: nxp
+              includes:
+                - features/ota/rauc/modular-bsp-ota-nxp.yml
 
     - slug: hailo
       description: "Enable Hailo-8 support in the Yocto image"
@@ -888,7 +900,7 @@ registry:
       description: "Advantech ROM-5720 DB5901 (i.MX8)"
       device: rom5720-db5901
       releases: [scarthgap, styhead, walnascar]
-      features: [systemd, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6]
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5720-db5901
@@ -908,7 +920,7 @@ registry:
       description: "Advantech ROM-5721 DB5901 (i.MX8)"
       device: rom5721-1g-db5901
       releases: [walnascar]
-      features: [systemd, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6]
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5721-1g-db5901
@@ -917,7 +929,7 @@ registry:
       description: "Advantech ROM-5721 DB5901 (i.MX8)"
       device: rom5721-2g-db5901
       releases: [walnascar]
-      features: [systemd, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6]
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5721-2g-db5901
@@ -928,7 +940,7 @@ registry:
       description: "Advantech ROM-5722 DB2510 (i.MX8)"
       device: rom5722-db2510
       releases: [scarthgap, styhead, walnascar]
-      features: [systemd, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6]
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5722-db2510
@@ -939,7 +951,7 @@ registry:
       description: "Advantech AOM-5521 DB2510 (i.MX95)"
       device: aom5521-db2510
       releases: [walnascar]
-      features: [systemd, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6]
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-aom5521-db2510

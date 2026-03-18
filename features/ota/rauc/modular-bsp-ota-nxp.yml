@@ -1,7 +1,5 @@
 header:
   version: 14
-  includes: 
-    - features/ota/rauc/scarthgap.yml
 
 repos:
   meta-modular-bsp-ota:
@@ -19,3 +17,6 @@ target:
   - imx-image-core-update-bundle
   - imx-image-multimedia-update-bundle
   - imx-image-full-update-bundle
+
+artifacts:
+  update_bundle: tmp/deploy/images/*/imx-image-*-update-bundle-*.raucb

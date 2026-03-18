@@ -4,7 +4,6 @@ header:
 repos:
   meta-swupdate:
     url: "https://github.com/sbabic/meta-swupdate.git"
-    commit: "43ef322cbf5b91d84b007c343cf73e9b01699594"
     path: "layers/meta-swupdate"
     layers:
       .:
@@ -12,7 +11,6 @@ repos:
   # INFO: swupdate demo layer
   meta-swupdate-boards:
     url: "https://github.com/sbabic/meta-swupdate-boards.git"
-    branch: "scarthgap"
     path: "layers/meta-swupdate-boards"
     layers:
       .: "disabled"

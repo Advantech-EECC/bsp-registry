@@ -4,7 +4,6 @@ header:
 repos:
   meta-timesys:
     url: "https://github.com/TimesysGit/meta-timesys.git"
-    commit: "ffcab30467e5238009e26174cda05da85f483c81"
     path: "layers/meta-timesys"
     layers:
       .:

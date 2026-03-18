@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+repos:
+  meta-updater:
+    url: "https://github.com/uptane/meta-updater.git"
+    path: "layers/meta-updater"
+    layers:
+      .:

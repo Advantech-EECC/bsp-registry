@@ -2,15 +2,18 @@ header:
   version: 14
   includes:
     - vendors/nxp/common.yml
-    - compilers/clang/styhead.yml
-    - features/sbom/timesys-styhead.yml
-    - features/browser/styhead.yml
+    - compilers/clang/clang.yml
+    - features/sbom/timesys.yml
+    - features/browser/browser.yml
     - features/qt/qt6.8.1.yml
 
 repos:
   this:
     layers:
       .: "disabled"
+
+  meta-browser:
+    commit: "f988d616d37ddf160d3d747ed54d0a66d549f499"
 
   meta-freescale:
     url: "https://github.com/Freescale/meta-freescale.git"

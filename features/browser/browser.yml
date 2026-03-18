@@ -4,8 +4,6 @@ header:
 repos:
   meta-browser:
     url: "https://github.com/OSSystems/meta-browser.git"
-    commit: "e232c2e21b96dc092d9af8bea4b3a528e7a46dd6"
-    branch: ""
     path: "layers/meta-browser"
     layers:
       meta-chromium:

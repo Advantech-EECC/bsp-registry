@@ -4,7 +4,6 @@ header:
 repos:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
-    commit: "13d6843e4f7b9c174b77c02f801535f3f2c991df"
     path: "layers/meta-rauc"
     layers:
       .:

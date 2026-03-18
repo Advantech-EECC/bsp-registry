@@ -2,16 +2,15 @@ header:
   version: 14
   includes:
     - vendors/nxp/common.yml
-    - compilers/clang/scarthgap.yml
-    - features/sbom/timesys-scarthgap.yml
-    - features/browser/scarthgap.yml
+    - compilers/clang/clang.yml
+    - features/sbom/timesys.yml
+    - features/browser/browser.yml
     - features/qt/qt6.8.yml
 
 repos:
   meta-freescale:
     url: "https://github.com/Freescale/meta-freescale.git"
     commit: "0627128b341cfb2bef7a0832ce8cac0ce1127f13"
-    branch: "scarthgap"
     path: "layers/meta-freescale"
     layers:
       .:
@@ -20,14 +19,12 @@ repos:
     url: "https://github.com/Freescale/meta-freescale-3rdparty.git"
     commit: "6c063450d464eb2f380443c7d9af1b94ce9b9d75"
     path: "layers/meta-freescale-3rdparty"
-    branch: "scarthgap"
     layers:
       .:
 
   meta-freescale-distro:
     url: "https://github.com/Freescale/meta-freescale-distro.git"
     commit: "b9d6a5d9931922558046d230c1f5f4ef6ee72345"
-    branch: "scarthgap"
     path: "layers/meta-freescale-distro"
     layers:
       .:
@@ -61,3 +58,6 @@ repos:
       meta-imx-ml:
       meta-imx-sdk:
       meta-imx-v2x:
+
+  meta-browser:
+    commit: "dc31889c0899971def535dc1c040edf18bc16691"

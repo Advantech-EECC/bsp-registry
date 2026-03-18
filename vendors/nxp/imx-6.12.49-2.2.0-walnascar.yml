@@ -2,9 +2,9 @@ header:
   version: 14
   includes:
     - vendors/nxp/common.yml
-    - compilers/clang/walnascar.yml
-    - features/sbom/timesys-walnascar.yml
-    - features/browser/walnascar.yml
+    - compilers/clang/clang.yml
+    - features/sbom/timesys.yml
+    - features/browser/browser.yml
     - features/qt/qt6.8.3.yml
 
 repos:
@@ -25,6 +25,7 @@ repos:
     commit: "21894cc2ea3197e6bfc1a56d889f757a09dc8b31"
 
   meta-browser:
+    branch: "master"
     commit: "f988d616d37ddf160d3d747ed54d0a66d549f499"
 
   meta-virtualization:

@@ -2,9 +2,9 @@ header:
   version: 14
   includes:
     - vendors/nxp/common.yml
-    - compilers/clang/scarthgap.yml
-    - features/sbom/timesys-scarthgap.yml
-    - features/browser/scarthgap.yml
+    - compilers/clang/clang.yml
+    - features/sbom/timesys.yml
+    - features/browser/browser.yml
     - features/qt/qt6.7.yml
 
 # https://github.com/ADVANTECH-Corp/adv-arm-yocto-bsp/blob/imx-linux-scarthgap/imx-6.6.36-2.1.0.xml
@@ -59,3 +59,6 @@ repos:
       meta-imx-ml:
       meta-imx-sdk:
       meta-imx-v2x:
+
+  meta-browser:
+    commit: "dc31889c0899971def535dc1c040edf18bc16691"
