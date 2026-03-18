@@ -1,0 +1,37 @@
+header:
+  version: 14
+  includes:
+    - vendors/nxp/imx-6.6.36-2.1.0-scarthgap.yml
+
+repos:
+  this:
+    layers:
+      .: "disabled"
+
+  meta-advantech2:
+    branch: "aim38-scarthgap-6.6.36"
+    patches:
+      imx-gst-dependencies-fix:
+        repo: this
+        path: patches/nxp/scarthgap/0002-Fix-imx-image-full-postinstall-step.patch
+
+  meta-security:
+    commit: "11ea91192d43d7c2b0b95a93aa63ca7e73e38034"
+
+  poky:
+    commit: "f43f393ef0246b7bee6eed8bcf8271cf2b8cdf40"
+
+  meta-openembedded:
+    commit: "80e01188fa822d87d301ee71973c462d7a865493"
+
+  meta-clang:
+    commit: "fe561f41aef0cff9e6f96730ab59f28dca2eb682"
+
+  meta-arm:
+    commit: "1b85bbb4cab9658da3cd926c62038b8559c5c64e"
+
+  meta-timesys:
+    commit: "4dc3f4bdfde4a86904b6e1a3d58df4696e7a63fa"
+
+  meta-virtualization:
+    commit: "6a80f140e387621f62964209a2e07d3bcfb125ce"

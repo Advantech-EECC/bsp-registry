@@ -1,0 +1,8 @@
+header:
+  version: 14
+
+machine: imx8mmrsb3730a2
+
+local_conf_header:
+  memory: |
+    UBOOT_CONFIG="4G"

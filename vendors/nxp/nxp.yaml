@@ -1,0 +1,46 @@
+header:
+  version: 14
+  includes:
+    - vendors/nxp/common.yml
+
+repos:
+  meta-freescale:
+    url: "https://github.com/Freescale/meta-freescale.git"
+    path: "layers/meta-freescale"
+    layers:
+      .:
+
+  meta-freescale-3rdparty:
+    url: "https://github.com/Freescale/meta-freescale-3rdparty.git"
+    path: "layers/meta-freescale-3rdparty"
+    layers:
+      .:
+
+  meta-freescale-distro:
+    url: "https://github.com/Freescale/meta-freescale-distro.git"
+    path: "layers/meta-freescale-distro"
+    layers:
+      .:
+
+  meta-nxp-connectivity:
+    url: "https://github.com/nxp-imx/meta-nxp-connectivity.git"
+    path: "layers/meta-connectivity"
+    layers:
+      meta-nxp-matter-baseline:
+      meta-nxp-openthread:
+
+  meta-nxp-demo-experience:
+    url: "https://github.com/nxp-imx-support/meta-nxp-demo-experience.git"
+    path: "layers/meta-nxp-demo-experience"
+    layers:
+      .:
+
+  meta-imx:
+    url: "https://github.com/nxp-imx/meta-imx.git"
+    path: "layers/meta-imx"
+    layers:
+      meta-imx-bsp:
+      meta-imx-cockpit:
+      meta-imx-ml:
+      meta-imx-sdk:
+      meta-imx-v2x:

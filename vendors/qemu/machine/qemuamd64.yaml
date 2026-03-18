@@ -1,0 +1,6 @@
+header:
+  version: 14
+
+# This file describes the QEMU x86-64 machine. It is used by Isar project to build images for QEMU x86-64.
+# It is not used by Yocto project, which has its own machine descriptions for QEMU.
+machine: qemuamd64

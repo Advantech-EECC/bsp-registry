@@ -1,0 +1,21 @@
+header:
+  version: 14
+
+defaults:
+  repos:
+    branch: "mickledore"
+
+# https://downloads.yoctoproject.org/releases/yocto/yocto-4.2/RELEASENOTES
+repos:
+  poky:
+    commit: "21790e71d55f417f27cd51fae9dd47549758d4a0"
+
+  bitbake:
+    branch: "2.4"
+    commit: "d97d62e2cbe4bae17f0886f3b4759e8f9ba6d38c"
+
+  meta-openembedded:
+    commit: "8e1f0fa6bfac0e96fedc666fe9066f92c85afb27"
+
+  meta-arm:
+    commit: "9bcc166bd5bb717aa86bb0464621a36abc51fa19"

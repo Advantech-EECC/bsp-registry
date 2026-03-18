@@ -1,0 +1,17 @@
+header: 
+  version: 14
+
+# INFO: we split yocto.yaml to avoid mixup of init scripts
+repos:
+  openembedded-core:
+    url: "https://git.openembedded.org/openembedded-core"
+    path: "layers/openembedded-core"
+    layers:
+      meta: "disabled"
+
+  meta-yocto:
+    url: "https://git.yoctoproject.org/meta-yocto"
+    path: "layers/meta-yocto"
+    layers:
+      meta-poky: "disabled"
+      meta-yocto-bsp: "disabled"

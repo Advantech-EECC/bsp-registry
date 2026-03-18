@@ -1,7 +1,7 @@
 header:
   version: 14
   includes:
-    - yocto/scarthgap.yml
+    - yocto/releases/scarthgap.yml
     - compilers/clang/scarthgap.yml
     - features/deep-learning/tensorflow.yml
     - vendors/mediatek/mediatek-common.yml

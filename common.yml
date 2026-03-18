@@ -1,7 +1,5 @@
 header:
   version: 14
-  includes:
-    - diskmon.yml
 
 local_conf_header:
   common: |
@@ -10,9 +8,6 @@ local_conf_header:
 
     # Generate tarballs from fetches from revision control
     BB_GENERATE_MIRROR_TARBALLS = "1"
-
-    DISTRO_FEATURES += "usrmerge"
-    IMAGE_FEATURES += "empty-root-password allow-empty-password allow-root-login post-install-logging"
 
     INHERIT += "report-error"
     INHERIT += "rm_work"

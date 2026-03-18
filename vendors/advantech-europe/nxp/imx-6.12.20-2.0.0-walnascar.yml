@@ -1,0 +1,11 @@
+header:
+  version: 14
+  includes:
+    - vendors/nxp/imx-6.12.20-2.0.0-walnascar.yml
+
+repos:
+  meta-modular-bsp-nxp:
+    commit: "60b55c02d10caea191985105b3c866f69857d545"
+
+  meta-nxp-security-reference-design:
+    branch: "walnascar-6.12.20-2.0.0-adv"

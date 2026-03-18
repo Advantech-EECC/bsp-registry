@@ -1,0 +1,8 @@
+header:
+  version: 14
+
+machine: imx8mmrom5721a1
+
+local_conf_header:
+  memory: |
+    UBOOT_CONFIG="2G"

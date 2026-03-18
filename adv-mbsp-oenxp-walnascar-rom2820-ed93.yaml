@@ -1,7 +1,0 @@
-header:
-  version: 14
-  includes:
-    - common.yml
-    - yocto/walnascar.yml
-    - vendors/advantech/nxp/imx-6.12.49-2.2.0-walnascar.yml
-    - vendors/advantech/nxp/machine/imx9/rom2820-ed93.yml

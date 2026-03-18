@@ -1,0 +1,7 @@
+header:
+  version: 14
+
+repos:
+  meta-virtualization:
+    layers:
+      .:

@@ -1,0 +1,18 @@
+header:
+  version: 14
+
+defaults:
+  repos:
+    branch: "nanbield"
+
+# https://downloads.yoctoproject.org/releases/yocto/yocto-4.3/RELEASENOTES
+repos:
+  poky:
+    commit: "7b8aa378d069ee31373f22caba3bd7fc7863f447"
+
+  bitbake:
+    branch: "2.4"
+    commit: "c7e094ec3beccef0bbbf67c100147c449d9c6836"
+
+  meta-openembedded:
+    commit: "da9063bdfbe130f424ba487f167da68e0ce90e7d"

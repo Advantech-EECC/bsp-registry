@@ -1,0 +1,7 @@
+header:
+  version: 14
+
+local_conf_header:
+  udev: |
+    # Enable udev
+    DISTRO_FEATURES:append = " udev"

@@ -1,0 +1,10 @@
+header:
+  version: 14
+
+repos:
+  meta-advantech2:
+    url: https://github.com/ADVANTECH-Corp/meta-advantech2.git
+    path: "layers/meta-advantech2"
+    layers:
+      meta-fsl-imx:
+      meta-tools:

@@ -1,0 +1,12 @@
+header:
+  version: 14
+  includes:
+    - vendors/nxp/imx-6.12.3-1.0.0-styhead.yml
+
+repos:
+  meta-modular-bsp-nxp:
+    commit: "d636c39f21e30b689eb72cfde12fa4ee12287b46"
+
+  meta-nxp-security-reference-design:
+    branch: "styhead-6.12.3-1.0.0"
+    commit: "8f8264146cb639a6eee13da463560c5e7a893fb2"

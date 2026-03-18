@@ -4,18 +4,31 @@ header:
     - vendors/nxp/imx-6.12.20-2.0.0-walnascar.yml
 
 repos:
-  meta-modular-bsp-nxp:
-    url: "https://github.com/Advantech-EECC/meta-modular-bsp-nxp.git"
-    branch: "walnascar"
-    commit: "60b55c02d10caea191985105b3c866f69857d545"
-    path: "layers/meta-modular-bsp-nxp"
+  this:
     layers:
-      .:
+      .: "disabled"
 
-  meta-nxp-security-reference-design:
-    url: "https://github.com/Advantech-EECC/meta-nxp-security-reference-design.git"
-    branch: "walnascar-6.12.20-2.0.0-adv"
-    commit: "730aaf344e5f946bb7131e69b93fbab90c667ae9"
-    path: "layers/meta-nxp-security-reference-design"
-    layers:
-      meta-secure-boot: "disabled"
+  meta-advantech2:
+    branch: "y052"
+    patches:
+      patch-upstream-status:
+        repo: this 
+        path: patches/nxp/walnascar/0006-Add-upstream-status-for-a-patch.patch
+      path-add-cpu-a0-support:
+        repo: this 
+        path: patches/nxp/walnascar/0007-Add-imx95-aom5521-a1-machine-for-walnascar.patch
+      backport-oei-patches:
+        repo: this 
+        path: patches/nxp/walnascar/0008-AOM5521-Backport-OEI-patches-from-scarthgap-for-A1.patch
+
+  meta-imx:
+    patches:
+      fix-onnxruntime-build:
+        repo: this 
+        path: patches/nxp/walnascar/0009-Use-lf-6.12.34_2.1.0-branch.patch
+
+  meta-openembedded:
+    patches:
+      imx-gst-dependencies-fix:
+        repo: this
+        path: patches/nxp/walnascar/0004-Add-build-fix-for-mpv-package.patch

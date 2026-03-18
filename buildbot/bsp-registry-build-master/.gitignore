@@ -1,4 +1,0 @@
-gitpoller-workdir
-*.log
-*.sqlite*
-*.pid

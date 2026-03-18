@@ -1,7 +1,0 @@
-header:
-  version: 14
-  includes:
-    - yocto/scarthgap.yml
-    - vendors/advantech/nxp/imx-6.6.52-2.2.0-scarthgap.yml
-    - vendors/advantech/nxp/machine/imx8/rom5721-db5901.yml
-    - common.yml

@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+local_conf_header:
+  ssh: |
+    IMAGE_PREINSTALL:append = " openssh-server"
+    IMAGE_INSTALL += "   \
+        sshd-regen-keys  \
+    " 

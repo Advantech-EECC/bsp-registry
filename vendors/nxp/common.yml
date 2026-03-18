@@ -1,13 +1,10 @@
 header:
   version: 14
 
-distro: "fsl-imx-xwayland"
-
 local_conf_header:
   nxp: |
     ACCEPT_FSL_EULA = "1"
     DISTRO_FEATURES += "opengl vulkan seccomp"
-    EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
     USER_CLASSES ?= "buildstats"
     PATCHRESOLVE = "noop"
     PACKAGECONFIG:append:pn-qemu-system-native = " sdl"

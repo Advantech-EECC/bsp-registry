@@ -1,0 +1,60 @@
+header:
+  version: 14
+
+repos:
+
+  poky:
+    url: "https://git.yoctoproject.org/poky"
+    path: "layers/poky"
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  bitbake:
+    url: "https://github.com/openembedded/bitbake.git"
+    path: "layers/bitbake"
+    layers:
+      bitbake: "disabled"
+
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded.git"
+    path: "layers/meta-openembedded"
+    layers:
+      meta-filesystems:
+      meta-gnome:
+      meta-initramfs:
+      meta-multimedia:
+      meta-networking:
+      meta-oe:
+      meta-perl:
+      meta-python:
+      meta-webserver:
+      meta-xfce:
+
+  meta-arm:
+    url: "https://git.yoctoproject.org/meta-arm"
+    path: "layers/meta-arm"
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+
+  # INFO: here we are defining the repos and layers that are used in all releases, but disabled by default. 
+  # This allows us to easily enable them in specific releases without having to add the repo and layer definitions there.
+  meta-security:
+    url: "https://git.yoctoproject.org/meta-security"
+    path: "layers/meta-security"
+    layers:
+      .: "disabled"
+      meta-parsec: "disabled"
+      meta-tpm: "disabled"
+
+  meta-virtualization:
+    url: "https://git.yoctoproject.org/meta-virtualization"
+    path: "layers/meta-virtualization"
+    layers:
+      .: "disabled"
+
+local_conf_header:
+  distro: |
+    WARN_QA:remove = "license-exists"

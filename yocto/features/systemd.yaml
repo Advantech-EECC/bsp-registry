@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+local_conf_header:
+  systemd: |
+    # Enable systemd as the init system
+    DISTRO_FEATURES:append = " systemd"
+    VIRTUAL-RUNTIME_init_manager = "systemd"
+    VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"

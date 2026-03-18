@@ -1,0 +1,15 @@
+header:
+  version: 14
+
+repos:
+  meta-modular-bsp-nxp:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-nxp.git"
+    path: "layers/meta-modular-bsp-nxp"
+    layers:
+      .:
+
+  meta-nxp-security-reference-design:
+    url: "https://github.com/Advantech-EECC/meta-nxp-security-reference-design.git"
+    path: "layers/meta-nxp-security-reference-design"
+    layers:
+      meta-secure-boot: "disabled"

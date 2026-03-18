@@ -1,0 +1,7 @@
+header:
+  version: 14
+
+local_conf_header:
+  ssh: |
+    # Enable SSH server
+    IMAGE_FEATURES:append = " ssh-server-dropbear"

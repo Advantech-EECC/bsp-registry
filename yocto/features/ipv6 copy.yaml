@@ -1,0 +1,6 @@
+header:
+  version: 14
+
+local_conf_header:
+  ipv6: |
+    DISTRO_FEATURES += "ipv6"

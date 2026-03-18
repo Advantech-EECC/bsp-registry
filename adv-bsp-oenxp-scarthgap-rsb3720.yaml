@@ -1,9 +1,0 @@
-header:
-  version: 14
-  includes:
-    - yocto/scarthgap.yml
-    - vendors/advantech/nxp/bsp-imx-6.6.23-2.0.0-scarthgap.yml
-    - common.yml
-
-# Advantech RSB3720
-machine: imx8mprsb3720a2

@@ -1,2 +1,2 @@
 rust-just==1.42.4
-bsp-registry-tools>=0.0.2
+bsp-registry-tools>=0.1.0

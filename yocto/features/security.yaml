@@ -1,0 +1,13 @@
+header:
+  version: 14
+
+local_conf_header:
+  security: |
+    DISTRO_FEATURES:append = " security"
+
+repos:
+  meta-security:
+    layers:
+      .: 
+      meta-parsec: 
+      meta-tpm: 

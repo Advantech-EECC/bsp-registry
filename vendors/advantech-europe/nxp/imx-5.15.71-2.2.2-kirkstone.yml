@@ -1,0 +1,10 @@
+header:
+  version: 14
+
+  includes:
+    - vendors/nxp/imx-5.15.71-2.2.0-kirkstone.yml
+
+repos:
+  meta-nxp-security-reference-design":
+    branch: "kirkstone-6.6.23-2.0.0"
+    commit: "b9ddc151c452ae09232f5d5cb5c8e52a77617f6e"

@@ -1,6 +1,0 @@
-header:
-  version: 14
-  includes: 
-    - yocto/qemu/common.yaml
-
-machine: qemuarm64

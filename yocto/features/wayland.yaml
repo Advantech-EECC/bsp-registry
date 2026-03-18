@@ -1,0 +1,6 @@
+header:
+  version: 14
+
+local_conf_header:
+  wayland: | 
+    DISTRO_FEATURES += "wayland pam"

@@ -1,0 +1,28 @@
+header:
+  version: 14
+  includes:
+    - yocto/yocto-ext.yaml
+
+defaults:
+  repos:
+    branch: "whinlatter"
+
+repos:
+  bitbake:
+    branch: "master"
+
+  openembedded-core:
+    layers:
+      meta: 
+
+  meta-yocto:
+    layers:
+      meta-poky: 
+      meta-yocto-bsp: 
+
+  poky:
+    branch: "master"
+    layers:
+      meta: "disabled"
+      meta-poky: "disabled"
+      meta-yocto-bsp: "disabled"

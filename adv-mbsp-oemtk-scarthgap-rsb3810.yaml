@@ -1,7 +1,0 @@
-header:
-  version: 14
-  includes:
-    - common.yml
-    - vendors/mediatek/mtk-rity-v25.0-scarthgap.yml
-    - vendors/advantech/mediatek/mtk-rity-v25.0-scarthgap.yaml
-    - vendors/advantech/mediatek/machine/rsb3810.yaml

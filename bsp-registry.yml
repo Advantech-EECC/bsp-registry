@@ -1,13 +1,40 @@
 specification:
-  version: "1.0"
+  version: "2.0"
 
+# Global environment variables for all builds (base layer – applied to every build)
+# Use $ENV{VAR_NAME} syntax to reference system environment variables
 environment:
-  - name: "GITCONFIG_FILE"
-    value: "$ENV{HOME}/.gitconfig"
-  - name: "DL_DIR"
-    value: "$ENV{HOME}/data/cache/downloads"
-  - name: "SSTATE_DIR"
-    value: "$ENV{HOME}/data/cache/sstate"
+  variables:
+    - name: "GITCONFIG_FILE"
+      value: "$ENV{HOME}/.gitconfig"
+    - name: "DL_DIR"
+      value: "$ENV{HOME}/data/cache/downloads"
+    - name: "SSTATE_DIR"
+      value: "$ENV{HOME}/data/cache/sstate"
+
+# Named environments: each entry bundles a container reference + variables.
+# The special name "default" is used for any release that does not specify an environment.
+# A release can override by setting its "environment:" field to a different name.
+environments:
+  default:
+    container: ubuntu-22.04
+  ubuntu-24.04:
+    container: ubuntu-24.04
+  ubuntu-20.04:
+    container: ubuntu-20.04
+  debian-13:
+    container: debian-13
+  isar-debian-13:
+    container: isar-debian-13
+    # Copy the QEMU run script into every Isar build directory
+    copy:
+      - isar/scripts/isar-runqemu.sh: build/
+    variables:
+      - name: "DL_DIR"
+        value: "$ENV{HOME}/data/isar/cache/downloads"
+      - name: "SSTATE_DIR"
+        value: "$ENV{HOME}/data/isar/cache/sstate"
+  
 
 containers:
   - ubuntu-20.04:
@@ -18,6 +45,14 @@ containers:
           value: "ubuntu:20.04"
         - name: "KAS_VERSION"
           value: "4.7"
+  - ubuntu-24.04:
+      file: Dockerfile.ubuntu
+      image: "advantech/bsp-registry/ubuntu-24.04/kas:5.2"
+      args:
+        - name: "DISTRO" 
+          value: "ubuntu:24.04"
+        - name: "KAS_VERSION"
+          value: "5.2"
   - ubuntu-22.04:
       file: Dockerfile.ubuntu
       image: "advantech/bsp-registry/ubuntu-22.04/kas:5.2"
@@ -37,6 +72,7 @@ containers:
   - isar-debian-13:
       file: Dockerfile.isar.debian
       image: "advantech/bsp-registry/isar/debian-13/kas:5.2"
+      runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
       privileged: true
       args:
         - name: "KAS_VERSION"
@@ -45,1179 +81,883 @@ containers:
           value: "debian-trixie"
 
 registry:
+
+  # =====================================
+  # Build System Frameworks
+  # (e.g. Yocto, Isar)
+  # =====================================
+  
+  frameworks:
+
+    - slug: yocto
+      description: | 
+        Yocto Project build system
+      vendor: "Yocto Project"
+      includes:
+        - common.yml
+        - diskmon.yml
+        - yocto/yocto.yaml
+
+    - slug: isar
+      description: | 
+        Set of scripts for building software packages and repeatable 
+        generation of Debian-based root filesystems with customizations
+      vendor: "Ilbers GmbH"
+      includes:
+        - isar/isar.yaml
+
+  vendors:
+    - slug: advantech
+      name: "Advantech"
+      description: "Advantech Corporation, a global leader in industrial computing and IoT solutions."
+      website: "https://www.advantech.com/"
+      includes:
+        - vendors/advantech/advantech.yml
+
+    - slug: advantech-europe
+      name: "Advantech Europe"
+      description: "Advantech Europe, a regional branch of Advantech Corporation."
+      website: "https://www.advantech.com/"
+      includes:
+        - vendors/advantech-europe/modular-bsp.yml
+
+    - slug: nxp
+      name: "NXP"
+      description: "NXP Semiconductors, industrial & IoT solutions."
+      website: "https://www.nxp.com/"
+      includes:
+        - vendors/nxp/nxp.yml
+
+    - slug: mediatek
+      name: "Mediatek"
+      description: "Mediatek, a global fabless semiconductor company providing chips for various applications."
+      website: "https://www.mediatek.com/"
+      includes:
+        - vendors/mediatek/mediatek-common.yml
+
+    - slug: qualcomm
+      name: "Qualcomm"
+      description: "Qualcomm, wireless technology and semiconductor solutions."
+      website: "https://www.qualcomm.com/"
+      includes:
+        - vendors/qualcomm/qualcomm.yml
+
+  # =====================================
+  # Devices
+  # =====================================
+
+  devices:
+
+    - slug: qemuarm64
+      description: "QEMU ARM64 (emulated)"
+      vendor: qemu
+      soc_vendor: arm
+      includes:
+        - vendors/qemu/machine/qemuarm64.yaml
+
+    - slug: qemuarm
+      description: "QEMU ARM (32-bit, emulated)"
+      vendor: qemu
+      soc_vendor: arm
+      includes:
+        - vendors/qemu/machine/qemuarm.yaml
+
+    - slug: qemux86
+      description: "QEMU x86 (emulated)"
+      vendor: qemu
+      soc_vendor: intel
+      includes:
+        - vendors/qemu/machine/qemux86.yaml
+  
+    - slug: qemux86-64
+      description: "QEMU x86-64 (emulated)"
+      vendor: qemu
+      soc_vendor: intel
+      includes:
+        - vendors/qemu/machine/qemux86-64.yaml
+
+    - slug: qemuamd64
+      description: "QEMU x86-64 (emulated)"
+      vendor: qemu
+      soc_vendor: intel
+      includes:
+        - vendors/qemu/machine/qemuamd64.yaml
+
+    # --- Advantech Europe i.MX-based devices ---
+
+    - slug: rom2620-ed91
+      description: "Advantech ROM-2620 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom2620-ed91.yml
+
+    - slug: rom2820-ed93
+      description: "Advantech ROM-2820 (i.MX9)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx9/rom2820-ed93.yml
+
+    - slug: aom5521-db2510
+      description: "Advantech AOM-5521 (i.MX95)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx9/aom5521-db2510.yml
+
+    - slug: rom5720-db5901
+      description: "Advantech ROM-5720 (i.MX8, 1GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5720-db5901.yml
+
+    - slug: rom5722-db2510
+      description: "Advantech ROM-5722 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5722-db2510.yml
+
+    - slug: rom5721-db5901
+      description: "Advantech ROM-5721 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5721-db5901.yml
+
+    - slug: rom5721-1g-db5901
+      description: "Advantech ROM-5721 (i.MX8, 1GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5721-1g-db5901.yml
+
+    - slug: rom5721-2g-db5901
+      description: "Advantech ROM-5721 (i.MX8, 2GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5721-2g-db5901.yml
+
+    - slug: rom5722-db2510
+      description: "Advantech ROM-5722 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5722-db2510.yml
+
+    - slug: rsb3720
+      description: "Advantech RSB-3720 (i.MX8, 6GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rsb3720.yml
+
+    - slug: rsb3720-4g
+      description: "Advantech RSB-3720 (i.MX8, 4GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rsb3720-4g.yml
+
+    - slug: rsb3720-6g
+      description: "Advantech RSB-3720 (i.MX8, 6GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rsb3720-6g.yml
+
+    # --- Advantech i.MX-based devices ---
+
+    # --- Advantech ROM5721 ---
+
+    - slug: imx8mmrom5721a1-1g
+      description: "Advantech ROM5721 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mmrom5721a1-1g.yml
+
+    - slug: imx8mmrom5721a1-2g
+      description: "Advantech ROM5721 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mmrom5721a1-2g.yml
+
+    # --- Advantech RSB3810 ---
+
+    - slug: rsb3810
+      description: "Advantech RSB-3810 (Mediatek)"
+      vendor: advantech-europe
+      soc_vendor: mediatek
+      includes:
+        - vendors/advantech-europe/mediatek/machine/rsb3810.yaml
+
+    - slug: genio-1200-evk
+      description: "Mediatek genio-1200-evk"
+      vendor: mediatek
+      soc_vendor: mediatek
+      includes:
+        - vendors/mediatek/machine/genio-1200-evk.yml
+
+    # --- Advantech RSB3720 ---
+
+    - slug: imx8mprsb3720a1
+      description: "Advantech RSB-3720 A1 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3720a1.yml
+
+    - slug: imx8mprsb3720a2
+      description: "Advantech RSB-3720 A2 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3720a2.yml
+
+    # --- Advantech RSB3730 ---
+
+    - slug: imx8mprsb3730a2
+      description: "Advantech RSB-3730 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2.yml
+
+    - slug: imx8mprsb3730a2-2g
+      description: "Advantech RSB-3730 2GB (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2-2g.yml
+
+    - slug: imx8mprsb3730a2-4g
+      description: "Advantech RSB-3730 4GB (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2-4g.yml
+
+    # --- Advantech AOM5521 ---
+
+    - slug: imx95aom5521a1
+      description: "Advantech AOM-5521 A1 (i.MX95)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx9/imx95aom5521a1.yml
+
+    - slug: imx95aom5521a2
+      description: "Advantech AOM-5521 A2 (i.MX95)"
+      vendor: advantech
+      soc_vendor: nxp
+      includes:
+        - vendors/advantech/nxp/machine/imx9/imx95aom5521a2.yml
+
+  # =====================================
+  # Distributions
+  # =====================================
+
+  distro:
+    
+    - slug: poky
+      description: "Poky (Yocto Project reference distro)"
+      framework: yocto
+      includes:
+        - common.yml
+        - yocto/distro/poky.yaml
+
+    - slug: poky-harden
+      description: "Hardened Poky (Yocto Project reference distro)"
+      framework: yocto
+      includes:
+        - common.yml
+        - yocto/distro/harden.yaml
+
+    - slug: fsl-imx-xwayland
+      description: "Freescale i.MX X Wayland (Yocto Project reference distro)"
+      framework: yocto
+      includes:
+        - vendors/nxp/distro/fsl-imx-xwayland.yaml
+
+    - slug: ubuntu-noble
+      description: "Isar Ubuntu Noble"
+      framework: isar
+      includes:
+        - isar/common.yaml
+        - isar/distro/ubuntu-noble.yaml
+
+    - slug: ubuntu-jammy
+      description: "Isar Ubuntu Jammy"
+      framework: isar
+      includes:
+        - isar/common.yaml
+        - isar/distro/ubuntu-jammy.yaml
+
+    - slug: debian-trixie
+      description: "Isar Debian Trixie"
+      framework: isar
+      includes:
+        - isar/common.yaml
+        - isar/distro/debian-trixie.yaml
+
+  # =====================================
+  # Releases
+  # =====================================
+
+  releases:
+
+    - slug: ubuntu-noble
+      description: "Isar Ubuntu Noble"
+      distro: ubuntu-noble
+
+    - slug: ubuntu-jammy
+      description: "Isar Ubuntu Jammy"
+      distro: ubuntu-jammy
+
+    - slug: debian-trixie
+      description: "Isar Debian Trixie "
+      distro: debian-trixie
+
+    - slug: kirkstone
+      distro: poky
+      description: "Yocto 4.0 LTS (Kirkstone)"
+      yocto_version: "4.0"
+      includes:
+        - yocto/releases/kirkstone.yml
+      vendor_overrides:               
+        - vendor: advantech
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech/nxp/advantech2-nxp.yaml
+              releases:
+                - slug: imx-5.15.52-2.1.0
+                  description: "i.MX8 Release 2.1.0 Yocto 4.0 LTS Kernel 5.15.52"
+                  includes:
+                    - vendors/advantech/nxp/imx-5.15.52-2.1.0-kirkstone.yml
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              releases:
+                - slug: imx-5.15.71-2.2.2
+                  description: "i.MX8 Release 2.2.2 Yocto 4.0 LTS Kernel 5.15.71"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-5.15.71-2.2.2-kirkstone.yml
+
+    - slug: mickledore
+      distro: poky
+      description: "Yocto 4.2 (Mickledore)"
+      yocto_version: "4.2"
+      includes:
+        - yocto/releases/mickledore.yml
+      vendor_overrides:               
+        - vendor: advantech
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech/nxp/advantech2-nxp.yaml
+              releases:
+                - slug: imx-6.1.22-2.0.0
+                  description: "i.MX8 Release 2.0.0 Yocto 4.2 Kernel 6.1.22"
+                  includes:
+                    - vendors/advantech/nxp/imx-6.1.22-2.0.0-mickledore.yml
+
+    - slug: nanbield
+      distro: poky
+      description: "Yocto 4.3 (Nanbield)"
+      yocto_version: "4.3"
+      includes:
+        - yocto/releases/nanbield.yml
+
+    - slug: scarthgap
+      distro: poky
+      description: "Yocto 5.0 LTS (Scarthgap)"
+      yocto_version: "5.0"
+      includes:
+        - compilers/clang/scarthgap.yml
+        - yocto/releases/scarthgap.yml
+      vendor_overrides:             
+        - vendor: mediatek
+          distro: 
+          releases:
+            - slug: mtk-rity-v25.0
+              description: "Mediatek RITY v25.0 Scarthgap (Yocto 5.0 LTS Kernel 6.6.23)"
+              includes:
+                - vendors/mediatek/mtk-rity-v25.0-scarthgap.yml
+        - vendor: advantech
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech/nxp/advantech2-nxp.yaml
+              releases:  
+                - slug: imx-6.6.36-2.1.0
+                  description: "i.MX8 Release 2.1.0 Yocto 5.0 LTS Kernel 6.6.36"
+                  includes:
+                    - vendors/advantech/nxp/imx-6.6.36-2.1.0-scarthgap.yml
+                - slug: imx-6.6.23-2.0.0
+                  description: "i.MX8 Release 2.0.0 Yocto 5.0 LTS Kernel 6.6.23"
+                  includes:
+                    - vendors/advantech/nxp/imx-6.6.23-2.0.0-scarthgap.yml
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-europe/nxp/modular-bsp-nxp.yml
+              releases:  
+                - slug: imx-6.6.52-2.2.0
+                  description: "i.MX8 Release 2.2.0 Yocto 5.0 LTS Kernel 6.6.52"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-6.6.52-2.2.0-scarthgap.yml
+            - vendor: mediatek
+              includes:
+                - vendors/advantech-europe/mediatek/modular-bsp-mediatek.yml
+              releases:
+                - slug: mtk-rity-v25.0
+                  description: "Mediatek RITY v25.0 Scarthgap (Yocto 5.0 LTS Kernel 6.6.23)"
+                  includes:
+                    - vendors/advantech-europe/mediatek/mtk-rity-v25.0-scarthgap.yml
+
+    - slug: styhead
+      distro: poky
+      description: "Yocto 5.1 (Styhead)"
+      yocto_version: "5.1"
+      includes:
+        - compilers/clang/styhead.yml
+        - yocto/releases/styhead.yml
+      vendor_overrides:               
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-europe/nxp/modular-bsp-nxp.yml
+              releases:  
+                - slug: imx-6.12.3-1.0.0
+                  description: "i.MX8 Release 1.0.0 Yocto 5.1 Kernel 6.12.3"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-6.12.3-1.0.0-styhead.yml
+
+    - slug: walnascar
+      distro: poky
+      description: "Yocto 5.2 (Walnascar)"
+      yocto_version: "5.2"
+      includes:
+        - compilers/clang/walnascar.yml
+        - yocto/releases/walnascar.yml
+      vendor_overrides:               
+        - vendor: advantech
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech/nxp/advantech2-nxp.yaml
+              releases:  
+                - slug: imx-6.12.20-2.0.0
+                  description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+                  includes:
+                    - vendors/advantech/nxp/imx-6.12.20-2.0.0-walnascar.yml
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-europe/nxp/modular-bsp-nxp.yml
+              releases:  
+                - slug: imx-6.12.49-2.2.0
+                  description: "i.MX8 Release 2.2.0 Yocto 5.2 Kernel 6.12.49"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-6.12.49-2.2.0-walnascar.yml
+                - slug: imx-6.12.34-2.1.0
+                  description: "i.MX8 Release 2.1.0 Yocto 5.2 Kernel 6.12.34"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-6.12.34-2.1.0-walnascar.yml
+                - slug: imx-6.12.20-2.0.0
+                  description: "i.MX8 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-6.12.20-2.0.0-walnascar.yml
+
+    - slug: whinlatter
+      distro: poky
+      description: "Yocto 5.3 (Whinlatter)"
+      yocto_version: "5.3"
+      includes:
+        - yocto/releases/whinlatter.yml
+
+    - slug: wrynose
+      distro: poky
+      description: "Yocto 6.0 (Wrynose)"
+      yocto_version: "6.0"
+      includes:
+        - yocto/releases/wrynose.yml
+
+    - slug: master
+      distro: poky
+      description: "Yocto (Master)"
+      includes:
+        - yocto/releases/master.yml
+
+  # =====================================
+  # Features (optional add-ons)
+  # =====================================
+
+  features: 
+  
+    - slug: systemd
+      description: "Enable systemd as the init system"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/systemd.yaml
+
+    - slug: yocto-ssh
+      description: "Enable SSH server in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/ssh.yaml
+
+    - slug: debug-tweaks
+      description: "Enable debug features in the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/debug-tweaks.yaml
+
+    - slug: root-login
+      description: "Enable root login in the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/root-login.yaml
+
+    - slug: security
+      description: "Enable security features in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/security.yaml
+
+    - slug: virtualization
+      description: "Enable virtualization features in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/virtualization.yaml
+
+    - slug: wayland
+      description: "Enable Wayland support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/wayland.yaml
+
+    - slug: ipv6
+      description: "Enable IPv6 support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/ipv6.yaml
+
+    - slug: usrmerge
+      description: "Enable usrmerge support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/usrmerge.yaml
+
+    - slug: hailo
+      description: "Enable Hailo-8 support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/deep-learning/hailo.yaml
+
+  # =====================================
+  # BSP Presets (named shortcuts)
+  # =====================================
+
   bsp:
 
-    # =====================================
-    # Advantech Isar RSB3720 BSPs
-    # =====================================
-
-    - name: adv-mbsp-isar-debian-trixie-rsb3720
-      description: "RSB3720 Isar Debian Trixie BSP"
+    # --- QEMU ARM64 ---
+    - name: poky-qemuarm64
+      description: "Poky QEMU ARM64 Scarthgap (Yocto 5.0 LTS)"
+      device: qemuarm64
+      releases: [kirkstone, nanbield, mickledore, scarthgap,styhead, walnascar, whinlatter]
+      features: [systemd, usrmerge, yocto-ssh]
       build:
-        path: build/adv-isar-bsp-rsb3720-debian-trixie
-        environment:
-          container: "isar-debian-13"
-        configuration:
-          - adv-mbsp-isar-debian-trixie-rsb3720.yaml
-
-    # =====================================
-    # Mediatek BSPs
-    # =====================================
-
-    - name: oemtk-scarthgap-genio-1200-evk
-      description: "GENIO 1200 Scarthgap BSP"
-      build:
-        path: build/oemtk-scarthgap-genio-1200-evk
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - vendors/mediatek/machine/genio-1200-evk.yml
-
-    - name: adv-mbsp-oemtk-scarthgap-rsb3810
-      description: "RSB3810 Scarthgap BSP"
-      build:
-        path: build/adv-mbsp-oemtk-scarthgap-rsb3810
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oemtk-scarthgap-rsb3810.yaml
-
-    # =====================================
-    # Advantech RSB3730 BSPs
-    # =====================================
-
-    - name: adv-bsp-oenxp-mickledore-rsb3730
-      description: "RSB3730 A2 ACL Mickledore BSP"
-      build:
-        path: build/adv-oenxp-bsp-rsb3730-mickledore
-        environment:
-          container: "ubuntu-20.04"
-        configuration:
-          - adv-bsp-oenxp-mickledore-rsb3730.yaml
-
-    - name: adv-bsp-oenxp-mickledore-rsb3730-4g
-      description: "RSB3730 A2 4G ACL Mickledore BSP"
-      build:
-        path: build/adv-oenxp-bsp-rsb3730-4g-mickledore
-        environment:
-          container: "ubuntu-20.04"
-        configuration:
-          - adv-bsp-oenxp-mickledore-rsb3730-4g.yaml
-
-    # =====================================
-    # Advantech AOM5521 Modular BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-walnascar-aom5521-db2510
-      description: "AOM5521 DB2510 A1 ACL Walnascar Modular BSP"
-      build:
-        path: build/adv-oenxp-mbsp-aom5521-db2510-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-aom5521-db2510.yaml
-          
-    # =====================================
-    # Advantech AOM5521 BSPs
-    # =====================================
-
-    - name: adv-bsp-oenxp-scarthgap-aom5521a1
-      description: "AOM5521 A1 ACL Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-bsp-aom5521a1-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-bsp-oenxp-scarthgap-aom5521a1.yaml
-
-    - name: adv-bsp-oenxp-walnascar-aom5521a1
-      description: "AOM5521 A1 ACL Walnascar BSP"
-      build:
-        path: build/adv-oenxp-bsp-aom5521a1-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-bsp-oenxp-walnascar-aom5521a1.yaml
-
-    - name: adv-bsp-oenxp-walnascar-aom5521a2
-      description: "AOM5521 A2 ACL Walnascar BSP"
-      build:
-        path: build/adv-oenxp-bsp-aom5521a2-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-bsp-oenxp-walnascar-aom5521a2.yaml
-          
-    # =====================================
-    # Advantech ROM2620 ED91 BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-scarthgap-rom2620-ed91
-      description: "ROM2620 ED91 Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom2620-ed91-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2620-ed91.yaml
-
-    - name: adv-bsp-oenxp-styhead-rom2620-ed91
-      description: "ROM2620 ED91 Styhead BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom2620-ed91-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2620-ed91.yaml
-
-    - name: adv-bsp-oenxp-walnascar-rom2620-ed91
-      description: "ROM2620 ED91 Walnascar BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom2620-ed91-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2620-ed91.yaml
-
-    # =====================================
-    # Advantech ROM2620 ED91 OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rom2620-ed91
-      description: "ROM2620 ED91 Walnascar RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom2620-ed91-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2620-ed91.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rom2620-ed91
-      description: "ROM2620 ED91 Walnascar SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom2620-ed91-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2620-ed91.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-walnascar-rom2620-ed91
-      description: "ROM2620 ED91 Walnascar OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom2620-ed91-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2620-ed91.yaml
-          - features/ota/ostree/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-styhead-rom2620-ed91
-      description: "ROM2620 ED91 Styhead RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom2620-ed91-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom2620-ed91.yaml
-          - features/ota/rauc/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-styhead-rom2620-ed91
-      description: "ROM2620 ED91 Styhead SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom2620-ed91-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom2620-ed91.yaml
-          - features/ota/swupdate/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-styhead-rom2620-ed91
-      description: "ROM2620 ED91 Styhead OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom2620-ed91-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom2620-ed91.yaml
-          - features/ota/ostree/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-scarthgap-rom2620-ed91
-      description: "ROM2620 ED91 Scarthgap RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom2620-ed91-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2620-ed91.yaml
-          - features/ota/rauc/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-scarthgap-rom2620-ed91
-      description: "ROM2620 ED91 Scarthgap SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom2620-ed91-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2620-ed91.yaml
-          - features/ota/swupdate/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-scarthgap-rom2620-ed91
-      description: "ROM2620 ED91 Scarthgap OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom2620-ed91-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2620-ed91.yaml
-          - features/ota/ostree/adv-ota-scarthgap.yml
-
-    # =====================================
-    # Advantech ROM2820 ED93 BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-scarthgap-rom2820-ed93
-      description: "ROM2820 ED93 Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom2820-ed93-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2820-ed93.yaml
-
-    - name: adv-mbsp-oenxp-styhead-rom2820-ed93
-      description: "ROM2820 ED93 Styhead BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom2820-ed93-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom2820-ed93.yaml
-
-    - name: adv-mbsp-oenxp-walnascar-rom2820-ed93
-      description: "ROM2820 ED93 Walnascar BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom2820-ed93-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2820-ed93.yaml
-
-    # =====================================
-    # Advantech ROM2820 ED93 OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rom2820-ed93
-      description: "ROM2820 ED93 Walnascar RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom2820-ed93-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2820-ed93.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rom2820-ed93
-      description: "ROM2820 ED93 Walnascar SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom2820-ed93-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2820-ed93.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-walnascar-rom2820-ed93
-      description: "ROM2820 ED93 Walnascar OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom2820-ed93-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom2820-ed93.yaml
-          - features/ota/ostree/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-styhead-rom2820-ed93
-      description: "ROM2820 ED93 Styhead RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom2820-ed93-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom2820-ed93.yaml
-          - features/ota/rauc/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-styhead-rom2820-ed93
-      description: "ROM2820 ED93 Styhead SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom2820-ed93-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom2820-ed93.yaml
-          - features/ota/swupdate/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-styhead-rom2820-ed93
-      description: "ROM2820 ED93 Styhead OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom2820-ed93-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom2820-ed93.yaml
-          - features/ota/ostree/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-scarthgap-rom2820-ed93
-      description: "ROM2820 ED93 Scarthgap RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom2820-ed93-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2820-ed93.yaml
-          - features/ota/rauc/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-scarthgap-rom2820-ed93
-      description: "ROM2820 ED93 Scarthgap SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom2820-ed93-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2820-ed93.yaml
-          - features/ota/swupdate/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-scarthgap-rom2820-ed93
-      description: "ROM2820 ED93 Scarthgap OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom2820-ed93-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom2820-ed93.yaml
-          - features/ota/ostree/adv-ota-scarthgap.yml
-          
-    # =====================================
-    # Advantech ROM5720-DB5901 BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-scarthgap-rom5720-db5901
-      description: "ROM5720-DB5901 Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5720-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5720-db5901.yaml
-    
-    - name: adv-mbsp-oenxp-styhead-rom5720-db5901
-      description: "ROM5720-DB5901 Styhead BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5720-db5901-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5720-db5901.yaml
-    
-    - name: adv-mbsp-oenxp-walnascar-rom5720-db5901
-      description: "ROM5720-DB5901 Walnascar BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5720-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5720-db5901.yaml
-
-    # =====================================
-    # Advantech ROM5720-DB5901 OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rom5720-db5901
-      description: "ROM5720-DB5901 Walnascar RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5720-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5720-db5901.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rom5720-db5901
-      description: "ROM5720-DB5901 Walnascar SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5720-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5720-db5901.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-walnascar-rom5720-db5901
-      description: "ROM5720-DB5901 Walnascar OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5720-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5720-db5901.yaml
-          - features/ota/ostree/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-styhead-rom5720-db5901
-      description: "ROM5720-DB5901 Styhead RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5720-db5901-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5720-db5901.yaml
-          - features/ota/rauc/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-styhead-rom5720-db5901
-      description: "ROM5720-DB5901 Styhead SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5720-db5901-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5720-db5901.yaml
-          - features/ota/swupdate/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-styhead-rom5720-db5901
-      description: "ROM5720-DB5901 Styhead OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5720-db5901-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5720-db5901.yaml
-          - features/ota/ostree/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-scarthgap-rom5720-db5901
-      description: "ROM5720-DB5901 Scarthgap RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5720-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5720-db5901.yaml
-          - features/ota/rauc/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-scarthgap-rom5720-db5901
-      description: "ROM5720-DB5901 Scarthgap SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5720-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5720-db5901.yaml
-          - features/ota/swupdate/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-scarthgap-rom5720-db5901
-      description: "ROM5720-DB5901 Scarthgap OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5720-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5720-db5901.yaml
-          - features/ota/ostree/adv-ota-scarthgap.yml
-
-    # =====================================
-    # Advantech ROM5721-1G/2G-DB5901 BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-scarthgap-rom5721-2g-db5901
-      description: "ROM5721-1G-DB5901 Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5721-2g-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5721-db5901.yaml
-    
-    - name: adv-mbsp-oenxp-styhead-rom5721-2g-db5901
-      description: "ROM5721-1G-DB5901 Styhead BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5721-2g-db5901-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5721-db5901.yaml
-    
-    - name: adv-mbsp-oenxp-walnascar-rom5721-1g-db5901
-      description: "ROM5721-1G-DB5901 Walnascar BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5721-1g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-1g-db5901.yaml
-
-    - name: adv-bsp-oenxp-mickledore-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 ACL Mickledore BSP"
-      build:
-        path: build/adv-oenxp-bsp-rom5721-2g-db5901-mickledore
-        environment:
-          container: "ubuntu-20.04"
-        configuration:
-          - adv-bsp-oenxp-mickledore-rom5721-2g-db5901.yaml
-
-    - name: adv-bsp-oenxp-scarthgap-rom5721-1g-db5901
-      description: "ROM5721-1G-DB5901 ACL Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-bsp-rom5721-1g-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-bsp-oenxp-scarthgap-rom5721-1g-db5901.yaml
-
-    - name: adv-bsp-oenxp-scarthgap-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 ACL Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-bsp-rom5721-2g-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-bsp-oenxp-scarthgap-rom5721-2g-db5901.yaml
-
-    # =====================================
-    # Advantech ROM5721-1G-DB5901 OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rom5721-1g-db5901
-      description: "ROM5721-1G-DB5901 Walnascar RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5721-1g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-1g-db5901.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rom5721-1g-db5901
-      description: "ROM5721-1G-DB5901 Walnascar SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5721-1g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-1g-db5901.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-walnascar-rom5721-1g-db5901
-      description: "ROM5721-1G-DB5901 Walnascar OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5721-1g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-1g-db5901.yaml
-          - features/ota/ostree/adv-ota-walnascar.yml
-
-    # =====================================
-    # Advantech ROM5721-2G-DB5901 BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-scarthgap-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5721-2g-db5901-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5721-2g-db5901.yaml
-    
-    - name: adv-mbsp-oenxp-styhead-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 Styhead BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5721-2g-db5901-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5721-2g-db5901.yaml
-    
-    - name: adv-mbsp-oenxp-walnascar-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 Walnascar BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5721-2g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-2g-db5901.yaml
-
-    # =====================================
-    # Advantech ROM5721-2G-DB5901 OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 Walnascar RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5721-2g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-2g-db5901.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 Walnascar SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5721-2g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-2g-db5901.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-walnascar-rom5721-2g-db5901
-      description: "ROM5721-2G-DB5901 Walnascar OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5721-2g-db5901-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5721-2g-db5901.yaml
-          - features/ota/ostree/adv-ota-walnascar.yml
-
-    # =====================================
-    # Advantech ROM5722-DB2510 BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-scarthgap-rom5722-db2510
-      description: "ROM5722-DB2510 Scarthgap BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5722-db2510-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5722-db2510.yaml
-    
-    - name: adv-mbsp-oenxp-styhead-rom5722-db2510
-      description: "ROM5722-DB2510 Styhead BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5722-db2510-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5722-db2510.yaml
-    
-    - name: adv-mbsp-oenxp-walnascar-rom5722-db2510
-      description: "ROM5722-DB2510 Walnascar BSP"
-      build:
-        path: build/adv-oenxp-mbsp-rom5722-db2510-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5722-db2510.yaml
-
-    # =====================================
-    # Advantech ROM5722-DB2510 OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rom5722-db2510
-      description: "ROM5722-DB2510 Walnascar RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5722-db2510-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5722-db2510.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rom5722-db2510
-      description: "ROM5722-DB2510 Walnascar SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5722-db2510-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5722-db2510.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-walnascar-rom5722-db2510
-      description: "ROM5722-DB2510 Walnascar OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5722-db2510-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rom5722-db2510.yaml
-          - features/ota/ostree/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-styhead-rom5722-db2510
-      description: "ROM5722-DB2510 Styhead RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5722-db2510-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5722-db2510.yaml
-          - features/ota/rauc/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-styhead-rom5722-db2510
-      description: "ROM5722-DB2510 Styhead SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5722-db2510-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5722-db2510.yaml
-          - features/ota/swupdate/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-styhead-rom5722-db2510
-      description: "ROM5722-DB2510 Styhead OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5722-db2510-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rom5722-db2510.yaml
-          - features/ota/ostree/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-scarthgap-rom5722-db2510
-      description: "ROM5722-DB2510 Scarthgap RAUC OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rom5722-db2510-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5722-db2510.yaml
-          - features/ota/rauc/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-scarthgap-rom5722-db2510
-      description: "ROM5722-DB2510 Scarthgap SWUpdate OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rom5722-db2510-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5722-db2510.yaml
-          - features/ota/swupdate/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-scarthgap-rom5722-db2510
-      description: "ROM5722-DB2510 Scarthgap OSTree OTA BSP"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rom5722-db2510-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rom5722-db2510.yaml
-          - features/ota/ostree/adv-ota-scarthgap.yml
-          
-    # =====================================
-    # Advantech RSB3720 ACL BSPs
-    # =====================================
-
-    - name: adv-bsp-oenxp-kirkstone-rsb3720
-      description: "RSB3720 ACL Kirkstone BSP"
-      build:
-        path: build/adv-oenxp-bsp-rsb3720-kirkstone
-        environment:
-          container: "ubuntu-20.04"
-        configuration:
-          - adv-bsp-oenxp-kirkstone-rsb3720.yaml
-
-    # =====================================
-    # Advantech RSB3720-4G Modular BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-walnascar-rsb3720-4g
-      description: "Advantech EIoT Yocto Walnascar RSB3720-4G"
-      build:
-        path: build/adv-mbsp-oenxp-rsb3720-4g-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720-4g.yaml
-
-    # =====================================
-    # Advantech RSB3720-6G Modular BSPs
-    # =====================================
-
-    - name: adv-mbsp-oenxp-styhead-rsb3720
-      description: "Advantech EIoT Yocto Styhead RSB3720"
-      build:
-        path: build/adv-mbsp-oenxp-rsb3720-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rsb3720.yaml
-
-    - name: adv-mbsp-oenxp-scarthgap-rsb3720
-      description: "Advantech EIoT Yocto Scarthgap RSB3720"
-      build:
-        path: build/adv-mbsp-oenxp-rsb3720-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rsb3720.yaml
-
-    - name: adv-mbsp-oenxp-walnascar-rsb3720-4g
-      description: "Advantech EIoT Yocto Walnascar RSB3720-4G"
-      build:
-        path: build/adv-mbsp-oenxp-rsb3720-4g-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720-4g.yaml
-          
-    - name: adv-mbsp-oenxp-walnascar-rsb3720-6g
-      description: "Advantech EIoT Yocto Walnascar RSB3720-6G"
-      build:
-        path: build/adv-mbsp-oenxp-rsb3720-6g-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720-6g.yaml
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-4g
-      description: "Advantech EIoT Yocto Walnascar RAUC RSB3720-4G"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rsb3720-4g-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720-4g.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-6g
-      description: "Advantech EIoT Yocto Walnascar RAUC RSB3720-6G"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rsb3720-6g-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720-6g.yaml
-          - features/ota/rauc/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rsb3720-4g
-      description: "Advantech EIoT Yocto Walnascar SWUpdate RSB3720-4G"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rsb3720-4g-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720-4g.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-walnascar-rsb3720-6g
-      description: "Advantech EIoT Yocto Walnascar SWUpdate RSB3720-6G"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rsb3720-6g-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720-6g.yaml
-          - features/ota/swupdate/adv-ota-walnascar.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-walnascar-rsb3720
-      description: "Advantech EIoT Yocto Walnascar OSTree RSB3720"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rsb3720-walnascar
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-walnascar-rsb3720.yaml
-          - features/ota/ostree/adv-ota-walnascar.yml
-
-    # =====================================
-    # Advantech RSB3720 Styhead OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-styhead-rsb3720
-      description: "Advantech EIoT Yocto Styhead RAUC RSB3720"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rsb3720-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rsb3720.yaml
-          - features/ota/rauc/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-styhead-rsb3720
-      description: "Advantech EIoT Yocto Styhead SWUpdate RSB3720"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rsb3720-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rsb3720.yaml
-          - features/ota/swupdate/adv-ota-styhead.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-styhead-rsb3720
-      description: "Advantech EIoT Yocto Styhead OSTree RSB3720"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rsb3720-styhead
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-styhead-rsb3720.yaml
-          - features/ota/ostree/adv-ota-styhead.yml
-
-    # =====================================
-    # Advantech RSB3720 Scarthgap OTA BSPs
-    # =====================================
-
-    - name: adv-ota-mbsp-oenxp-rauc-scarthgap-rsb3720
-      description: "Advantech EIoT Yocto Scarthgap RAUC RSB3720"
-      build:
-        path: build/adv-ota-mbsp-oenxp-rauc-rsb3720-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rsb3720.yaml
-          - features/ota/rauc/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-swupdate-scarthgap-rsb3720
-      description: "Advantech EIoT Yocto Scarthgap SWUpdate RSB3720"
-      build:
-        path: build/adv-ota-mbsp-oenxp-swupdate-rsb3720-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rsb3720.yaml
-          - features/ota/swupdate/adv-ota-scarthgap.yml
-
-    - name: adv-ota-mbsp-oenxp-ostree-scarthgap-rsb3720
-      description: "Advantech EIoT Yocto Scarthgap OSTree RSB3720"
-      build:
-        path: build/adv-ota-mbsp-oenxp-ostree-rsb3720-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-        configuration:
-          - adv-mbsp-oenxp-scarthgap-rsb3720.yaml
-          - features/ota/ostree/adv-ota-scarthgap.yml
-
-    # =====================================
-    # Poky QEMU ARM64 BSPs  
-    # =====================================
-
-    - name: poky-qemuarm64-master
-      description: "QEMU ARM64 Master BSP"
-      build:
-        path: build/qemu-arm64-master
-        environment:
-          container: "ubuntu-22.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/master.yml
-          - compilers/clang/master.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemuarm64-kirkstone
-      description: "QEMU ARM64 Kirkstone BSP"
-      build:
-        path: build/qemu-arm64-kirkstone
-        environment:
-          container: "ubuntu-20.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/kirkstone.yml
-          - compilers/clang/kirkstone.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemuarm64-nanbield
-      description: "QEMU ARM64 Nanbield BSP"
-      build:
-        path: build/qemu-arm64-nanbield
-        environment:
-          container: "ubuntu-20.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/nanbield.yml
-          - compilers/clang/nanbield.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemuarm64-mickledore
-      description: "QEMU ARM64 Mickledore BSP"
-      build:
-        path: build/qemu-arm64-mickledore
-        environment:
-          container: "ubuntu-20.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/mickledore.yml
-          - compilers/clang/mickledore.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemuarm64-scarthgap
-      description: "QEMU ARM64 Scarthgap BSP"
-      build:
-        path: build/qemu-arm64-scarthgap
-        environment:
-          container: "ubuntu-22.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/scarthgap.yml
-          - compilers/clang/scarthgap.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemuarm64-styhead
-      description: "QEMU ARM64 Styhead BSP"
-      build:
-        path: build/qemu-arm64-styhead
-        environment:
-          container: "ubuntu-22.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/styhead.yml
-          - compilers/clang/styhead.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemuarm64-walnascar
-      description: "QEMU ARM64 Walnascar BSP"
-      build:
-        path: build/qemu-arm64-walnascar
-        environment:
-          container: "ubuntu-22.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/walnascar.yml
-          - compilers/clang/walnascar.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemuarm64-whinlatter
-      description: "QEMU ARM64 Whinlatter BSP"
-      build:
-        path: build/qemu-arm64-whinlatter
-        environment:
-          container: "ubuntu-22.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/whinlatter.yml
-          - compilers/clang/whinlatter.yml
-          - yocto/qemu/qemuarm64.yaml     
-
-    - name: poky-qemux86_64-walnascar
-      description: "QEMU x86_64 Walnascar BSP"
-      build:
-        path: build/qemu-x86_64-walnascar
-        environment:
-          container: "ubuntu-22.04"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - yocto/walnascar.yml
-          - compilers/clang/walnascar.yml
-          - yocto/qemu/qemux86-64.yaml     
-
-    # =====================================
-    # Isar QEMU ARM64 Ubuntu BSPs
-    # =====================================
-
-    - name: isar-qemuarm64-ubuntu-noble
-      description: "QEMU ARM64 Isar ubuntu noble BSP"
-      build:
-        path: build/qemuarm64-isar-ubuntu-noble
-        copy:
-          - isar/scripts/isar-runqemu.sh: build/
-        environment:
-          container: "isar-debian-13"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - isar/distro/ubuntu-noble.yaml
-          - isar/qemu/qemuarm64.yaml
-          - isar/isar.yaml
-
-    - name: isar-qemuarm64-ubuntu-jammy
-      description: "QEMU ARM64 Isar ubuntu jammy BSP"
-      build:
-        path: build/qemuarm64-isar-ubuntu-jammy
-        copy:
-          - isar/scripts/isar-runqemu.sh: build/
-        environment:
-          container: "isar-debian-13"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - isar/distro/ubuntu-jammy.yaml
-          - isar/qemu/qemuarm64.yaml
-          - isar/isar.yaml
-
-    - name: isar-qemuarm64-ubuntu-focal
-      description: "QEMU ARM64 Isar ubuntu focal BSP"
-      build:
-        path: build/qemuarm64-isar-ubuntu-focal
-        copy:
-          - isar/scripts/isar-runqemu.sh: build/
-        environment:
-          container: "isar-debian-13"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN" 
-        configuration:
-          - isar/distro/ubuntu-focal.yaml
-          - isar/qemu/qemuarm64.yaml
-          - isar/isar.yaml
-
-    # =====================================
-    # Isar QEMU ARM Debian BSPs
-    # =====================================
-    
-    - name: isar-qemuarm-debian-trixie
-      description: "QEMU ARM Isar debian trixie BSP"
-      build:
-        path: build/qemuarm-isar-debian-trixie
-        environment:
-          container: "isar-debian-13"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - isar/distro/debian-trixie.yaml
-          - isar/qemu/qemuarm.yaml
-          - isar/isar.yaml
-          
-    - name: isar-qemuarm64-debian-trixie
-      description: "QEMU ARM64 Isar debian trixie BSP"
+        path: build/poky-qemuarm64
+
+    - name: poky-harden-qemux86-64-scarthgap
+      description: "Poky Hardened QEMU x86-64 Scarthgap (Yocto 5.0 LTS)"
+      device: qemux86-64
+      release: scarthgap-harden
+      features: [systemd, yocto-ssh, security]
+      build:
+        container: "debian-bookworm"
+        path: build/poky-harden-qemux86-64-scarthgap
+
+    - name: poky-qemux86-64
+      description: "Poky QEMU x86-64"
+      device: qemux86-64
+      releases: [kirkstone, nanbield, mickledore, scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, usrmerge, yocto-ssh]
+
+    - name: poky-qemux86-64-styhead
+      description: "Poky QEMU x86-64 Styhead (Yocto 5.1)"
+      device: qemux86-64
+      release: styhead
+      features: [systemd]
+      build:
+        container: "debian-bookworm"
+        path: build/poky-qemux86-64-styhead
+
+    # --- QEMU ARM (32-bit) ---
+    - name: poky-qemuarm-scarthgap
+      description: "Poky QEMU ARM (32-bit) Scarthgap (Yocto 5.0 LTS)"
+      device: qemuarm
+      release: scarthgap
+      features: [systemd]
+      build:
+        container: "debian-bookworm"
+        path: build/poky-qemuarm-scarthgap
+
+    # --- QEMU Debian / Ubuntu
+
+    - name: isar-qemuamd64
+      description: "Poky QEMU AMD64 (64-bit)"
+      device: qemuamd64
+      releases: [ubuntu-noble, ubuntu-jammy, debian-trixie]
+      features: []
+      build:
+        container: "isar-debian-13"
+        path: build/isar-qemuamd64
+
+    - name: isar-qemuarm64
+      description: "Poky QEMU ARM64 (64-bit)"
+      device: qemuarm64
+      releases: [debian-trixie]
+      features: []
+      build:
+        container: "isar-debian-13"
+        path: build/isar-qemuarm64
+
+    # --- Mediatek Genio 1200 EVK ---    
+
+    - name: mediatek-genio-1200-evk
+      description: "Mediatek Genio 1200 EVK"
+      device: genio-1200-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/mediatek-genio-1200-evk
+
+    # --- Advantech RSB-3810 (Mediatek) ---    
+
+    - name: modular-bsp-rsb3810
+      description: "Advantech RSB-3810 (Mediatek)"
+      device: rsb3810
+      releases: [scarthgap]
+      vendor_release: mtk-rity-v25.0
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/modular-bsp-rsb3810
+
+    # --- Advantech ROM-2620 (i.MX8) ---    
+
+    - name: modular-bsp-rom2620-ed91
+      description: "Advantech ROM-2620 (i.MX8)"
+      device: rom2620-ed91
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/modular-bsp-rom2620-ed91
+
+    # --- Advantech ROM-2820 (i.MX93) ---    
+
+    - name: modular-bsp-rom2820-ed93
+      description: "Advantech ROM-2820 (i.MX9)"
+      device: rom2820-ed93
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/modular-bsp-rom2820-ed93
+
+    # --- Advantech ROM-5721 DB5901 ---
+
+    - name: advantech-rom5721-db5901-1g-mickledore
+      description: "Advantech ROM-5721 DB5901 (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mmrom5721a1-1g
+      release: mickledore
+      features: [systemd, debug-tweaks, virtualization, ipv6]
+      build:
+        container: "ubuntu-20.04"
+        path: build/advantech-rom5721-db5901-1g-mickledore
+
+    - name: advantech-rom5721-db5901-2g-mickledore
+      description: "Advantech ROM-5721 DB5901 (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mmrom5721a1-2g
+      release: mickledore
+      features: [systemd, debug-tweaks, virtualization, ipv6]
       build:
-        path: build/qemuarm64-isar-debian-trixie
-        copy:
-          - isar/scripts/isar-runqemu.sh: build/
-        environment:
-          container: "isar-debian-13"
-          runtime_args: "--device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - isar/distro/debian-trixie.yaml
-          - isar/qemu/qemuarm64.yaml
-          - isar/isar.yaml
-
-    - name: isar-qemux86-64-debian-trixie
-      description: "QEMU x86_64 Isar debian trixie BSP"
+        container: "ubuntu-20.04"
+        path: build/advantech-rom5721-db5901-2g-mickledore
+
+    # --- Advantech RSB-3730 ---
+
+    - name: advantech-rsb3730-mickledore
+      description: "Advantech RSB-3730 (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mprsb3730a2
+      release: mickledore
+      vendor_release: imx-6.1.22-2.0.0
+      features: [systemd, debug-tweaks, virtualization, ipv6]
       build:
-        path: build/qemu-x86-64-isar-debian-trixie
-        copy:
-          - isar/scripts/isar-runqemu.sh: build/
-        environment:
-          container: "isar-debian-13"
-          # SSH port forwarding and TUN device for networking in QEMU
-          runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - isar/distro/debian-trixie.yaml
-          - isar/qemu/qemux86-64.yaml
-          - isar/isar.yaml
-
-    - name: isar-qemux86-64-ubuntu-jammy
-      description: "QEMU x86_64 Isar ubuntu jammy BSP"
+        container: "ubuntu-20.04"
+        build: build/advantech-rsb3730-mickledore
+
+    - name: advantech-rsb3730-2g-mickledore
+      description: "Advantech RSB-3730 2GB (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mprsb3730a2-2g
+      release: mickledore
+      vendor_release: imx-6.1.22-2.0.0
+      features: [systemd, debug-tweaks, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-20.04"
+        build: build/advantech-rsb3730-2g-mickledore
+
+    - name: advantech-rsb3730-4g-mickledore
+      description: "Advantech RSB-3730 4GB (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mprsb3730a2-4g
+      release: mickledore
+      vendor_release: imx-6.1.22-2.0.0
+      features: [systemd, debug-tweaks, security, virtualization, ipv6]
       build:
-        path: build/qemu-x86-64-isar-ubuntu-jammy
-        copy:
-          - isar/scripts/isar-runqemu.sh: build/
-        environment:
-          container: "isar-debian-13"
-          # SSH port forwarding and TUN device for networking in QEMU
-          runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - isar/distro/ubuntu-jammy.yaml
-          - isar/qemu/qemux86-64.yaml
-          - isar/isar.yaml
-
-    - name: isar-qemux86-64-ubuntu-noble
-      description: "QEMU x86_64 Isar ubuntu noble BSP"
+        container: "ubuntu-20.04"
+        build: build/advantech-rsb3730-4g-mickledore
+
+    # --- Advantech RSB-3720 ---
+
+    - name: advantech-imx8mprsb3720a1-kirkstone
+      description: "Advantech RSB-3720 A1 (i.MX8) Kirkstone (Yocto 4.0 LTS)"
+      device: imx8mprsb3720a1
+      release: kirkstone
+      vendor_release: imx-5.15.52-2.1.0
+      features: [systemd, virtualization, ipv6]
       build:
-        path: build/qemu-x86-64-isar-ubuntu-noble
-        copy:
-          - isar/scripts/isar-runqemu.sh: build/
-        environment:
-          container: "isar-debian-13"
-          # SSH port forwarding and TUN device for networking in QEMU
-          runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
-        configuration:
-          - isar/distro/ubuntu-noble.yaml
-          - isar/qemu/qemux86-64.yaml
-          - isar/isar.yaml
+        container: "ubuntu-20.04"
+        build: build/advantech-imx8mprsb3720a1-kirkstone
+
+    - name: advantech-imx8mprsb3720a2-scarthgap
+      description: "Advantech RSB-3720 A2 (i.MX8) Scarthgap (Yocto 5.0 LTS)"
+      device: imx8mprsb3720a2
+      release: scarthgap
+      vendor_release: imx-6.6.23-2.0.0
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: ubuntu-22.04
+        build: build/advantech-imx8mprsb3720a2-scarthgap
+
+    # --- Advantech Europe RSB-3720 ---
+
+    - name: modular-bsp-rsb3720
+      description: "Advantech RSB-3720 (i.MX8)"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/modular-bsp-rsb3720
+
+    - name: modular-bsp-rsb3720-4g
+      description: "Advantech RSB-3720 4GB (i.MX8)"
+      device: rsb3720-4g
+      releases: [walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/modular-bsp-rsb3720-4g
+
+    - name: modular-bsp-rsb3720-6g
+      description: "Advantech RSB-3720 6GB (i.MX8)"
+      device: rsb3720-6g
+      releases: [walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/modular-bsp-rsb3720-6g
+
+    # --- Advantech Europe Modular BSP ROM-5720 DB5901 ---
+
+    - name: modular-bsp-rom5720-db5901
+      description: "Advantech ROM-5720 DB5901 (i.MX8)"
+      device: rom5720-db5901
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5720-db5901
+
+    # --- Advantech Europe Modular BSP ROM-5721 DB5901 ---
+
+    - name: modular-bsp-rom5721-db5901
+      description: "Advantech ROM-5721 DB5901 (i.MX8)"
+      device: rom5721-db5901
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5721-db5901
+
+    - name: modular-bsp-rom5721-1g-db5901
+      description: "Advantech ROM-5721 DB5901 (i.MX8)"
+      device: rom5721-1g-db5901
+      releases: [walnascar]
+      features: [systemd, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5721-1g-db5901
+
+    - name: modular-bsp-rom5721-2g-db5901
+      description: "Advantech ROM-5721 DB5901 (i.MX8)"
+      device: rom5721-2g-db5901
+      releases: [walnascar]
+      features: [systemd, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5721-2g-db5901
+
+    # --- Advantech Europe Modular BSP ROM-5722 DB5901 ---
+
+    - name: modular-bsp-rom5722-db2510
+      description: "Advantech ROM-5722 DB2510 (i.MX8)"
+      device: rom5722-db2510
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5722-db2510
+
+    # --- Advantech Europe Modular BSP AOM-5521 DB2510 ---
+
+    - name: modular-bsp-aom5521-db2510
+      description: "Advantech AOM-5521 DB2510 (i.MX95)"
+      device: aom5521-db2510
+      releases: [walnascar]
+      features: [systemd, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-aom5521-db2510
+
+    - name: advantech-imx95aom5521a1
+      description: "Advantech AOM-5521 A1 DB2510 (i.MX95)"
+      device: imx95aom5521a1
+      releases: [scarthgap, walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/advantech-imx95aom5521a1
+
+    - name: advantech-imx95aom5521a2
+      description: "Advantech AOM-5521 A2 DB2510 (i.MX95)"
+      device: imx95aom5521a2
+      releases: [walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/advantech-imx95aom5521a2

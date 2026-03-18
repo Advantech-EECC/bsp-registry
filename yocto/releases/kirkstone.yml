@@ -1,0 +1,18 @@
+header:
+  version: 14
+
+defaults:
+  repos:
+    branch: "kirkstone"
+
+# https://downloads.yoctoproject.org/releases/yocto/yocto-4.0.28/RELEASENOTES
+repos:
+  poky:
+    commit: "24a3f7b3648185e33133f5d96b184a6cb6524f3d"
+
+  bitbake:
+    branch: "2.0"
+    commit: "046871d9fd76efdca7b72718b328d8f545523f7e"
+
+  meta-openembedded:
+    commit: "058249f9a836e3aa866436aa6e37d6d48ff768fd"

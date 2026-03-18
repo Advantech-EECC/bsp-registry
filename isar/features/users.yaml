@@ -1,0 +1,22 @@
+header:
+  version: 14
+
+local_conf_header:
+  # INFO: To set up a proper user use mkpasswd -m sha-512 yourpassword and add the output to USER_<name>[password]
+  add-root-user: |
+    GROUPS += "qemu"
+    GROUP_qemu[flags] = "system"
+
+    USERS += "qemu"
+    USER_qemu[gid] = "qemu"
+    USER_qemu[home] = "/home/qemu"
+    USER_qemu[comment] = "My QEMU user"
+    USER_qemu[flags] = "system create-home"
+
+    USER_qemu[password] = "123456"
+    USER_qemu[flags] += "clear-text-password"
+
+    # Set a root passwordless user for testing purposes
+    USERS += "root"
+    USER_root[password] = ""
+    USER_root[flags] = "allow-empty-password"
