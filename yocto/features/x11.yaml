@@ -1,0 +1,6 @@
+header:
+  version: 14
+
+local_conf_header:
+  x11: | 
+    DISTRO_FEATURES += "x11"

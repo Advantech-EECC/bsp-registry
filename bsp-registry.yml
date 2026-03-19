@@ -106,6 +106,61 @@ registry:
       includes:
         - isar/isar.yaml
 
+  # =====================================
+  # Distributions
+  # =====================================
+
+  distro:
+    
+    - slug: poky
+      description: "Poky (Yocto Project reference distro)"
+      framework: yocto
+      includes:
+        - common.yml
+        - yocto/distro/poky.yaml
+
+    - slug: ros2
+      description: "ROS 2 (Robot Operating System 2)"
+      framework: yocto
+      includes:
+        - common.yml
+        - yocto/distro/poky.yaml
+        - features/ros2/ros2.yml
+
+    - slug: poky-harden
+      description: "Hardened Poky (Yocto Project reference distro)"
+      framework: yocto
+      includes:
+        - common.yml
+        - yocto/distro/harden.yaml
+
+    - slug: fsl-imx-xwayland
+      description: "Freescale i.MX X Wayland (Yocto Project reference distro)"
+      framework: yocto
+      includes:
+        - vendors/nxp/distro/fsl-imx-xwayland.yaml
+
+    - slug: ubuntu-noble
+      description: "Isar Ubuntu Noble"
+      framework: isar
+      includes:
+        - isar/common.yaml
+        - isar/distro/ubuntu-noble.yaml
+
+    - slug: ubuntu-jammy
+      description: "Isar Ubuntu Jammy"
+      framework: isar
+      includes:
+        - isar/common.yaml
+        - isar/distro/ubuntu-jammy.yaml
+
+    - slug: debian-trixie
+      description: "Isar Debian Trixie"
+      framework: isar
+      includes:
+        - isar/common.yaml
+        - isar/distro/debian-trixie.yaml
+
   vendors:
     - slug: advantech
       name: "Advantech"
@@ -359,57 +414,30 @@ registry:
         - vendors/advantech/nxp/machine/imx9/imx95aom5521a2.yml
 
   # =====================================
-  # Distributions
-  # =====================================
-
-  distro:
-    
-    - slug: poky
-      description: "Poky (Yocto Project reference distro)"
-      framework: yocto
-      includes:
-        - common.yml
-        - yocto/distro/poky.yaml
-
-    - slug: poky-harden
-      description: "Hardened Poky (Yocto Project reference distro)"
-      framework: yocto
-      includes:
-        - common.yml
-        - yocto/distro/harden.yaml
-
-    - slug: fsl-imx-xwayland
-      description: "Freescale i.MX X Wayland (Yocto Project reference distro)"
-      framework: yocto
-      includes:
-        - vendors/nxp/distro/fsl-imx-xwayland.yaml
-
-    - slug: ubuntu-noble
-      description: "Isar Ubuntu Noble"
-      framework: isar
-      includes:
-        - isar/common.yaml
-        - isar/distro/ubuntu-noble.yaml
-
-    - slug: ubuntu-jammy
-      description: "Isar Ubuntu Jammy"
-      framework: isar
-      includes:
-        - isar/common.yaml
-        - isar/distro/ubuntu-jammy.yaml
-
-    - slug: debian-trixie
-      description: "Isar Debian Trixie"
-      framework: isar
-      includes:
-        - isar/common.yaml
-        - isar/distro/debian-trixie.yaml
-
-  # =====================================
   # Releases
   # =====================================
 
   releases:
+
+    - slug: ros2-humble-scarthgap
+      distro: ros2
+      description: "ROS 2 Humble Hawksbill"
+      yocto_version: "5.0"
+      includes:      
+        - features/ros2/humble.yml
+        - yocto/releases/scarthgap.yml
+        - compilers/clang/clang.yml
+      vendor_overrides:
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              includes:
+                - vendors/advantech-europe/nxp/modular-bsp-nxp.yml
+              releases:  
+                - slug: imx-6.6.52-2.2.0
+                  description: "i.MX8 Release 2.2.0 Yocto 5.0 LTS Kernel 6.6.52"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-6.6.52-2.2.0-scarthgap.yml
 
     - slug: ubuntu-noble
       description: "Isar Ubuntu Noble"
@@ -660,6 +688,18 @@ registry:
       includes:
         - yocto/features/ipv6.yaml
 
+    - slug: x11
+      description: "Enable X11 support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/x11.yaml
+
+    - slug: udev
+      description: "Enable udev support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/udev.yaml
+
     - slug: usrmerge
       description: "Enable usrmerge support in the Yocto image"
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
@@ -677,6 +717,30 @@ registry:
             - vendor: nxp
               includes:
                 - features/ota/rauc/modular-bsp-ota-nxp.yml
+
+    - slug: swupdate
+      description: "Enable SWUpdate support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - features/ota/swupdate/swupdate.yml
+      vendor_overrides:               
+        - vendor: advantech
+          soc_vendors:
+            - vendor: nxp
+              includes:
+                - features/ota/swupdate/modular-bsp-ota-nxp.yml
+
+    - slug: ostree
+      description: "Enable OSTree support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - features/ota/ostree/ostree.yml
+      vendor_overrides:               
+        - vendor: advantech
+          soc_vendors:
+            - vendor: nxp
+              includes:
+                - features/ota/ostree/modular-bsp-ota-nxp.yml
 
     - slug: hailo
       description: "Enable Hailo-8 support in the Yocto image"
@@ -712,6 +776,12 @@ registry:
       description: "Poky QEMU x86-64"
       device: qemux86-64
       releases: [kirkstone, nanbield, mickledore, scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, usrmerge, yocto-ssh]
+
+    - name: poky-qemux86-64-ros2
+      description: "Poky QEMU x86-64"
+      device: qemux86-64
+      releases: [ros2-humble-scarthgap]
       features: [systemd, usrmerge, yocto-ssh]
 
     - name: poky-qemux86-64-styhead
@@ -870,11 +940,20 @@ registry:
 
     # --- Advantech Europe RSB-3720 ---
 
+    - name: modular-ros-bsp-rsb3720
+      description: "Advantech RSB-3720 (i.MX8)"
+      device: rsb3720
+      releases: [ros2-humble-scarthgap]
+      features: [systemd, security, virtualization, ipv6, usrmerge, x11, wayland]
+      targets: [ros-image-core, ros-image-desktop]
+      build:
+        path: build/modular-ros-bsp-rsb3720
+
     - name: modular-bsp-rsb3720
       description: "Advantech RSB-3720 (i.MX8)"
       device: rsb3720
       releases: [scarthgap, styhead, walnascar]
-      features: [systemd, security, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6, usrmerge]
       build:
         path: build/modular-bsp-rsb3720
 
@@ -882,7 +961,7 @@ registry:
       description: "Advantech RSB-3720 4GB (i.MX8)"
       device: rsb3720-4g
       releases: [walnascar]
-      features: [systemd, security, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6, usrmerge]
       build:
         path: build/modular-bsp-rsb3720-4g
 
@@ -890,7 +969,31 @@ registry:
       description: "Advantech RSB-3720 6GB (i.MX8)"
       device: rsb3720-6g
       releases: [walnascar]
-      features: [systemd, security, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6, usrmerge]
+      build:
+        path: build/modular-bsp-rsb3720-6g
+
+    - name: modular-bsp-rauc-rsb3720
+      description: "Advantech RSB-3720 6GB (i.MX8) with RAUC support"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6, usrmerge, rauc]
+      build:
+        path: build/modular-bsp-rsb3720-6g
+
+    - name: modular-bsp-swupdate-rsb3720
+      description: "Advantech RSB-3720 6GB (i.MX8) with SWUpdate support"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6, swupdate]
+      build:
+        path: build/modular-bsp-rsb3720-6g
+
+    - name: modular-bsp-ostree-rsb3720
+      description: "Advantech RSB-3720 6GB (i.MX8) with OSTree support"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6, ostree]
       build:
         path: build/modular-bsp-rsb3720-6g
 

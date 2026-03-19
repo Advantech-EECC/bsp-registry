@@ -1,16 +1,11 @@
 header:
   version: 14
-
-distro: "ros2"
+  includes:
+    - features/ros2/ros2.yml
 
 repos:
-  ros:
-    url: "https://github.com/ros/meta-ros.git"
-    path: "layers/meta-ros"
+  ros2:
     layers:
       meta-ros-common:
       meta-ros2:
       meta-ros2-humble:
-
-target:
-  - ros-image-core

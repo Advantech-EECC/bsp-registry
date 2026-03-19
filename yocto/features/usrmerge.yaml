@@ -2,6 +2,6 @@ header:
   version: 14
 
 local_conf_header:
-  udev: |
-    # Enable udev
+  usrmerge: |
+    # Enable usrmerge
     DISTRO_FEATURES:append = " usrmerge"
