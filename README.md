@@ -30,6 +30,10 @@ The registry supports two build systems:
       - [2.1.2.1. Supported OTA Technologies](#2121-supported-ota-technologies)
       - [2.1.2.2. OTA Support Matrix](#2122-ota-support-matrix)
       - [2.1.2.3. Building Images with OTA Support](#2123-building-images-with-ota-support)
+    - [2.1.3. ROS2 Support](#213-ros2-support)
+      - [2.1.3.1. Supported ROS2 Distributions](#2131-supported-ros2-distributions)
+      - [2.1.3.2. ROS2 Support Matrix](#2132-ros2-support-matrix)
+      - [2.1.3.3. Building Images with ROS2 Support](#2133-building-images-with-ros2-support)
   - [2.3. MediaTek Boards Compatibility Matrix](#23-mediatek-boards-compatibility-matrix)
     - [2.3.1. Building MediaTek BSPs](#231-building-mediatek-bsps)
 - [3. BSP Registry Manager](#3-bsp-registry-manager)
@@ -300,6 +304,60 @@ bsp build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-6g
 
 # Build RSB3720 4G variant with RAUC OTA support
 bsp build adv-ota-mbsp-oenxp-rauc-walnascar-rsb3720-4g
+```
+
+### 2.1.3. ROS2 Support
+
+The BSP registry includes [ROS 2](https://docs.ros.org/) (Robot Operating System 2) configurations for supported boards. ROS2 enables the development of robotics and automation applications on embedded Linux platforms.
+
+#### 2.1.3.1. Supported ROS2 Distributions
+
+| ROS2 Distribution | Status | Yocto Release | Notes |
+|-------------------|:------:|:-------------:|-------|
+| **Humble Hawksbill** | ✅ Stable | Scarthgap (5.0 LTS) | Long-Term Support (LTS) release |
+| **Jazzy Jalisco** | 🟡 Development | — | Feature configs available |
+| **Kilted Kaiju** | 🟡 Development | — | Feature configs available |
+| **Rolling Ridley** | 🟡 Development | — | Rolling/development release |
+
+**Status Legend:**
+
+* ✅ **Stable**: Production-ready, fully tested and supported
+* 🟡 **Development**: Feature config available, release integration in progress
+
+#### 2.1.3.2. ROS2 Support Matrix
+
+The following boards support ROS2 builds:
+
+| Board | Humble (Scarthgap) | Status |
+|-------|:-----------------:|--------|
+| **RSB-3720** | ✅ | 🟢 Stable |
+| **QEMU x86-64** | ✅ | 🟢 Stable |
+
+**Available ROS2 image targets:**
+
+* `ros-image-core` — Minimal ROS2 runtime image
+* `ros-image-desktop` — Full ROS2 desktop image with tools and visualisation support
+
+#### 2.1.3.3. Building Images with ROS2 Support
+
+To build a BSP image with ROS2 support, use the `just ros-mbsp` command:
+
+```bash
+# Build with ROS2 Humble support for RSB-3720
+just ros-mbsp rsb3720 humble scarthgap
+```
+
+Alternatively, you can use the `bsp` CLI tool directly:
+
+```bash
+# List all available ROS2 configurations
+bsp list | grep ros
+
+# Build RSB-3720 with ROS2 Humble (Scarthgap)
+bsp build modular-ros-bsp-rsb3720
+
+# Build QEMU x86-64 with ROS2 Humble (Scarthgap)
+bsp build poky-qemux86-64-ros2
 ```
 
 ## 2.3. MediaTek Boards Compatibility Matrix
