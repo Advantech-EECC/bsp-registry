@@ -23,9 +23,9 @@
   - [14.2. Tips](#142-tips)
 - [15. Memory Footprint](#15-memory-footprint)
 - [16. Application Types](#16-application-types)
-  - [16.1. 1. Qt Widgets Application](#161-1-qt-widgets-application)
-  - [16.2. 2. Qt Quick Application](#162-2-qt-quick-application)
-  - [16.3. 3. Hybrid Application](#163-3-hybrid-application)
+  - [16.1. Qt Widgets Application](#161-qt-widgets-application)
+  - [16.2. Qt Quick Application](#162-qt-quick-application)
+  - [16.3. Hybrid Application](#163-hybrid-application)
 - [17. Integration Examples](#17-integration-examples)
   - [17.1. With Camera](#171-with-camera)
   - [17.2. With Networking](#172-with-networking)
@@ -278,13 +278,13 @@ GPU Hardware
 
 ## 16. Application Types
 
-### 16.1. 1. Qt Widgets Application
+### 16.1. Qt Widgets Application
 Traditional desktop-style UI with buttons, menus, dialogs.
 
-### 16.2. 2. Qt Quick Application
+### 16.2. Qt Quick Application
 Modern, touch-optimized UI with animations and effects.
 
-### 16.3. 3. Hybrid Application
+### 16.3. Hybrid Application
 Combines Qt Widgets for tools and Qt Quick for main interface.
 
 ## 17. Integration Examples

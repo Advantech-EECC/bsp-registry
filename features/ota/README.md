@@ -5,9 +5,9 @@
 - [1. Overview](#1-overview)
 - [2. Architecture](#2-architecture)
 - [3. Supported OTA Technologies](#3-supported-ota-technologies)
-  - [3.1. 1. OSTree (libostree)](#31-1-ostree-libostree)
-  - [3.2. 2. RAUC (Robust Auto-Update Controller)](#32-2-rauc-robust-auto-update-controller)
-  - [3.3. 3. SWUpdate](#33-3-swupdate)
+  - [3.1. OSTree (libostree)](#31-ostree-libostree)
+  - [3.2. RAUC (Robust Auto-Update Controller)](#32-rauc-robust-auto-update-controller)
+  - [3.3. SWUpdate](#33-swupdate)
 - [4. Comparison Matrix](#4-comparison-matrix)
 - [5. Update Process Flow](#5-update-process-flow)
 - [6. Configuration Files](#6-configuration-files)
@@ -61,7 +61,7 @@ The OTA feature provides comprehensive over-the-air update capabilities for embe
 
 ## 3. Supported OTA Technologies
 
-### 3.1. 1. OSTree (libostree)
+### 3.1. OSTree (libostree)
 
 **Image-based atomic updates with Git-like version control**
 
@@ -89,7 +89,7 @@ OSTree Repository Structure:
 - Container host systems
 - Systems requiring complex update orchestration
 
-### 3.2. 2. RAUC (Robust Auto-Update Controller)
+### 3.2. RAUC (Robust Auto-Update Controller)
 
 **Partition-based atomic updates with flexible strategies**
 
@@ -122,7 +122,7 @@ RAUC Update Flow:
 - Automotive applications
 - Critical infrastructure devices
 
-### 3.3. 3. SWUpdate
+### 3.3. SWUpdate
 
 **Flexible software update framework with multiple strategies**
 

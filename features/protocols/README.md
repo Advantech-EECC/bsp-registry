@@ -12,9 +12,9 @@
 - [5. Features](#5-features)
 - [6. Use Cases](#6-use-cases)
 - [7. Communication Patterns](#7-communication-patterns)
-  - [7.1. 1. Publish/Subscribe](#71-1-publishsubscribe)
-  - [7.2. 2. Query/Reply](#72-2-queryreply)
-  - [7.3. 3. Storage](#73-3-storage)
+  - [7.1. Publish/Subscribe](#71-publishsubscribe)
+  - [7.2. Query/Reply](#72-queryreply)
+  - [7.3. Storage](#73-storage)
 - [8. Performance Characteristics](#8-performance-characteristics)
 - [9. Network Topology](#9-network-topology)
 - [10. Configuration Files](#10-configuration-files)
@@ -122,7 +122,7 @@ Querier ─────► [Query: /device/*] ─────► Queryable
 
 ## 7. Communication Patterns
 
-### 7.1. 1. Publish/Subscribe
+### 7.1. Publish/Subscribe
 ```rust
 // Publisher
 let session = zenoh::open(config).await.unwrap();
@@ -132,7 +132,7 @@ session.put("/demo/example", "Hello Zenoh!").await.unwrap();
 let subscriber = session.subscribe("/demo/**").await.unwrap();
 ```
 
-### 7.2. 2. Query/Reply
+### 7.2. Query/Reply
 ```rust
 // Queryable (Server)
 let queryable = session
@@ -143,7 +143,7 @@ let queryable = session
 let replies = session.get("/demo/service").await.unwrap();
 ```
 
-### 7.3. 3. Storage
+### 7.3. Storage
 Zenoh can store last values for topics, enabling late-joining subscribers.
 
 ## 8. Performance Characteristics

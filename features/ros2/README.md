@@ -7,9 +7,9 @@
 - [3. Supported ROS2 Distributions](#3-supported-ros2-distributions)
 - [4. Repository](#4-repository)
 - [5. ROS2 Communication Patterns](#5-ros2-communication-patterns)
-  - [5.1. 1. Topics (Publish/Subscribe)](#51-1-topics-publishsubscribe)
-  - [5.2. 2. Services (Request/Reply)](#52-2-services-requestreply)
-  - [5.3. 3. Actions (Long-running Tasks)](#53-3-actions-long-running-tasks)
+  - [5.1. Topics (Publish/Subscribe)](#51-topics-publishsubscribe)
+  - [5.2. Services (Request/Reply)](#52-services-requestreply)
+  - [5.3. Actions (Long-running Tasks)](#53-actions-long-running-tasks)
 - [6. Features](#6-features)
 - [7. Use Cases](#7-use-cases)
 - [8. ROS2 Node Graph Example](#8-ros2-node-graph-example)
@@ -82,7 +82,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 
 ## 5. ROS2 Communication Patterns
 
-### 5.1. 1. Topics (Publish/Subscribe)
+### 5.1. Topics (Publish/Subscribe)
 ```
 ┌──────────┐                    ┌──────────┐
 │Publisher │──► /sensor/data ──►│Subscriber│
@@ -96,7 +96,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
                                 └──────────┘
 ```
 
-### 5.2. 2. Services (Request/Reply)
+### 5.2. Services (Request/Reply)
 ```
 ┌────────┐                      ┌────────┐
 │ Client │─────► Request ─────► │Service │
@@ -105,7 +105,7 @@ The ROS2 feature integrates the Robot Operating System 2 framework into the BSP,
 └────────┘                      └────────┘
 ```
 
-### 5.3. 3. Actions (Long-running Tasks)
+### 5.3. Actions (Long-running Tasks)
 ```
 ┌────────┐                      ┌────────┐
 │ Action │─────► Goal ─────────►│ Action │

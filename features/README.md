@@ -15,9 +15,9 @@
   - [3.8. 🤖 [ROS2](ros2/README.md)](#38-ros2ros2readmemd)
   - [3.9. 📋 [SBOM](sbom/README.md)](#39-sbomsbomreadmemd)
 - [4. Quick Start Guide](#4-quick-start-guide)
-  - [4.1. 1. Choose Your Features](#41-1-choose-your-features)
-  - [4.2. 2. Feature Combinations](#42-2-feature-combinations)
-  - [4.3. 3. Build Your BSP](#43-3-build-your-bsp)
+  - [4.1. Choose Your Features](#41-choose-your-features)
+  - [4.2. Feature Combinations](#42-feature-combinations)
+  - [4.3. Build Your BSP](#43-build-your-bsp)
 - [5. Feature Compatibility Matrix](#5-feature-compatibility-matrix)
 - [6. Feature Selection Guide](#6-feature-selection-guide)
   - [6.1. By Industry](#61-by-industry)
@@ -202,7 +202,7 @@ Software Bill of Materials generation and vulnerability management with Timesys 
 
 ## 4. Quick Start Guide
 
-### 4.1. 1. Choose Your Features
+### 4.1. Choose Your Features
 
 Select features based on your application requirements. Features are included by referencing their YAML configuration files in your BSP configuration, or by using dedicated just recipes for specific features:
 
@@ -222,7 +222,7 @@ just ota-mbsp rsb3720 rauc scarthgap
 
 To add other features (browser, cameras, Qt, deep learning, etc.), you need to create or modify YAML configuration files that include the desired feature YAML files. See the "HowTo build a BSP using KAS" section in the main README for details on working with KAS configuration files.
 
-### 4.2. 2. Feature Combinations
+### 4.2. Feature Combinations
 
 Some features work particularly well together:
 
@@ -234,7 +234,7 @@ Some features work particularly well together:
 | **OTA** | SBOM, any feature | Production deployment |
 | **Protocols** | ROS2, Deep Learning | Distributed AI |
 
-### 4.3. 3. Build Your BSP
+### 4.3. Build Your BSP
 
 ```bash
 # Standard BSP build
