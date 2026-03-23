@@ -135,14 +135,14 @@ vendors/
 **Key Features**:
 - Industrial-grade platforms
 - Extends NXP base BSP with Advantech-specific drivers
-- meta-eecc-nxp layer for Advantech customizations
+- meta-modular-bsp-nxp layer for Advantech customizations
 - OTA update support (RAUC, SWUpdate, OSTree)
 - Wide temperature range and industrial certifications
 
 **Documentation**: [vendors/advantech/README.md](advantech/README.md)
 
 **Special Guides**:
-- [Adding New Boards](advantech/nxp/ADDING_NEW_BOARD.md) - Comprehensive guide for adding new boards to meta-eecc-nxp
+- [Adding New Boards](advantech/nxp/ADDING_NEW_BOARD.md) - Comprehensive guide for adding new boards to meta-modular-bsp-nxp
 
 ## 4. Configuration Organization
 
@@ -175,8 +175,8 @@ header:
     - vendors/nxp/imx-6.12.49-2.2.0-walnascar.yml  # Inherits NXP base
 
 repos:
-  meta-eecc-nxp:
-    url: "https://github.com/Advantech-EECC/meta-eecc-nxp.git"
+  meta-modular-bsp-nxp:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-nxp.git"
     branch: "walnascar"
     commit: "..."
     # Advantech-specific customizations
@@ -306,7 +306,7 @@ Vendor configurations follow an inheritance hierarchy:
 3. Platform-Specific Configuration
    └─> vendors/advantech/nxp/imx-6.12.49-2.2.0-walnascar.yml
        ├─ Inherits: vendors/nxp/imx-6.12.49-2.2.0-walnascar.yml
-       ├─ Adds: meta-eecc-nxp
+       ├─ Adds: meta-modular-bsp-nxp
        └─ Advantech-specific customizations
 
 4. Machine Configuration

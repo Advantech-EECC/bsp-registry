@@ -79,7 +79,7 @@ Advantech BSP Structure
 │       └── i.MX 9 Platforms (imx9/)
 │           └── rom2820-ed93.yml      # ROM-2820 COM Express
 └── Advantech Layer
-    └── meta-eecc-nxp               # Advantech-specific recipes
+    └── meta-modular-bsp-nxp               # Advantech-specific recipes
 ```
 
 ## 2. Supported Hardware
@@ -158,7 +158,7 @@ Advantech BSP Structure
 ├─────────────────────────────────────────────────────────┤
 │             Advantech BSP Layers                        │
 │  ┌──────────────────────────────────────────────────┐   │
-│  │ meta-eecc-nxp (Advantech layer)                  │   │
+│  │ meta-modular-bsp-nxp (Advantech layer)                  │   │
 │  │  ├─ Board-specific configurations                │   │
 │  │  ├─ Hardware enablement recipes                  │   │
 │  │  ├─ Advantech utilities and tools                │   │
@@ -192,7 +192,7 @@ NXP Base BSP (vendors/nxp/imx-*.yml)
    └─> Advantech BSP (vendors/advantech/nxp/*)
        │
        ├─ Inherits: All NXP BSP configurations
-       ├─ Adds: meta-eecc-nxp layer
+       ├─ Adds: meta-modular-bsp-nxp layer
        ├─ Customizes: Machine configurations
        └─ Extends: Board-specific features
 ```
@@ -269,7 +269,7 @@ just ota-mbsp rom5722-db2510 ostree styhead
 
 ## 7. Advantech-Specific Features
 
-The `meta-eecc-nxp` layer provides:
+The `meta-modular-bsp-nxp` layer provides:
 
 ### 7.1 Hardware Enablement
 - Board-specific device tree configurations
@@ -308,8 +308,8 @@ header:
     - vendors/nxp/imx-6.12.49-2.2.0-walnascar.yml  # Inherit NXP BSP
 
 repos:
-  meta-eecc-nxp:  # Add Advantech layer
-    url: "https://github.com/Advantech-EECC/meta-eecc-nxp.git"
+  meta-modular-bsp-nxp:  # Add Advantech layer
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-nxp.git"
     branch: "walnascar"
     # Advantech-specific configurations
 ```

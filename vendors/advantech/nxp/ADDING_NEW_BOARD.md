@@ -1,6 +1,6 @@
-# Adding a New Board to meta-eecc-nxp Yocto Layer
+# Adding a New Board to meta-modular-bsp-nxp Yocto Layer
 
-This comprehensive guide provides step-by-step instructions for adding support for a new Advantech board to the meta-eecc-nxp Yocto layer and integrating it into the BSP registry.
+This comprehensive guide provides step-by-step instructions for adding support for a new Advantech board to the meta-modular-bsp-nxp Yocto layer and integrating it into the BSP registry.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ This comprehensive guide provides step-by-step instructions for adding support f
    - 4.2 [Device Tree Selection](#42-device-tree-selection)
    - 4.3 [Kernel Configuration](#43-kernel-configuration)
    - 4.4 [U-Boot Configuration](#44-u-boot-configuration)
-5. [Adding Board to meta-eecc-nxp](#5-adding-board-to-meta-eecc-nxp)
+5. [Adding Board to meta-modular-bsp-nxp](#5-adding-board-to-meta-modular-bsp-nxp)
    - 5.1 [Creating Machine Directory](#51-creating-machine-directory)
    - 5.2 [Machine Configuration File](#52-machine-configuration-file)
    - 5.3 [Device Tree Customization](#53-device-tree-customization)
@@ -70,7 +70,7 @@ Before adding a new board, ensure you have:
   - Docker installed and configured
   - Python 3.x with virtual environment
   - Git access to Advantech-EECC repositories
-- **Access Rights**: Write access to meta-eecc-nxp and bsp-registry repositories
+- **Access Rights**: Write access to meta-modular-bsp-nxp and bsp-registry repositories
 
 ### 1.2 Workflow Summary
 
@@ -83,7 +83,7 @@ Before adding a new board, ensure you have:
    └─> Board specs, NXP SoC, peripherals, memory configuration
         │
         ▼
-2. Create Machine Configuration (meta-eecc-nxp)
+2. Create Machine Configuration (meta-modular-bsp-nxp)
    └─> conf/machine/<board>.conf
    └─> Device tree files (.dts/.dtsi)
    └─> Kernel configuration fragments
@@ -114,7 +114,7 @@ Before adding a new board, ensure you have:
         │
         ▼
 7. Submit Pull Request
-   └─> meta-eecc-nxp PR
+   └─> meta-modular-bsp-nxp PR
    └─> bsp-registry PR
 ```
 
@@ -124,10 +124,10 @@ Before adding a new board, ensure you have:
 
 ### 2.1 Layer Structure
 
-The meta-eecc-nxp layer follows standard Yocto layer conventions:
+The meta-modular-bsp-nxp layer follows standard Yocto layer conventions:
 
 ```
-meta-eecc-nxp/
+meta-modular-bsp-nxp/
 ├── conf/
 │   ├── layer.conf                    # Layer configuration
 │   └── machine/                      # Machine configurations
@@ -169,7 +169,7 @@ NXP Base BSP (meta-imx)
 ├─> meta-freescale
 │   └─ Provides: Freescale/NXP community support
 │
-├─> meta-eecc-nxp (Advantech Layer)
+├─> meta-modular-bsp-nxp (Advantech Layer)
 │   └─ Provides: Advantech board-specific customizations
 │       ├─ Machine configurations (.conf)
 │       ├─ Device tree overlays/modifications
@@ -192,7 +192,7 @@ BSP Registry Structure:
 │
 ├── vendors/advantech/nxp/
 │   ├── imx-<version>-<yocto>.yml    # Advantech release configs
-│   │                                 # (includes NXP base + meta-eecc-nxp)
+│   │                                 # (includes NXP base + meta-modular-bsp-nxp)
 │   └── machine/
 │       ├── imx8/
 │       │   └── <board>.yml          # i.MX 8 based boards
@@ -427,16 +427,16 @@ U-Boot configuration steps:
 
 ---
 
-## 5. Adding Board to meta-eecc-nxp
+## 5. Adding Board to meta-modular-bsp-nxp
 
 ### 5.1 Creating Machine Directory
 
-In the meta-eecc-nxp layer repository:
+In the meta-modular-bsp-nxp layer repository:
 
 ```bash
-# Clone meta-eecc-nxp repository
-git clone https://github.com/Advantech-EECC/meta-eecc-nxp.git
-cd meta-eecc-nxp
+# Clone meta-modular-bsp-nxp repository
+git clone https://github.com/Advantech-EECC/meta-modular-bsp-nxp.git
+cd meta-modular-bsp-nxp
 
 # Create branch for new board
 git checkout -b feature/add-<board>-support
@@ -643,7 +643,7 @@ EOF
 
 **Explanation:**
 - `header.version`: KAS configuration version (currently 14)
-- `machine`: Machine identifier matching meta-eecc-nxp conf file
+- `machine`: Machine identifier matching meta-modular-bsp-nxp conf file
 - `local_conf_header`: Optional BitBake local.conf additions
   - OTA-specific configuration for OSTree/SOTA support
 
@@ -663,7 +663,7 @@ header:
 
 bblayers_conf_header:
   meta-layers: |
-    BBLAYERS_EECC_NXP_<BOARD_UPPER> = "${BSPDIR}/layers/meta-eecc-nxp"
+    BBLAYERS_EECC_NXP_<BOARD_UPPER> = "${BSPDIR}/layers/meta-modular-bsp-nxp"
 EOF
 ```
 
@@ -1005,7 +1005,7 @@ ERROR: No machine configuration found for machine <board>
 ```
 
 **Solution:**
-- Verify machine config exists in meta-eecc-nxp
+- Verify machine config exists in meta-modular-bsp-nxp
 - Check MACHINE variable in configuration
 - Ensure layer is included in bblayers.conf
 
@@ -1274,7 +1274,7 @@ kas dump adv-mbsp-oenxp-walnascar-<board>.yaml
 
 **Git Workflow:**
 ```bash
-# meta-eecc-nxp workflow
+# meta-modular-bsp-nxp workflow
 git checkout -b feature/add-<board>-support
 # ... make changes ...
 git add conf/machine/<board>.conf
@@ -1295,10 +1295,10 @@ git push origin feature/add-<board>-support
 
 ## Summary
 
-Adding a new board to the meta-eecc-nxp Yocto layer involves:
+Adding a new board to the meta-modular-bsp-nxp Yocto layer involves:
 
 1. **Preparation**: Gather hardware specs and documentation
-2. **meta-eecc-nxp**: Create machine config, device tree, kernel/U-Boot customizations
+2. **meta-modular-bsp-nxp**: Create machine config, device tree, kernel/U-Boot customizations
 3. **bsp-registry**: Create KAS configuration files and registry entries
 4. **Testing**: Build and validate on hardware
 5. **Documentation**: Update README and support matrices
