@@ -133,8 +133,10 @@ jobs:
                               data = yaml.safe_load(fh)
                           if isinstance(data, dict) and 'header' in data:
                               kas_configs.append(filepath)
-                      except Exception:
+                      except yaml.YAMLError:
                           pass
+                      except Exception as e:
+                          print(f"Warning: Could not parse {filepath}: {e}")
           kas_configs.sort()
 
           if not kas_configs:
@@ -426,7 +428,7 @@ jobs:
             # Export complete KAS config for this BSP preset
             if ! bsp --local export "$bsp_name" --output "$CONFIG_FILE" 2>/tmp/bsp_export.log; then
               echo "⚠ bsp export had issues:"
-              cat /tmp/bsp_export.log | tail -10
+              tail -10 /tmp/bsp_export.log
             fi
 
             if [ ! -s "$CONFIG_FILE" ]; then
