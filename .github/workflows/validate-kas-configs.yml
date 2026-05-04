@@ -117,14 +117,24 @@ jobs:
         run: |
           cat > validate_kas.py << 'PYEOF'
           import yaml
-          import glob
           import sys
           import os
 
-          # Find all top-level KAS configuration files
-          # Note: This repository uses 'adv-*.yaml' naming convention for main BSP configurations
-          # Include files (like common.yml, yocto/*.yml) are validated separately
-          kas_configs = glob.glob("adv-*.yaml")
+          # Find all KAS configuration files (files containing a 'header:' section)
+          # The repository uses include files in vendors/, yocto/, isar/, features/, etc.
+          kas_configs = []
+          for root, dirs, files in os.walk('.'):
+              dirs[:] = [d for d in dirs if d not in ['.git', 'venv', 'build', 'layers']]
+              for file in files:
+                  if file.endswith(('.yml', '.yaml')):
+                      filepath = os.path.join(root, file)
+                      try:
+                          with open(filepath, 'r') as fh:
+                              data = yaml.safe_load(fh)
+                          if isinstance(data, dict) and 'header' in data:
+                              kas_configs.append(filepath)
+                      except Exception:
+                          pass
           kas_configs.sort()
 
           if not kas_configs:
@@ -389,26 +399,48 @@ jobs:
       
       - name: Run KAS checkout on top-level configurations
         run: |
-          echo "Running KAS checkout validation on top-level configurations..."
-          
-          # Find all top-level KAS configuration files using find for robustness
-          KAS_CONFIGS=$(find . -maxdepth 1 -name "adv-*.yaml" -type f | head -3)
-          
-          if [ -z "$KAS_CONFIGS" ]; then
-            echo "No KAS configuration files found!"
+          echo "Running KAS checkout validation on BSP configurations..."
+
+          # Get BSP preset names from the registry (test up to 3)
+          BSP_NAMES=$(bsp --local list 2>/dev/null | grep '^-' | sed 's/^- //' | cut -d: -f1 | head -3)
+
+          if [ -z "$BSP_NAMES" ]; then
+            echo "No BSP presets found in registry!"
             exit 1
           fi
-          
-          echo "Found KAS configurations to validate (testing first 3):"
-          echo "$KAS_CONFIGS"
+
+          echo "BSP presets to validate (first 3):"
+          echo "$BSP_NAMES"
           echo ""
-          
+
           FAILED=0
           PASSED=0
-          
-          for config in $KAS_CONFIGS; do
+
+          for bsp_name in $BSP_NAMES; do
             echo "=========================================="
-            echo "Validating KAS checkout: $config"
+            echo "Exporting KAS config for: $bsp_name"
+            echo "=========================================="
+
+            CONFIG_FILE="/tmp/kas_${bsp_name}.yaml"
+
+            # Export complete KAS config for this BSP preset
+            if ! bsp --local export "$bsp_name" --output "$CONFIG_FILE" 2>/tmp/bsp_export.log; then
+              echo "⚠ bsp export had issues:"
+              cat /tmp/bsp_export.log | tail -10
+            fi
+
+            if [ ! -s "$CONFIG_FILE" ]; then
+              echo "✗ KAS config not generated for: $bsp_name"
+              FAILED=$((FAILED + 1))
+              echo ""
+              continue
+            fi
+
+            echo "✓ KAS config exported to: $CONFIG_FILE"
+            echo ""
+
+            echo "=========================================="
+            echo "Validating KAS checkout: $bsp_name"
             echo "=========================================="
             
             # Try to run kas checkout in a temporary directory
@@ -417,8 +449,8 @@ jobs:
             
             # Run kas checkout with timeout
             # This will attempt to clone repositories and validate the configuration
-            if timeout 120 kas checkout "$config" 2>&1 | tee /tmp/kas_checkout.log; then
-              echo "✓ KAS checkout successful for: $config"
+            if timeout 120 kas checkout "$CONFIG_FILE" 2>&1 | tee /tmp/kas_checkout.log; then
+              echo "✓ KAS checkout successful for: $bsp_name"
               PASSED=$((PASSED + 1))
             else
               EXIT_CODE=$?
@@ -426,13 +458,13 @@ jobs:
               # Note: These patterns are tested with KAS 5.0 and may need updates for other versions
               if grep -q "kas.*started" /tmp/kas_checkout.log && \
                  grep -q "Cloning repository\|repository" /tmp/kas_checkout.log; then
-                echo "✓ KAS checkout initialized correctly for: $config"
+                echo "✓ KAS checkout initialized correctly for: $bsp_name"
                 PASSED=$((PASSED + 1))
               elif [ $EXIT_CODE -eq 124 ]; then
-                echo "⚠ KAS checkout timed out for: $config (configuration is valid but checkout is slow)"
+                echo "⚠ KAS checkout timed out for: $bsp_name (configuration is valid but checkout is slow)"
                 PASSED=$((PASSED + 1))
               else
-                echo "✗ KAS checkout failed for: $config"
+                echo "✗ KAS checkout failed for: $bsp_name"
                 echo "Last 30 lines of output:"
                 tail -30 /tmp/kas_checkout.log
                 FAILED=$((FAILED + 1))
