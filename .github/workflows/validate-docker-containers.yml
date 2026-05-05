@@ -118,7 +118,7 @@ jobs:
             echo "=========================================="
             
             if docker build -f Dockerfile.ubuntu \
-              --build-arg DISTRO=ubuntu:20.04 \
+              --build-arg DISTRO=ubuntu:22.04 \
               --build-arg KAS_VERSION=4.7 \
               -t test-kas-ubuntu:latest .; then
               echo "✓ Successfully built Dockerfile.ubuntu"
