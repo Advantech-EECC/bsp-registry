@@ -1,6 +1,20 @@
 specification:
   version: "2.0"
 
+# Optional top-level flash settings for deploying images to devices.
+flash:
+  tool: bmaptool                    # "bmaptool" (default) | "dd" | "uuu"
+  image_patterns:                   # glob patterns, tried in order (first match wins)
+    - "**/{build_target}-*.wic.zst" # expanded at runtime when --target is given (first priority)
+    - "**/*.wic.bz2"                # most-compressed variant tried first
+    - "**/*.wic.gz"
+    - "**/*.wic.xz"
+    - "**/*.wic.zst"
+    - "**/*.wic"
+  artifact_dirs:                    # subdirs under build_path to search
+    - "build/tmp/deploy/images"
+  extra_args: null                  # extra CLI args forwarded verbatim to the tool
+
 deploy:
   provider: azure                                   # "azure" (default) or "aws"
   account_url: $ENV{AZURE_STORAGE_ACCOUNT_URL}      # Azure only; supports $ENV{} expansion
@@ -8,6 +22,9 @@ deploy:
   prefix: "{vendor}/{device}/{release}/{date}"      # remote path prefix template
   patterns:                                         # glob patterns for files to upload
     - "**/*.wic.gz"
+    - "**/*.wic.bmap"
+    - "**/*.wic"
+    - "**/*.wic.zst"
     - "**/*.wic.bz2"
     - "**/*.tar.bz2"
     - "**/*.ext4"
@@ -395,6 +412,14 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech-europe/nxp/machine/imx8/rsb3720-6g.yml
+
+    - slug: ecu-150
+      description: "Advantech ECU-150"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/ecu-150.yml
 
     # --- Advantech i.MX-based devices ---
 
@@ -959,7 +984,7 @@ registry:
         lava:
           device_type: "qemu"                                       # LAVA device type label
           artifact_name: "core-image-minimal-qemux86-64.rootfs.wic" # where the image is served
-          tags: ["hil", "qemu"]                                     # optional LAVA scheduler tags
+          # tags: ["hil", "qemu"]                                     # optional LAVA scheduler tags
           job_template: "vendors/qemu/lava/qemu.yaml.j2"            # optional; builtin used if omitted
 
     - name: poky-qemux86-64-ros2
@@ -1152,6 +1177,14 @@ registry:
       targets: [ros-image-core]
       build:
         path: build/modular-ros-bsp-rsb3720
+
+    - name: modular-bsp-ecu-150
+      description: "Advantech ECU-150 (i.MX8)"
+      device: ecu-150
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      build:
+        path: build/modular-bsp-ecu-150
 
     - name: modular-bsp-rsb3720
       description: "Advantech RSB-3720 (i.MX8)"
