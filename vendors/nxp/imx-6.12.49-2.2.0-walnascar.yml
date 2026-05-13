@@ -44,6 +44,10 @@ repos:
     path: "layers/meta-freescale"
     layers:
       .:
+    patches: 
+      remove-imx95-evk-duplicated-include:
+        repo: this
+        path: "patches/nxp/walnascar/0011-Remove-imx95-evk.inc.patch"
 
   meta-freescale-3rdparty:
     url: "https://github.com/Freescale/meta-freescale-3rdparty.git"
