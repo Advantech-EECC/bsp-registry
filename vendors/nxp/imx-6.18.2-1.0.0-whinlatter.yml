@@ -58,6 +58,10 @@ repos:
     path: "layers/meta-freescale"
     layers:
       .:
+    patches: 
+      remove-imx95-evk-duplicated-include:
+        repo: this
+        path: "patches/nxp/walnascar/001-Remove-imx95-evk.inc.patch"
 
   meta-freescale-3rdparty:
     url: "https://github.com/Freescale/meta-freescale-3rdparty.git"
@@ -112,9 +116,6 @@ repos:
       meta-imx-sdk:
       meta-imx-v2x:
     patches: 
-      imx95evk-device-name:
-        repo: this
-        path: patches/nxp/whinlatter/0001-fix-device-name-for-imx95-evk.patch
       alsa-tools-imx9:
         repo: this
         path: patches/nxp/whinlatter/0002-Add-alsa-tools-to-dependencies-for-imx9.patch

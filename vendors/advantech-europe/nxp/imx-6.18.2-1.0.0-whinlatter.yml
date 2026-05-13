@@ -5,7 +5,7 @@ header:
 
 repos:
   meta-modular-bsp-nxp:
-    commit: "19c1c8ee9aa0fa1e8f22eaee4fe0af57b6f90e50"
+    commit: "6fcc73d3c982c0a3317badacf6844d177895220d"
 
   meta-nxp-security-reference-design:
     url: "https://github.com/Advantech-EECC/meta-nxp-security-reference-design.git"
