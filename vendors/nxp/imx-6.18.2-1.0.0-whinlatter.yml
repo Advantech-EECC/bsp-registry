@@ -61,7 +61,7 @@ repos:
     patches: 
       remove-imx95-evk-duplicated-include:
         repo: this
-        path: "patches/nxp/walnascar/001-Remove-imx95-evk.inc.patch"
+        path: "patches/nxp/whinlatter/0001-Remove-imx95-evk.inc.patch"
 
   meta-freescale-3rdparty:
     url: "https://github.com/Freescale/meta-freescale-3rdparty.git"
