@@ -11,3 +11,15 @@ repos:
       .: 
       meta-parsec: 
       meta-tpm: 
+
+local_conf_header:
+  security: |
+    # fix crates fetching issues
+    FETCHCMD_WUA = "/usr/bin/wget --tries=5 --timeout=100 --user-agent='Mozilla/5.0 (compatible; Bitbake/${BB_VERSION})' --passive-ftp"
+    FETCHCMD_wget:pn-librsvg = "${FETCHCMD_WUA}"
+    FETCHCMD_wget:pn-parsec-tool = "${FETCHCMD_WUA}"
+    FETCHCMD_wget:pn-parsec-service = "${FETCHCMD_WUA}"
+    FETCHCMD_wget:pn-cargo-c-native = "${FETCHCMD_WUA}"
+    FETCHCMD_wget:pn-librsvg-native = "${FETCHCMD_WUA}"
+    FETCHCMD_wget:pn-python3-maturin-native = "${FETCHCMD_WUA}"
+    
