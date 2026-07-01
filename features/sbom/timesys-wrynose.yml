@@ -1,0 +1,10 @@
+header:
+  version: 14
+
+repos:
+  meta-timesys:
+    url: "https://github.com/TimesysGit/meta-timesys.git"
+    commit: "240d59556180ff72efbfd105393abdee544f7282"
+    path: "layers/meta-timesys"
+    layers:
+      .:

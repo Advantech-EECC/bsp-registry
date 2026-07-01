@@ -1,0 +1,38 @@
+From 279b8ee21773004cd5b8d89990f5cf2a5f17f2a4 Mon Sep 17 00:00:00 2001
+From: Mikhail Tsukerman <mikhail.tsukerman@advantech.de>
+Date: Thu, 19 Feb 2026 14:52:25 +0100
+Subject: [PATCH] Add alsa-tools to dependencies
+
+---
+ .../recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb       | 1 +
+ .../recipes-multimedia/imx-dspc-asrc/imx-dspc-asrc_1.0.2.bb     | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb b/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb
+index bda6a3c527..a41c9b9788 100644
+--- a/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb
++++ b/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb
+@@ -19,6 +19,7 @@ DEPENDS:append:mx6-nxp-bsp = " imx-lib"
+ DEPENDS:append:mx7-nxp-bsp = " imx-lib"
+ DEPENDS:append:mx8ulp-nxp-bsp = " imx-lib"
+ DEPENDS:append:mx93-nxp-bsp = " imx-lib"
++DEPENDS:append:mx9-nxp-bsp = " alsa-tools"
+ DEPENDS:append:mx943-nxp-bsp = " imx-lib"
+ DEPENDS:append:imxvpu = " imx-vpuwrap"
+ DEPENDS:append:imxfbdev:imxgpu = " libdrm"
+diff --git a/meta-imx-bsp/recipes-multimedia/imx-dspc-asrc/imx-dspc-asrc_1.0.2.bb b/meta-imx-bsp/recipes-multimedia/imx-dspc-asrc/imx-dspc-asrc_1.0.2.bb
+index 75645c8bb6..55a970b7e3 100644
+--- a/meta-imx-bsp/recipes-multimedia/imx-dspc-asrc/imx-dspc-asrc_1.0.2.bb
++++ b/meta-imx-bsp/recipes-multimedia/imx-dspc-asrc/imx-dspc-asrc_1.0.2.bb
+@@ -12,6 +12,8 @@ inherit fsl-eula-recent fsl-eula2-unpack2 autotools pkgconfig
+ 
+ EXTRA_OECONF = "--enable-armv8 --libdir=${libdir} --bindir=/unit_tests"
+ 
++DEPENDS:append = " alsa-tools"
++
+ INHIBIT_PACKAGE_STRIP = "1"
+ INHIBIT_SYSROOT_STRIP = "1"
+ INHIBIT_PACKAGE_DEBUG_SPLIT  = "1"
+-- 
+2.43.0
+

@@ -1,0 +1,25 @@
+From c2b5ff25d4801171625ac6b784842e228a1ff7cc Mon Sep 17 00:00:00 2001
+From: Mikhail Tsukerman <miketsukerman@gmail.com>
+Date: Thu, 23 Apr 2026 10:18:45 +0200
+Subject: [PATCH] gst-plugins-bad: add alsa-tools to dependencies
+
+---
+ .../gstreamer/gstreamer1.0-plugins-bad_1.26.6.imx.bb            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-imx-bsp/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.6.imx.bb b/meta-imx-bsp/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.6.imx.bb
+index 36db56eb89..b89f9ed356 100644
+--- a/meta-imx-bsp/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.6.imx.bb
++++ b/meta-imx-bsp/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.6.imx.bb
+@@ -22,7 +22,7 @@ SRC_URI[sha256sum] = "e64e75cdafd7ff2fc7fc34e855b06b1e3ed227cc06fa378d17bbcd7678
+ LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+-DEPENDS += "gstreamer1.0-plugins-base"
++DEPENDS += "gstreamer1.0-plugins-base alsa-tools"
+ 
+ inherit gobject-introspection
+ 
+-- 
+2.43.0
+
