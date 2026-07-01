@@ -3,8 +3,5 @@ header:
 
 machine: "ecu150a1"
 
-repos:
-  meta-modular-bsp-nxp:
-    url: "https://dev.azure.com/AdvEECC/EECC_Internal/_git/preprod-meta-modular-bsp-nxp"
-    branch: "feature/scarthgap-add-ecu-150a1"
-    commit: ""
+target: 
+  - imx-image-core
