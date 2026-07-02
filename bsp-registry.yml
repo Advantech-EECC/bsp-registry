@@ -20,6 +20,10 @@ deploy:
   account_url: $ENV{AZURE_STORAGE_ACCOUNT_URL}      # Azure only; supports $ENV{} expansion
   container: bsp-registry-artifacts                 # Azure container name
   prefix: "{vendor}/{device}/{release}/{date}"      # remote path prefix template
+  yocto_cache:
+    enabled: false          
+    downloads: false        # include DL_DIR (default: true)
+    sstate: false           # include SSTATE_DIR (default: true)
   patterns:                                         # glob patterns for files to upload
     - "**/*.wic.gz"
     - "**/*.wic.bmap"
@@ -1292,7 +1296,7 @@ registry:
       description: "Advantech RSB-3720 (i.MX8)"
       device: rsb3720
       releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, usrmerge]
+      features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
       build:
         path: build/modular-bsp-rsb3720
 
