@@ -253,7 +253,7 @@ registry:
       description: "NXP Semiconductors, industrial & IoT solutions."
       website: "https://www.nxp.com/"
       includes:
-        - vendors/nxp/nxp.yml
+        - vendors/nxp/nxp.yaml
 
     - slug: mediatek
       name: "Mediatek"
@@ -314,6 +314,16 @@ registry:
       architecture: amd64
       includes:
         - vendors/qemu/machine/qemuamd64.yaml
+
+    # --- NXP i.MX-based devices ---
+
+    - slug: imx8ulp-evk
+      description: "NXP i.MX8ULP Quad EVK"
+      vendor: nxp
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/nxp/machine/imx8ulp-evk.yml
 
     # --- Advantech Europe i.MX-based devices ---
 
@@ -608,7 +618,20 @@ registry:
       yocto_version: "4.0"
       includes:
         - yocto/releases/kirkstone.yml
-      vendor_overrides:               
+      vendor_overrides:       
+        - vendor: nxp
+          distro: fsl-imx-xwayland
+          includes:
+            - vendors/nxp/nxp.yaml
+          releases:  
+            - slug: imx-5.15.52-2.1.0
+              description: "i.MX8 Release 2.1.0 Yocto 4.0 LTS Kernel 5.15.52"
+              includes:
+                - vendors/nxp/imx-5.15.52-2.1.0-kirkstone.yml
+            - slug: imx-5.15.71-2.2.0
+              description: "i.MX8 Release 2.2.0 Yocto 4.0 LTS Kernel 5.15.71"
+              includes:
+                - vendors/nxp/imx-5.15.71-2.2.0-kirkstone.yml
         - vendor: advantech
           soc_vendors:
             - vendor: nxp
@@ -636,7 +659,16 @@ registry:
       yocto_version: "4.2"
       includes:
         - yocto/releases/mickledore.yml
-      vendor_overrides:               
+      vendor_overrides:    
+        - vendor: nxp 
+          distro: fsl-imx-xwayland
+          includes:
+            - vendors/nxp/nxp.yaml
+          releases:  
+            - slug: imx-6.1.22-2.0.0
+              description: "i.MX8 Release 2.0.0 Yocto 4.2 Kernel 6.1.22"
+              includes:
+                - vendors/nxp/imx-6.1.22-2.0.0-mickledore.yml           
         - vendor: advantech
           soc_vendors:
             - vendor: nxp
@@ -663,7 +695,28 @@ registry:
       includes:
         - compilers/clang/clang.yml
         - yocto/releases/scarthgap.yml
-      vendor_overrides:             
+      vendor_overrides:   
+        - vendor: nxp 
+          distro: fsl-imx-xwayland
+          includes:
+            - vendors/nxp/nxp.yaml
+          releases:  
+            - slug: imx-6.6.23-2.0.0
+              description: "i.MX8 Release 2.0.0 Yocto 5.0 LTS Kernel 6.6.23"
+              includes:
+                - vendors/nxp/imx-6.6.23-2.0.0-scarthgap.yml
+            - slug: imx-6.6.36-2.1.0
+              description: "i.MX8 Release 2.1.0 Yocto 5.0 LTS Kernel 6.6.36"
+              includes:
+                - vendors/nxp/imx-6.6.36-2.1.0-scarthgap.yml
+            - slug: imx-6.6.52-2.2.0
+              description: "i.MX8 Release 2.2.0 Yocto 5.0 LTS Kernel 6.6.52"
+              includes:
+                - vendors/nxp/imx-6.6.52-2.2.0-scarthgap.yml          
+            - slug: imx-6.6.52-2.2.2
+              description: "i.MX8 Release 2.2.2 Yocto 5.0 LTS Kernel 6.6.52"
+              includes:
+                - vendors/nxp/imx-6.6.52-2.2.2-scarthgap.yml          
         - vendor: mediatek
           distro: 
           releases:
@@ -724,7 +777,15 @@ registry:
       includes:
         - compilers/clang/clang.yml
         - yocto/releases/styhead.yml
-      vendor_overrides:               
+      vendor_overrides:  
+        - vendor: nxp
+          includes:
+            - vendors/advantech/nxp/advantech2-nxp.yaml
+          releases:  
+            - slug: imx-6.12.3-1.0.0
+              description: "i.MX8/9 Release 1.0.0 Yocto 5.1 Kernel 6.12.3"
+              includes:
+                - vendors/nxp/imx-6.12.3-1.0.0-styhead.yml             
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
@@ -744,7 +805,24 @@ registry:
       includes:
         - compilers/clang/clang.yml
         - yocto/releases/walnascar.yml
-      vendor_overrides:               
+      vendor_overrides:
+        - vendor: nxp
+          distro: fsl-imx-xwayland
+          includes:
+            - vendors/nxp/nxp.yaml
+          releases:  
+            - slug: imx-6.12.20-2.0.0
+              description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+              includes:
+                - vendors/nxp/imx-6.12.20-2.0.0-walnascar.yml               
+            - slug: imx-6.12.34-2.1.0
+              description: "i.MX8/9 Release 2.1.0 Yocto 5.2 Kernel 6.12.34"
+              includes:
+                - vendors/nxp/imx-6.12.34-2.1.0-walnascar.yml               
+            - slug: imx-6.12.49-2.2.0
+              description: "i.MX8/9 Release 2.2.0 Yocto 5.2 Kernel 6.12.49"
+              includes:
+                - vendors/nxp/imx-6.12.49-2.2.0-walnascar.yml               
         - vendor: advantech
           soc_vendors:
             - vendor: nxp
@@ -783,6 +861,15 @@ registry:
       includes:
         - yocto/releases/whinlatter.yml
       vendor_overrides:               
+        - vendor: nxp
+          distro: fsl-imx-xwayland
+          includes:
+            - vendors/nxp/nxp.yaml
+          releases:  
+            - slug: imx-6.18.2-1.0.0
+              description: "i.MX8 Release 1.0.0 Yocto 5.3 Kernel 6.18.2"
+              includes:
+                - vendors/nxp/imx-6.18.2-1.0.0-whinlatter.yml
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
@@ -831,6 +918,12 @@ registry:
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
       includes:
         - yocto/features/debug-tweaks.yaml
+
+    - slug: ethernet-debug
+      description: "Enable Ethernet debug features in the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/ethernet-debug.yaml
 
     - slug: root-login
       description: "Enable root login in the image"
@@ -976,16 +1069,15 @@ registry:
     - name: poky-qemux86-64
       description: "Poky QEMU x86-64"
       device: qemux86-64
-      releases: [kirkstone, nanbield, mickledore, scarthgap, styhead, walnascar, whinlatter]
+      releases: [kirkstone, nanbield, mickledore, scarthgap, styhead, walnascar, whinlatter, wrynose, master]
       features: [systemd, usrmerge, yocto-ssh]
       includes:
         - vendors/qemu/common.yaml
       testing:
         lava:
-          device_type: "qemu"                                       # LAVA device type label
-          artifact_name: "core-image-minimal-qemux86-64.rootfs.wic" # where the image is served
-          # tags: ["hil", "qemu"]                                     # optional LAVA scheduler tags
-          job_template: "vendors/qemu/lava/qemu.yaml.j2"            # optional; builtin used if omitted
+          device_type: "qemu"                                         # LAVA device type label
+          artifact_name: "core-image-minimal-qemux86-64.rootfs.wic"   # where the image is served
+          job_template: "vendors/qemu/lava/qemu.yaml.j2"              # optional; builtin used if omitted
 
     - name: poky-qemux86-64-ros2
       description: "Poky QEMU x86-64"
@@ -1049,6 +1141,16 @@ registry:
       build:
         path: build/mediatek-genio-1200-evk
 
+    # --- NXP i.MX8-based devices ---
+
+    - name: nxp-imx8ulp-evk
+      description: "NXP i.MX8ULP-based devices (modular BSP)"
+      device: imx8ulp-evk
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        path: build/nxp-imx8ulp-evk
+
     # --- Advantech RSB-3810 (Mediatek) ---    
 
     - name: modular-bsp-rsb3810
@@ -1066,7 +1168,7 @@ registry:
       description: "Advantech ROM-2620 (i.MX8)"
       device: rom2620-ed91
       releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6, root-login]
       build:
         path: build/modular-bsp-rom2620-ed91
 
@@ -1076,7 +1178,7 @@ registry:
       description: "Advantech ROM-2820 (i.MX9)"
       device: rom2820-ed93
       releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6, root-login]
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom2820-ed93
@@ -1293,7 +1395,7 @@ registry:
       description: "Advantech ROM-5722 DB2510 (i.MX8)"
       device: rom5722-db2510
       releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6]
+      features: [systemd, security, virtualization, ipv6, debug-tweaks, root-login]
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5722-db2510
