@@ -124,18 +124,19 @@ Table describes in which combinations yocto releases could be used together with
 | **AOM5521 A1** | ❌ |     ❌      |     ✅     |    ❌    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
 | **AOM5521 A2** | ❌ |     ❌      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
 | **ECU-150 A1**    | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6UL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULZ14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 FIPS LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+
+| **i.MX6UL 9x9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX6ULL 14x14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX6ULL 9x9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX6ULZ 14x14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX8DXL A1 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX8DXL A1 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX8DXL B0 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX8DXL B0 FIPS LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX8DXL B0 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX8DXL EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX8MM EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MNDDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX8MN DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX8MN EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX8MP EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX8MPUL LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
@@ -157,9 +158,8 @@ Table describes in which combinations yocto releases could be used together with
 | **i.MX95 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX95 A1 15x15 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX95 A1 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95A1 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **i.MX95 A1 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 | **i.MX95 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-
 **Status Legend:**
 
 * 🟢 **Stable**: Production-ready, fully tested and supported
@@ -185,18 +185,19 @@ Table describes in which combinations yocto releases could be used together with
 | **AOM5521 A1** | walnascar | 🟡 Development | *(Same as above)* |
 | **AOM5521 A2** | walnascar | 🟢 Stable | *(Same as above)* |
 | **ECU-150** | walnascar, scarthgap | 🟡 Development | [Advantech ECU-150 Product page](https://www.advantech.com/en-us/products/7332cf9e-bf70-4a79-b0b6-fd8a2182cd72/ecu-150/mod_7af3b0b8-4e52-4ed2-bbdc-22ad3222def0) |
-| **i.MX6UL9X9 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ul9x9evk` |
-| **i.MX6ULL14X14 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ull14x14evk` |
-| **i.MX6ULL9X9 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ull9x9evk` |
-| **i.MX6ULZ14X14 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ulz14x14evk` |
-| **i.MX8DXLA1 DDR3L EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxla1-ddr3l-evk` |
-| **i.MX8DXLA1 LPDDR4 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxla1-lpddr4-evk` |
-| **i.MX8DXLB0 DDR3L EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-ddr3l-evk` |
-| **i.MX8DXLB0 FIPS LPDDR4 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-fips-lpddr4-evk` |
-| **i.MX8DXLB0 LPDDR4 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-lpddr4-evk` |
+
+| **i.MX6UL 9x9 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ul9x9evk` |
+| **i.MX6ULL 14x14 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ull14x14evk` |
+| **i.MX6ULL 9x9 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ull9x9evk` |
+| **i.MX6ULZ 14x14 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx6ulz14x14evk` |
+| **i.MX8DXL A1 DDR3L EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxla1-ddr3l-evk` |
+| **i.MX8DXL A1 LPDDR4 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxla1-lpddr4-evk` |
+| **i.MX8DXL B0 DDR3L EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-ddr3l-evk` |
+| **i.MX8DXL B0 FIPS LPDDR4 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-fips-lpddr4-evk` |
+| **i.MX8DXL B0 LPDDR4 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-lpddr4-evk` |
 | **i.MX8DXL EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlevk` |
 | **i.MX8MM EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8mmevk` |
-| **i.MX8MNDDR3L EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8mnddr3levk` |
+| **i.MX8MN DDR3L EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8mnddr3levk` |
 | **i.MX8MN EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8mnevk` |
 | **i.MX8MP EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8mpevk` |
 | **i.MX8MPUL LPDDR4 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx8mpul-lpddr4-evk` |
@@ -218,9 +219,8 @@ Table describes in which combinations yocto releases could be used together with
 | **i.MX95 19x19 LPDDR5 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx95-19x19-lpddr5-evk` |
 | **i.MX95 A1 15x15 LPDDR4X EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx95-a1-15x15-lpddr4x-evk` |
 | **i.MX95 A1 19x19 LPDDR5 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx95-a1-19x19-lpddr5-evk` |
-| **i.MX95A1 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx95a1evk` |
+| **i.MX95 A1 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx95a1evk` |
 | **i.MX95 EVK** | whinlatter, walnascar, styhead, scarthgap | 🟡 Development | *Upstream meta-imx machine config:* `imx95evk` |
-
 #### 2.1.1.1. Yocto releases
 
 This list below covers the most recent and commonly referenced Yocto releases:
@@ -263,41 +263,6 @@ The registry includes Isar-based BSP configurations for the following targets:
 | **QEMU ARM64** | Debian Trixie | ✅ Ready | `isar-qemuarm64-debian-trixie` |
 | **QEMU ARM64** | Ubuntu Noble | ✅ Ready | `isar-qemuarm64-ubuntu-noble` |
 | **QEMU ARM** | Debian Trixie | ✅ Ready | `isar-qemuarm-debian-trixie` |
-| **i.MX6UL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULZ14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 FIPS LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXL EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MM EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MNDDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MN EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MP EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MPUL LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MQ EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8ULP 9x9 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8ULP EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable |
-| **i.MX91 11x11 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX91 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93 11x11 LPDDR4X PF0900 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93W 14x12 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX941 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX942 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 15x15 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 15x15 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 A1 15x15 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 A1 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95A1 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 
 **Status Legend:**
 * ✅ **Ready**: Functional and available for testing/development
@@ -436,41 +401,6 @@ set. For detailed configuration, see the [MediaTek vendor README](vendors/mediat
 | -------------- | :-------: | ------------- |
 | **Genio 1200 EVK** | 🟡    | 🟡 Development |
 | **RSB-3810**   |     🟡     | 🟡 Development |
-| **i.MX6UL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULZ14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 FIPS LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXL EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MM EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MNDDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MN EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MP EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MPUL LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MQ EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8ULP 9x9 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8ULP EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable |
-| **i.MX91 11x11 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX91 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93 11x11 LPDDR4X PF0900 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93W 14x12 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX941 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX942 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 15x15 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 15x15 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 A1 15x15 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 A1 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95A1 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 
 **Status Legend:**
 
@@ -508,41 +438,6 @@ the [Advantech Qualcomm overlay README](vendors/advantech/qualcomm/README.md).
 | --------------------- | :-------: | ------------- |
 | **QCS6490 RB3gen2**   |     🟡     | 🟡 Development |
 | **AOM-2721**          |     🟡     | 🟡 Development |
-| **i.MX6UL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULL9X9 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX6ULZ14X14 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLA1 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 DDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 FIPS LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXLB0 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8DXL EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MM EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MNDDR3L EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MN EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MP EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MPUL LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8MQ EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8ULP 9x9 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX8ULP EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable |
-| **i.MX91 11x11 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX91 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93 11x11 LPDDR4X PF0900 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX93W 14x12 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX941 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX942 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 15x15 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 19x19 LPDDR4 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX943 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 15x15 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 A1 15x15 LPDDR4X EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 A1 19x19 LPDDR5 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95A1 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **i.MX95 EVK** | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 
 **Status Legend:**
 

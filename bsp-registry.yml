@@ -332,7 +332,7 @@ registry:
     # --- Additional NXP i.MX EVK devices ---
 
     - slug: imx6ul9x9evk
-      description: "NXP i.MX6UL9X9 EVK"
+      description: "NXP i.MX6UL 9x9 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm
@@ -340,7 +340,7 @@ registry:
         - vendors/nxp/machine/imx6ul9x9evk.yml
 
     - slug: imx6ull14x14evk
-      description: "NXP i.MX6ULL14X14 EVK"
+      description: "NXP i.MX6ULL 14x14 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm
@@ -348,7 +348,7 @@ registry:
         - vendors/nxp/machine/imx6ull14x14evk.yml
 
     - slug: imx6ull9x9evk
-      description: "NXP i.MX6ULL9X9 EVK"
+      description: "NXP i.MX6ULL 9x9 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm
@@ -356,7 +356,7 @@ registry:
         - vendors/nxp/machine/imx6ull9x9evk.yml
 
     - slug: imx6ulz14x14evk
-      description: "NXP i.MX6ULZ14X14 EVK"
+      description: "NXP i.MX6ULZ 14x14 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm
@@ -364,7 +364,7 @@ registry:
         - vendors/nxp/machine/imx6ulz14x14evk.yml
 
     - slug: imx8dxla1-ddr3l-evk
-      description: "NXP i.MX8DXLA1 DDR3L EVK"
+      description: "NXP i.MX8DXL A1 DDR3L EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm64
@@ -372,7 +372,7 @@ registry:
         - vendors/nxp/machine/imx8dxla1-ddr3l-evk.yml
 
     - slug: imx8dxla1-lpddr4-evk
-      description: "NXP i.MX8DXLA1 LPDDR4 EVK"
+      description: "NXP i.MX8DXL A1 LPDDR4 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm64
@@ -380,7 +380,7 @@ registry:
         - vendors/nxp/machine/imx8dxla1-lpddr4-evk.yml
 
     - slug: imx8dxlb0-ddr3l-evk
-      description: "NXP i.MX8DXLB0 DDR3L EVK"
+      description: "NXP i.MX8DXL B0 DDR3L EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm64
@@ -388,7 +388,7 @@ registry:
         - vendors/nxp/machine/imx8dxlb0-ddr3l-evk.yml
 
     - slug: imx8dxlb0-fips-lpddr4-evk
-      description: "NXP i.MX8DXLB0 FIPS LPDDR4 EVK"
+      description: "NXP i.MX8DXL B0 FIPS LPDDR4 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm64
@@ -396,7 +396,7 @@ registry:
         - vendors/nxp/machine/imx8dxlb0-fips-lpddr4-evk.yml
 
     - slug: imx8dxlb0-lpddr4-evk
-      description: "NXP i.MX8DXLB0 LPDDR4 EVK"
+      description: "NXP i.MX8DXL B0 LPDDR4 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm64
@@ -420,7 +420,7 @@ registry:
         - vendors/nxp/machine/imx8mmevk.yml
 
     - slug: imx8mnddr3levk
-      description: "NXP i.MX8MNDDR3L EVK"
+      description: "NXP i.MX8MN DDR3L EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm64
@@ -588,7 +588,7 @@ registry:
         - vendors/nxp/machine/imx95-a1-19x19-lpddr5-evk.yml
 
     - slug: imx95a1evk
-      description: "NXP i.MX95A1 EVK"
+      description: "NXP i.MX95 A1 EVK"
       vendor: nxp
       soc_vendor: nxp
       architecture: arm64
@@ -1431,7 +1431,7 @@ registry:
     # --- Additional NXP i.MX EVK BSPs ---
 
     - name: nxp-imx6ul9x9evk
-      description: "NXP i.MX6UL9X9 EVK (modular BSP)"
+      description: "NXP i.MX6UL 9x9 EVK (modular BSP)"
       device: imx6ul9x9evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1439,7 +1439,7 @@ registry:
         path: build/nxp-imx6ul9x9evk
 
     - name: nxp-imx6ull14x14evk
-      description: "NXP i.MX6ULL14X14 EVK (modular BSP)"
+      description: "NXP i.MX6ULL 14x14 EVK (modular BSP)"
       device: imx6ull14x14evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1447,7 +1447,7 @@ registry:
         path: build/nxp-imx6ull14x14evk
 
     - name: nxp-imx6ull9x9evk
-      description: "NXP i.MX6ULL9X9 EVK (modular BSP)"
+      description: "NXP i.MX6ULL 9x9 EVK (modular BSP)"
       device: imx6ull9x9evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1455,7 +1455,7 @@ registry:
         path: build/nxp-imx6ull9x9evk
 
     - name: nxp-imx6ulz14x14evk
-      description: "NXP i.MX6ULZ14X14 EVK (modular BSP)"
+      description: "NXP i.MX6ULZ 14x14 EVK (modular BSP)"
       device: imx6ulz14x14evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1463,7 +1463,7 @@ registry:
         path: build/nxp-imx6ulz14x14evk
 
     - name: nxp-imx8dxla1-ddr3l-evk
-      description: "NXP i.MX8DXLA1 DDR3L EVK (modular BSP)"
+      description: "NXP i.MX8DXL A1 DDR3L EVK (modular BSP)"
       device: imx8dxla1-ddr3l-evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1471,7 +1471,7 @@ registry:
         path: build/nxp-imx8dxla1-ddr3l-evk
 
     - name: nxp-imx8dxla1-lpddr4-evk
-      description: "NXP i.MX8DXLA1 LPDDR4 EVK (modular BSP)"
+      description: "NXP i.MX8DXL A1 LPDDR4 EVK (modular BSP)"
       device: imx8dxla1-lpddr4-evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1479,7 +1479,7 @@ registry:
         path: build/nxp-imx8dxla1-lpddr4-evk
 
     - name: nxp-imx8dxlb0-ddr3l-evk
-      description: "NXP i.MX8DXLB0 DDR3L EVK (modular BSP)"
+      description: "NXP i.MX8DXL B0 DDR3L EVK (modular BSP)"
       device: imx8dxlb0-ddr3l-evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1487,7 +1487,7 @@ registry:
         path: build/nxp-imx8dxlb0-ddr3l-evk
 
     - name: nxp-imx8dxlb0-fips-lpddr4-evk
-      description: "NXP i.MX8DXLB0 FIPS LPDDR4 EVK (modular BSP)"
+      description: "NXP i.MX8DXL B0 FIPS LPDDR4 EVK (modular BSP)"
       device: imx8dxlb0-fips-lpddr4-evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1495,7 +1495,7 @@ registry:
         path: build/nxp-imx8dxlb0-fips-lpddr4-evk
 
     - name: nxp-imx8dxlb0-lpddr4-evk
-      description: "NXP i.MX8DXLB0 LPDDR4 EVK (modular BSP)"
+      description: "NXP i.MX8DXL B0 LPDDR4 EVK (modular BSP)"
       device: imx8dxlb0-lpddr4-evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1519,7 +1519,7 @@ registry:
         path: build/nxp-imx8mmevk
 
     - name: nxp-imx8mnddr3levk
-      description: "NXP i.MX8MNDDR3L EVK (modular BSP)"
+      description: "NXP i.MX8MN DDR3L EVK (modular BSP)"
       device: imx8mnddr3levk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
@@ -1687,7 +1687,7 @@ registry:
         path: build/nxp-imx95-a1-19x19-lpddr5-evk
 
     - name: nxp-imx95a1evk
-      description: "NXP i.MX95A1 EVK (modular BSP)"
+      description: "NXP i.MX95 A1 EVK (modular BSP)"
       device: imx95a1evk
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
