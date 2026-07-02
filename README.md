@@ -108,21 +108,22 @@ The BSP build system is designed to support a wide range of hardware platforms, 
 
 Table describes in which combinations yocto releases could be used together with boards.
 
-| Board \ Yocto  | whinlatter | walnascar | styhead | scarthgap | mickledore | langdale | kirkstone | Status        |
-| -------------- | :--------: | :-------: | :-----: | :-------: | :--------: | :------: | :-------: | ------------- |
-| **RSB3720**    |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     🟡     | 🟢 Stable      |
-| **RSB3720 4G** |     🟡      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **RSB3720 6G** |     🟡      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **RSB3730**    |     ❌      |     ❌     |    ❌    |     ❌     |     ✅      |    ❌     |     ❌     | 🟡 Development |
-| **ROM2620**    |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5720**    |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721**    |     🟡      |     ✅     |    ✅    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721 1G** |     🟡      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721 2G** |     🟡      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5722**    |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM2820**    |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **AOM5521 A1** |     ❌      |     🟡     |    ❌    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **AOM5521 A2** |     ❌      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| Board \ Yocto  | wrynose | whinlatter | walnascar | styhead | scarthgap | mickledore | langdale | kirkstone | Status        |
+| -------------- | :--------: |:--------: | :-------: | :-----: | :-------: | :--------: | :------: | :-------: | ------------- |
+| **RSB3720**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     🟡     | 🟢 Stable      |
+| **RSB3720 4G** | ❌ |     🟡      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **RSB3720 6G** | ❌ |     🟡      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **RSB3730**    | ❌ |     ❌      |     ❌     |    ❌    |     ❌     |     ✅      |    ❌     |     ❌     | 🟡 Development |
+| **ROM2620**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5720**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5721**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5721 1G** | ❌ |     🟡      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5721 2G** | ❌ |     🟡      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5722**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM2820**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **AOM5521 A1** | ❌ |     ❌      |     ✅     |    ❌    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **AOM5521 A2** | ❌ |     ❌      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ECU-150 A1**    | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 
 **Status Legend:**
 
@@ -148,6 +149,7 @@ Table describes in which combinations yocto releases could be used together with
 | **AOM5521 A1** | scarthgap | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
 | **AOM5521 A1** | walnascar | 🟡 Development | *(Same as above)* |
 | **AOM5521 A2** | walnascar | 🟢 Stable | *(Same as above)* |
+| **ECU-150** | walnascar, scarthgap | 🟡 Development | [Advantech ECU-150 Product page](https://www.advantech.com/en-us/products/7332cf9e-bf70-4a79-b0b6-fd8a2182cd72/ecu-150/mod_7af3b0b8-4e52-4ed2-bbdc-22ad3222def0) |
 
 #### 2.1.1.1. Yocto releases
 
