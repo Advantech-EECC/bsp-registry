@@ -5,7 +5,7 @@ header:
 
 repos:
   meta-modular-bsp-nxp:
-    commit: "d636c39f21e30b689eb72cfde12fa4ee12287b46"
+    commit: "54ed3c34a139278c68b488b329441c3a3c3ced47"
 
   meta-nxp-security-reference-design:
     branch: "styhead-6.12.3-1.0.0"
