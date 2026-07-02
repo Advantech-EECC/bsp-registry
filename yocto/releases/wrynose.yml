@@ -5,7 +5,7 @@ header:
 
 defaults:
   repos:
-    branch: "master"
+    branch: "wrynose"
 
 repos:
   openembedded-core:

@@ -1,0 +1,6 @@
+header:
+  version: 14
+
+local_conf_header:
+  ethernet-debug: |
+    CORE_IMAGE_EXTRA_INSTALL += " mdio-tools mdio-netlink net-tools"

@@ -50,7 +50,7 @@ repos:
   meta-imx:
     url: "https://github.com/nxp-imx/meta-imx.git"
     commit: "a0cf309d2e2d544111e520f572db8dff335eca01"
-    branch: "scarthgap-6.6.52-2.2.2"
+    branch: "scarthgap-6.6.52-2.2.0"
     path: "layers/meta-imx"
     layers:
       meta-imx-bsp:

@@ -22,4 +22,3 @@ local_conf_header:
     FETCHCMD_wget:pn-cargo-c-native = "${FETCHCMD_WUA}"
     FETCHCMD_wget:pn-librsvg-native = "${FETCHCMD_WUA}"
     FETCHCMD_wget:pn-python3-maturin-native = "${FETCHCMD_WUA}"
-    

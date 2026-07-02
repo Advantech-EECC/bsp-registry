@@ -78,7 +78,7 @@ repos:
 
   meta-imx:
     url: "https://github.com/nxp-imx/meta-imx.git"
-    commit: "5fe9cc9d449af5482c49d6b57e0c5fbd3809e380"
+    commit: "4d4651bec66c22aa91f1f8897140e77e20773ec4"
     tag: "refs/tags/rel_imx_6.12.34_2.1.0"
     branch: ""
     path: "layers/meta-imx"

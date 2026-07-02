@@ -3,5 +3,5 @@ header:
 
 machine: "ecu150a1"
 
-target: 
+target:
   - imx-image-core
