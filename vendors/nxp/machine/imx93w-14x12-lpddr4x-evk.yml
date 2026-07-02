@@ -1,0 +1,4 @@
+header:
+  version: 14
+
+machine: "imx93w-14x12-lpddr4x-evk"

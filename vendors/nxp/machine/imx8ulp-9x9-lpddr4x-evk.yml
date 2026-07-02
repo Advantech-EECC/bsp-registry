@@ -1,0 +1,4 @@
+header:
+  version: 14
+
+machine: "imx8ulp-9x9-lpddr4x-evk"

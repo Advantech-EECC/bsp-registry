@@ -1,0 +1,4 @@
+header:
+  version: 14
+
+machine: "imx95-15x15-lpddr4x-evk"

@@ -1,0 +1,4 @@
+header:
+  version: 14
+
+machine: "imx8mpul-lpddr4-evk"
