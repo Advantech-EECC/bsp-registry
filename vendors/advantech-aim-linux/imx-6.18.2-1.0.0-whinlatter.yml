@@ -1,0 +1,13 @@
+header:
+  version: 14
+  includes:
+    - vendors/nxp/imx-6.18.2-1.0.0-whinlatter.yml
+
+repos:
+  this:
+    layers:
+      .: "disabled"
+
+  meta-advantech-nxp:
+    branch: "whinlatter-6.18.2"
+    commit: "440b2ee297c07fb40ff10957dbb017eaf43f7a10"

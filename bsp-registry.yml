@@ -245,6 +245,13 @@ registry:
       includes:
         - vendors/advantech/advantech.yml
 
+    - slug: advantech-aim-linux
+      name: "Advantech AIM Linux"
+      description: "Advantech Corporation, a global leader in industrial computing and IoT solutions."
+      website: "https://www.advantech.com/"
+      includes:
+        - vendors/advantech-aim-linux/advantech-nxp.yml
+
     - slug: advantech-europe
       name: "Advantech Europe"
       description: "Advantech Europe, a regional branch of Advantech Corporation."
@@ -509,16 +516,6 @@ registry:
       includes:
         - vendors/advantech/nxp/machine/imx9/imx93rom2820a1.yml
 
-    # --- Advantech AOM5521 ---
-
-    - slug: imx95aom2521b0
-      description: "Advantech AOM-2521 B0 (i.MX95)"
-      vendor: advantech
-      soc_vendor: nxp
-      architecture: arm64
-      includes:
-        - vendors/advantech/nxp/machine/imx9/imx95aom2521b0.yml
-
     - slug: imx95aom5521a1
       description: "Advantech AOM-5521 A1 (i.MX95)"
       vendor: advantech
@@ -576,6 +573,18 @@ registry:
       architecture: arm64
       includes:
         - vendors/qualcomm/machine/qcs6490-rb3gen2-vision-kit.yml
+
+    # --- Advantech AIM Linux Devices ---
+
+    # --- Advantech AOM5521 ---
+
+    - slug: imx95aom2521b0
+      description: "Advantech AOM-2521 B0 (i.MX95)"
+      vendor: advantech-aim-linux
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-aim-linux/machine/imx9/imx95aom2521b0.yml
 
   # =====================================
   # Releases
@@ -846,6 +855,17 @@ registry:
                   description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
                   includes:
                     - vendors/advantech/nxp/imx-6.12.20-2.0.0-walnascar.yml
+        - vendor: advantech-aim-linux
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-aim-linux/advantech-nxp.yml
+              releases:  
+                - slug: imx-6.12.20-2.0.0
+                  description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+                  includes:
+                    - vendors/advantech-aim-linux/imx-6.12.20-2.0.0-walnascar.yml
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
@@ -882,6 +902,17 @@ registry:
               description: "i.MX8 Release 1.0.0 Yocto 5.3 Kernel 6.18.2"
               includes:
                 - vendors/nxp/imx-6.18.2-1.0.0-whinlatter.yml
+        - vendor: advantech-aim-linux
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-aim-linux/advantech-nxp.yml
+              releases:  
+                - slug: imx-6.18.2-1.0.0
+                  description: "i.MX8/9 Release 1.0.0 Yocto 5.3 Kernel 6.18.2"
+                  includes:
+                    - vendors/advantech-aim-linux/imx-6.18.2-1.0.0-whinlatter.yml
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
@@ -1426,11 +1457,11 @@ registry:
     - name: advantech-imx95aom2521b0
       description: "Advantech AOM-5521 B0 (i.MX95)"
       device: imx95aom2521b0
-      releases: [scarthgap, walnascar]
+      releases: [walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
       build:
         container: "ubuntu-22.04"
-        path: build/advantech-imx95aom2521b0
+        path: build/advantech-aim-linux-imx95aom2521b0
 
     - name: advantech-imx95aom5521a1
       description: "Advantech AOM-5521 A1 DB2510 (i.MX95)"
