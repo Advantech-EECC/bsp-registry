@@ -5,8 +5,7 @@ header:
 
 repos:
   meta-modular-bsp-nxp:
-    url: "https://github.com/miketsukerman/meta-modular-bsp-nxp.git"
-    branch: "fix/wrynose-integration-fixes"
+    commit: "44e3e1c67f8a2144dd98c53d8fbefba77f2fa96b"
 
   meta-nxp-security-reference-design:
     branch: "whinlatter-6.18.2-1.0.0-adv"
