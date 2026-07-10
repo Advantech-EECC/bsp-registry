@@ -1,0 +1,18 @@
+header:
+  version: 14
+
+machine: imx95aom2521b0
+
+repos:
+  meta-advantech-nxp:
+    url: https://AIM-Linux@dev.azure.com/AIM-Linux/meta-advantech-nxp/_git/meta-advantech-nxp
+    path: "layers/meta-advantech-nxp"
+    branch: "walnascar-6.12.20"
+    commit: "ed472f4b93e67314c71cd92d91782da3940a205f"
+    layers:
+      .:
+
+  meta-advantech2:
+    layers:
+      meta-fsl-imx: "disabled"
+      meta-tools: "disabled"

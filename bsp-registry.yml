@@ -511,6 +511,14 @@ registry:
 
     # --- Advantech AOM5521 ---
 
+    - slug: imx95aom2521b0
+      description: "Advantech AOM-2521 B0 (i.MX95)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx9/imx95aom2521b0.yml
+
     - slug: imx95aom5521a1
       description: "Advantech AOM-5521 A1 (i.MX95)"
       vendor: advantech
@@ -1414,6 +1422,15 @@ registry:
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-aom5521-db2510
+
+    - name: advantech-imx95aom2521b0
+      description: "Advantech AOM-5521 B0 (i.MX95)"
+      device: imx95aom2521b0
+      releases: [scarthgap, walnascar]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/advantech-imx95aom2521b0
 
     - name: advantech-imx95aom5521a1
       description: "Advantech AOM-5521 A1 DB2510 (i.MX95)"
