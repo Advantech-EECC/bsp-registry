@@ -1467,7 +1467,7 @@ registry:
         path: build/modular-bsp-aom5521-db2510
 
     - name: advantech-imx95aom2521b0
-      description: "Advantech AOM-5521 B0 (i.MX95)"
+      description: "Advantech AOM-2521 B0 (i.MX95)"
       device: imx95aom2521b0
       releases: [walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
