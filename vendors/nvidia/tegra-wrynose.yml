@@ -1,0 +1,40 @@
+header:
+  version: 14
+  includes:
+    - vendors/nvidia/nvidia-common.yml
+
+# NVIDIA Jetson JetPack 6 (L4T r36.x) - Orin
+# Layers are pinned to the OE4T "wrynose" branch, matching the
+# tegra-demo-distro submodule set for that release.
+repos:
+  # meta-virtualization is disabled by default (see yocto/yocto.yaml); the
+  # full tegra-demo distribution enables it for the docker demo images.
+  meta-virtualization:
+    layers:
+      .:
+
+  meta-tegra:
+    url: "https://github.com/OE4T/meta-tegra.git"
+    branch: "wrynose"
+    commit: "87dae4e0f52ca48f847581c8a2c549d2efb1e0c7"
+    path: "layers/meta-tegra"
+    layers:
+      .:
+
+  meta-tegra-community:
+    url: "https://github.com/OE4T/meta-tegra-community.git"
+    branch: "wrynose"
+    commit: "9dc1629b63dafc6dc119bce62ab1272431675897"
+    path: "layers/meta-tegra-community"
+    layers:
+      .:
+
+  tegra-demo-distro:
+    url: "https://github.com/OE4T/tegra-demo-distro.git"
+    branch: "wrynose"
+    commit: "24326788edd7310f91da6807c516b977992e115f"
+    path: "layers/tegra-demo-distro"
+    layers:
+      layers/meta-tegra-support:
+      layers/meta-demo-ci:
+      layers/meta-tegrademo:

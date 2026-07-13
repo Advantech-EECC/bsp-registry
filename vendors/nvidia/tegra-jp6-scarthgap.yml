@@ -1,0 +1,40 @@
+header:
+  version: 14
+  includes:
+    - vendors/nvidia/nvidia-common.yml
+
+# NVIDIA Jetson JetPack 6 (L4T r36.x) - Orin
+# Layers are pinned to the OE4T "scarthgap" branch, matching the
+# tegra-demo-distro submodule set for that release.
+repos:
+  # meta-virtualization is disabled by default (see yocto/yocto.yaml); the
+  # full tegra-demo distribution enables it for the docker demo images.
+  meta-virtualization:
+    layers:
+      .:
+
+  meta-tegra:
+    url: "https://github.com/OE4T/meta-tegra.git"
+    branch: "scarthgap"
+    commit: "a54b81a15056f15e8a7ac080107b609a19e0326f"
+    path: "layers/meta-tegra"
+    layers:
+      .:
+
+  meta-tegra-community:
+    url: "https://github.com/OE4T/meta-tegra-community.git"
+    branch: "scarthgap"
+    commit: "7bb9a44281367129a5c21e722f6fa1cf192b0827"
+    path: "layers/meta-tegra-community"
+    layers:
+      .:
+
+  tegra-demo-distro:
+    url: "https://github.com/OE4T/tegra-demo-distro.git"
+    branch: "scarthgap"
+    commit: "d2a2dfbaec70c1c2af4f346651e3fd875c9ce40e"
+    path: "layers/tegra-demo-distro"
+    layers:
+      layers/meta-tegra-support:
+      layers/meta-demo-ci:
+      layers/meta-tegrademo:

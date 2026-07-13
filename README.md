@@ -37,6 +37,8 @@ The registry supports two build systems:
     - [2.3.1. Building MediaTek BSPs](#231-building-mediatek-bsps)
   - [2.4. Qualcomm Boards Compatibility Matrix](#24-qualcomm-boards-compatibility-matrix)
     - [2.4.1. Building Qualcomm BSPs](#241-building-qualcomm-bsps)
+  - [2.5. NVIDIA Jetson Boards Compatibility Matrix](#25-nvidia-jetson-boards-compatibility-matrix)
+    - [2.5.1. Building NVIDIA Jetson BSPs](#251-building-nvidia-jetson-bsps)
 - [3. BSP Registry Manager](#3-bsp-registry-manager)
   - [3.1. Overview](#31-overview)
   - [3.2. Installation](#32-installation)
@@ -389,6 +391,55 @@ bsp list | grep -i qcs
 
 # Build Qualcomm QCS6490 RB3gen2 EVK (scarthgap)
 bsp build qcs6490-rb3gen2-vision-kit-scarthgap
+```
+---
+
+## 2.5. NVIDIA Jetson Boards Compatibility Matrix
+
+The BSP registry supports **NVIDIA Jetson** platforms through the community
+**[OE4T](https://github.com/OE4T)** layers (`meta-tegra`, `meta-tegra-community`) and the full
+**`tegra-demo-distro`** distribution (`tegrademo`). For detailed configuration, see the
+[NVIDIA vendor README](vendors/nvidia/README.md).
+
+Orin (JetPack 6 / L4T r36.x) is supported across all Yocto releases from scarthgap to wrynose.
+Xavier (JetPack 5 / L4T r35.x) is available on **scarthgap only**, because NVIDIA's Xavier
+support lives on the OE4T `*-l4t-r35.x` branches, which only exist for kirkstone and scarthgap.
+
+| Board \ Yocto              | scarthgap | styhead | walnascar | whinlatter | wrynose | Status        |
+| -------------------------- | :-------: | :-----: | :-------: | :--------: | :-----: | ------------- |
+| **Jetson AGX Orin**        |     🟡     |    🟡    |     🟡     |     🟡      |    🟡    | 🟡 Development |
+| **Jetson Orin Nano**       |     🟡     |    🟡    |     🟡     |     🟡      |    🟡    | 🟡 Development |
+| **Jetson Orin Nano NVMe**  |     🟡     |    🟡    |     🟡     |     🟡      |    🟡    | 🟡 Development |
+| **Jetson AGX Xavier**      |     🟡     |    ❌    |     ❌     |     ❌      |    ❌    | 🟡 Development |
+| **Jetson Xavier NX**       |     🟡     |    ❌    |     ❌     |     ❌      |    ❌    | 🟡 Development |
+
+**Status Legend:**
+
+* 🟢 **Stable**: Production-ready, fully tested and supported
+* 🟡 **Development**: Under active development, may have limitations
+* ❌ **Unsupported**: Not available for this Yocto release
+
+| **Hardware**              | **Supported Releases**                             | **JetPack / L4T**     | **Status**     | **Documentation** |
+|---------------------------|----------------------------------------------------|-----------------------|----------------|-------------------|
+| **Jetson AGX Orin**       | scarthgap, styhead, walnascar, whinlatter, wrynose | JetPack 6 / L4T r36.x | 🟡 Development | [NVIDIA Jetson Orin](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) |
+| **Jetson Orin Nano**      | scarthgap, styhead, walnascar, whinlatter, wrynose | JetPack 6 / L4T r36.x | 🟡 Development | [NVIDIA Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) |
+| **Jetson AGX Xavier**     | scarthgap                                          | JetPack 5 / L4T r35.x | 🟡 Development | [NVIDIA Jetson Xavier](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-agx-xavier/) |
+| **Jetson Xavier NX**      | scarthgap                                          | JetPack 5 / L4T r35.x | 🟡 Development | [NVIDIA Jetson Xavier NX](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-xavier-nx/) |
+
+### 2.5.1. Building NVIDIA Jetson BSPs
+
+```bash
+# List available NVIDIA Jetson BSPs
+bsp list | grep -i jetson
+
+# Build Jetson AGX Orin (JetPack 6, scarthgap)
+bsp build jetson-agx-orin-devkit-scarthgap
+
+# Build Jetson AGX Xavier (JetPack 5, scarthgap only)
+bsp build jetson-agx-xavier-devkit-scarthgap
+
+# Build Jetson Orin Nano on the latest release (wrynose)
+bsp build jetson-orin-nano-devkit-wrynose
 ```
 ---
 

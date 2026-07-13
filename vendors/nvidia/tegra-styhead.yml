@@ -1,0 +1,40 @@
+header:
+  version: 14
+  includes:
+    - vendors/nvidia/nvidia-common.yml
+
+# NVIDIA Jetson JetPack 6 (L4T r36.x) - Orin
+# Layers are pinned to the OE4T "styhead" branch, matching the
+# tegra-demo-distro submodule set for that release.
+repos:
+  # meta-virtualization is disabled by default (see yocto/yocto.yaml); the
+  # full tegra-demo distribution enables it for the docker demo images.
+  meta-virtualization:
+    layers:
+      .:
+
+  meta-tegra:
+    url: "https://github.com/OE4T/meta-tegra.git"
+    branch: "styhead"
+    commit: "38db7942b38160828ecbc1cb16275bec24a16538"
+    path: "layers/meta-tegra"
+    layers:
+      .:
+
+  meta-tegra-community:
+    url: "https://github.com/OE4T/meta-tegra-community.git"
+    branch: "styhead"
+    commit: "a6a17dc195abd10caa6727455104784e52ae2589"
+    path: "layers/meta-tegra-community"
+    layers:
+      .:
+
+  tegra-demo-distro:
+    url: "https://github.com/OE4T/tegra-demo-distro.git"
+    branch: "styhead"
+    commit: "6c5a9e590167437524d1e5ad923c9a537349721c"
+    path: "layers/tegra-demo-distro"
+    layers:
+      layers/meta-tegra-support:
+      layers/meta-demo-ci:
+      layers/meta-tegrademo:

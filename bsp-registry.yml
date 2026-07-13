@@ -280,6 +280,13 @@ registry:
       includes:
         - vendors/qualcomm/qualcomm-common.yml
 
+    - slug: nvidia
+      name: "NVIDIA"
+      description: "NVIDIA, accelerated computing and Jetson edge AI platforms (OE4T meta-tegra)."
+      website: "https://www.nvidia.com/"
+      includes:
+        - vendors/nvidia/nvidia-common.yml
+
   # =====================================
   # Devices
   # =====================================
@@ -574,6 +581,50 @@ registry:
       includes:
         - vendors/qualcomm/machine/qcs6490-rb3gen2-vision-kit.yml
 
+    # --- NVIDIA Jetson Devices (OE4T meta-tegra) ---
+
+    # Orin family (JetPack 5 & JetPack 6, scarthgap -> wrynose)
+    - slug: jetson-agx-orin-devkit
+      description: "NVIDIA Jetson AGX Orin Developer Kit"
+      vendor: nvidia
+      soc_vendor: nvidia
+      architecture: arm64
+      includes:
+        - vendors/nvidia/machine/jetson-agx-orin-devkit.yml
+
+    - slug: jetson-orin-nano-devkit
+      description: "NVIDIA Jetson Orin Nano Developer Kit"
+      vendor: nvidia
+      soc_vendor: nvidia
+      architecture: arm64
+      includes:
+        - vendors/nvidia/machine/jetson-orin-nano-devkit.yml
+
+    - slug: jetson-orin-nano-devkit-nvme
+      description: "NVIDIA Jetson Orin Nano Developer Kit (NVMe)"
+      vendor: nvidia
+      soc_vendor: nvidia
+      architecture: arm64
+      includes:
+        - vendors/nvidia/machine/jetson-orin-nano-devkit-nvme.yml
+
+    # Xavier family (JetPack 5 / L4T r35.x only, scarthgap)
+    - slug: jetson-agx-xavier-devkit
+      description: "NVIDIA Jetson AGX Xavier Developer Kit (JetPack 5 only)"
+      vendor: nvidia
+      soc_vendor: nvidia
+      architecture: arm64
+      includes:
+        - vendors/nvidia/machine/jetson-agx-xavier-devkit.yml
+
+    - slug: jetson-xavier-nx-devkit
+      description: "NVIDIA Jetson Xavier NX Developer Kit (JetPack 5 only)"
+      vendor: nvidia
+      soc_vendor: nvidia
+      architecture: arm64
+      includes:
+        - vendors/nvidia/machine/jetson-xavier-nx-devkit.yml
+
     # --- Advantech AIM Linux Devices ---
 
     # --- Advantech AOM5521 ---
@@ -752,6 +803,17 @@ registry:
               description: "Qualcomm QCS6490 RB3 Gen2 Vision Kit (Yocto 5.0 LTS Kernel 6.6.97)"
               includes:
                 - vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.0 LTS)"
+              includes:
+                - vendors/nvidia/tegra-jp6-scarthgap.yml
+            - slug: tegra-jp5
+              description: "NVIDIA Jetson Xavier + Orin JetPack 5 / L4T r35.x (Yocto 5.0 LTS)"
+              includes:
+                - vendors/nvidia/tegra-jp5-scarthgap.yml
         - vendor: advantech
           soc_vendors:
             - vendor: nxp
@@ -818,6 +880,13 @@ registry:
                   description: "i.MX8 Release 1.0.0 Yocto 5.1 Kernel 6.12.3"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.12.3-1.0.0-styhead.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.1 Styhead)"
+              includes:
+                - vendors/nvidia/tegra-styhead.yml
 
     - slug: walnascar
       distro: poky
@@ -885,6 +954,13 @@ registry:
                   description: "i.MX8 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.12.20-2.0.0-walnascar.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.2 Walnascar)"
+              includes:
+                - vendors/nvidia/tegra-walnascar.yml
 
     - slug: whinlatter
       distro: poky
@@ -924,6 +1000,13 @@ registry:
                   description: "i.MX8 Release 1.0.0 Yocto 5.3 Kernel 6.18.2"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.18.2-1.0.0-whinlatter.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.3 Whinlatter)"
+              includes:
+                - vendors/nvidia/tegra-whinlatter.yml
 
     - slug: wrynose
       distro: poky
@@ -943,6 +1026,13 @@ registry:
                   description: "i.MX8 Release 2.0.0 Yocto 6.0 Kernel 6.18.20"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.18.20-2.0.0-wrynose.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 6.0 Wrynose)"
+              includes:
+                - vendors/nvidia/tegra-wrynose.yml
 
     - slug: master
       distro: poky
@@ -1185,6 +1275,55 @@ registry:
       features: [systemd, security, virtualization, ipv6, ostree]
       build:
         path: build/qcs6490-rb3gen2-vision-kit
+
+    # --- NVIDIA Jetson (OE4T meta-tegra / tegra-demo) ---
+
+    # Orin family: JetPack 6 (L4T r36.x) across scarthgap -> wrynose
+    - name: jetson-agx-orin-devkit
+      description: "NVIDIA Jetson AGX Orin Developer Kit (tegra-demo)"
+      device: jetson-agx-orin-devkit
+      releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
+      vendor_release: tegra
+      features: []
+      build:
+        path: build/jetson-agx-orin-devkit
+
+    - name: jetson-orin-nano-devkit
+      description: "NVIDIA Jetson Orin Nano Developer Kit (tegra-demo)"
+      device: jetson-orin-nano-devkit
+      releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
+      vendor_release: tegra
+      features: []
+      build:
+        path: build/jetson-orin-nano-devkit
+
+    - name: jetson-orin-nano-devkit-nvme
+      description: "NVIDIA Jetson Orin Nano Developer Kit NVMe (tegra-demo)"
+      device: jetson-orin-nano-devkit-nvme
+      releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
+      vendor_release: tegra
+      features: []
+      build:
+        path: build/jetson-orin-nano-devkit-nvme
+
+    # Xavier family: JetPack 5 (L4T r35.x), scarthgap only
+    - name: jetson-agx-xavier-devkit
+      description: "NVIDIA Jetson AGX Xavier Developer Kit (tegra-demo, JetPack 5)"
+      device: jetson-agx-xavier-devkit
+      releases: [scarthgap]
+      vendor_release: tegra-jp5
+      features: []
+      build:
+        path: build/jetson-agx-xavier-devkit
+
+    - name: jetson-xavier-nx-devkit
+      description: "NVIDIA Jetson Xavier NX Developer Kit (tegra-demo, JetPack 5)"
+      device: jetson-xavier-nx-devkit
+      releases: [scarthgap]
+      vendor_release: tegra-jp5
+      features: []
+      build:
+        path: build/jetson-xavier-nx-devkit
 
     # --- Mediatek Genio 1200 EVK ---    
 
