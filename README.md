@@ -110,21 +110,21 @@ Table describes in which combinations yocto releases could be used together with
 
 | Board \ Yocto  | wrynose | whinlatter | walnascar | styhead | scarthgap | mickledore | langdale | kirkstone | Status        |
 | -------------- | :--------: |:--------: | :-------: | :-----: | :-------: | :--------: | :------: | :-------: | ------------- |
-| **RSB3720**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     🟡     | 🟢 Stable      |
-| **RSB3720 4G** | ❌ |     🟡      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **RSB3720 6G** | ❌ |     🟡      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **RSB3720**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     🟡     | 🟢 Stable      |
+| **RSB3720 4G** | 🟡 |     ✅      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **RSB3720 6G** | 🟡 |     ✅      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
 | **RSB3730**    | ❌ |     ❌      |     ❌     |    ❌    |     ❌     |     ✅      |    ❌     |     ❌     | 🟡 Development |
-| **ROM2620**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5720**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721 1G** | ❌ |     🟡      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721 2G** | ❌ |     🟡      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5722**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM2820**    | ❌ |     🟡      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM2620**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5720**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5721**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5721 1G** | 🟡 |     ✅      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5721 2G** | 🟡 |     ✅      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM5722**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
+| **ROM2820**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
 | **AOM5521 A1** | ❌ |     ❌      |     ✅     |    ❌    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
 | **AOM5521 A2** | ❌ |     ❌      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
 | **AOM2521 B0** | ❌ |     ✅      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **ECU-150 A1**    | ❌ |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| **ECU-150 A1**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
 
 **Status Legend:**
 
