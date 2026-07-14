@@ -35,7 +35,7 @@ The registry supports two build systems:
     - [2.2.3. Building Isar BSPs](#223-building-isar-bsps)
     - [2.2.4. Isar Container Configuration](#224-isar-container-configuration)
     - [2.2.5. Isar Resources](#225-isar-resources)
-  - [2.3. MediaTek Boards Compatibility Matrix [preview]](#23-mediatek-boards-compatibility-matrix-preview)
+  - [2.3. MediaTek Boards Compatibility Matrix \[preview\]](#23-mediatek-boards-compatibility-matrix-preview)
     - [2.3.1. Building MediaTek BSPs](#231-building-mediatek-bsps)
   - [2.4. Qualcomm Boards Compatibility Matrix](#24-qualcomm-boards-compatibility-matrix)
     - [2.4.1. Building Qualcomm BSPs](#241-building-qualcomm-bsps)
