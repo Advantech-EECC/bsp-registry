@@ -38,3 +38,11 @@ repos:
       layers/meta-tegra-support:
       layers/meta-demo-ci:
       layers/meta-tegrademo:
+
+# tegra-support-sanity.bbclass checks TD_BBLAYERS_CONF_VERSION against
+# REQUIRED_TD_BBLAYERS_CONF_VERSION (= "tegrademo-5" for this release)
+# and regenerates bblayers.conf from a template with ##OEROOT## placeholders
+# if they don't match.  Setting the version here prevents that regeneration.
+bblayers_conf_header:
+  td-bblayers-conf-version: |
+    TD_BBLAYERS_CONF_VERSION = "tegrademo-5"
