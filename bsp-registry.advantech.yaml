@@ -1,0 +1,214 @@
+# =========================================================================
+# Advantech registry fragment
+#
+# Contains the registry entries that are exclusive to the Advantech vendor:
+# the Advantech vendor definition, the Advantech boards and their BSP
+# presets.
+#
+# This file is not a stand-alone registry: it is pulled in by the top-level
+# `bsp-registry.yml` through its `include:` directive and merged into it
+# (lists are concatenated, so the entries below extend the corresponding
+# sections of the main registry).
+# =========================================================================
+
+registry:
+
+  # =====================================
+  # Vendors
+  # =====================================
+  vendors:
+
+    - slug: advantech
+      name: "Advantech"
+      description: "Advantech Corporation, a global leader in industrial computing and IoT solutions."
+      website: "https://www.advantech.com/"
+      includes:
+        - vendors/advantech/advantech.yml
+
+  # =====================================
+  # Devices
+  # =====================================
+  devices:
+
+    # --- Advantech i.MX-based devices ---
+
+    # --- Advantech ROM5721 ---
+
+    - slug: imx8mmrom5721a1-1g
+      description: "Advantech ROM5721 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mmrom5721a1-1g.yml
+    - slug: imx8mmrom5721a1-2g
+      description: "Advantech ROM5721 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mmrom5721a1-2g.yml
+    # --- Advantech RSB3720 ---
+
+    - slug: imx8mprsb3720a1
+      description: "Advantech RSB-3720 A1 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3720a1.yml
+    - slug: imx8mprsb3720a2
+      description: "Advantech RSB-3720 A2 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3720a2.yml
+    # --- Advantech RSB3730 ---
+
+    - slug: imx8mprsb3730a2
+      description: "Advantech RSB-3730 (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2.yml
+    - slug: imx8mprsb3730a2-2g
+      description: "Advantech RSB-3730 2GB (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2-2g.yml
+    - slug: imx8mprsb3730a2-4g
+      description: "Advantech RSB-3730 4GB (i.MX8)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2-4g.yml
+    # --- Advantech ROM2820 A1 ---
+
+    - slug: imx93rom2820a1
+      description: "i.MX93 ROM-2820 A1 (i.MX9)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx9/imx93rom2820a1.yml
+    # --- Advantech AOM5521 ---
+
+    - slug: imx95aom5521a1
+      description: "Advantech AOM-5521 A1 (i.MX95)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx9/imx95aom5521a1.yml
+    - slug: imx95aom5521a2
+      description: "Advantech AOM-5521 A2 (i.MX95)"
+      vendor: advantech
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech/nxp/machine/imx9/imx95aom5521a2.yml
+
+  # =====================================
+  # BSP Presets (named shortcuts)
+  # =====================================
+  bsp:
+
+    # --- Advantech ROM-5721 DB5901 ---
+
+    - name: advantech-rom5721-db5901-1g-mickledore
+      description: "Advantech ROM-5721 DB5901 (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mmrom5721a1-1g
+      release: mickledore
+      features: [systemd, debug-tweaks, virtualization, ipv6, security]
+      build:
+        container: "ubuntu-20.04"
+        path: build/advantech-rom5721-db5901-1g-mickledore
+    - name: advantech-rom5721-db5901-2g-mickledore
+      description: "Advantech ROM-5721 DB5901 (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mmrom5721a1-2g
+      release: mickledore
+      features: [systemd, debug-tweaks, virtualization, ipv6, security]
+      build:
+        container: "ubuntu-20.04"
+        path: build/advantech-rom5721-db5901-2g-mickledore
+    # --- Advantech ROM-2820 A1 ---
+
+    - name: advantech-rom2820-a1-mickledore
+      description: "Advantech ROM-2820 A1 (i.MX9) Mickledore (Yocto 4.2)"
+      device: imx93rom2820a1
+      release: mickledore
+      vendor_release: imx-6.1.22-2.0.0
+      features: [systemd, security, debug-tweaks, virtualization, ipv6]
+      build:
+        container: "ubuntu-20.04"
+        build: build/advantech-rom2820-a1-mickledore
+    # --- Advantech RSB-3730 ---
+
+    - name: advantech-rsb3730-mickledore
+      description: "Advantech RSB-3730 (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mprsb3730a2
+      release: mickledore
+      vendor_release: imx-6.1.22-2.0.0
+      features: [systemd, security, debug-tweaks, virtualization, ipv6]
+      build:
+        container: "ubuntu-20.04"
+        build: build/advantech-rsb3730-mickledore
+    - name: advantech-rsb3730-2g-mickledore
+      description: "Advantech RSB-3730 2GB (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mprsb3730a2-2g
+      release: mickledore
+      vendor_release: imx-6.1.22-2.0.0
+      features: [systemd, debug-tweaks, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-20.04"
+        build: build/advantech-rsb3730-2g-mickledore
+    - name: advantech-rsb3730-4g-mickledore
+      description: "Advantech RSB-3730 4GB (i.MX8) Mickledore (Yocto 4.2)"
+      device: imx8mprsb3730a2-4g
+      release: mickledore
+      vendor_release: imx-6.1.22-2.0.0
+      features: [systemd, debug-tweaks, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-20.04"
+        build: build/advantech-rsb3730-4g-mickledore
+    # --- Advantech RSB-3720 ---
+
+    - name: advantech-imx8mprsb3720a1-kirkstone
+      description: "Advantech RSB-3720 A1 (i.MX8) Kirkstone (Yocto 4.0 LTS)"
+      device: imx8mprsb3720a1
+      release: kirkstone
+      vendor_release: imx-5.15.52-2.1.0
+      features: [systemd, virtualization, ipv6]
+      build:
+        container: "ubuntu-20.04"
+        build: build/advantech-imx8mprsb3720a1-kirkstone
+    - name: advantech-imx8mprsb3720a2-scarthgap
+      description: "Advantech RSB-3720 A2 (i.MX8) Scarthgap (Yocto 5.0 LTS)"
+      device: imx8mprsb3720a2
+      release: scarthgap
+      vendor_release: imx-6.6.23-2.0.0
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: ubuntu-22.04
+        build: build/advantech-imx8mprsb3720a2-scarthgap
+    - name: advantech-imx95aom5521a1
+      description: "Advantech AOM-5521 A1 DB2510 (i.MX95)"
+      device: imx95aom5521a1
+      releases: [scarthgap, walnascar]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/advantech-imx95aom5521a1
+    - name: advantech-imx95aom5521a2
+      description: "Advantech AOM-5521 A2 DB2510 (i.MX95)"
+      device: imx95aom5521a2
+      releases: [walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/advantech-imx95aom5521a2

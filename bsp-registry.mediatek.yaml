@@ -1,0 +1,56 @@
+# =========================================================================
+# MediaTek registry fragment
+#
+# Contains the registry entries that are exclusive to the MediaTek vendor:
+# the MediaTek vendor definition, the MediaTek reference devices and
+# their BSP presets.
+#
+# This file is not a stand-alone registry: it is pulled in by the top-level
+# `bsp-registry.yml` through its `include:` directive and merged into it
+# (lists are concatenated, so the entries below extend the corresponding
+# sections of the main registry).
+# =========================================================================
+
+registry:
+
+  # =====================================
+  # Vendors
+  # =====================================
+  vendors:
+
+    - slug: mediatek
+      name: "Mediatek"
+      description: "Mediatek, a global fabless semiconductor company providing chips for various applications."
+      website: "https://www.mediatek.com/"
+      includes:
+        - vendors/mediatek/mediatek-common.yml
+
+  # =====================================
+  # Devices
+  # =====================================
+  devices:
+
+    # --- Mediatek Devices ---
+
+    - slug: genio-1200-evk
+      description: "Mediatek genio-1200-evk"
+      vendor: mediatek
+      soc_vendor: mediatek
+      architecture: arm64
+      includes:
+        - vendors/mediatek/machine/genio-1200-evk.yml
+
+  # =====================================
+  # BSP Presets (named shortcuts)
+  # =====================================
+  bsp:
+
+    # --- Mediatek Genio 1200 EVK ---    
+
+    - name: mediatek-genio-1200-evk
+      description: "Mediatek Genio 1200 EVK"
+      device: genio-1200-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/mediatek-genio-1200-evk

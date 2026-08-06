@@ -1,0 +1,307 @@
+# =========================================================================
+# Advantech Europe registry fragment
+#
+# Contains the registry entries that are exclusive to the Advantech Europe vendor:
+# the Advantech Europe vendor definition, the Advantech Europe boards
+# (modular BSP) and their BSP presets.
+#
+# This file is not a stand-alone registry: it is pulled in by the top-level
+# `bsp-registry.yml` through its `include:` directive and merged into it
+# (lists are concatenated, so the entries below extend the corresponding
+# sections of the main registry).
+# =========================================================================
+
+registry:
+
+  # =====================================
+  # Vendors
+  # =====================================
+  vendors:
+
+    - slug: advantech-europe
+      name: "Advantech Europe"
+      description: "Advantech Europe, a regional branch of Advantech Corporation."
+      website: "https://www.advantech.com/"
+      includes:
+        - vendors/advantech-europe/modular-bsp.yml
+
+  # =====================================
+  # Devices
+  # =====================================
+  devices:
+
+    # --- Advantech Europe i.MX-based devices ---
+
+    - slug: rom2620-ed91
+      description: "Advantech ROM-2620 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom2620-ed91.yml
+    - slug: rom2820-ed93
+      description: "Advantech ROM-2820 (i.MX9)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx9/rom2820-ed93.yml
+    - slug: aom5521-db2510
+      description: "Advantech AOM-5521 (i.MX95)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx9/aom5521-db2510.yml
+    - slug: rom5720-db5901
+      description: "Advantech ROM-5720 (i.MX8, 1GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5720-db5901.yml
+    - slug: rom5722-db2510
+      description: "Advantech ROM-5722 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5722-db2510.yml
+    - slug: rom5721-db5901
+      description: "Advantech ROM-5721 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5721-db5901.yml
+    - slug: rom5721-1g-db5901
+      description: "Advantech ROM-5721 (i.MX8, 1GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5721-1g-db5901.yml
+    - slug: rom5721-2g-db5901
+      description: "Advantech ROM-5721 (i.MX8, 2GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5721-2g-db5901.yml
+    - slug: rom5722-db2510
+      description: "Advantech ROM-5722 (i.MX8)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5722-db2510.yml
+    - slug: rsb3720
+      description: "Advantech RSB-3720 (i.MX8, 6GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rsb3720.yml
+    - slug: rsb3720-4g
+      description: "Advantech RSB-3720 (i.MX8, 4GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rsb3720-4g.yml
+    - slug: rsb3720-6g
+      description: "Advantech RSB-3720 (i.MX8, 6GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rsb3720-6g.yml
+    - slug: ecu-150
+      description: "Advantech ECU-150"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/ecu-150.yml
+    # --- Advantech Mediatek Devices ---
+    # --- Advantech RSB3810 ---
+
+    - slug: rsb3810
+      description: "Advantech RSB-3810 (Mediatek)"
+      vendor: advantech-europe
+      soc_vendor: mediatek
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/mediatek/machine/rsb3810.yaml
+    # --- Advantech Qualcomm Devices ---
+    # --- Advantech AOM2721 ---
+
+    - slug: aom2721
+      description: "Advantech AOM-2721 (Qualcomm)"
+      vendor: advantech-europe
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/qualcomm/machine/aom2721.yaml
+
+  # =====================================
+  # BSP Presets (named shortcuts)
+  # =====================================
+  bsp:
+
+    # --- Advantech RSB-3810 (Mediatek) ---    
+
+    - name: modular-bsp-rsb3810
+      description: "Advantech RSB-3810 (Mediatek)"
+      device: rsb3810
+      releases: [scarthgap]
+      vendor_release: mtk-rity-v25.0
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/modular-bsp-rsb3810
+    # --- Advantech ROM-2620 (i.MX8) ---    
+
+    - name: modular-bsp-rom2620-ed91
+      description: "Advantech ROM-2620 (i.MX8)"
+      device: rom2620-ed91
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        path: build/modular-bsp-rom2620-ed91
+    # --- Advantech ROM-2820 (i.MX93) ---    
+
+    - name: modular-bsp-rom2820-ed93
+      description: "Advantech ROM-2820 (i.MX9)"
+      device: rom2820-ed93
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom2820-ed93
+    # --- Advantech Europe RSB-3720 ---
+
+    - name: modular-ros-bsp-rsb3720
+      description: "Advantech RSB-3720 (i.MX8)"
+      device: rsb3720
+      releases: [ros2-humble-scarthgap]
+      features: [systemd, security, virtualization, ipv6, usrmerge, x11, wayland]
+      targets: [ros-image-core]
+      build:
+        path: build/modular-ros-bsp-rsb3720
+    - name: modular-bsp-ecu-150
+      description: "Advantech ECU-150 (i.MX8)"
+      device: ecu-150
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      build:
+        path: build/modular-bsp-ecu-150
+    - name: modular-bsp-rsb3720
+      description: "Advantech RSB-3720 (i.MX8)"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      build:
+        path: build/modular-bsp-rsb3720
+    - name: modular-bsp-rsb3720-4g
+      description: "Advantech RSB-3720 4GB (i.MX8)"
+      device: rsb3720-4g
+      releases: [walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      build:
+        path: build/modular-bsp-rsb3720-4g
+    - name: modular-bsp-rsb3720-6g
+      description: "Advantech RSB-3720 6GB (i.MX8)"
+      device: rsb3720-6g
+      releases: [walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      build:
+        path: build/modular-bsp-rsb3720-6g
+    - name: modular-bsp-rauc-rsb3720
+      description: "Advantech RSB-3720 6GB (i.MX8) with RAUC support"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, usrmerge, rauc]
+      build:
+        path: build/modular-bsp-rauc-rsb3720
+    - name: modular-bsp-swupdate-rsb3720
+      description: "Advantech RSB-3720 6GB (i.MX8) with SWUpdate support"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, swupdate]
+      build:
+        path: build/modular-bsp-swupdate-rsb3720
+    - name: modular-bsp-ostree-rsb3720
+      description: "Advantech RSB-3720 6GB (i.MX8) with OSTree support"
+      device: rsb3720
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/modular-bsp-ostree-rsb3720
+    # --- Advantech Europe Modular BSP ROM-5720 DB5901 ---
+
+    - name: modular-bsp-rom5720-db5901
+      description: "Advantech ROM-5720 DB5901 (i.MX8)"
+      device: rom5720-db5901
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5720-db5901
+    # --- Advantech Europe Modular BSP ROM-5721 DB5901 ---
+
+    - name: modular-bsp-rom5721-db5901
+      description: "Advantech ROM-5721 DB5901 (i.MX8)"
+      device: rom5721-db5901
+      releases: [scarthgap, styhead, walnascar]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5721-db5901
+    - name: modular-bsp-rom5721-1g-db5901
+      description: "Advantech ROM-5721 DB5901 (i.MX8)"
+      device: rom5721-1g-db5901
+      releases: [walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5721-1g-db5901
+    - name: modular-bsp-rom5721-2g-db5901
+      description: "Advantech ROM-5721 DB5901 (i.MX8)"
+      device: rom5721-2g-db5901
+      releases: [walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5721-2g-db5901
+    - name: modular-bsp-rom5721-2g-db5901-secureboot
+      description: "Advantech ROM-5721 DB5901 (i.MX8) with Secure Boot"
+      device: rom5721-2g-db5901
+      releases: [walnascar]
+      features: [systemd, security, virtualization, ipv6, root-login, secure-boot]
+      targets: 
+        - imx-image-core-secure-boot
+        - imx-image-multimedia-secure-boot
+        - imx-image-full-secure-boot
+      build:
+        environment: "ubuntu-22.04-csb" # Use the secure boot build environment with necessary tools and keys
+        path: build/modular-bsp-rom5721-2g-db5901-secureboot
+    # --- Advantech Europe Modular BSP ROM-5722 DB5901 ---
+
+    - name: modular-bsp-rom5722-db2510
+      description: "Advantech ROM-5722 DB2510 (i.MX8)"
+      device: rom5722-db2510
+      releases: [scarthgap, styhead, walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, debug-tweaks, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5722-db2510
+    # --- Advantech Europe Modular BSP AOM-5521 DB2510 ---
+
+    - name: modular-bsp-aom5521-db2510
+      description: "Advantech AOM-5521 DB2510 (i.MX95)"
+      device: aom5521-db2510
+      releases: [walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-aom5521-db2510

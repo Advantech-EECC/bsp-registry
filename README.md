@@ -106,16 +106,29 @@ top-level `include:` directive of `bsp-registry.yml`:
 
 | File | Content |
 |------|---------|
-| `bsp-registry.yml` | Root registry: global settings (flash, deploy, lava, environments, containers), frameworks, common distros, vendors, releases, features and all non-NXP presets |
-| `bsp-registry.nxp.yaml` | NXP-only registry entries: the `nxp` vendor, the `fsl-imx-xwayland` distro, the NXP i.MX EVK devices and the `nxp-*` presets |
+| `bsp-registry.yml` | Root registry: global settings (flash, deploy, lava, environments, containers), the Yocto framework, the common Poky-based distros, the shared Yocto releases, the features and the `include:` list |
+| `bsp-registry.isar.yaml` | Isar framework, the `isar-v0.11` / `isar-v1.0` distros and the Debian/Ubuntu releases |
+| `bsp-registry.qemu.yaml` | `qemu` vendor, the emulated devices and their Yocto/Isar presets |
+| `bsp-registry.nxp.yaml` | `nxp` vendor, the `fsl-imx-xwayland` distro, the NXP i.MX EVK devices and the `nxp-*` presets |
+| `bsp-registry.mediatek.yaml` | `mediatek` vendor, the MediaTek reference devices and their presets |
+| `bsp-registry.qualcomm.yaml` | `qualcomm` vendor, the Qualcomm reference devices and their presets |
+| `bsp-registry.advantech.yaml` | `advantech` vendor, the Advantech boards and their presets |
+| `bsp-registry.advantech-europe.yaml` | `advantech-europe` vendor, the Advantech Europe (modular BSP) boards and their presets |
 
 Included files use the same schema as the root registry. Lists (`vendors`, `devices`, `bsp`, ...)
 from included files are concatenated with the ones defined in the root file, so an entry must be
 defined completely in a single file: entries are looked up by `slug`/`name` and the first match
 wins. Only the root file carries the `specification` block.
 
-Boards from other vendors that are based on NXP SoCs (for example the Advantech i.MX boards) stay
-in `bsp-registry.yml`, because they belong to their own board vendor.
+A board is placed in the fragment of its *board* vendor, not of its SoC vendor: the Advantech
+i.MX boards live in the Advantech fragments even though they are NXP based. For the same reason
+the per-release `vendor_overrides` (and the vendor-specific blocks inside features such as
+`secure-boot`, `rauc`, `swupdate` and `ostree`) stay in `bsp-registry.yml`: they are nested inside
+release/feature entries that are shared by all vendors and therefore cannot be split out without
+shadowing the shared entry.
+
+The `include:` directive is supported by `bsp-registry-tools` since `0.1.0`, which is already the
+floor declared in `requirements.txt`.
 
 ---
 

@@ -1,0 +1,69 @@
+# =========================================================================
+# Isar registry fragment
+#
+# Contains the registry entries that are exclusive to the Isar build system:
+# the Isar build system framework, the Isar distros and the Isar
+# Debian/Ubuntu releases.  Isar BSP presets live in the fragment of the
+# vendor owning the target device.
+#
+# This file is not a stand-alone registry: it is pulled in by the top-level
+# `bsp-registry.yml` through its `include:` directive and merged into it
+# (lists are concatenated, so the entries below extend the corresponding
+# sections of the main registry).
+# =========================================================================
+
+registry:
+
+  # =====================================
+  # Build System Frameworks
+  # =====================================
+  frameworks:
+
+    - slug: isar
+      description: | 
+        Set of scripts for building software packages and repeatable 
+        generation of Debian-based root filesystems with customizations
+      vendor: "Ilbers GmbH"
+      includes:
+        - isar/isar.yaml
+        - isar/common.yaml
+
+  # =====================================
+  # Distributions
+  # =====================================
+  distro:
+
+    - slug: isar-v0.11
+      description: "Isar v0.11 (Siemens build system)"
+      framework: isar
+      includes:
+        - isar/isar-v0.11.yaml
+    - slug: isar-v1.0
+      description: "Isar v1.0 (Siemens build system)"
+      framework: isar
+      includes:
+        - isar/isar-v1.0.yaml
+
+  # =====================================
+  # Releases
+  # =====================================
+  releases:
+
+    - slug: ubuntu-noble
+      description: "Isar Ubuntu Noble"
+      distro: isar-v1.0
+      environment: isar-build-environment
+      includes:
+        - isar/distro/ubuntu-noble.yaml
+    - slug: ubuntu-jammy
+      description: "Isar Ubuntu Jammy"
+      distro: isar-v1.0
+      environment: isar-build-environment
+      includes:
+        - isar/distro/ubuntu-jammy.yaml
+    - slug: debian-trixie
+      description: "Isar Debian Trixie "
+      distro: isar-v1.0
+      environment: isar-build-environment
+      includes:
+        - isar/distro/debian-trixie.yaml

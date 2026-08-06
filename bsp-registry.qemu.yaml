@@ -1,0 +1,148 @@
+# =========================================================================
+# QEMU registry fragment
+#
+# Contains the registry entries that are exclusive to the QEMU vendor:
+# the QEMU vendor definition, the emulated QEMU devices and the QEMU
+# BSP presets (both Yocto and Isar based).
+#
+# This file is not a stand-alone registry: it is pulled in by the top-level
+# `bsp-registry.yml` through its `include:` directive and merged into it
+# (lists are concatenated, so the entries below extend the corresponding
+# sections of the main registry).
+# =========================================================================
+
+registry:
+
+  # =====================================
+  # Vendors
+  # =====================================
+  vendors:
+
+    - slug: qemu
+      name: "QEMU"
+      description: "QEMU, a generic and open source machine emulator and virtualizer."
+      website: "https://www.qemu.org/"
+      frameworks_overrides:
+        yocto:
+          includes:
+            - vendors/qemu/common.yaml
+
+  # =====================================
+  # Devices
+  # =====================================
+  devices:
+
+    - slug: qemuarm64
+      description: "QEMU ARM64 (emulated)"
+      vendor: qemu
+      soc_vendor: arm
+      architecture: aarch64
+      includes:
+        - vendors/qemu/machine/qemuarm64.yaml
+    - slug: qemuarm
+      description: "QEMU ARM (32-bit, emulated)"
+      vendor: qemu
+      soc_vendor: arm
+      architecture: arm
+      includes:
+        - vendors/qemu/machine/qemuarm.yaml
+    - slug: qemux86
+      description: "QEMU x86 (emulated)"
+      vendor: qemu
+      soc_vendor: intel
+      architecture: x86
+      includes:
+        - vendors/qemu/machine/qemux86.yaml
+  
+    - slug: qemux86-64
+      description: "QEMU x86-64 (emulated)"
+      vendor: qemu
+      soc_vendor: intel
+      architecture: amd64
+      includes:
+        - vendors/qemu/machine/qemux86-64.yaml
+    - slug: qemuamd64
+      description: "QEMU x86-64 (emulated)"
+      vendor: qemu
+      soc_vendor: intel
+      architecture: amd64
+      includes:
+        - vendors/qemu/machine/qemuamd64.yaml
+
+  # =====================================
+  # BSP Presets (named shortcuts)
+  # =====================================
+  bsp:
+
+    # --- QEMU ARM64 ---
+    - name: poky-qemuarm64
+      description: "Poky QEMU ARM64 Scarthgap (Yocto 5.0 LTS)"
+      device: qemuarm64
+      releases: [kirkstone, nanbield, mickledore, scarthgap,styhead, walnascar, whinlatter]
+      features: [systemd, usrmerge, yocto-ssh]
+      includes:
+        - vendors/qemu/common.yaml
+      build:
+        path: build/poky-qemuarm64
+    # --- QEMU x86-64 ---
+    - name: poky-harden-qemux86-64-scarthgap
+      description: "Poky Hardened QEMU x86-64 Scarthgap (Yocto 5.0 LTS)"
+      device: qemux86-64
+      release: scarthgap
+      features: [systemd, yocto-ssh, security, usrmerge]
+      includes:
+        - vendors/qemu/common.yaml
+      build:
+        container: "debian-12"
+        path: build/poky-harden-qemux86-64-scarthgap
+    - name: poky-qemux86-64
+      description: "Poky QEMU x86-64"
+      device: qemux86-64
+      releases: [kirkstone, nanbield, mickledore, scarthgap, styhead, walnascar, whinlatter, wrynose, master]
+      features: [systemd, usrmerge, yocto-ssh]
+      includes:
+        - vendors/qemu/common.yaml
+      testing:
+        lava:
+          device_type: "qemu"                                         # LAVA device type label
+          artifact_name: "core-image-minimal-qemux86-64.rootfs.wic"   # where the image is served
+          job_template: "vendors/qemu/lava/qemu.yaml.j2"              # optional; builtin used if omitted
+    - name: poky-qemux86-64-ros2
+      description: "Poky QEMU x86-64"
+      device: qemux86-64
+      releases: [ros2-humble-scarthgap]
+      features: [systemd, usrmerge, yocto-ssh]
+    # --- QEMU ARM (32-bit) ---
+    - name: poky-qemuarm-scarthgap
+      description: "Poky QEMU ARM (32-bit) Scarthgap (Yocto 5.0 LTS)"
+      device: qemuarm
+      release: scarthgap
+      features: [systemd, usrmerge, yocto-ssh]
+      includes:
+        - vendors/qemu/common.yaml
+      build:
+        container: "debian-12"
+        path: build/poky-qemuarm-scarthgap
+    # --- QEMU Debian / Ubuntu
+
+    - name: isar-qemuamd64
+      description: "Poky QEMU AMD64 (64-bit)"
+      device: qemuamd64
+      releases: [ubuntu-noble, ubuntu-jammy, debian-trixie]
+      features: []
+      build:
+        path: build/isar-qemuamd64
+      # testing:
+      #   lava:
+      #     device_type: "qemu"                               # LAVA device type label
+      #     artifact_name: "qemuamd64.wic"                    # where the image is served
+      #     tags: ["hil", "qemu"]                             # optional LAVA scheduler tags
+      #     job_template: "vendors/qemu/lava/qemu.yaml.j2"    # optional; builtin used if omitted
+
+    - name: isar-qemuarm64
+      description: "Poky QEMU ARM64 (64-bit)"
+      device: qemuarm64
+      releases: [debian-trixie]
+      features: []
+      build:
+        path: build/isar-qemuarm64

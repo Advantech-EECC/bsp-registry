@@ -1,0 +1,56 @@
+# =========================================================================
+# Qualcomm registry fragment
+#
+# Contains the registry entries that are exclusive to the Qualcomm vendor:
+# the Qualcomm vendor definition, the Qualcomm reference devices and
+# their BSP presets.
+#
+# This file is not a stand-alone registry: it is pulled in by the top-level
+# `bsp-registry.yml` through its `include:` directive and merged into it
+# (lists are concatenated, so the entries below extend the corresponding
+# sections of the main registry).
+# =========================================================================
+
+registry:
+
+  # =====================================
+  # Vendors
+  # =====================================
+  vendors:
+
+    - slug: qualcomm
+      name: "Qualcomm"
+      description: "Qualcomm, wireless technology and semiconductor solutions."
+      website: "https://www.qualcomm.com/"
+      includes:
+        - vendors/qualcomm/qualcomm-common.yml
+
+  # =====================================
+  # Devices
+  # =====================================
+  devices:
+
+    # --- Qualcomm Devices ---
+
+    - slug: qcs6490-rb3gen2-vision-kit
+      description: "Qualcomm QCS6490 RB3 Gen2 Vision Kit"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs6490-rb3gen2-vision-kit.yml
+
+  # =====================================
+  # BSP Presets (named shortcuts)
+  # =====================================
+  bsp:
+
+    # --- Qualcomm QCS6490 RB3 Gen2 Vision Kit ---    
+
+    - name: qcs6490-rb3gen2-vision-kit
+      description: "Qualcomm QCS6490 RB3 Gen2 Vision Kit"
+      device: qcs6490-rb3gen2-vision-kit
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs6490-rb3gen2-vision-kit
