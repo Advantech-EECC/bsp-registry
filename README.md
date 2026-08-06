@@ -16,6 +16,7 @@ The registry supports two build systems:
 - [1. Build System Architecture](#1-build-system-architecture)
   - [1.1. Component Overview](#11-component-overview)
     - [1.1.1. Details](#111-details)
+  - [1.2. Registry File Layout](#12-registry-file-layout)
 - [2. Supported Hardware](#2-supported-hardware)
   - [2.1. NXP Boards Compatibility Matrix](#21-nxp-boards-compatibility-matrix)
     - [2.1.1. Alternative View](#211-alternative-view)
@@ -97,6 +98,24 @@ The build system follows a layered architecture that ensures reproducibility, is
 | **Docker Container Engine** | Isolated build environment | Consistent toolchains, isolated dependencies |
 | **Yocto Project / Isar Build System** | Core build systems | Yocto: BitBake, OpenEmbedded, meta-layers; Isar: apt, dpkg, Debian packages |
 | **Source Layers / Debian Packages** | BSP components | Yocto: Machine configs, recipes, kernel; Isar: Debian packages, system configuration |
+
+## 1.2. Registry File Layout
+
+The registry model is split across several files that are merged by the `bsp` tool through the
+top-level `include:` directive of `bsp-registry.yml`:
+
+| File | Content |
+|------|---------|
+| `bsp-registry.yml` | Root registry: global settings (flash, deploy, lava, environments, containers), frameworks, common distros, vendors, releases, features and all non-NXP presets |
+| `bsp-registry.nxp.yaml` | NXP-only registry entries: the `nxp` vendor, the `fsl-imx-xwayland` distro, the NXP i.MX EVK devices and the `nxp-*` presets |
+
+Included files use the same schema as the root registry. Lists (`vendors`, `devices`, `bsp`, ...)
+from included files are concatenated with the ones defined in the root file, so an entry must be
+defined completely in a single file: entries are looked up by `slug`/`name` and the first match
+wins. Only the root file carries the `specification` block.
+
+Boards from other vendors that are based on NXP SoCs (for example the Advantech i.MX boards) stay
+in `bsp-registry.yml`, because they belong to their own board vendor.
 
 ---
 
