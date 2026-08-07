@@ -32,6 +32,30 @@ registry:
 
     # --- Mediatek Devices ---
 
+    - slug: genio-350-evk
+      description: "Mediatek genio-350-evk"
+      vendor: mediatek
+      soc_vendor: mediatek
+      architecture: arm64
+      includes:
+        - vendors/mediatek/machine/genio-350-evk.yml
+
+    - slug: genio-510-evk
+      description: "Mediatek genio-510-evk"
+      vendor: mediatek
+      soc_vendor: mediatek
+      architecture: arm64
+      includes:
+        - vendors/mediatek/machine/genio-510-evk.yml
+
+    - slug: genio-700-evk
+      description: "Mediatek genio-700-evk"
+      vendor: mediatek
+      soc_vendor: mediatek
+      architecture: arm64
+      includes:
+        - vendors/mediatek/machine/genio-700-evk.yml
+
     - slug: genio-1200-evk
       description: "Mediatek genio-1200-evk"
       vendor: mediatek
@@ -44,6 +68,36 @@ registry:
   # BSP Presets (named shortcuts)
   # =====================================
   bsp:
+
+    # --- Mediatek Genio 350 EVK ---
+
+    - name: mediatek-genio-350-evk
+      description: "Mediatek Genio 350 EVK"
+      device: genio-350-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/mediatek-genio-350-evk
+
+    # --- Mediatek Genio 510 EVK ---
+
+    - name: mediatek-genio-510-evk
+      description: "Mediatek Genio 510 EVK"
+      device: genio-510-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/mediatek-genio-510-evk
+
+    # --- Mediatek Genio 700 EVK ---
+
+    - name: mediatek-genio-700-evk
+      description: "Mediatek Genio 700 EVK"
+      device: genio-700-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6]
+      build:
+        path: build/mediatek-genio-700-evk
 
     # --- Mediatek Genio 1200 EVK ---    
 

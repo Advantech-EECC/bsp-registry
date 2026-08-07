@@ -1,0 +1,6 @@
+header:
+  version: 14
+  includes:
+    - vendors/mediatek/mtk-rity-v25.0-scarthgap.yml
+
+machine: genio-350-evk

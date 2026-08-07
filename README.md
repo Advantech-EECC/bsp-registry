@@ -431,6 +431,9 @@ set. For detailed configuration, see the [MediaTek vendor README](vendors/mediat
 
 | Board \ Yocto  | scarthgap | Status        |
 | -------------- | :-------: | ------------- |
+| **Genio 350 EVK**  | 🟡    | 🟡 Development |
+| **Genio 510 EVK**  | 🟡    | 🟡 Development |
+| **Genio 700 EVK**  | 🟡    | 🟡 Development |
 | **Genio 1200 EVK** | 🟡    | 🟡 Development |
 | **RSB-3810**   |     🟡     | 🟡 Development |
 
@@ -441,6 +444,9 @@ set. For detailed configuration, see the [MediaTek vendor README](vendors/mediat
 
 | **Hardware**         | **Supported Releases** | **Status**       | **Documentation** |
 |----------------------|------------------------|------------------|-------------------|
+| **Genio 350 EVK**    | scarthgap              | 🟡 Development   | [MediaTek Genio 350 EVK](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/hw/g350-evk.html) |
+| **Genio 510 EVK**    | scarthgap              | 🟡 Development   | [MediaTek Genio 510 EVK](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/hw/g510-evk.html) |
+| **Genio 700 EVK**    | scarthgap              | 🟡 Development   | [MediaTek Genio 700 EVK](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/hw/g700-evk.html) |
 | **Genio 1200 EVK**   | scarthgap              | 🟡 Development   | [MediaTek Genio 1200 EVK](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/hw/g1200-evk.html) |
 | **RSB-3810**         | scarthgap              | 🟡 Development   | [Advantech RSB-3810](https://ess-wiki.advantech.com.tw/view/AIM-Linux/RSB-3810) |
 

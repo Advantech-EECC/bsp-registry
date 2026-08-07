@@ -21,8 +21,9 @@ cache variables, and the build directory layout.
 
 ### Reference machine configs
 
-- `evk/genio-1200-evk.yml`
-  - Machine: `genio-1200-evk`
+- `machine/genio-350-evk.yml`, `machine/genio-510-evk.yml`, `machine/genio-700-evk.yml`,
+  `machine/genio-1200-evk.yml`
+  - Machines: `genio-350-evk`, `genio-510-evk`, `genio-700-evk`, `genio-1200-evk`
   - Target image: `rity-demo-image`
   - Adds distro features required by the Rity demo distro:
     - `DISTRO_FEATURES += "wayland opengl vulkan"`
@@ -32,10 +33,18 @@ cache variables, and the build directory layout.
 
 The top-level registry file `bsp-registry.yml` currently exposes the following MediaTek BSP build targets:
 
-- `oemtk-scarthgap-genio-1200-evk`
-  - Config: `vendors/mediatek/evk/genio-1200-evk.yml`
-  - Build dir: `build/oemtk-scarthgap-genio-1200-evk`
-  - Container: `ubuntu-22.04`
+- `mediatek-genio-350-evk-scarthgap`
+  - Config: `vendors/mediatek/machine/genio-350-evk.yml`
+  - Build dir: `build/mediatek-genio-350-evk`
+- `mediatek-genio-510-evk-scarthgap`
+  - Config: `vendors/mediatek/machine/genio-510-evk.yml`
+  - Build dir: `build/mediatek-genio-510-evk`
+- `mediatek-genio-700-evk-scarthgap`
+  - Config: `vendors/mediatek/machine/genio-700-evk.yml`
+  - Build dir: `build/mediatek-genio-700-evk`
+- `mediatek-genio-1200-evk-scarthgap`
+  - Config: `vendors/mediatek/machine/genio-1200-evk.yml`
+  - Build dir: `build/mediatek-genio-1200-evk`
 
 ## Build instructions (recommended)
 
@@ -46,13 +55,13 @@ From the repository root:
 bsp list | grep -i mtk
 
 # Fast config checkout/validation (no build)
-bsp build oemtk-scarthgap-genio-1200-evk --checkout
+bsp build mediatek-genio-1200-evk-scarthgap --checkout
 
 # Full build
-bsp build oemtk-scarthgap-genio-1200-evk
+bsp build mediatek-genio-1200-evk-scarthgap
 
 # Enter an interactive build shell
-bsp shell oemtk-scarthgap-genio-1200-evk
+bsp shell mediatek-genio-1200-evk-scarthgap
 ```
 
 Build artifacts follow the standard Yocto layout under the registry build directory, e.g.:
