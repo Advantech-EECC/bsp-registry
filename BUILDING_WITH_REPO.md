@@ -428,6 +428,15 @@ This repository supports two build workflows:
 
 ### 9.1 Common Issues
 
+**1. `repo init` or `repo sync` fails:**
+```bash
+# Verify repo is on PATH and Python 3 is available
+repo --version
+
+# Re-sync with fewer parallel jobs if the network is unreliable
+repo sync -j4 --force-sync
+```
+
 **2. BitBake cannot find Advantech machines:**
 ```bash
 # Verify meta-modular-bsp-nxp is in bblayers.conf
@@ -436,3 +445,32 @@ grep meta-modular-bsp-nxp conf/bblayers.conf
 # Add if missing
 echo 'BBLAYERS += "${BSPDIR}/sources/meta-modular-bsp-nxp"' >> conf/bblayers.conf
 ```
+
+**3. Missing host dependencies:**
+
+BitBake reports missing host tools during `sanity check`. Install the Yocto host packages listed in
+the [Yocto Project Quick Build Guide](https://docs.yoctoproject.org/5.2.4/brief-yoctoprojectqs/index.html),
+or use the containerised KAS workflow instead, which ships a known-good host environment. See
+[section 7](#7-comparison-with-kas-based-workflow).
+
+**4. Disk space exhausted mid-build:**
+
+A full i.MX build needs roughly 100 GB. Point `DL_DIR` and `SSTATE_DIR` at a large shared volume
+in `conf/local.conf` so downloads and sstate are reused across builds.
+
+### 9.2 Getting Help
+
+- Check the [Troubleshooting](#9-troubleshooting) items above first
+- Search existing issues in the
+  [bsp-registry repository](https://github.com/Advantech-EECC/bsp-registry/issues)
+- For NXP BSP questions, see the [NXP Community](https://community.nxp.com/)
+- For Yocto questions, see the [Yocto Project mailing lists](https://lists.yoctoproject.org/)
+
+When reporting a problem, include the manifest branch, the `MACHINE` and `DISTRO` values, the
+failing BitBake task, and the relevant excerpt from `tmp/log/`.
+
+## 10. Contributing
+
+Improvements to this guide and to the manifests are welcome. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for the repository layout, the local checks to run before
+opening a pull request, and the documentation conventions used here.

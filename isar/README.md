@@ -107,30 +107,52 @@ The Isar directory provides a modular, reusable configuration structure for buil
 ```
 isar/
 ├── README.md              # This file
-├── isar.yaml             # Core Isar build system configuration
-├── distro/               # Distribution configurations
+├── isar.yaml              # Core Isar build system configuration
+├── common.yaml            # Shared target, users and preinstalled package set
+├── isar-v0.11.yaml        # Isar v0.11 revision pin
+├── isar-v1.0.yaml         # Isar v1.0 revision pin
+├── distro/                # Distribution configurations
 │   ├── debian-bookworm.yaml
 │   ├── debian-bullseye.yaml
 │   ├── debian-buster.yaml
 │   ├── debian-sid.yaml
 │   ├── debian-trixie.yaml
+│   ├── raspios-bookworm.yaml
+│   ├── raspios-bullseye.yaml
 │   ├── ubuntu-focal.yaml
 │   ├── ubuntu-jammy.yaml
 │   └── ubuntu-noble.yaml
-└── qemu/                 # QEMU machine configurations
-    ├── qemuarm.yaml      # ARM 32-bit
-    ├── qemuarm64.yaml    # ARM 64-bit
-    ├── qemux86.yaml      # x86 32-bit
-    └── qemux86-64.yaml   # x86 64-bit
+├── features/              # Optional image feature fragments
+│   ├── ssh.yaml           # OpenSSH server + host key regeneration
+│   ├── users.yaml         # Default qemu/root user accounts
+│   └── wic.yaml           # WIC image output
+└── scripts/               # Helper scripts
+    ├── README.md
+    └── isar-runqemu.sh    # Boot a built image under QEMU
+```
+
+Machine definitions are **not** stored under `isar/`. They live alongside the Yocto machine
+configs in `vendors/qemu/machine/` and are selected through the registry `devices` entries:
+
+```
+vendors/qemu/machine/
+├── qemuamd64.yaml         # x86-64, Isar naming (amd64)
+├── qemuarm.yaml           # ARM 32-bit
+├── qemuarm64.yaml         # ARM 64-bit
+├── qemux86.yaml           # x86 32-bit
+└── qemux86-64.yaml        # x86-64, Yocto naming
 ```
 
 ### 3.1 File Descriptions
 
 | File/Directory | Purpose |
 |----------------|---------|
-| `isar.yaml` | Core Isar configuration defining the build system, repository URLs, and layers |
-| `distro/` | Contains distribution-specific configurations for Debian variants and Ubuntu |
-| `qemu/` | Machine definitions for QEMU virtual platforms (testing and development) |
+| `isar.yaml` | Core Isar configuration defining the build system, repository URL, and layers |
+| `common.yaml` | Shared configuration: target image, WKS file, users, preinstalled packages |
+| `isar-v0.11.yaml` / `isar-v1.0.yaml` | Pin the `isar` repository to a released tag and commit; selected via the `isar-v0.11` / `isar-v1.0` registry distros |
+| `distro/` | Distribution-specific configurations for Debian, Raspberry Pi OS and Ubuntu variants |
+| `features/` | Optional fragments that can be composed on top of a build (`ssh`, `users`, `wic`) |
+| `scripts/` | Helper scripts, currently `isar/scripts/isar-runqemu.sh` for booting images under QEMU |
 
 ---
 
@@ -404,34 +426,49 @@ The Isar configuration supports the following Debian-based distributions:
 | Ubuntu 22.04 LTS | Jammy Jellyfish | 🟢 Stable | `distro/ubuntu-jammy.yaml` |
 | Ubuntu 20.04 LTS | Focal Fossa | 🟡 Maintenance | `distro/ubuntu-focal.yaml` |
 
+### 5.3 Raspberry Pi OS Distributions
+
+| Distribution | Codename | Status | Configuration File |
+|--------------|----------|--------|-------------------|
+| Raspberry Pi OS 12 | Bookworm | 🟡 Preview | `distro/raspios-bookworm.yaml` |
+| Raspberry Pi OS 11 | Bullseye | 🟡 Preview | `distro/raspios-bullseye.yaml` |
+
 **Status Legend:**
 - 🟢 **Active/Stable**: Recommended for new projects
 - 🟡 **Maintenance**: Supported but not recommended for new projects
 - 🟠 **Legacy**: Limited support, upgrade recommended
 - 🔴 **Experimental**: Not for production use
+- 🟡 **Preview**: Configuration fragment exists but is not wired into a registry preset
+
+Only the distributions referenced by a registry `releases` entry can be selected through
+`bsp build`; the others are available for manual KAS composition. The registry currently exposes
+`ubuntu-noble`, `ubuntu-jammy` and `debian-trixie` as Isar releases.
 
 ---
 
 ## 6. Supported Architectures
 
-Isar supports cross-compilation for multiple CPU architectures through QEMU machine definitions:
+Isar supports cross-compilation for multiple CPU architectures through QEMU machine definitions.
+The machine fragments are shared with the Yocto side of the registry and live in
+`vendors/qemu/machine/`:
 
-| Architecture | Machine | Debian Arch | Configuration | Use Case |
-|--------------|---------|-------------|---------------|----------|
-| **ARM 64-bit** | qemuarm64 | arm64/aarch64 | `qemu/qemuarm64.yaml` | Modern ARM devices, testing |
-| **ARM 32-bit** | qemuarm | armhf | `qemu/qemuarm.yaml` | Legacy ARM devices |
-| **x86 64-bit** | qemuamd64 | amd64 | `qemu/qemux86-64.yaml` | PC platforms, testing |
-| **x86 32-bit** | qemui386 | i386 | `qemu/qemux86.yaml` | Legacy x86 systems |
+| Architecture | Machine | Debian Arch | Configuration | Registry device | Use Case |
+|--------------|---------|-------------|---------------|-----------------|----------|
+| **ARM 64-bit** | qemuarm64 | arm64/aarch64 | `vendors/qemu/machine/qemuarm64.yaml` | `qemuarm64` | Modern ARM devices, testing |
+| **ARM 32-bit** | qemuarm | armhf | `vendors/qemu/machine/qemuarm.yaml` | `qemuarm` | Legacy ARM devices |
+| **x86 64-bit** | qemuamd64 | amd64 | `vendors/qemu/machine/qemuamd64.yaml` | `qemuamd64` | PC platforms, testing |
+| **x86 32-bit** | qemux86 | i386 | `vendors/qemu/machine/qemux86.yaml` | `qemux86` | Legacy x86 systems |
+
+Isar uses Debian architecture names, so the x86-64 machine is `qemuamd64`
+(`vendors/qemu/machine/qemuamd64.yaml`). The Yocto side uses `qemux86-64`
+(`vendors/qemu/machine/qemux86-64.yaml`) for the same hardware.
 
 ### 6.1 Real Hardware Support
 
-In addition to QEMU virtual machines, Isar supports real hardware platforms through custom BSP layers:
-
-| Hardware | Architecture | Distribution | BSP Configuration |
-|----------|--------------|--------------|-------------------|
-| **Advantech RSB3720** | ARM64 (NXP i.MX8) | Debian Trixie | `adv-mbsp-isar-debian-rsb3720.yaml` |
-
-*Additional hardware platforms can be added through meta-isar-modular-bsp layers.*
+The registry does not currently ship an Isar preset for real hardware — all Isar presets target
+QEMU. Additional hardware platforms can be added through
+[meta-isar-modular-bsp-nxp](https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp) by
+registering a device and a preset in `bsp-registry.yml`.
 
 ---
 
@@ -442,19 +479,23 @@ In addition to QEMU virtual machines, Isar supports real hardware platforms thro
 ```yaml
 header:
   version: 14
+  includes:
+    - isar/common.yaml
 
 build_system: isar
 
 repos:
   isar:
     url: "https://github.com/ilbers/isar.git"
-    tag: "v1.0"
-    commit: "6504321e85b5fdc3bb5a83f042b77cb39cd11a6f"
     path: "layers/isar"
     layers:
       meta:
       meta-isar:
       meta-test:
+
+local_conf_header:
+  image: |
+    IMAGE_FSTYPES = "wic"
 
 bblayers_conf_header:
   standard: |
@@ -463,12 +504,26 @@ bblayers_conf_header:
 ```
 
 **Key Components:**
+- **includes**: Pulls in `isar/common.yaml` (target image, users, preinstalled packages)
 - **build_system**: Specifies Isar instead of Yocto
 - **repos**: Defines the Isar framework repository
-  - Uses stable version v1.0
-  - Pinned to specific commit for reproducibility
 - **layers**: Enables meta, meta-isar, and meta-test layers
+- **local_conf_header**: Selects WIC as the image output format
 - **bblayers_conf_header**: BitBake layer configuration template
+
+The Isar revision is **not** pinned here. It is pinned by the version fragments, which the
+registry selects through the `isar-v0.11` / `isar-v1.0` distros:
+
+```yaml
+# isar-v1.0.yaml
+header:
+  version: 14
+
+repos:
+  isar:
+    tag: "v1.0"
+    commit: "6504321e85b5fdc3bb5a83f042b77cb39cd11a6f"
+```
 
 ### 7.2 Distribution Configuration Example
 
@@ -485,17 +540,15 @@ Simple distribution selector that sets the Debian version to use.
 ### 7.3 Machine Configuration Example
 
 ```yaml
-# qemu/qemuarm64.yaml
+# vendors/qemu/machine/qemuarm64.yaml
 header:
   version: 14
 
 machine: qemuarm64
-
-target:
-  - isar-image-base
 ```
 
-Defines the target machine and which image recipe to build.
+Defines the target machine. The target image recipe (`isar-image-base`) is set once in
+`isar/common.yaml` and shared by all Isar builds.
 
 ---
 
@@ -554,15 +607,26 @@ Building embedded Linux images requires significant resources:
 
 The recommended method is using the `bsp` CLI tool from the `bsp-registry-tools` package:
 
+The registry exposes two Isar presets. A preset that declares `releases:` is addressed as
+`<preset>-<release>`:
+
+| Preset | Device | Releases | Buildable names |
+|--------|--------|----------|-----------------|
+| `isar-qemuamd64` | `qemuamd64` | ubuntu-noble, ubuntu-jammy, debian-trixie | `isar-qemuamd64-ubuntu-noble`, `isar-qemuamd64-ubuntu-jammy`, `isar-qemuamd64-debian-trixie` |
+| `isar-qemuarm64` | `qemuarm64` | debian-trixie | `isar-qemuarm64-debian-trixie` |
+
 ```bash
-# Build RSB3720 with Debian Trixie
-bsp build adv-mbsp-isar-debian-rsb3720
+# List the Isar presets
+bsp list | grep -i isar
 
 # Build QEMU ARM64 with Debian Trixie
 bsp build isar-qemuarm64-debian-trixie
 
-# Build QEMU ARM64 with Ubuntu Noble
-bsp build isar-qemuarm64-ubuntu-noble
+# Build QEMU x86-64 with Ubuntu Noble
+bsp build isar-qemuamd64-ubuntu-noble
+
+# Build QEMU x86-64 with Debian Trixie
+bsp build isar-qemuamd64-debian-trixie
 ```
 
 ### 9.3 Interactive Shell Access
@@ -570,7 +634,7 @@ bsp build isar-qemuarm64-ubuntu-noble
 Enter a build environment for debugging or development:
 
 ```bash
-bsp shell adv-mbsp-isar-debian-rsb3720
+bsp shell isar-qemuarm64-debian-trixie
 ```
 
 ### 9.4 Manual Build with KAS
@@ -580,7 +644,7 @@ For advanced users, you can build directly with KAS:
 ```bash
 # Create configuration by combining files
 kas-container build \
-  isar/isar.yaml:isar/distro/debian-trixie.yaml:isar/qemu/qemuarm64.yaml
+  isar/isar.yaml:isar/isar-v1.0.yaml:isar/distro/debian-trixie.yaml:vendors/qemu/machine/qemuarm64.yaml
 ```
 
 ### 9.5 Build Configuration Composition
@@ -588,23 +652,23 @@ kas-container build \
 Isar builds use a modular configuration approach:
 
 ```
-Base Config     +    Distribution    +    Machine      =    Full Config
------------          ------------         --------          ------------
-isar.yaml            debian-trixie.yaml   qemuarm64.yaml    Complete build
-                                                             definition
+Base Config  +  Version Pin  +  Distribution        +  Machine         =  Full Config
+-----------     -----------     ------------           --------           ------------
+isar.yaml       isar-v1.0.yaml  debian-trixie.yaml     qemuarm64.yaml     Complete build
+                                                                          definition
 ```
 
 **Example compositions:**
 
 ```bash
 # QEMU ARM64 + Debian Bookworm
-isar/isar.yaml:isar/distro/debian-bookworm.yaml:isar/qemu/qemuarm64.yaml
+isar/isar.yaml:isar/isar-v1.0.yaml:isar/distro/debian-bookworm.yaml:vendors/qemu/machine/qemuarm64.yaml
 
 # QEMU x86-64 + Ubuntu Noble
-isar/isar.yaml:isar/distro/ubuntu-noble.yaml:isar/qemu/qemux86-64.yaml
+isar/isar.yaml:isar/isar-v1.0.yaml:isar/distro/ubuntu-noble.yaml:vendors/qemu/machine/qemuamd64.yaml
 
-# RSB3720 + Debian Trixie (includes hardware BSP layer)
-isar/isar.yaml:isar/distro/debian-trixie.yaml:adv-mbsp-isar-debian-rsb3720.yaml
+# QEMU ARM64 + Debian Trixie + the ssh and wic feature fragments
+isar/isar.yaml:isar/isar-v1.0.yaml:isar/distro/debian-trixie.yaml:vendors/qemu/machine/qemuarm64.yaml:isar/features/ssh.yaml:isar/features/wic.yaml
 ```
 
 ### 9.6 Running Images in QEMU

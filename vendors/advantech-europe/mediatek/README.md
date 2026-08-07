@@ -16,22 +16,28 @@ If you are looking for the **upstream MediaTek Rity** layer definitions and EVK 
 
 ### KAS fragments (Advantech layers)
 
-- `mtk-rity-v25.0-scarthgap.yaml`
-  - Adds Advantech overlay layer:
-    - `meta-modular-bsp-mediatek` from `https://gitlab.com/Advantech-EECC/meta-modular-bsp-mediatek.git`.
+- `mtk-rity-v25.0-scarthgap.yml`
+  - Pulls in the upstream vendor fragment `vendors/mediatek/mtk-rity-v25.0-scarthgap.yml`.
+  - This is the fragment referenced by the `mtk-rity-v25.0` vendor release in `bsp-registry.yml`.
 
-This fragment is intentionally small and is meant to be composed with the upstream vendor fragment
-(`vendors/mediatek/mtk-rity-v25.0-scarthgap.yml`) and a board machine selection.
+- `modular-bsp-mediatek.yml`
+  - Adds the Advantech overlay layer `meta-modular-bsp-mediatek` from
+    `https://github.com/Advantech-EECC/meta-modular-bsp-mediatek.git`.
+
+These fragments are intentionally small and are meant to be composed with a board machine
+selection.
 
 ### Machine overrides
 
 - `machine/rsb3810.yaml`
-  - Sets `machine: "rom3810"` for the RSB-3810 product family.
+  - Sets `machine: "rsb3810"` for the RSB-3810 product family.
 
 ## Where it is used
 
-The registry BSP `adv-mbsp-oemtk-scarthgap-rsb3810` (configured by `adv-mbsp-oemtk-scarthgap-rsb3810.yaml`)
-includes `vendors/advantech/mediatek/machine/rsb3810.yaml` to select the machine.
+The `rsb3810` device in `bsp-registry.yml` includes
+`vendors/advantech-europe/mediatek/machine/rsb3810.yaml` to select the machine. The
+`modular-bsp-rsb3810` preset pairs that device with the `mtk-rity-v25.0` vendor release for
+Yocto Scarthgap.
 
 ## Build
 
@@ -39,13 +45,13 @@ From the repository root:
 
 ```bash
 # Fast config checkout/validation (no build)
-bsp build adv-mbsp-oemtk-scarthgap-rsb3810 --checkout
+bsp build modular-bsp-rsb3810-scarthgap --checkout
 
 # Full build
-bsp build adv-mbsp-oemtk-scarthgap-rsb3810
+bsp build modular-bsp-rsb3810-scarthgap
 
 # Enter an interactive build shell
-bsp shell adv-mbsp-oemtk-scarthgap-rsb3810
+bsp shell modular-bsp-rsb3810-scarthgap
 ```
 
 ## References

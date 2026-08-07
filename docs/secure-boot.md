@@ -65,26 +65,39 @@ is needed.
 
 ## Supported Boards
 
+Support is listed at two levels:
+
+* **🅿️ Preset** — a ready-made secure-boot preset is shipped by the registry
+* **➕ Composable** — the board supports signing; enable it by adding the `secure-boot` feature to
+  the preset's `features:` list in `bsp-registry.yml`, or by composing
+  `features/secure-boot/secure-boot.yml` with KAS
+
+The releases listed are those for which the board has a preset the `secure-boot` feature can be
+added to.
+
 ### i.MX8 — HAB
 
-| Board              | Yocto releases                                    |
-|--------------------|---------------------------------------------------|
-| ROM-2620 (ed91)    | kirkstone, scarthgap, styhead, walnascar, whinlatter |
-| ROM-5720 (db5901)  | scarthgap, styhead, walnascar, whinlatter         |
-| ROM-5721 (db5901)  | scarthgap, styhead, walnascar, whinlatter         |
-| ROM-5721 1G        | scarthgap, walnascar, whinlatter                  |
-| ROM-5721 2G        | scarthgap, walnascar, whinlatter                  |
-| ROM-5722 (db2510)  | scarthgap, styhead, walnascar, whinlatter         |
-| RSB-3720           | scarthgap, styhead, walnascar, whinlatter         |
-| RSB-3720 4G        | walnascar, whinlatter                             |
-| RSB-3720 6G        | walnascar, whinlatter                             |
+| Board              | Support | Yocto releases                                    |
+|--------------------|:-------:|---------------------------------------------------|
+| ROM-2620 (ed91)    | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| ROM-5720 (db5901)  | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| ROM-5721 (db5901)  | ➕ | scarthgap, styhead, walnascar                     |
+| ROM-5721 1G        | ➕ | walnascar, whinlatter, wrynose                    |
+| ROM-5721 2G        | 🅿️ | walnascar (preset), whinlatter, wrynose           |
+| ROM-5722 (db2510)  | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| RSB-3720           | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| RSB-3720 4G        | ➕ | walnascar, whinlatter, wrynose                    |
+| RSB-3720 6G        | ➕ | walnascar, whinlatter, wrynose                    |
 
 ### i.MX9 / i.MX95 — AHAB
 
-| Board              | Yocto releases                                    |
-|--------------------|---------------------------------------------------|
-| ROM-2820 (ed93)    | scarthgap, styhead, walnascar, whinlatter         |
-| AOM-5521 (db2510)  | scarthgap, walnascar                              |
+| Board              | Support | Yocto releases                                    |
+|--------------------|:-------:|---------------------------------------------------|
+| ROM-2820 (ed93)    | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| AOM-5521 (db2510)  | ➕ | walnascar, whinlatter, wrynose                    |
+
+The only secure-boot preset shipped today is `modular-bsp-rom5721-2g-db5901-secureboot`
+(walnascar).
 
 ---
 

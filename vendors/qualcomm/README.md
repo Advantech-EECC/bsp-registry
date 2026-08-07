@@ -2,8 +2,8 @@
 
 This directory contains the **Qualcomm vendor BSP integration** for the Advantech BSP Registry.
 The current integration is based on **Qualcomm Linux (QLI) v1.5** for **Yocto Scarthgap** and is
-intended to be built through the registry manager (`bsp` CLI from `bsp-registry-tools`) which
-takes care of container selection, cache variables, and the build directory layout.
+intended to be built through the registry manager (the `bsp` CLI from the `bsp-registry-tools`
+package) which takes care of container selection, cache variables, and the build directory layout.
 
 ## What's included
 
@@ -18,7 +18,6 @@ takes care of container selection, cache variables, and the build directory layo
   - Enables extra build features used by this registry:
     - `compilers/clang/clang.yml`
     - `features/deep-learning/tensorflow.yml`
-    - `features/ota/ostree/scarthgap.yml`
     - `vendors/qualcomm/qualcomm-common.yml`
 
 - `qualcomm-common.yml`
@@ -50,8 +49,20 @@ One include per upstream `meta-qcom-hwe` machine, each simply selecting the corr
 
 ## BSPs in the registry
 
-The top-level registry file `bsp-registry.yml` exposes one preset per machine listed above, named after the machine and suffixed with the release, e.g.
-`qcs6490-rb3gen2-vision-kit-scarthgap`. Run `bsp list | grep -i qualcomm` for the full list.
+The top-level registry file `bsp-registry.yml` exposes one preset per machine listed above, named
+after the machine, e.g. `qcs6490-rb3gen2-vision-kit`. A preset that declares `releases:` is
+addressed on the command line as `<preset>-<release>`, so the buildable names are suffixed with the
+release, e.g. `qcs6490-rb3gen2-vision-kit-scarthgap`. Run `bsp list | grep -i qualcomm` for the
+full list.
+
+### Preview devices (no preset yet)
+
+The following device is defined in the registry but is not yet wired into a preset, so it
+does not appear in `bsp list` and cannot be built with `bsp build`:
+
+| Device | Description | Machine config |
+|--------|-------------|----------------|
+| `aom2721` | Advantech AOM-2721 (Qualcomm) | `vendors/advantech-europe/qualcomm/machine/aom2721.yml` |
 
 ## Build instructions (recommended)
 
