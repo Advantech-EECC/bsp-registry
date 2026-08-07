@@ -2,8 +2,8 @@
 
 This directory contains the **Qualcomm vendor BSP integration** for the Advantech BSP Registry.
 The current integration is based on **Qualcomm Linux (QLI) v1.5** for **Yocto Scarthgap** and is
-intended to be built through the registry manager (`bsp.py`) which takes care of container
-selection, cache variables, and the build directory layout.
+intended to be built through the registry manager (`bsp` CLI from `bsp-registry-tools`) which
+takes care of container selection, cache variables, and the build directory layout.
 
 ## What's included
 
@@ -26,19 +26,32 @@ selection, cache variables, and the build directory layout.
 
 ### Reference machine configs
 
-- `machine/qcs6490-rb3gen2-vision-kit.yml`
-  - Machine: `qcs6490-rb3gen2-vision-kit`
-  - Reference evaluation kit for the Qualcomm QCS6490 SoC.
+One include per upstream `meta-qcom-hwe` machine, each simply selecting the corresponding
+`MACHINE`:
+
+| Config | Machine | Evaluation kit |
+| ------ | ------- | -------------- |
+| `machine/qcm6490-idp.yml` | `qcm6490-idp` | QCM6490 IDP Beta EVK |
+| `machine/qcs615-adp-air.yml` | `qcs615-adp-air` | QCS615 ADP Air Beta EVK |
+| `machine/qcs615-iq-615-evk.yml` | `qcs615-iq-615-evk` | IQ-615 EVK |
+| `machine/qcs6490-rb3gen2-core-kit.yml` | `qcs6490-rb3gen2-core-kit` | RB3 Gen2 Core Kit |
+| `machine/qcs6490-rb3gen2-industrial-kit.yml` | `qcs6490-rb3gen2-industrial-kit` | RB3 Gen2 Industrial Kit |
+| `machine/qcs6490-rb3gen2-vision-kit.yml` | `qcs6490-rb3gen2-vision-kit` | RB3 Gen2 Vision Kit |
+| `machine/qcs8275-iq-8275-evk.yml` | `qcs8275-iq-8275-evk` | IQ-8275 EVK |
+| `machine/qcs8275-iq-8275-evk-ifp.yml` | `qcs8275-iq-8275-evk-ifp` | IQ-8275 EVK, IFP variant |
+| `machine/qcs8275-iq-8275-evk-pro-sku.yml` | `qcs8275-iq-8275-evk-pro-sku` | IQ-8275 EVK, Pro SKU |
+| `machine/qcs8275-iq-8275-evk-pro-sku-ifp.yml` | `qcs8275-iq-8275-evk-pro-sku-ifp` | IQ-8275 EVK, Pro SKU IFP variant |
+| `machine/qcs8300-ride-sx.yml` | `qcs8300-ride-sx` | Ride SX Beta EVK (QCS8300) |
+| `machine/monaco-monza.yml` | `monaco-monza` | IQ-8300 EVK (Monaco Monza) |
+| `machine/qcs9075-iq-9075-evk.yml` | `qcs9075-iq-9075-evk` | IQ-9075 EVK |
+| `machine/qcs9075-iq-9075-evk-ifp.yml` | `qcs9075-iq-9075-evk-ifp` | IQ-9075 EVK, IFP variant |
+| `machine/qcs9075-ride-sx.yml` | `qcs9075-ride-sx` | Ride SX Beta EVK (QCS9075) |
+| `machine/qcs9100-ride-sx.yml` | `qcs9100-ride-sx` | Ride SX Beta EVK (QCS9100) |
 
 ## BSPs in the registry
 
-The top-level registry file `bsp-registry.yml` currently exposes the following Qualcomm BSP build
-targets:
-
-- `bsp-oeqcom-scarthgap-qcs6490-evk`
-  - Config: `bsp-oeqcom-scarthgap-qcs6490.yaml`
-  - Build dir: `build/bsp-oeqcom-scarthgap-qcs6490-evk`
-  - Container: `ubuntu-22.04`
+The top-level registry file `bsp-registry.yml` exposes one preset per machine listed above, named after the machine and suffixed with the release, e.g.
+`qcs6490-rb3gen2-vision-kit-scarthgap`. Run `bsp list | grep -i qcs` for the full list.
 
 ## Build instructions (recommended)
 
@@ -46,16 +59,16 @@ From the repository root:
 
 ```bash
 # List available Qualcomm BSPs
-python bsp.py list | grep -i qcom
+bsp list | grep -i qcs
 
 # Fast config checkout/validation (no build)
-python bsp.py build bsp-oeqcom-scarthgap-qcs6490-evk --checkout
+bsp build qcs6490-rb3gen2-vision-kit-scarthgap --checkout
 
 # Full build
-python bsp.py build bsp-oeqcom-scarthgap-qcs6490-evk
+bsp build qcs6490-rb3gen2-vision-kit-scarthgap
 
 # Enter an interactive build shell
-python bsp.py shell bsp-oeqcom-scarthgap-qcs6490-evk
+bsp shell qcs6490-rb3gen2-vision-kit-scarthgap
 ```
 
 Build artifacts follow the standard Yocto layout under the registry build directory, e.g.:

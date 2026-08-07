@@ -32,6 +32,46 @@ registry:
 
     # --- Qualcomm Devices ---
 
+    - slug: qcm6490-idp
+      description: "Qualcomm QCM6490 IDP Beta EVK"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcm6490-idp.yml
+
+    - slug: qcs615-adp-air
+      description: "Qualcomm QCS615 ADP Air Beta EVK"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs615-adp-air.yml
+
+    - slug: qcs615-iq-615-evk
+      description: "Qualcomm IQ-615 EVK (QCS615)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs615-iq-615-evk.yml
+
+    - slug: qcs6490-rb3gen2-core-kit
+      description: "Qualcomm QCS6490 RB3 Gen2 Core Kit"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs6490-rb3gen2-core-kit.yml
+
+    - slug: qcs6490-rb3gen2-industrial-kit
+      description: "Qualcomm QCS6490 RB3 Gen2 Industrial Kit"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs6490-rb3gen2-industrial-kit.yml
+
     - slug: qcs6490-rb3gen2-vision-kit
       description: "Qualcomm QCS6490 RB3 Gen2 Vision Kit"
       vendor: qualcomm
@@ -40,12 +80,142 @@ registry:
       includes:
         - vendors/qualcomm/machine/qcs6490-rb3gen2-vision-kit.yml
 
+    - slug: qcs8275-iq-8275-evk
+      description: "Qualcomm IQ-8275 EVK (QCS8275)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs8275-iq-8275-evk.yml
+
+    - slug: qcs8275-iq-8275-evk-ifp
+      description: "Qualcomm IQ-8275 EVK, IFP variant (QCS8275)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs8275-iq-8275-evk-ifp.yml
+
+    - slug: qcs8275-iq-8275-evk-pro-sku
+      description: "Qualcomm IQ-8275 EVK, Pro SKU (QCS8275)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs8275-iq-8275-evk-pro-sku.yml
+
+    - slug: qcs8275-iq-8275-evk-pro-sku-ifp
+      description: "Qualcomm IQ-8275 EVK, Pro SKU IFP variant (QCS8275)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs8275-iq-8275-evk-pro-sku-ifp.yml
+
+    - slug: qcs8300-ride-sx
+      description: "Qualcomm Ride SX Beta EVK (QCS8300)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs8300-ride-sx.yml
+
+    - slug: monaco-monza
+      description: "Qualcomm IQ-8300 EVK, Monaco Monza (QCS8300)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/monaco-monza.yml
+
+    - slug: qcs9075-iq-9075-evk
+      description: "Qualcomm IQ-9075 EVK (QCS9075)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs9075-iq-9075-evk.yml
+
+    - slug: qcs9075-iq-9075-evk-ifp
+      description: "Qualcomm IQ-9075 EVK, IFP variant (QCS9075)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs9075-iq-9075-evk-ifp.yml
+
+    - slug: qcs9075-ride-sx
+      description: "Qualcomm Ride SX Beta EVK (QCS9075)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs9075-ride-sx.yml
+
+    - slug: qcs9100-ride-sx
+      description: "Qualcomm Ride SX Beta EVK (QCS9100)"
+      vendor: qualcomm
+      soc_vendor: qualcomm
+      architecture: arm64
+      includes:
+        - vendors/qualcomm/machine/qcs9100-ride-sx.yml
+
   # =====================================
   # BSP Presets (named shortcuts)
   # =====================================
   bsp:
 
-    # --- Qualcomm QCS6490 RB3 Gen2 Vision Kit ---    
+    # --- Qualcomm QCM6490 IDP Beta EVK ---
+
+    - name: qcm6490-idp
+      description: "Qualcomm QCM6490 IDP Beta EVK"
+      device: qcm6490-idp
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcm6490-idp
+
+    # --- Qualcomm QCS615 ADP Air Beta EVK ---
+
+    - name: qcs615-adp-air
+      description: "Qualcomm QCS615 ADP Air Beta EVK"
+      device: qcs615-adp-air
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs615-adp-air
+
+    # --- Qualcomm IQ-615 EVK (QCS615) ---
+
+    - name: qcs615-iq-615-evk
+      description: "Qualcomm IQ-615 EVK (QCS615)"
+      device: qcs615-iq-615-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs615-iq-615-evk
+
+    # --- Qualcomm QCS6490 RB3 Gen2 Core Kit ---
+
+    - name: qcs6490-rb3gen2-core-kit
+      description: "Qualcomm QCS6490 RB3 Gen2 Core Kit"
+      device: qcs6490-rb3gen2-core-kit
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs6490-rb3gen2-core-kit
+
+    # --- Qualcomm QCS6490 RB3 Gen2 Industrial Kit ---
+
+    - name: qcs6490-rb3gen2-industrial-kit
+      description: "Qualcomm QCS6490 RB3 Gen2 Industrial Kit"
+      device: qcs6490-rb3gen2-industrial-kit
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs6490-rb3gen2-industrial-kit
+
+    # --- Qualcomm QCS6490 RB3 Gen2 Vision Kit ---
 
     - name: qcs6490-rb3gen2-vision-kit
       description: "Qualcomm QCS6490 RB3 Gen2 Vision Kit"
@@ -54,3 +224,103 @@ registry:
       features: [systemd, security, virtualization, ipv6, ostree]
       build:
         path: build/qcs6490-rb3gen2-vision-kit
+
+    # --- Qualcomm IQ-8275 EVK (QCS8275) ---
+
+    - name: qcs8275-iq-8275-evk
+      description: "Qualcomm IQ-8275 EVK (QCS8275)"
+      device: qcs8275-iq-8275-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs8275-iq-8275-evk
+
+    # --- Qualcomm IQ-8275 EVK, IFP variant (QCS8275) ---
+
+    - name: qcs8275-iq-8275-evk-ifp
+      description: "Qualcomm IQ-8275 EVK, IFP variant (QCS8275)"
+      device: qcs8275-iq-8275-evk-ifp
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs8275-iq-8275-evk-ifp
+
+    # --- Qualcomm IQ-8275 EVK, Pro SKU (QCS8275) ---
+
+    - name: qcs8275-iq-8275-evk-pro-sku
+      description: "Qualcomm IQ-8275 EVK, Pro SKU (QCS8275)"
+      device: qcs8275-iq-8275-evk-pro-sku
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs8275-iq-8275-evk-pro-sku
+
+    # --- Qualcomm IQ-8275 EVK, Pro SKU IFP variant (QCS8275) ---
+
+    - name: qcs8275-iq-8275-evk-pro-sku-ifp
+      description: "Qualcomm IQ-8275 EVK, Pro SKU IFP variant (QCS8275)"
+      device: qcs8275-iq-8275-evk-pro-sku-ifp
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs8275-iq-8275-evk-pro-sku-ifp
+
+    # --- Qualcomm Ride SX Beta EVK (QCS8300) ---
+
+    - name: qcs8300-ride-sx
+      description: "Qualcomm Ride SX Beta EVK (QCS8300)"
+      device: qcs8300-ride-sx
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs8300-ride-sx
+
+    # --- Qualcomm IQ-8300 EVK, Monaco Monza (QCS8300) ---
+
+    - name: monaco-monza
+      description: "Qualcomm IQ-8300 EVK, Monaco Monza (QCS8300)"
+      device: monaco-monza
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/monaco-monza
+
+    # --- Qualcomm IQ-9075 EVK (QCS9075) ---
+
+    - name: qcs9075-iq-9075-evk
+      description: "Qualcomm IQ-9075 EVK (QCS9075)"
+      device: qcs9075-iq-9075-evk
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs9075-iq-9075-evk
+
+    # --- Qualcomm IQ-9075 EVK, IFP variant (QCS9075) ---
+
+    - name: qcs9075-iq-9075-evk-ifp
+      description: "Qualcomm IQ-9075 EVK, IFP variant (QCS9075)"
+      device: qcs9075-iq-9075-evk-ifp
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs9075-iq-9075-evk-ifp
+
+    # --- Qualcomm Ride SX Beta EVK (QCS9075) ---
+
+    - name: qcs9075-ride-sx
+      description: "Qualcomm Ride SX Beta EVK (QCS9075)"
+      device: qcs9075-ride-sx
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs9075-ride-sx
+
+    # --- Qualcomm Ride SX Beta EVK (QCS9100) ---
+
+    - name: qcs9100-ride-sx
+      description: "Qualcomm Ride SX Beta EVK (QCS9100)"
+      device: qcs9100-ride-sx
+      releases: [scarthgap]
+      features: [systemd, security, virtualization, ipv6, ostree]
+      build:
+        path: build/qcs9100-ride-sx

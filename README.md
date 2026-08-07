@@ -472,10 +472,19 @@ The current integration targets the Yocto **Scarthgap** release and uses the QLI
 set. For detailed configuration, see the [Qualcomm vendor README](vendors/qualcomm/README.md) and
 the [Advantech Qualcomm overlay README](vendors/advantech/qualcomm/README.md).
 
-| Board \ Yocto         | scarthgap | Status        |
-| --------------------- | :-------: | ------------- |
-| **QCS6490 RB3gen2**   |     🟡     | 🟡 Development |
-| **AOM-2721**          |     🟡     | 🟡 Development |
+| Board \ Yocto             | scarthgap | Status        |
+| ------------------------- | :-------: | ------------- |
+| **QCM6490 IDP**           |     🟡     | 🟡 Development |
+| **QCS615 ADP Air**        |     🟡     | 🟡 Development |
+| **IQ-615 EVK**            |     🟡     | 🟡 Development |
+| **QCS6490 RB3gen2**       |     🟡     | 🟡 Development |
+| **IQ-8275 EVK**           |     🟡     | 🟡 Development |
+| **IQ-8300 EVK (Monza)**   |     🟡     | 🟡 Development |
+| **QCS8300 Ride SX**       |     🟡     | 🟡 Development |
+| **IQ-9075 EVK**           |     🟡     | 🟡 Development |
+| **QCS9075 Ride SX**       |     🟡     | 🟡 Development |
+| **QCS9100 Ride SX**       |     🟡     | 🟡 Development |
+| **AOM-2721**              |     🟡     | 🟡 Development |
 
 **Status Legend:**
 
@@ -484,7 +493,16 @@ the [Advantech Qualcomm overlay README](vendors/advantech/qualcomm/README.md).
 
 | **Hardware**          | **Supported Releases** | **Status**     | **Documentation** |
 |-----------------------|------------------------|----------------|-------------------|
+| **QCM6490 IDP**       | scarthgap              | 🟡 Development | [Qualcomm QCM6490](https://www.qualcomm.com/products/internet-of-things/industrial/industrial-automation/qcm6490) |
+| **QCS615 ADP Air**    | scarthgap              | 🟡 Development | [Qualcomm QCS615](https://www.qualcomm.com/products/automotive/qcs615) |
+| **IQ-615 EVK**        | scarthgap              | 🟡 Development | [Qualcomm IQ-615](https://www.qualcomm.com/developer/hardware/iq-615-development-kit) |
 | **QCS6490 RB3gen2**   | scarthgap              | 🟡 Development | [Qualcomm RB3gen2 Vision Kit](https://www.qualcomm.com/developer/hardware/rb3-gen-2-development-kit) |
+| **IQ-8275 EVK**       | scarthgap              | 🟡 Development | [Qualcomm IQ-8275](https://www.qualcomm.com/developer/hardware/iq-8275-evk) |
+| **IQ-8300 EVK (Monza)** | scarthgap            | 🟡 Development | [Qualcomm QCS8300](https://www.qualcomm.com/products/automotive/qcs8300) |
+| **QCS8300 Ride SX**   | scarthgap              | 🟡 Development | [Qualcomm Ride SX](https://www.qualcomm.com/developer/hardware/ride-sx-development-kit) |
+| **IQ-9075 EVK**       | scarthgap              | 🟡 Development | [Qualcomm IQ-9075](https://www.qualcomm.com/developer/hardware/iq-9075-evk) |
+| **QCS9075 Ride SX**   | scarthgap              | 🟡 Development | [Qualcomm Ride SX](https://www.qualcomm.com/developer/hardware/ride-sx-development-kit) |
+| **QCS9100 Ride SX**   | scarthgap              | 🟡 Development | [Qualcomm Ride SX](https://www.qualcomm.com/developer/hardware/ride-sx-development-kit) |
 | **AOM-2721**          | scarthgap              | 🟡 Development | [Advantech AOM-2721 Product Page](https://www.advantech.com/en/products/som/aom-2721) |
 
 ### 2.4.1. Building Qualcomm BSPs
