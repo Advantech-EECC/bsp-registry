@@ -108,25 +108,74 @@ The BSP build system is designed to support a wide range of hardware platforms, 
 
 ## 2.1. NXP Boards Compatibility Matrix
 
-Table describes in which combinations yocto releases could be used together with boards.
+The table below is derived from the presets defined in `bsp-registry.yml`. A ✅ means a
+ready-made preset exists and can be built directly with `bsp build <preset>-<release>`.
 
-| Board \ Yocto  | wrynose | whinlatter | walnascar | styhead | scarthgap | mickledore | langdale | kirkstone | Status        |
-| -------------- | :--------: |:--------: | :-------: | :-----: | :-------: | :--------: | :------: | :-------: | ------------- |
-| **RSB3720**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     🟡     | 🟢 Stable      |
-| **RSB3720 4G** | 🟡 |     ✅      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **RSB3720 6G** | 🟡 |     ✅      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **RSB3730**    | ❌ |     ❌      |     ❌     |    ❌    |     ❌     |     ✅      |    ❌     |     ❌     | 🟡 Development |
-| **ROM2620**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5720**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721 1G** | 🟡 |     ✅      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5721 2G** | 🟡 |     ✅      |     ✅     |    ❌    |     ✅     |     ✅      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM5722**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **ROM2820**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **AOM5521 A1** | ❌ |     ❌      |     ✅     |    ❌    |     ✅     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **AOM5521 A2** | ❌ |     ❌      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟢 Stable      |
-| **AOM2521 B0** | ❌ |     ✅      |     ✅     |    ❌    |     ❌     |     ❌      |    ❌     |     ❌     | 🟡 Development |
-| **ECU-150 A1**    | 🟡 |     ✅      |     ✅     |    ✅    |     ✅     |     ❌      |    ❌     |     ❌     | 🟡 Development |
+| Board \ Yocto  | wrynose | whinlatter | walnascar | styhead | scarthgap | mickledore | kirkstone |
+| -------------- |:-------:|:----------:|:---------:|:-------:|:---------:|:----------:|:---------:|
+| **RSB-3720** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **RSB-3720 4G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **RSB-3720 6G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **ROM-2620 (ED91)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **ROM-2820 (ED93)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **ROM-5720 (DB5901)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **ROM-5721 (DB5901)** | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **ROM-5721 1G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **ROM-5721 2G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **ROM-5722 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **AOM-5521 (DB2510)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **AOM-5521 A1** | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
+| **AOM-5521 A2** | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **AOM-2521 B0** | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **ECU-150** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **NXP i.MX8ULP EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+
+**Legend:**
+
+* ✅ **Preset available**: a preset is shipped for this board and release
+* ❌ **No preset**: not available for this release
+
+### 2.1.1. Legacy and Product-Line Presets
+
+A number of boards additionally carry older, product-line specific presets that pin a fixed NXP
+BSP revision (`vendor_release`). These are kept for reproducing existing product builds and are
+not carried forward to newer Yocto releases:
+
+| Preset | Board | Release | NXP BSP revision |
+|--------|-------|---------|------------------|
+| `advantech-imx8mprsb3720a1-kirkstone` | RSB-3720 A1 | kirkstone | `imx-5.15.52-2.1.0` |
+| `advantech-imx8mprsb3720a2-scarthgap` | RSB-3720 A2 | scarthgap | `imx-6.6.23-2.0.0` |
+| `advantech-rsb3730-mickledore` | RSB-3730 | mickledore | `imx-6.1.22-2.0.0` |
+| `advantech-rsb3730-2g-mickledore` | RSB-3730 2G | mickledore | `imx-6.1.22-2.0.0` |
+| `advantech-rsb3730-4g-mickledore` | RSB-3730 4G | mickledore | `imx-6.1.22-2.0.0` |
+| `advantech-rom2820-a1-mickledore` | ROM-2820 A1 | mickledore | `imx-6.1.22-2.0.0` |
+| `advantech-rom5721-db5901-1g-mickledore` | ROM-5721 1G | mickledore | — |
+| `advantech-rom5721-db5901-2g-mickledore` | ROM-5721 2G | mickledore | — |
+
+These presets do not take a `-<release>` suffix, because the release is already part of the
+preset name (for example `bsp build advantech-rsb3730-mickledore`).
+
+### 2.1.2. Alternative View
+
+| **Hardware**   | **Preset** | **Supported Releases** | **Status** | **Documentation** |
+|----------------|------------|-------------------------|------------|-------------------|
+| **RSB-3720**    | `modular-bsp-rsb3720` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech RSB-3720 Product Page](https://www.advantech.com/en-us/products/5912096e-f242-4b17-993a-1acdcaada6f6/rsb-3720/mod_d2f1b0bc-650b-449a-8ef7-b65ce4f69949) · [User Manual](https://www.manualslib.com/manual/2293645/Advantech-Rsb-3720.html) |
+| **RSB-3720 4G** | `modular-bsp-rsb3720-4g` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as RSB-3720, variant-specific)* |
+| **RSB-3720 6G** | `modular-bsp-rsb3720-6g` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as RSB-3720, variant-specific)* |
+| **RSB-3730**    | `advantech-rsb3730-mickledore` | mickledore | 🟡 Development | [Advantech RSB-3730 Product Page](https://www.advantech.com/en-eu/products/5912096e-f242-4b17-993a-1acdcaada6f6/rsb-3730/mod_5d7887e6-b7e3-427c-8729-b81ac7d89ccd) · [RSB-3730 User Manual (PDF)](https://advdownload.advantech.com/productfile/Downloadfile4/1-2HACYHA/RSB-3730_User_Manual_Eng_yocto%20Ed.1_FINAL.pdf) · [Yocto BSP Guide](https://ess-wiki.advantech.com.tw/view/Yocto_Linux_BSP_Ver.A_User_Guide_for_RSB-3730_series-Yocto_4.2) |
+| **ROM-2620**    | `modular-bsp-rom2620-ed91` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-2620 Product Page](https://www.advantech.com/en-eu/products/8fc6f753-ca1d-49f9-8676-10d53129570f/rom-2620/mod_294031c8-4a21-4b95-adf2-923c412ef761) |
+| **ROM-2820**    | `modular-bsp-rom2820-ed93` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-2820 Product Page](https://www.advantech.com/en-eu/products/8fc6f753-ca1d-49f9-8676-10d53129570f/rom-2820/mod_bb82922e-d3a2-49d7-80ff-dc57f400185e) |
+| **ROM-5720**    | `modular-bsp-rom5720-db5901` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-5720 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5720/mod_4fbfe9fa-f5b2-4ba8-940e-e47585ad0fef) |
+| **ROM-5721**    | `modular-bsp-rom5721-db5901` | scarthgap, styhead, walnascar | 🟢 Stable | [Advantech ROM-5721 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5721/mod_271dbc68-878b-486d-85cf-30cc9f1f8f16) |
+| **ROM-5721 1G** | `modular-bsp-rom5721-1g-db5901` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as ROM-5721, variant-specific)* |
+| **ROM-5721 2G** | `modular-bsp-rom5721-2g-db5901` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as ROM-5721, variant-specific)* |
+| **ROM-5722**    | `modular-bsp-rom5722-db2510` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-5722 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5722/mod_11aa0c77-868e-4014-8151-ac7a7a1c5c1b) |
+| **AOM-5521 (DB2510)** | `modular-bsp-aom5521-db2510` | walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
+| **AOM-5521 A1** | `advantech-imx95aom5521a1` | scarthgap, walnascar | 🟡 Development | *(Same as above)* |
+| **AOM-5521 A2** | `advantech-imx95aom5521a2` | walnascar | 🟡 Development | *(Same as above)* |
+| **AOM-2521 B0** | `advantech-imx95aom2521b0` | walnascar, whinlatter | 🟡 Development | [Advantech AOM-2521 Product Page](https://www.advantech.com/en/products/som/aom-2521) |
+| **ECU-150**     | `modular-bsp-ecu-150` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟡 Development | [Advantech ECU-150 Product page](https://www.advantech.com/en-us/products/7332cf9e-bf70-4a79-b0b6-fd8a2182cd72/ecu-150/mod_7af3b0b8-4e52-4ed2-bbdc-22ad3222def0) |
+| **NXP i.MX8ULP EVK** | `nxp-imx8ulp-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | [NXP i.MX 8ULP EVK](https://www.nxp.com/design/design-center/development-boards-and-designs/i-mx-evaluation-and-development-boards/i-mx-8ulp-evaluation-kit:i.MX8ULP-EVK) |
 
 **Status Legend:**
 
@@ -134,28 +183,7 @@ Table describes in which combinations yocto releases could be used together with
 * 🟡 **Development**: Under active development, may have limitations
 * 🔴 **EOL**: End of Life, not recommended for new projects
 
-### 2.1.1. Alternative View
-
-| **Hardware**   | **Supported Releases** | **Status** | **Documentation** |
-|----------------|-------------------------|------------|-------------------|
-| **RSB3720**    | whinlatter, walnascar, styhead, scarthgap | 🟢 Stable | [Advantech RSB-3720 Product Page](https://www.advantech.com/en-us/products/5912096e-f242-4b17-993a-1acdcaada6f6/rsb-3720/mod_d2f1b0bc-650b-449a-8ef7-b65ce4f69949) · [User Manual](https://www.manualslib.com/manual/2293645/Advantech-Rsb-3720.html) |
-| **RSB3720 4G** | whinlatter, walnascar | 🟢 Stable | *(Same as RSB3720, variant-specific)* |
-| **RSB3720 6G** | whinlatter, walnascar | 🟢 Stable | *(Same as RSB3720, variant-specific)* |
-| **RSB3730**    | mickledore | 🟡 Development | [Advantech RSB-3730 Product Page](https://www.advantech.com/en-eu/products/5912096e-f242-4b17-993a-1acdcaada6f6/rsb-3730/mod_5d7887e6-b7e3-427c-8729-b81ac7d89ccd) · [RSB-3730 User Manual (PDF)](https://advdownload.advantech.com/productfile/Downloadfile4/1-2HACYHA/RSB-3730_User_Manual_Eng_yocto%20Ed.1_FINAL.pdf) · [Yocto BSP Guide](https://ess-wiki.advantech.com.tw/view/Yocto_Linux_BSP_Ver.A_User_Guide_for_RSB-3730_series-Yocto_4.2) |
-| **ROM2620**    | whinlatter, walnascar, styhead, scarthgap | 🟢 Stable | [Advantech ROM-2620 Product Page](https://www.advantech.com/en-eu/products/8fc6f753-ca1d-49f9-8676-10d53129570f/rom-2620/mod_294031c8-4a21-4b95-adf2-923c412ef761) |
-| **ROM5720**    | whinlatter, walnascar, styhead, scarthgap | 🟢 Stable | [Advantech ROM-5720 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5720/mod_4fbfe9fa-f5b2-4ba8-940e-e47585ad0fef) |
-| **ROM5721**    | whinlatter, walnascar, styhead, scarthgap, mickledore | 🟢 Stable | [Advantech ROM-5721 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5721/mod_271dbc68-878b-486d-85cf-30cc9f1f8f16) |
-| **ROM5721 1G** | whinlatter, walnascar, scarthgap, mickledore | 🟢 Stable | *(Same as ROM5721, variant-specific)* |
-| **ROM5721 2G** | whinlatter, walnascar, scarthgap, mickledore | 🟢 Stable | *(Same as ROM5721, variant-specific)* |
-| **ROM5722**    | whinlatter, walnascar, styhead, scarthgap | 🟢 Stable | [Advantech ROM-5722 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5722/mod_11aa0c77-868e-4014-8151-ac7a7a1c5c1b) |
-| **ROM2820**    | whinlatter, walnascar, styhead, scarthgap | 🟢 Stable | [Advantech ROM-2820 Product Page](https://www.advantech.com/en-eu/products/8fc6f753-ca1d-49f9-8676-10d53129570f/rom-2820/mod_bb82922e-d3a2-49d7-80ff-dc57f400185e) |
-| **AOM5521 A1** | scarthgap | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
-| **AOM5521 A1** | walnascar | 🟡 Development | *(Same as above)* |
-| **AOM5521 A2** | walnascar | 🟢 Stable | *(Same as above)* |
-| **AOM2521 B0** | walnascar, whinlatter | 🟡 Development | [Advantech AOM-2521 Product Page](https://www.advantech.com/en/products/som/aom-2521) |
-| **ECU-150** | walnascar, scarthgap | 🟡 Development | [Advantech ECU-150 Product page](https://www.advantech.com/en-us/products/7332cf9e-bf70-4a79-b0b6-fd8a2182cd72/ecu-150/mod_7af3b0b8-4e52-4ed2-bbdc-22ad3222def0) |
-
-#### 2.1.1.1. Yocto releases
+#### 2.1.2.1. Yocto releases
 
 This list below covers the most recent and commonly referenced Yocto releases:
 
@@ -168,48 +196,72 @@ This list below covers the most recent and commonly referenced Yocto releases:
 
 The full overview of Yocto releases can be found here https://www.yoctoproject.org/development/releases/
 
-### 2.1.2. OTA Update Support
+### 2.1.3. OTA Update Support
 
 The BSP registry includes Over-The-Air (OTA) update configurations for supported boards. OTA updates enable remote software updates without physical access to devices, critical for production deployments.
 
-#### 2.1.2.1. Supported OTA Technologies
+#### 2.1.3.1. Supported OTA Technologies
 
 * **RAUC** (Robust Auto-Update Controller): A safe and reliable software update framework that supports atomic updates with rollback capabilities
 * **SWUpdate**: A software update framework designed for embedded systems with support for multiple update strategies
 * **OSTree**: An upgrade system for Linux-based operating systems that performs atomic upgrades of complete filesystem trees
 
-#### 2.1.2.2. OTA Support Matrix
+#### 2.1.3.2. OTA Support Matrix
 
-The following boards support OTA updates with the indicated technologies and Yocto releases:
+The registry distinguishes two levels of support:
+
+* **🅿️ Preset** — a ready-made preset exists; build it directly with `bsp build <preset>-<release>`
+* **➕ Composable** — the OTA feature is supported on the board and can be enabled by adding the
+  feature to the preset's `features:` list in `bsp-registry.yml`, or by composing the feature
+  fragment manually with KAS. No preset is shipped today.
 
 | Board | RAUC | SWUpdate | OSTree | Supported Releases |
 |-------|:----:|:--------:|:------:|-------------------|
-| **RSB3720** | ✅ | ✅ | ✅ | whinlatter, walnascar, styhead, scarthgap |
-| **RSB3720-4G** | ✅ | ✅ | ❌ | whinlatter, walnascar |
-| **RSB3720-6G** | ✅ | ✅ | ❌ | whinlatter, walnascar |
-| **ROM2620-ED91** | ✅ | ✅ | ✅ | whinlatter, walnascar, styhead, scarthgap |
-| **ROM2820-ED93** | ✅ | ✅ | ✅ | whinlatter, walnascar, styhead, scarthgap |
-| **ROM5720-DB5901** | ✅ | ✅ | ✅ | whinlatter, walnascar, styhead, scarthgap |
-| **ROM5721-1G-DB5901** | ✅ | ✅ | ✅ | whinlatter, walnascar |
-| **ROM5721-2G-DB5901** | ✅ | ✅ | ✅ | whinlatter, walnascar |
-| **ROM5722-DB2510** | ✅ | ✅ | ✅ | whinlatter, walnascar, styhead, scarthgap |
+| **RSB-3720** | 🅿️ | 🅿️ | 🅿️ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| **RSB-3720 4G** | ➕ | ➕ | ➕ | walnascar, whinlatter, wrynose |
+| **RSB-3720 6G** | ➕ | ➕ | ➕ | walnascar, whinlatter, wrynose |
+| **ROM-2620 (ED91)** | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| **ROM-2820 (ED93)** | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| **ROM-5720 (DB5901)** | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| **ROM-5721 1G** | ➕ | ➕ | ➕ | walnascar, whinlatter, wrynose |
+| **ROM-5721 2G** | ➕ | ➕ | ➕ | walnascar, whinlatter, wrynose |
+| **ROM-5722 (DB2510)** | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
 
-#### 2.1.2.3. Building Images with OTA Support
+The three presets shipped today are `modular-bsp-rauc-rsb3720`, `modular-bsp-swupdate-rsb3720`
+and `modular-bsp-ostree-rsb3720`, each available for scarthgap through wrynose. The `qcs6490-rb3gen2-vision-kit`
+preset also enables the `ostree` feature.
+
+The corresponding feature fragments live under `features/ota/`:
+
+| Feature | Registry feature | Fragment |
+|---------|------------------|----------|
+| RAUC | `rauc` | `features/ota/rauc/rauc.yml` |
+| SWUpdate | `swupdate` | `features/ota/swupdate/swupdate.yml` |
+| OSTree | `ostree` | `features/ota/ostree/ostree.yml` |
+
+OSTree additionally carries per-release compatibility fragments:
+`features/ota/ostree/ostree-scarthgap.yml`, `features/ota/ostree/ostree-styhead.yml`,
+`features/ota/ostree/ostree-walnascar.yml` and `features/ota/ostree/ostree-whinlatter.yml`.
+
+#### 2.1.3.3. Building Images with OTA Support
 
 To build a BSP image with OTA support, use the `bsp` command:
 
 ```bash
 # List all available OTA configurations
-bsp list | grep rauc
+bsp list | grep -E 'rauc|swupdate|ostree'
 
-# Build RSB3720 6G variant with RAUC support
+# Build RSB-3720 with RAUC support
 bsp build modular-bsp-rauc-rsb3720-walnascar
 
-# Build RSB3720 6G variant with SWUpdate support
+# Build RSB-3720 with SWUpdate support
 bsp build modular-bsp-swupdate-rsb3720-styhead
+
+# Build RSB-3720 with OSTree support
+bsp build modular-bsp-ostree-rsb3720-scarthgap
 ```
 
-### 2.1.3. Secure Boot Support
+### 2.1.4. Secure Boot Support
 
 NXP-based Advantech Europe boards support cryptographic boot-image signing via
 **HAB** (High Assurance Boot, i.MX8 family) and **AHAB** (Advanced High Assurance Boot,
@@ -222,23 +274,34 @@ i.MX9 / i.MX95 family).
 - Board fusing / provisioning procedures
 - CI / Azure Pipelines integration
 
-#### 2.1.3.1. Secure Boot Support Matrix
+#### 2.1.4.1. Secure Boot Support Matrix
 
-| Board              | SoC Family | Secure Boot | Yocto Releases                        |
-|--------------------|-----------|-------------|---------------------------------------|
-| ROM-2620 (ed91)    | i.MX8     | HAB         | kirkstone, scarthgap, styhead, walnascar, whinlatter |
-| ROM-5720 (db5901)  | i.MX8     | HAB         | scarthgap, styhead, walnascar, whinlatter |
-| ROM-5721 (db5901)  | i.MX8     | HAB         | scarthgap, styhead, walnascar, whinlatter |
-| ROM-5721 1G        | i.MX8     | HAB         | scarthgap, walnascar, whinlatter      |
-| ROM-5721 2G        | i.MX8     | HAB         | scarthgap, walnascar, whinlatter      |
-| ROM-5722 (db2510)  | i.MX8     | HAB         | scarthgap, styhead, walnascar, whinlatter |
-| RSB-3720           | i.MX8     | HAB         | scarthgap, styhead, walnascar, whinlatter |
-| RSB-3720 4G        | i.MX8     | HAB         | walnascar, whinlatter                 |
-| RSB-3720 6G        | i.MX8     | HAB         | walnascar, whinlatter                 |
-| ROM-2820 (ed93)    | i.MX9     | AHAB        | scarthgap, styhead, walnascar, whinlatter |
-| AOM-5521 (db2510)  | i.MX95    | AHAB        | scarthgap, walnascar                  |
+As with OTA, the registry distinguishes a shipped preset from a supported-but-composable
+configuration:
 
-#### 2.1.3.2. Building Images with Secure Boot
+* **🅿️ Preset** — a ready-made secure-boot preset exists
+* **➕ Composable** — the board supports signing; enable it by adding the `secure-boot` feature to
+  the preset's `features:` list, or by composing `features/secure-boot/secure-boot.yml` with KAS
+
+| Board              | SoC Family | Secure Boot | Support | Yocto Releases                        |
+|--------------------|-----------|-------------|:-------:|---------------------------------------|
+| ROM-2620 (ed91)    | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| ROM-5720 (db5901)  | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| ROM-5721 (db5901)  | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar         |
+| ROM-5721 1G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
+| ROM-5721 2G        | i.MX8     | HAB         | 🅿️ | walnascar (preset), whinlatter, wrynose |
+| ROM-5722 (db2510)  | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| RSB-3720           | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| RSB-3720 4G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
+| RSB-3720 6G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
+| ROM-2820 (ed93)    | i.MX9     | AHAB        | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| AOM-5521 (db2510)  | i.MX95    | AHAB        | ➕ | walnascar, whinlatter, wrynose        |
+
+The only secure-boot preset shipped today is `modular-bsp-rom5721-2g-db5901-secureboot`
+(walnascar). The listed releases are those for which the board has a preset that the
+`secure-boot` feature can be added to.
+
+#### 2.1.4.2. Building Images with Secure Boot
 
 ```bash
 # Export signing environment variables before building
@@ -342,18 +405,19 @@ set. For detailed configuration, see the [MediaTek vendor README](vendors/mediat
 
 | Board \ Yocto  | scarthgap | Status        |
 | -------------- | :-------: | ------------- |
-| **Genio 1200 EVK** | 🟡    | 🟡 Development |
-| **RSB-3810**   |     🟡     | 🟡 Development |
+| **Genio 1200 EVK** | 🅿️    | 🟡 Development |
+| **RSB-3810**   |     🅿️     | 🟡 Development |
 
 **Status Legend:**
 
 * 🟢 **Stable**: Production-ready, fully tested and supported
 * 🟡 **Development**: Under active development, may have limitations
+* 🅿️ **Preset available**: a preset is shipped for this board and release
 
-| **Hardware**         | **Supported Releases** | **Status**       | **Documentation** |
-|----------------------|------------------------|------------------|-------------------|
-| **Genio 1200 EVK**   | scarthgap              | 🟡 Development   | [MediaTek Genio 1200 EVK](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/hw/g1200-evk.html) |
-| **RSB-3810**         | scarthgap              | 🟡 Development   | [Advantech RSB-3810](https://ess-wiki.advantech.com.tw/view/AIM-Linux/RSB-3810) |
+| **Hardware**         | **Preset** | **Supported Releases** | **Status**       | **Documentation** |
+|----------------------|------------|------------------------|------------------|-------------------|
+| **Genio 1200 EVK**   | `mediatek-genio-1200-evk` | scarthgap | 🟡 Development   | [MediaTek Genio 1200 EVK](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/hw/g1200-evk.html) |
+| **RSB-3810**         | `modular-bsp-rsb3810` | scarthgap | 🟡 Development   | [Advantech RSB-3810](https://ess-wiki.advantech.com.tw/view/AIM-Linux/RSB-3810) |
 
 ### 2.3.1. Building MediaTek BSPs
 
@@ -379,18 +443,20 @@ the [Advantech Qualcomm overlay README](vendors/advantech-europe/qualcomm/README
 
 | Board \ Yocto         | scarthgap | Status        |
 | --------------------- | :-------: | ------------- |
-| **QCS6490 RB3gen2**   |     🟡     | 🟡 Development |
-| **AOM-2721**          |     🟡     | 🟡 Development |
+| **QCS6490 RB3gen2**   |     🅿️     | 🟡 Development |
+| **AOM-2721**          |     🔍     | 🔍 Preview     |
 
 **Status Legend:**
 
 * 🟢 **Stable**: Production-ready, fully tested and supported
 * 🟡 **Development**: Under active development, may have limitations
+* 🔍 **Preview**: Device and machine config exist in the registry, but no preset is wired up yet,
+  so the board does not appear in `bsp list` and must be composed manually with KAS
 
-| **Hardware**          | **Supported Releases** | **Status**     | **Documentation** |
-|-----------------------|------------------------|----------------|-------------------|
-| **QCS6490 RB3gen2**   | scarthgap              | 🟡 Development | [Qualcomm RB3gen2 Vision Kit](https://www.qualcomm.com/developer/hardware/rb3-gen-2-development-kit) |
-| **AOM-2721**          | scarthgap              | 🟡 Development | [Advantech AOM-2721 Product Page](https://www.advantech.com/en/products/som/aom-2721) |
+| **Hardware**          | **Preset** | **Supported Releases** | **Status**     | **Documentation** |
+|-----------------------|------------|------------------------|----------------|-------------------|
+| **QCS6490 RB3gen2**   | `qcs6490-rb3gen2-vision-kit` | scarthgap | 🟡 Development | [Qualcomm RB3gen2 Vision Kit](https://www.qualcomm.com/developer/hardware/rb3-gen-2-development-kit) |
+| **AOM-2721**          | *(none — `aom2721` device only)* | — | 🔍 Preview | [Advantech AOM-2721 Product Page](https://www.advantech.com/en/products/som/aom-2721) |
 
 ### 2.4.1. Building Qualcomm BSPs
 
@@ -416,24 +482,26 @@ support lives on the OE4T `*-l4t-r35.x` branches, which only exist for kirkstone
 
 | Board \ Yocto              | scarthgap | styhead | walnascar | whinlatter | wrynose | Status        |
 | -------------------------- | :-------: | :-----: | :-------: | :--------: | :-----: | ------------- |
-| **Jetson AGX Orin**        |     🟡     |    🟡    |     🟡     |     🟡      |    🟡    | 🟡 Development |
-| **Jetson Orin Nano**       |     🟡     |    🟡    |     🟡     |     🟡      |    🟡    | 🟡 Development |
-| **Jetson Orin Nano NVMe**  |     🟡     |    🟡    |     🟡     |     🟡      |    🟡    | 🟡 Development |
-| **Jetson AGX Xavier**      |     🟡     |    ❌    |     ❌     |     ❌      |    ❌    | 🟡 Development |
-| **Jetson Xavier NX**       |     🟡     |    ❌    |     ❌     |     ❌      |    ❌    | 🟡 Development |
+| **Jetson AGX Orin**        |     🅿️     |    🅿️    |     🅿️     |     🅿️      |    🅿️    | 🟡 Development |
+| **Jetson Orin Nano**       |     🅿️     |    🅿️    |     🅿️     |     🅿️      |    🅿️    | 🟡 Development |
+| **Jetson Orin Nano NVMe**  |     🅿️     |    🅿️    |     🅿️     |     🅿️      |    🅿️    | 🟡 Development |
+| **Jetson AGX Xavier**      |     🅿️     |    ❌    |     ❌     |     ❌      |    ❌    | 🟡 Development |
+| **Jetson Xavier NX**       |     🅿️     |    ❌    |     ❌     |     ❌      |    ❌    | 🟡 Development |
 
 **Status Legend:**
 
 * 🟢 **Stable**: Production-ready, fully tested and supported
 * 🟡 **Development**: Under active development, may have limitations
+* 🅿️ **Preset available**: a preset is shipped for this board and release
 * ❌ **Unsupported**: Not available for this Yocto release
 
-| **Hardware**              | **Supported Releases**                             | **JetPack / L4T**     | **Status**     | **Documentation** |
-|---------------------------|----------------------------------------------------|-----------------------|----------------|-------------------|
-| **Jetson AGX Orin**       | scarthgap, styhead, walnascar, whinlatter, wrynose | JetPack 6 / L4T r36.x | 🟡 Development | [NVIDIA Jetson Orin](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) |
-| **Jetson Orin Nano**      | scarthgap, styhead, walnascar, whinlatter, wrynose | JetPack 6 / L4T r36.x | 🟡 Development | [NVIDIA Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) |
-| **Jetson AGX Xavier**     | scarthgap                                          | JetPack 5 / L4T r35.x | 🟡 Development | [NVIDIA Jetson Xavier](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-agx-xavier/) |
-| **Jetson Xavier NX**      | scarthgap                                          | JetPack 5 / L4T r35.x | 🟡 Development | [NVIDIA Jetson Xavier NX](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-xavier-nx/) |
+| **Hardware**              | **Preset** | **Supported Releases**                             | **JetPack / L4T**     | **Status**     | **Documentation** |
+|---------------------------|------------|----------------------------------------------------|-----------------------|----------------|-------------------|
+| **Jetson AGX Orin**       | `jetson-agx-orin-devkit` | scarthgap, styhead, walnascar, whinlatter, wrynose | JetPack 6 / L4T r36.x | 🟡 Development | [NVIDIA Jetson Orin](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) |
+| **Jetson Orin Nano**      | `jetson-orin-nano-devkit` | scarthgap, styhead, walnascar, whinlatter, wrynose | JetPack 6 / L4T r36.x | 🟡 Development | [NVIDIA Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) |
+| **Jetson Orin Nano NVMe** | `jetson-orin-nano-devkit-nvme` | scarthgap, styhead, walnascar, whinlatter, wrynose | JetPack 6 / L4T r36.x | 🟡 Development | *(Same as Jetson Orin Nano, NVMe boot variant)* |
+| **Jetson AGX Xavier**     | `jetson-agx-xavier-devkit` | scarthgap                                          | JetPack 5 / L4T r35.x | 🟡 Development | [NVIDIA Jetson Xavier](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-agx-xavier/) |
+| **Jetson Xavier NX**      | `jetson-xavier-nx-devkit` | scarthgap                                          | JetPack 5 / L4T r35.x | 🟡 Development | [NVIDIA Jetson Xavier NX](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-xavier-nx/) |
 
 ### 2.5.1. Building NVIDIA Jetson BSPs
 
@@ -450,6 +518,42 @@ bsp build jetson-agx-xavier-devkit-scarthgap
 # Build Jetson Orin Nano on the latest release (wrynose)
 bsp build jetson-orin-nano-devkit-wrynose
 ```
+---
+
+## 2.6. QEMU and Reference BSPs
+
+In addition to hardware BSPs, the registry ships emulated QEMU targets. They require no hardware
+and are the fastest way to validate the toolchain, a feature fragment, or a new Yocto release.
+
+| Preset | Device | Framework | Releases | Notes |
+|--------|--------|-----------|----------|-------|
+| `poky-qemux86-64` | `qemux86-64` | Yocto | kirkstone, nanbield, mickledore, scarthgap, styhead, walnascar, whinlatter, wrynose, master | Poky reference build; widest release coverage in the registry |
+| `poky-qemuarm64` | `qemuarm64` | Yocto | kirkstone, nanbield, mickledore, scarthgap, styhead, walnascar, whinlatter | Poky reference build for ARM64 |
+| `poky-qemuarm-scarthgap` | `qemuarm` | Yocto | scarthgap | Poky reference build for ARM 32-bit |
+| `poky-harden-qemux86-64-scarthgap` | `qemux86-64` | Yocto | scarthgap | Hardened Poky distro (`poky-harden`) with the `security` feature |
+| `poky-qemux86-64-ros2` | `qemux86-64` | Yocto | ros2-humble-scarthgap | ROS 2 Humble on Scarthgap |
+| `isar-qemuamd64` | `qemuamd64` | Isar | ubuntu-noble, ubuntu-jammy, debian-trixie | Debian-based build, see [§2.2](#22-isar-build-system-support) |
+| `isar-qemuarm64` | `qemuarm64` | Isar | debian-trixie | Debian-based build, see [§2.2](#22-isar-build-system-support) |
+
+### 2.6.1. Building QEMU BSPs
+
+```bash
+# List the emulated targets
+bsp list | grep -E 'qemu|poky'
+
+# Poky reference build on the latest release
+bsp build poky-qemux86-64-wrynose
+
+# Hardened Poky (the release is already part of the preset name)
+bsp build poky-harden-qemux86-64-scarthgap
+
+# ROS 2 Humble on Scarthgap
+bsp build poky-qemux86-64-ros2-ros2-humble-scarthgap
+```
+
+Isar-built images can be booted with the helper script `isar/scripts/isar-runqemu.sh`; see the
+[Isar scripts README](isar/scripts/README.md).
+
 ---
 
 # 3. BSP Registry Manager

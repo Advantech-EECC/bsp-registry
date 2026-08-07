@@ -59,16 +59,16 @@ From the repository root:
 
 ```bash
 # List available NVIDIA BSPs
-bsp --local list | grep -i jetson
+bsp list | grep -i jetson
 
 # Fast config checkout/validation (no build)
-bsp --local build jetson-agx-orin-devkit-scarthgap --checkout
+bsp build jetson-agx-orin-devkit-scarthgap --checkout
 
 # Full build
-bsp --local build jetson-agx-orin-devkit-scarthgap
+bsp build jetson-agx-orin-devkit-scarthgap
 
 # Interactive build shell
-bsp --local shell jetson-agx-orin-devkit-scarthgap
+bsp shell jetson-agx-orin-devkit-scarthgap
 ```
 
 Build artifacts follow the standard Yocto layout, e.g.:
