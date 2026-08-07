@@ -266,6 +266,10 @@ In addition to Yocto-based BSPs, this registry supports **Isar** (Integration Sy
 **Supported Distributions:**
 * Debian (Bookworm, Bullseye, Buster, Trixie, Sid)
 * Ubuntu (Focal, Jammy, Noble)
+* Raspberry Pi OS (Bookworm, Bullseye) — 🟡 preview, no preset yet
+
+Of these, the registry currently exposes `debian-trixie`, `ubuntu-jammy` and `ubuntu-noble` as
+Isar releases. The remaining fragments are available for manual KAS composition.
 
 ### 2.2.2. Isar Hardware Support
 
@@ -273,14 +277,17 @@ The registry includes Isar-based BSP configurations for the following targets:
 
 | Hardware | Distribution | Status | BSP Name |
 |----------|-------------|--------|----------|
-| **RSB3720** | Debian Trixie | 🟡 Development | `adv-mbsp-isar-debian-rsb3720` |
 | **QEMU ARM64** | Debian Trixie | ✅ Ready | `isar-qemuarm64-debian-trixie` |
-| **QEMU ARM64** | Ubuntu Noble | ✅ Ready | `isar-qemuarm64-ubuntu-noble` |
-| **QEMU ARM** | Debian Trixie | ✅ Ready | `isar-qemuarm-debian-trixie` |
+| **QEMU x86-64** | Debian Trixie | ✅ Ready | `isar-qemuamd64-debian-trixie` |
+| **QEMU x86-64** | Ubuntu Noble | ✅ Ready | `isar-qemuamd64-ubuntu-noble` |
+| **QEMU x86-64** | Ubuntu Jammy | ✅ Ready | `isar-qemuamd64-ubuntu-jammy` |
 
 **Status Legend:**
 * ✅ **Ready**: Functional and available for testing/development
-* 🟡 **Development**: Under active development
+
+All Isar presets currently target QEMU. Real hardware can be added through the
+[meta-isar-modular-bsp-nxp](https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp) layer by
+registering a device and a preset in `bsp-registry.yml`.
 
 ### 2.2.3. Building Isar BSPs
 
@@ -291,9 +298,9 @@ Isar builds require privileged container execution to support Debian package man
 bsp build isar-qemuarm64-debian-trixie
 ```
 
-**Example: Build QEMU ARM64 with Ubuntu Noble**
+**Example: Build QEMU x86-64 with Ubuntu Noble**
 ```bash
-bsp build isar-qemuarm64-ubuntu-noble
+bsp build isar-qemuamd64-ubuntu-noble
 ```
 
 ### 2.2.4. Isar Container Configuration
@@ -301,8 +308,9 @@ bsp build isar-qemuarm64-ubuntu-noble
 Isar builds use the `isar-debian-13` container, which is automatically configured with:
 * Privileged mode for package management operations
 * Based on official kas-isar container images
-* KAS version 5.0
+* KAS version 5.2
 * Debian Trixie base distribution
+* Extra runtime arguments for TUN/TAP networking, required to run the built image under QEMU
 
 The container definition in `bsp-registry.yml`:
 ```yaml
@@ -310,6 +318,7 @@ The container definition in `bsp-registry.yml`:
     file: Dockerfile.isar.debian
     image: "advantech/bsp-registry/isar/debian-13/kas:5.2"
     privileged: true
+    runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
     args:
       - name: "KAS_VERSION"
         value: "5.2"
@@ -772,10 +781,10 @@ LAYERDEPENDS_custom = "eecc-nxp"
 
 The BSP registry uses patches to fix build issues, add hardware support, and ensure compatibility across different Yocto releases. Patches are organized by vendor and Yocto version to maintain stability and reproducibility.
 
-The repository contains **16 patches** organized into:
+The repository contains **24 patches** organized into:
 
-* **NXP vendor patches** (12 patches): Address build failures, dependency corrections, and hardware-specific configurations for NXP i.MX platforms
-* **OTA feature patches** (2 patches): Enable OSTree-based over-the-air updates for Styhead, Walnascar, and Whinlatter releases
+* **NXP vendor patches** (20 patches): Address build failures, dependency corrections, and hardware-specific configurations for NXP i.MX platforms across Kirkstone, Mickledore, Scarthgap, Styhead, Walnascar, Whinlatter and Wrynose
+* **OTA feature patches** (2 patches): Enable OSTree-based over-the-air updates for the Styhead and Walnascar releases
 * **MediaTek vendor patches** (2 patches): Fix recipe and git checkout issues specific to the MediaTek Rity Scarthgap BSP
 
 All patches are documented with:
