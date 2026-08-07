@@ -218,7 +218,11 @@ def check_patches_documented(root: str, patches: list[str]) -> list[str]:
         text = handle.read()
     errors = []
     for patch in patches:
-        if os.path.basename(patch) not in text:
+        # Match on the path relative to patches/, not just the basename: several releases
+        # carry patches with identical filenames, and matching on the basename alone would
+        # let a dropped patch hide behind its namesake.
+        relative = os.path.relpath(patch, "patches")
+        if relative not in text:
             errors.append(f"patches/README.md: '{patch}' is not documented")
     return errors
 
