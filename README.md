@@ -509,7 +509,7 @@ the [Advantech Qualcomm overlay README](vendors/advantech/qualcomm/README.md).
 
 ```bash
 # List available Qualcomm BSPs
-bsp list | grep -i qcs
+bsp list | grep -i qualcomm
 
 # Build Qualcomm QCS6490 RB3gen2 EVK (scarthgap)
 bsp build qcs6490-rb3gen2-vision-kit-scarthgap

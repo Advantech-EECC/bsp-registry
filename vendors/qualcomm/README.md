@@ -51,7 +51,7 @@ One include per upstream `meta-qcom-hwe` machine, each simply selecting the corr
 ## BSPs in the registry
 
 The top-level registry file `bsp-registry.yml` exposes one preset per machine listed above, named after the machine and suffixed with the release, e.g.
-`qcs6490-rb3gen2-vision-kit-scarthgap`. Run `bsp list | grep -i qcs` for the full list.
+`qcs6490-rb3gen2-vision-kit-scarthgap`. Run `bsp list | grep -i qualcomm` for the full list.
 
 ## Build instructions (recommended)
 
@@ -59,7 +59,7 @@ From the repository root:
 
 ```bash
 # List available Qualcomm BSPs
-bsp list | grep -i qcs
+bsp list | grep -i qualcomm
 
 # Fast config checkout/validation (no build)
 bsp build qcs6490-rb3gen2-vision-kit-scarthgap --checkout
