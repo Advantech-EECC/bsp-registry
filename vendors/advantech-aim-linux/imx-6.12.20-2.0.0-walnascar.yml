@@ -1,0 +1,25 @@
+header:
+  version: 14
+  includes:
+    - vendors/nxp/imx-6.12.20-2.0.0-walnascar.yml
+
+repos:
+  this:
+    layers:
+      .: "disabled"
+
+  meta-advantech-nxp:
+    branch: "walnascar-6.12.20"
+    commit: "ed472f4b93e67314c71cd92d91782da3940a205f"
+
+  meta-imx:
+    patches:
+      fix-onnxruntime-build:
+        repo: this 
+        path: patches/nxp/walnascar/0009-Use-lf-6.12.34_2.1.0-branch.patch
+
+  meta-openembedded:
+    patches:
+      imx-gst-dependencies-fix:
+        repo: this
+        path: patches/nxp/walnascar/0004-Add-build-fix-for-mpv-package.patch

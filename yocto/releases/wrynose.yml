@@ -8,6 +8,9 @@ defaults:
     branch: "wrynose"
 
 repos:
+  bitbake:
+    branch: "master"
+
   openembedded-core:
     layers:
       meta: 

@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+repos:
+  meta-advantech-nxp:
+    url: https://AIM-Linux@dev.azure.com/AIM-Linux/meta-advantech-nxp/_git/meta-advantech-nxp
+    path: "layers/meta-advantech-nxp"
+    layers:
+      .:

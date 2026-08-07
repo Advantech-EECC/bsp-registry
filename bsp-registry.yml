@@ -4,6 +4,8 @@ specification:
 # Vendor-specific registry fragments merged into this registry.
 # Paths are relative to this file; list entries of the included files are
 # appended to the corresponding sections defined below.
+# Release-level vendor_overrides remain here because the registry merge mechanism
+# concatenates the releases list rather than merging entries by slug.
 include:
   - bsp-registry.isar.yaml
   - bsp-registry.qemu.yaml
@@ -11,7 +13,9 @@ include:
   - bsp-registry.mediatek.yaml
   - bsp-registry.qualcomm.yaml
   - bsp-registry.advantech.yaml
+  - bsp-registry.advantech-aim-linux.yaml
   - bsp-registry.advantech-europe.yaml
+  - bsp-registry.nvidia.yaml
 
 # Optional top-level flash settings for deploying images to devices.
 flash:
@@ -357,6 +361,17 @@ registry:
               description: "Qualcomm QCS6490 RB3 Gen2 Vision Kit (Yocto 5.0 LTS Kernel 6.6.97)"
               includes:
                 - vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.0 LTS)"
+              includes:
+                - vendors/nvidia/tegra-jp6-scarthgap.yml
+            - slug: tegra-jp5
+              description: "NVIDIA Jetson Xavier + Orin JetPack 5 / L4T r35.x (Yocto 5.0 LTS)"
+              includes:
+                - vendors/nvidia/tegra-jp5-scarthgap.yml
         - vendor: advantech
           soc_vendors:
             - vendor: nxp
@@ -423,6 +438,13 @@ registry:
                   description: "i.MX8 Release 1.0.0 Yocto 5.1 Kernel 6.12.3"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.12.3-1.0.0-styhead.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.1 Styhead)"
+              includes:
+                - vendors/nvidia/tegra-styhead.yml
 
     - slug: walnascar
       distro: poky
@@ -460,6 +482,17 @@ registry:
                   description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
                   includes:
                     - vendors/advantech/nxp/imx-6.12.20-2.0.0-walnascar.yml
+        - vendor: advantech-aim-linux
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-aim-linux/advantech-nxp.yml
+              releases:  
+                - slug: imx-6.12.20-2.0.0
+                  description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+                  includes:
+                    - vendors/advantech-aim-linux/imx-6.12.20-2.0.0-walnascar.yml
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
@@ -479,6 +512,13 @@ registry:
                   description: "i.MX8 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.12.20-2.0.0-walnascar.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.2 Walnascar)"
+              includes:
+                - vendors/nvidia/tegra-walnascar.yml
 
     - slug: whinlatter
       distro: poky
@@ -496,6 +536,17 @@ registry:
               description: "i.MX8 Release 1.0.0 Yocto 5.3 Kernel 6.18.2"
               includes:
                 - vendors/nxp/imx-6.18.2-1.0.0-whinlatter.yml
+        - vendor: advantech-aim-linux
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-aim-linux/advantech-nxp.yml
+              releases:  
+                - slug: imx-6.18.2-1.0.0
+                  description: "i.MX8/9 Release 1.0.0 Yocto 5.3 Kernel 6.18.2"
+                  includes:
+                    - vendors/advantech-aim-linux/imx-6.18.2-1.0.0-whinlatter.yml
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
@@ -507,6 +558,13 @@ registry:
                   description: "i.MX8 Release 1.0.0 Yocto 5.3 Kernel 6.18.2"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.18.2-1.0.0-whinlatter.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.3 Whinlatter)"
+              includes:
+                - vendors/nvidia/tegra-whinlatter.yml
 
     - slug: wrynose
       distro: poky
@@ -514,6 +572,25 @@ registry:
       yocto_version: "6.0"
       includes:
         - yocto/releases/wrynose.yml
+      vendor_overrides:
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              distro: fsl-imx-xwayland
+              includes:
+                - vendors/advantech-europe/nxp/modular-bsp-nxp.yml
+              releases:
+                - slug: imx-6.18.20-2.0.0
+                  description: "i.MX8 Release 2.0.0 Yocto 6.0 Kernel 6.18.20"
+                  includes:
+                    - vendors/advantech-europe/nxp/imx-6.18.20-2.0.0-wrynose.yml
+        - vendor: nvidia
+          distro: 
+          releases:
+            - slug: tegra
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 6.0 Wrynose)"
+              includes:
+                - vendors/nvidia/tegra-wrynose.yml
 
     - slug: master
       distro: poky

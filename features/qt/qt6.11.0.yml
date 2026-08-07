@@ -1,0 +1,9 @@
+header:
+  version: 14
+  includes:
+    - features/qt/qt.yml
+
+repos:
+  meta-qt6:
+    branch: "6.11.0"
+    commit: "3cd8b59a1303b3c079f5345c6b2555d1037925f6"

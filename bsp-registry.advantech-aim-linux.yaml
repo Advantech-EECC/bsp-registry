@@ -1,0 +1,56 @@
+# =========================================================================
+# Advantech AIM Linux registry fragment
+#
+# Contains the registry entries that are exclusive to the Advantech AIM Linux
+# vendor: the vendor definition, its boards and their BSP presets.
+#
+# This file is not a stand-alone registry: it is pulled in by the top-level
+# `bsp-registry.yml` through its `include:` directive and merged into it
+# (lists are concatenated, so the entries below extend the corresponding
+# sections of the main registry).
+# =========================================================================
+
+registry:
+
+  # =====================================
+  # Vendors
+  # =====================================
+  vendors:
+
+    - slug: advantech-aim-linux
+      name: "Advantech AIM Linux"
+      description: "Advantech Corporation, a global leader in industrial computing and IoT solutions."
+      website: "https://www.advantech.com/"
+      includes:
+        - vendors/advantech-aim-linux/advantech-nxp.yml
+
+  # =====================================
+  # Devices
+  # =====================================
+  devices:
+
+    # --- Advantech AIM Linux i.MX-based devices ---
+
+    # --- Advantech AOM2521 ---
+
+    - slug: imx95aom2521b0
+      description: "Advantech AOM-2521 B0 (i.MX95)"
+      vendor: advantech-aim-linux
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-aim-linux/machine/imx9/imx95aom2521b0.yml
+
+  # =====================================
+  # BSP Presets (named shortcuts)
+  # =====================================
+  bsp:
+
+    - name: advantech-imx95aom2521b0
+      description: "Advantech AOM-2521 B0 (i.MX95)"
+      device: imx95aom2521b0
+      releases: [walnascar, whinlatter]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      build:
+        container: "ubuntu-22.04"
+        path: build/advantech-aim-linux-imx95aom2521b0

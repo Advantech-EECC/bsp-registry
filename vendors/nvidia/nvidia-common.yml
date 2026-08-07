@@ -1,0 +1,17 @@
+header:
+  version: 14
+
+# Full OE4T "tegra-demo" distribution provided by the tegra-demo-distro
+# meta layers (meta-tegrademo).
+distro: tegrademo
+
+target:
+  - demo-image-base
+  - demo-image-full
+
+local_conf_header:
+  license-flags: |
+    # Building the NVIDIA Jetson BSP pulls in proprietary L4T / CUDA
+    # components. Accept the commercial and NVIDIA end-user licenses so
+    # that the demo images can be assembled.
+    LICENSE_FLAGS_ACCEPTED += "commercial"
