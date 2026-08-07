@@ -18,15 +18,16 @@ The registry supports two build systems:
     - [1.1.1. Details](#111-details)
 - [2. Supported Hardware](#2-supported-hardware)
   - [2.1. NXP Boards Compatibility Matrix](#21-nxp-boards-compatibility-matrix)
-    - [2.1.1. Alternative View](#211-alternative-view)
-      - [2.1.1.1. Yocto releases](#2111-yocto-releases)
-    - [2.1.2. OTA Update Support](#212-ota-update-support)
-      - [2.1.2.1. Supported OTA Technologies](#2121-supported-ota-technologies)
-      - [2.1.2.2. OTA Support Matrix](#2122-ota-support-matrix)
-      - [2.1.2.3. Building Images with OTA Support](#2123-building-images-with-ota-support)
-    - [2.1.3. Secure Boot Support](#213-secure-boot-support)
-      - [2.1.3.1. Secure Boot Support Matrix](#2131-secure-boot-support-matrix)
-      - [2.1.3.2. Building Images with Secure Boot](#2132-building-images-with-secure-boot)
+    - [2.1.1. Legacy and Product-Line Presets](#211-legacy-and-product-line-presets)
+    - [2.1.2. Alternative View](#212-alternative-view)
+      - [2.1.2.1. Yocto releases](#2121-yocto-releases)
+    - [2.1.3. OTA Update Support](#213-ota-update-support)
+      - [2.1.3.1. Supported OTA Technologies](#2131-supported-ota-technologies)
+      - [2.1.3.2. OTA Support Matrix](#2132-ota-support-matrix)
+      - [2.1.3.3. Building Images with OTA Support](#2133-building-images-with-ota-support)
+    - [2.1.4. Secure Boot Support](#214-secure-boot-support)
+      - [2.1.4.1. Secure Boot Support Matrix](#2141-secure-boot-support-matrix)
+      - [2.1.4.2. Building Images with Secure Boot](#2142-building-images-with-secure-boot)
   - [2.2. Isar Build System Support](#22-isar-build-system-support)
     - [2.2.1. Isar Overview](#221-isar-overview)
     - [2.2.2. Isar Hardware Support](#222-isar-hardware-support)
@@ -39,6 +40,8 @@ The registry supports two build systems:
     - [2.4.1. Building Qualcomm BSPs](#241-building-qualcomm-bsps)
   - [2.5. NVIDIA Jetson Boards Compatibility Matrix](#25-nvidia-jetson-boards-compatibility-matrix)
     - [2.5.1. Building NVIDIA Jetson BSPs](#251-building-nvidia-jetson-bsps)
+  - [2.6. QEMU and Reference BSPs](#26-qemu-and-reference-bsps)
+    - [2.6.1. Building QEMU BSPs](#261-building-qemu-bsps)
 - [3. BSP Registry Manager](#3-bsp-registry-manager)
   - [3.1. Overview](#31-overview)
   - [3.2. Installation](#32-installation)
@@ -63,7 +66,8 @@ The registry supports two build systems:
   - [5.3. Reusing BSP Registry configurations](#53-reusing-bsp-registry-configurations)
 - [6. Patches](#6-patches)
 - [7. Links](#7-links)
-
+  - [7.1. In This Repository](#71-in-this-repository)
+  - [7.2. External](#72-external)
 ---
 
 # 1. Build System Architecture
@@ -615,7 +619,26 @@ bsp export <bsp_name>
 | `build <bsp_name> --checkout` | Checkout and validate BSP configuration without building (fast) | `bsp build imx8mpevk --checkout` |
 | `shell <bsp_name>` | Enter interactive shell | `bsp shell imx8mpevk` |
 | `export <bsp_name>` | Export KAS configuration | `bsp export imx8mpevk` |
+| `show <bsp_name>` | Show the resolved configuration for a BSP | `bsp show imx8mpevk` |
 | `containers` | List available containers | `bsp containers` |
+| `flash <bsp_name>` | Flash a built image to a device | `bsp flash imx8mpevk --device /dev/sdX` |
+| `deploy <bsp_name>` | Upload build artifacts to cloud storage | `bsp deploy imx8mpevk` |
+| `lava <bsp_name>` | Submit a LAVA test job for a built image | `bsp lava imx8mpevk` |
+
+Global flags:
+
+| Flag | Description |
+|------|-------------|
+| `--local` | Resolve fragments from the local working tree instead of the published registry. Use it when developing registry changes. |
+| `--no-color` | Disable ANSI colour output. Recommended in CI; used by [`azure-pipelines.yml`](azure-pipelines.yml). |
+
+`flash`, `deploy` and `lava` are driven by the corresponding top-level blocks in
+`bsp-registry.yml` — see [docs/flash-deploy-lava.md](docs/flash-deploy-lava.md).
+
+> **Preset names:** a preset declared with `releases: [a, b]` is addressed as `<name>-a` /
+> `<name>-b`, while one declared with a singular `release:` is addressed by its bare name.
+> `bsp list` always shows the expanded, usable names. See
+> [docs/registry-model.md](docs/registry-model.md#3-presets-and-name-expansion).
 
 ### 3.4.1. Checkout and Validation
 
@@ -903,6 +926,23 @@ For detailed information about each patch, including what they fix and which com
 
 # 7. Links
 
+## 7.1. In This Repository
+
+* [Documentation index](docs/README.md) - Entry point for all long-form documentation
+* [Registry data model](docs/registry-model.md) - Structure of `bsp-registry.yml` and preset name expansion
+* [Adding a board](docs/adding-a-board.md) - Checklist for onboarding new hardware
+* [Feature catalogue](docs/features.md) - Registered, preview and vendor-bundled feature fragments
+* [Flash, deploy and LAVA](docs/flash-deploy-lava.md) - Post-build workflows and container environments
+* [Secure boot](docs/secure-boot.md) - NXP HAB/AHAB image signing
+* [Patches](patches/README.md) - Inventory of downstream patches
+* [Isar builds](isar/README.md) - Debian-based images
+* [Contributing](CONTRIBUTING.md) - Repository layout, local checks and CI
 * [Building Modular BSP using Repo Tool](BUILDING_WITH_REPO.md) - Alternative build method using Google's repo tool
+
+## 7.2. External
+
 * [KAS Container](https://kas.readthedocs.io/en/latest/userguide/kas-container.html)
 * [KAS](https://kas.readthedocs.io/en/latest/intro.html)
+* [Yocto Project](https://docs.yoctoproject.org/)
+* [Isar](https://github.com/ilbers/isar)
+* [LAVA](https://www.lavasoftware.org/)

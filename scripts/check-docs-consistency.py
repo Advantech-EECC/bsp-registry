@@ -52,6 +52,9 @@ PLACEHOLDER_NAMES = {
     "imx8mpevk",
 }
 
+# Names used in "how to add your own board" examples, which deliberately do not exist.
+PLACEHOLDER_PREFIXES = ("my-board", "my-vendor")
+
 # References that legitimately do not resolve inside this repository: files produced by
 # a build, files living in upstream layers the patches apply to, and naming templates.
 EXTERNAL_REFERENCES = {
@@ -138,6 +141,8 @@ def check_preset_references(root: str, docs: list[str], presets: set[str]) -> li
                 name = match.group("name")
                 if name.startswith("<") or name in PLACEHOLDER_NAMES:
                     continue
+                if name.startswith(PLACEHOLDER_PREFIXES):
+                    continue
                 if name not in presets:
                     errors.append(
                         f"{relative}: 'bsp {match.group('verb')} {name}' "
@@ -156,6 +161,10 @@ def check_referenced_paths(root: str, docs: list[str]) -> list[str]:
 
         candidates: set[tuple[str, str]] = set()
         for match in INLINE_PATH_RE.finditer(text):
+            # Skip inline code that is the label of a Markdown link, e.g. [`a.yml`](dir/a.yml).
+            # The link target is checked separately and carries the resolvable path.
+            if text[match.end():match.end() + 2] == "](":
+                continue
             candidates.add((match.group(1), "inline reference"))
         for match in MARKDOWN_LINK_RE.finditer(text):
             target = match.group(1)

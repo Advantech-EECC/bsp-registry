@@ -1135,7 +1135,7 @@ registry:
       description: "Enable Hailo-8 support in the Yocto image"
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
       includes:
-        - yocto/features/deep-learning/hailo.yaml
+        - features/deep-learning/hailo.yml
 
   # =====================================
   # BSP Presets (named shortcuts)
