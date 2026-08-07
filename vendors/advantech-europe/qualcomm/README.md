@@ -21,25 +21,40 @@ If you are looking for the **upstream Qualcomm QLI** layer definitions and EVK c
 
 ## Where it is used
 
-Machine config `vendors/advantech/qualcomm/machine/aom2721.yml` selects the Advantech AOM-2721
-board when composing a full BSP alongside `vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml`.
+Machine config `vendors/advantech-europe/qualcomm/machine/aom2721.yml` selects the Advantech
+AOM-2721 board when composing a full BSP alongside
+`vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml`. It is registered as the `aom2721`
+device in `bsp-registry.yml`.
+
+## Status: preview
+
+The `aom2721` device is defined in the registry but is **not yet wired into a preset**. It
+therefore does not appear in `bsp list` and cannot be built with `bsp build <name>` yet. Until a
+preset is added, compose the configuration manually with KAS (see below).
 
 ## Build
 
-From the repository root:
+The only Qualcomm preset currently shipped by the registry targets the upstream QCS6490
+RB3 Gen2 Vision Kit. From the repository root:
 
 ```bash
 # List available Qualcomm BSPs
-python bsp.py list | grep -i qcom
+bsp list | grep -i qcs
 
 # Fast config checkout/validation (no build)
-python bsp.py build bsp-oeqcom-scarthgap-qcs6490-evk --checkout
+bsp build qcs6490-rb3gen2-vision-kit-scarthgap --checkout
 
 # Full build
-python bsp.py build bsp-oeqcom-scarthgap-qcs6490-evk
+bsp build qcs6490-rb3gen2-vision-kit-scarthgap
 
 # Enter an interactive build shell
-python bsp.py shell bsp-oeqcom-scarthgap-qcs6490-evk
+bsp shell qcs6490-rb3gen2-vision-kit-scarthgap
+```
+
+To exercise the AOM-2721 machine override before a preset exists, compose it directly with KAS:
+
+```bash
+kas build vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml:vendors/advantech-europe/qualcomm/machine/aom2721.yml
 ```
 
 ## References

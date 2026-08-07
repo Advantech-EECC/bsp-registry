@@ -2,8 +2,8 @@
 
 This directory contains the **Qualcomm vendor BSP integration** for the Advantech BSP Registry.
 The current integration is based on **Qualcomm Linux (QLI) v1.5** for **Yocto Scarthgap** and is
-intended to be built through the registry manager (`bsp.py`) which takes care of container
-selection, cache variables, and the build directory layout.
+intended to be built through the registry manager (the `bsp` CLI from the `bsp-registry-tools`
+package) which takes care of container selection, cache variables, and the build directory layout.
 
 ## What's included
 
@@ -18,7 +18,6 @@ selection, cache variables, and the build directory layout.
   - Enables extra build features used by this registry:
     - `compilers/clang/clang.yml`
     - `features/deep-learning/tensorflow.yml`
-    - `features/ota/ostree/scarthgap.yml`
     - `vendors/qualcomm/qualcomm-common.yml`
 
 - `qualcomm-common.yml`
@@ -35,10 +34,21 @@ selection, cache variables, and the build directory layout.
 The top-level registry file `bsp-registry.yml` currently exposes the following Qualcomm BSP build
 targets:
 
-- `bsp-oeqcom-scarthgap-qcs6490-evk`
-  - Config: `bsp-oeqcom-scarthgap-qcs6490.yaml`
-  - Build dir: `build/bsp-oeqcom-scarthgap-qcs6490-evk`
-  - Container: `ubuntu-22.04`
+| Preset | Releases | Device | Build dir |
+|--------|----------|--------|-----------|
+| `qcs6490-rb3gen2-vision-kit` | scarthgap | `qcs6490-rb3gen2-vision-kit` | `build/qcs6490-rb3gen2-vision-kit` |
+
+A preset that declares `releases:` is addressed on the command line as
+`<preset>-<release>`, so the buildable name is `qcs6490-rb3gen2-vision-kit-scarthgap`.
+
+### Preview devices (no preset yet)
+
+The following device is defined in the registry but is not yet wired into a preset, so it
+does not appear in `bsp list` and cannot be built with `bsp build`:
+
+| Device | Description | Machine config |
+|--------|-------------|----------------|
+| `aom2721` | Advantech AOM-2721 (Qualcomm) | `vendors/advantech-europe/qualcomm/machine/aom2721.yml` |
 
 ## Build instructions (recommended)
 
@@ -46,16 +56,16 @@ From the repository root:
 
 ```bash
 # List available Qualcomm BSPs
-python bsp.py list | grep -i qcom
+bsp list | grep -i qcs
 
 # Fast config checkout/validation (no build)
-python bsp.py build bsp-oeqcom-scarthgap-qcs6490-evk --checkout
+bsp build qcs6490-rb3gen2-vision-kit-scarthgap --checkout
 
 # Full build
-python bsp.py build bsp-oeqcom-scarthgap-qcs6490-evk
+bsp build qcs6490-rb3gen2-vision-kit-scarthgap
 
 # Enter an interactive build shell
-python bsp.py shell bsp-oeqcom-scarthgap-qcs6490-evk
+bsp shell qcs6490-rb3gen2-vision-kit-scarthgap
 ```
 
 Build artifacts follow the standard Yocto layout under the registry build directory, e.g.:

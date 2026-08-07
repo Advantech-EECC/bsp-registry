@@ -568,7 +568,7 @@ registry:
       soc_vendor: qualcomm
       architecture: arm64
       includes:
-        - vendors/advantech-europe/qualcomm/machine/aom2721.yaml
+        - vendors/advantech-europe/qualcomm/machine/aom2721.yml
 
     # --- Qualcomm Devices ---
 
