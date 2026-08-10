@@ -41,6 +41,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx8/imx8mmrom5721a1-1g.yml
+
     - slug: imx8mmrom5721a1-2g
       description: "Advantech ROM5721 (i.MX8)"
       vendor: advantech
@@ -48,6 +49,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx8/imx8mmrom5721a1-2g.yml
+
     # --- Advantech RSB3720 ---
 
     - slug: imx8mprsb3720a1
@@ -57,6 +59,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx8/imx8mprsb3720a1.yml
+
     - slug: imx8mprsb3720a2
       description: "Advantech RSB-3720 A2 (i.MX8)"
       vendor: advantech
@@ -64,6 +67,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx8/imx8mprsb3720a2.yml
+
     # --- Advantech RSB3730 ---
 
     - slug: imx8mprsb3730a2
@@ -73,6 +77,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2.yml
+
     - slug: imx8mprsb3730a2-2g
       description: "Advantech RSB-3730 2GB (i.MX8)"
       vendor: advantech
@@ -80,6 +85,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2-2g.yml
+
     - slug: imx8mprsb3730a2-4g
       description: "Advantech RSB-3730 4GB (i.MX8)"
       vendor: advantech
@@ -87,6 +93,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx8/imx8mprsb3730a2-4g.yml
+
     # --- Advantech ROM2820 A1 ---
 
     - slug: imx93rom2820a1
@@ -96,6 +103,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx9/imx93rom2820a1.yml
+
     # --- Advantech AOM5521 ---
 
     - slug: imx95aom5521a1
@@ -105,6 +113,7 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech/nxp/machine/imx9/imx95aom5521a1.yml
+
     - slug: imx95aom5521a2
       description: "Advantech AOM-5521 A2 (i.MX95)"
       vendor: advantech
@@ -128,6 +137,7 @@ registry:
       build:
         container: "ubuntu-20.04"
         path: build/advantech-rom5721-db5901-1g-mickledore
+
     - name: advantech-rom5721-db5901-2g-mickledore
       description: "Advantech ROM-5721 DB5901 (i.MX8) Mickledore (Yocto 4.2)"
       device: imx8mmrom5721a1-2g
@@ -136,6 +146,7 @@ registry:
       build:
         container: "ubuntu-20.04"
         path: build/advantech-rom5721-db5901-2g-mickledore
+
     # --- Advantech ROM-2820 A1 ---
 
     - name: advantech-rom2820-a1-mickledore
@@ -147,6 +158,7 @@ registry:
       build:
         container: "ubuntu-20.04"
         build: build/advantech-rom2820-a1-mickledore
+
     # --- Advantech RSB-3730 ---
 
     - name: advantech-rsb3730-mickledore
@@ -158,6 +170,7 @@ registry:
       build:
         container: "ubuntu-20.04"
         build: build/advantech-rsb3730-mickledore
+
     - name: advantech-rsb3730-2g-mickledore
       description: "Advantech RSB-3730 2GB (i.MX8) Mickledore (Yocto 4.2)"
       device: imx8mprsb3730a2-2g
@@ -167,6 +180,7 @@ registry:
       build:
         container: "ubuntu-20.04"
         build: build/advantech-rsb3730-2g-mickledore
+
     - name: advantech-rsb3730-4g-mickledore
       description: "Advantech RSB-3730 4GB (i.MX8) Mickledore (Yocto 4.2)"
       device: imx8mprsb3730a2-4g
@@ -176,6 +190,7 @@ registry:
       build:
         container: "ubuntu-20.04"
         build: build/advantech-rsb3730-4g-mickledore
+
     # --- Advantech RSB-3720 ---
 
     - name: advantech-imx8mprsb3720a1-kirkstone
@@ -187,6 +202,7 @@ registry:
       build:
         container: "ubuntu-20.04"
         build: build/advantech-imx8mprsb3720a1-kirkstone
+
     - name: advantech-imx8mprsb3720a2-scarthgap
       description: "Advantech RSB-3720 A2 (i.MX8) Scarthgap (Yocto 5.0 LTS)"
       device: imx8mprsb3720a2
@@ -196,6 +212,7 @@ registry:
       build:
         container: ubuntu-22.04
         build: build/advantech-imx8mprsb3720a2-scarthgap
+
     - name: advantech-imx95aom5521a1
       description: "Advantech AOM-5521 A1 DB2510 (i.MX95)"
       device: imx95aom5521a1
@@ -204,6 +221,7 @@ registry:
       build:
         container: "ubuntu-22.04"
         path: build/advantech-imx95aom5521a1
+        
     - name: advantech-imx95aom5521a2
       description: "Advantech AOM-5521 A2 DB2510 (i.MX95)"
       device: imx95aom5521a2

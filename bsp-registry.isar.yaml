@@ -38,6 +38,7 @@ registry:
       framework: isar
       includes:
         - isar/isar-v0.11.yaml
+        
     - slug: isar-v1.0
       description: "Isar v1.0 (Siemens build system)"
       framework: isar
@@ -55,12 +56,14 @@ registry:
       environment: isar-build-environment
       includes:
         - isar/distro/ubuntu-noble.yaml
+
     - slug: ubuntu-jammy
       description: "Isar Ubuntu Jammy"
       distro: isar-v1.0
       environment: isar-build-environment
       includes:
         - isar/distro/ubuntu-jammy.yaml
+
     - slug: debian-trixie
       description: "Isar Debian Trixie "
       distro: isar-v1.0
