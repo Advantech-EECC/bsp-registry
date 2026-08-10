@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+machine: "aom2521b0"
+
+local_conf_header:
+  ostree-aom2521: |
+
+    SOTA_MACHINE:aom2521b0 ?= "aom2521b0"

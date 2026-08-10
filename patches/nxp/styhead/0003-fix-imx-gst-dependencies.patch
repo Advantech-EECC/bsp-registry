@@ -1,0 +1,24 @@
+From 3478a3210e4c225a81b7705ec79fac86f4852d6e Mon Sep 17 00:00:00 2001
+From: Mikhail Tsukerman <miketsukerman@gmail.com>
+Date: Thu, 23 Jul 2026 13:51:45 +0200
+Subject: [PATCH] fix imx-gst dependencies
+
+---
+ .../recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb        | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb b/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb
+index a9b47dbea0..b05fed5f58 100644
+--- a/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb
++++ b/meta-imx-bsp/recipes-multimedia/gstreamer/imx-gst1.0-plugin_git.bb
+@@ -18,6 +18,7 @@ DEPENDS = " \
+ DEPENDS:append:mx6-nxp-bsp = " imx-lib"
+ DEPENDS:append:mx7-nxp-bsp = " imx-lib"
+ DEPENDS:append:mx8ulp-nxp-bsp = " imx-lib"
++DEPENDS:append:mx9-nxp-bsp = " alsa-tools"
+ DEPENDS:append:mx93-nxp-bsp = " imx-lib alsa-tools"
+ DEPENDS:append:imxvpu = " imx-vpuwrap"
+ DEPENDS:append:imxfbdev:imxgpu = " libdrm"
+-- 
+2.43.0
+

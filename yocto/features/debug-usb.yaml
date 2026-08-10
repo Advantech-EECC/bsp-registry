@@ -1,0 +1,6 @@
+header:
+  version: 14
+
+local_conf_header:
+  usb-debug: |
+    CORE_IMAGE_EXTRA_INSTALL += "usb-modeswitch usb-modeswitch-data usbutils" 

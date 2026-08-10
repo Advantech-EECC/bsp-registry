@@ -77,3 +77,6 @@ repos:
       imx-gst-dependencies-fix:
         repo: this
         path: patches/nxp/styhead/0001-Add-alsa-tools-to-dependencies-to-fix-build.patch
+      imx-gst-dependencies-fix-2:
+        repo: this
+        path: patches/nxp/styhead/0003-fix-imx-gst-dependencies.patch

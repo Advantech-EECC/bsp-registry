@@ -32,15 +32,15 @@ flash:
   extra_args: null                  # extra CLI args forwarded verbatim to the tool
 
 deploy:
-  provider: azure                                   # "azure" (default) or "aws"
-  account_url: $ENV{AZURE_STORAGE_ACCOUNT_URL}      # Azure only; supports $ENV{} expansion
-  container: bsp-registry-artifacts                 # Azure container name
-  prefix: "{vendor}/{device}/{release}/{date}"      # remote path prefix template
+  provider: azure                                           # "azure" (default) or "aws"
+  account_url: "https://modularbsp.blob.core.windows.net"   # Azure only; supports $ENV{} expansion
+  container: bsp-registry-artifacts                         # Azure container name
+  prefix: "{vendor}/{device}/{release}"                     # remote path prefix template
   yocto_cache:
     enabled: false          
     downloads: false        # include DL_DIR (default: true)
     sstate: false           # include SSTATE_DIR (default: true)
-  patterns:                                         # glob patterns for files to upload
+  patterns:                 # glob patterns for files to upload
     - "**/*.wic.gz"
     - "**/*.wic.bmap"
     - "**/*.wic"
@@ -54,10 +54,13 @@ deploy:
     - "**/*.zip"
     - "**/bzImage"
     - "**/uImage"
+    - "*-test-report.*"
   artifact_dirs:                                    # subdirs under build_path to search
     - build/tmp/deploy/images
     - build/tmp/deploy/sdk
+    - test-results
   include_manifest: true                            # upload a JSON manifest of all artifacts
+  include_build_manifest: true                      # upload a JSON manifest of the build environment
 
 # Registry-level LAVA connection settings
 lava:
@@ -89,7 +92,7 @@ containers:
         - name: "KAS_VERSION"
           value: "4.7"
   - ubuntu-24.04:
-      file: Dockerfile.ubuntu
+      file: Dockerfile.ubuntu-24
       image: "advantech/bsp-registry/ubuntu-24.04/kas:5.2"
       args:
         - name: "DISTRO" 
@@ -627,6 +630,12 @@ registry:
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
       includes:
         - yocto/features/ethernet-debug.yaml
+
+    - slug: usb-debug
+      description: "Enable USB debug features in the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/debug-usb.yaml
 
     - slug: root-login
       description: "Enable root login in the image"
