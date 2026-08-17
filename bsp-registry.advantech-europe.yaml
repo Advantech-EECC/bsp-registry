@@ -136,13 +136,13 @@ registry:
       includes:
         - vendors/advantech-europe/nxp/machine/imx8/rsb3720-6g.yml
     
-    - slug: ecu-150
-      description: "Advantech ECU-150"
+    - slug: ecu150a1
+      description: "Advantech ECU-150 A1 (i.MX8)"
       vendor: advantech-europe
       soc_vendor: nxp
       architecture: arm64
       includes:
-        - vendors/advantech-europe/nxp/machine/imx8/ecu-150.yml
+        - vendors/advantech-europe/nxp/machine/imx8/ecu150a1.yml
     
     # --- Advantech Mediatek Devices ---
     # --- Advantech RSB3810 ---
@@ -214,13 +214,13 @@ registry:
       build:
         path: build/modular-ros-bsp-rsb3720
     
-    - name: modular-bsp-ecu-150
-      description: "Advantech ECU-150 (i.MX8)"
-      device: ecu-150
+    - name: modular-bsp-ecu150a1
+      description: "Advantech ECU-150A1 (i.MX8)"
+      device: ecu150a1
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
       build:
-        path: build/modular-bsp-ecu-150
+        path: build/modular-bsp-ecu150a1
     
     - name: modular-bsp-rsb3720
       description: "Advantech RSB-3720 (i.MX8)"
