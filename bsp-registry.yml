@@ -137,6 +137,14 @@ containers:
           value: "5.4"
         - name: "DISTRO" 
           value: "debian-trixie"
+  - debian-12:
+      file: Dockerfile.debian
+      image: "advantech/bsp-registry/debian-12/kas:5.4"
+      args:
+        - name: "KAS_VERSION"
+          value: "5.4"
+        - name: "DISTRO" 
+          value: "debian-bookworm"
   - isar-debian-13:
       file: Dockerfile.isar.debian
       image: "advantech/bsp-registry/isar/debian-13/kas:5.4"
@@ -231,6 +239,7 @@ registry:
     - slug: ros2-humble-scarthgap
       distro: ros2
       description: "ROS 2 Humble Hawksbill"
+      environment: ubuntu-20.04
       yocto_version: "5.0"
       includes:      
         - features/ros2/humble.yml
@@ -250,6 +259,7 @@ registry:
 
     - slug: kirkstone
       distro: poky
+      environment: ubuntu-20.04
       description: "Yocto 4.0 LTS (Kirkstone)"
       yocto_version: "4.0"
       includes:
@@ -291,6 +301,7 @@ registry:
 
     - slug: mickledore
       distro: poky
+      environment: ubuntu-20.04
       description: "Yocto 4.2 (Mickledore)"
       yocto_version: "4.2"
       includes:
@@ -319,6 +330,7 @@ registry:
 
     - slug: nanbield
       distro: poky
+      environment: ubuntu-20.04
       description: "Yocto 4.3 (Nanbield)"
       yocto_version: "4.3"
       includes:
@@ -326,6 +338,7 @@ registry:
 
     - slug: scarthgap
       distro: poky
+      environment: ubuntu-20.04
       description: "Yocto 5.0 LTS (Scarthgap)"
       yocto_version: "5.0"
       includes:
@@ -419,6 +432,7 @@ registry:
 
     - slug: styhead
       distro: poky
+      environment: ubuntu-20.04
       description: "Yocto 5.1 (Styhead)"
       yocto_version: "5.1"
       includes:
@@ -454,6 +468,7 @@ registry:
 
     - slug: walnascar
       distro: poky
+      environment: ubuntu-22.04
       description: "Yocto 5.4 (Walnascar)"
       yocto_version: "5.4"
       includes:
@@ -528,6 +543,7 @@ registry:
 
     - slug: whinlatter
       distro: poky
+      environment: ubuntu-22.04
       description: "Yocto 5.3 (Whinlatter)"
       yocto_version: "5.3"
       includes:
@@ -574,6 +590,7 @@ registry:
 
     - slug: wrynose
       distro: poky
+      environment: ubuntu-22.04
       description: "Yocto 6.0 (Wrynose)"
       yocto_version: "6.0"
       includes:
@@ -599,6 +616,7 @@ registry:
                 - vendors/nvidia/tegra-wrynose.yml
 
     - slug: master
+      environment: ubuntu-24.04
       distro: poky
       description: "Yocto (Master)"
       includes:

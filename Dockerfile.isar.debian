@@ -1,4 +1,4 @@
-ARG KAS_VERSION=5.2
+ARG KAS_VERSION=5.4
 ARG DISTRO=debian-trixie
 
 FROM ghcr.io/siemens/kas/kas-isar:${KAS_VERSION}-${DISTRO}
