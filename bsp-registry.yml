@@ -85,63 +85,66 @@ environment:
 containers:
   - ubuntu-20.04:
       file: Dockerfile.ubuntu
-      image: "advantech/bsp-registry/ubuntu-20.04/kas:4.7"
+      image: "advantech/bsp-registry/ubuntu-20.04/kas:5.4"
       args:
         - name: "DISTRO" 
           value: "ubuntu:20.04"
         - name: "KAS_VERSION"
-          value: "4.7"
+          value: "5.4"
   - ubuntu-24.04:
-      file: Dockerfile.ubuntu-24
-      image: "advantech/bsp-registry/ubuntu-24.04/kas:5.2"
+      file: Dockerfile.ubuntu
+      image: "advantech/bsp-registry/ubuntu-24.04/kas:5.4"
       args:
         - name: "DISTRO" 
           value: "ubuntu:24.04"
         - name: "KAS_VERSION"
-          value: "5.2"
+          value: "5.4"
   - ubuntu-22.04:
       file: Dockerfile.ubuntu
-      image: "advantech/bsp-registry/ubuntu-22.04/kas:5.2"
+      image: "advantech/bsp-registry/ubuntu-22.04/kas:5.4"
       args:
         - name: "DISTRO" 
           value: "ubuntu:22.04"
         - name: "KAS_VERSION"
-          value: "5.2"
+          value: "5.4"
+        # Pre-openat2 tar; newer jammy-security builds break pseudo (see Dockerfile)
+        - name: "TAR_VERSION"
+          value: "1.34+dfsg-1build3"
   - ubuntu-22.04-csb:
       file: Dockerfile.ubuntu
-      image: "advantech/bsp-registry/ubuntu-22.04/kas:5.2"
+      image: "advantech/bsp-registry/ubuntu-22.04/kas:5.4"
       args:
         - name: "DISTRO" 
           value: "ubuntu:22.04"
         - name: "KAS_VERSION"
-          value: "5.2"
+          value: "5.4"
       volumes:
         - host: $ENV{CST_TOOL_PATH}
           container: "/opt/cst/"
   - debian-12:
       file: Dockerfile.debian
-      image: "advantech/bsp-registry/debian-12/kas:5.2"
+      image: "advantech/bsp-registry/debian-12/kas:5.4"
       args:
         - name: "KAS_VERSION"
-          value: "5.2"
+          value: "5.4"
         - name: "DISTRO" 
           value: "debian-bookworm"
   - debian-13:
       file: Dockerfile.debian
-      image: "advantech/bsp-registry/debian-13/kas:5.2"
+      image: "advantech/bsp-registry/debian-13/kas:5.4"
       args:
         - name: "KAS_VERSION"
-          value: "5.2"
+          value: "5.4"
         - name: "DISTRO" 
           value: "debian-trixie"
   - isar-debian-13:
       file: Dockerfile.isar.debian
-      image: "advantech/bsp-registry/isar/debian-13/kas:5.2"
+      image: "advantech/bsp-registry/isar/debian-13/kas:5.4"
       runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
       privileged: true
       args:
         - name: "KAS_VERSION"
-          value: "5.2"
+          value: "5.4"
         - name: "DISTRO" 
           value: "debian-trixie"
 
@@ -451,8 +454,8 @@ registry:
 
     - slug: walnascar
       distro: poky
-      description: "Yocto 5.2 (Walnascar)"
-      yocto_version: "5.2"
+      description: "Yocto 5.4 (Walnascar)"
+      yocto_version: "5.4"
       includes:
         - compilers/clang/clang.yml
         - yocto/releases/walnascar.yml
@@ -463,15 +466,15 @@ registry:
             - vendors/nxp/nxp.yaml
           releases:  
             - slug: imx-6.12.20-2.0.0
-              description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+              description: "i.MX8/9 Release 2.0.0 Yocto 5.4 Kernel 6.12.20"
               includes:
                 - vendors/nxp/imx-6.12.20-2.0.0-walnascar.yml               
             - slug: imx-6.12.34-2.1.0
-              description: "i.MX8/9 Release 2.1.0 Yocto 5.2 Kernel 6.12.34"
+              description: "i.MX8/9 Release 2.1.0 Yocto 5.4 Kernel 6.12.34"
               includes:
                 - vendors/nxp/imx-6.12.34-2.1.0-walnascar.yml               
             - slug: imx-6.12.49-2.2.0
-              description: "i.MX8/9 Release 2.2.0 Yocto 5.2 Kernel 6.12.49"
+              description: "i.MX8/9 Release 2.2.0 Yocto 5.4 Kernel 6.12.49"
               includes:
                 - vendors/nxp/imx-6.12.49-2.2.0-walnascar.yml               
         - vendor: advantech
@@ -482,7 +485,7 @@ registry:
                 - vendors/advantech/nxp/advantech2-nxp.yaml
               releases:  
                 - slug: imx-6.12.20-2.0.0
-                  description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+                  description: "i.MX8/9 Release 2.0.0 Yocto 5.4 Kernel 6.12.20"
                   includes:
                     - vendors/advantech/nxp/imx-6.12.20-2.0.0-walnascar.yml
         - vendor: advantech-aim-linux
@@ -493,7 +496,7 @@ registry:
                 - vendors/advantech-aim-linux/advantech-nxp.yml
               releases:  
                 - slug: imx-6.12.20-2.0.0
-                  description: "i.MX8/9 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+                  description: "i.MX8/9 Release 2.0.0 Yocto 5.4 Kernel 6.12.20"
                   includes:
                     - vendors/advantech-aim-linux/imx-6.12.20-2.0.0-walnascar.yml
         - vendor: advantech-europe
@@ -504,22 +507,22 @@ registry:
                 - vendors/advantech-europe/nxp/modular-bsp-nxp.yml
               releases:  
                 - slug: imx-6.12.49-2.2.0
-                  description: "i.MX8 Release 2.2.0 Yocto 5.2 Kernel 6.12.49"
+                  description: "i.MX8 Release 2.2.0 Yocto 5.4 Kernel 6.12.49"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.12.49-2.2.0-walnascar.yml
                 - slug: imx-6.12.34-2.1.0
-                  description: "i.MX8 Release 2.1.0 Yocto 5.2 Kernel 6.12.34"
+                  description: "i.MX8 Release 2.1.0 Yocto 5.4 Kernel 6.12.34"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.12.34-2.1.0-walnascar.yml
                 - slug: imx-6.12.20-2.0.0
-                  description: "i.MX8 Release 2.0.0 Yocto 5.2 Kernel 6.12.20"
+                  description: "i.MX8 Release 2.0.0 Yocto 5.4 Kernel 6.12.20"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.12.20-2.0.0-walnascar.yml
         - vendor: nvidia
           distro: 
           releases:
             - slug: tegra
-              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.2 Walnascar)"
+              description: "NVIDIA Jetson Orin JetPack 6 / L4T r36.x (Yocto 5.4 Walnascar)"
               includes:
                 - vendors/nvidia/tegra-walnascar.yml
 
