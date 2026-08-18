@@ -343,7 +343,7 @@ registry:
       features: [systemd, security, virtualization, ipv6, root-login]
       build:
         container: "ubuntu-22.04"
-        path: build/modular-bsp-aom5521-db2510
+        path: build/modular-bsp-aom5521a1-db2510
 
     - name: modular-bsp-aom2521b0
       description: "Advantech AOM-2521 B0 (i.MX95)"
