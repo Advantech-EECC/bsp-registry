@@ -4,6 +4,9 @@ header:
     - vendors/nxp/imx-6.6.52-2.2.0-scarthgap.yml
 
 repos:
+  meta-modular-bsp-nxp:
+    commit: "6bd341f65dfe9b45994745a10ec29bbe5551b3af"
+
   meta-nxp-security-reference-design:
     branch: "scarthgap-6.6.23-2.0.0"
     commit: "b9ddc151c452ae09232f5d5cb5c8e52a77617f6e"

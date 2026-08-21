@@ -213,7 +213,9 @@ registry:
       targets: [ros-image-core]
       build:
         path: build/modular-ros-bsp-rsb3720
-    
+      deploy:
+          prefix: "{vendor}/{device}/{release}/ros2/humble/" # remote path prefix template
+
     - name: modular-bsp-ecu150a1
       description: "Advantech ECU-150A1 (i.MX8)"
       device: ecu150a1
@@ -253,7 +255,16 @@ registry:
       features: [systemd, security, virtualization, ipv6, usrmerge, rauc]
       build:
         path: build/modular-bsp-rauc-rsb3720
-    
+      deploy:
+          prefix: "{vendor}/{device}/{release}/ota/rauc/" # remote path prefix template
+          patterns: # glob patterns for files to upload
+            - "**/*.raucb"
+            - "**/*.wic.bmap"
+            - "**/*.wic"
+            - "**/*.wic.zst"
+            - "**/*.wic.bz2"
+            - "**/*.tar.bz2"
+
     - name: modular-bsp-swupdate-rsb3720
       description: "Advantech RSB-3720 6GB (i.MX8) with SWUpdate support"
       device: rsb3720
@@ -261,6 +272,8 @@ registry:
       features: [systemd, security, virtualization, ipv6, swupdate]
       build:
         path: build/modular-bsp-swupdate-rsb3720
+      deploy:
+          prefix: "{vendor}/{device}/{release}/ota/swupdate/" # remote path prefix template
     
     - name: modular-bsp-ostree-rsb3720
       description: "Advantech RSB-3720 6GB (i.MX8) with OSTree support"
@@ -269,6 +282,8 @@ registry:
       features: [systemd, security, virtualization, ipv6, ostree]
       build:
         path: build/modular-bsp-ostree-rsb3720
+      deploy:
+          prefix: "{vendor}/{device}/{release}/ota/ostree/" # remote path prefix template
     
     # --- Advantech Europe Modular BSP ROM-5720 DB5901 ---
 
