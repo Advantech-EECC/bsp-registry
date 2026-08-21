@@ -328,288 +328,288 @@ registry:
   # =====================================
   # BSP Presets (named shortcuts)
   # =====================================
-  bsp:
+  # bsp:
 
-    # --- NXP i.MX8-based devices ---
+  #   # --- NXP i.MX8-based devices ---
 
-    - name: nxp-imx8ulp-evk
-      description: "NXP i.MX8ULP-based devices (modular BSP)"
-      device: imx8ulp-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8ulp-evk
+  #   - name: nxp-imx8ulp-evk
+  #     description: "NXP i.MX8ULP-based devices (modular BSP)"
+  #     device: imx8ulp-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8ulp-evk
 
-    # --- Additional NXP i.MX EVK BSPs ---
+  #   # --- Additional NXP i.MX EVK BSPs ---
 
-    - name: nxp-imx6ul9x9evk
-      description: "NXP i.MX6UL 9x9 EVK (modular BSP)"
-      device: imx6ul9x9evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx6ul9x9evk
+  #   - name: nxp-imx6ul9x9evk
+  #     description: "NXP i.MX6UL 9x9 EVK (modular BSP)"
+  #     device: imx6ul9x9evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx6ul9x9evk
 
-    - name: nxp-imx6ull14x14evk
-      description: "NXP i.MX6ULL 14x14 EVK (modular BSP)"
-      device: imx6ull14x14evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx6ull14x14evk
+  #   - name: nxp-imx6ull14x14evk
+  #     description: "NXP i.MX6ULL 14x14 EVK (modular BSP)"
+  #     device: imx6ull14x14evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx6ull14x14evk
 
-    - name: nxp-imx6ull9x9evk
-      description: "NXP i.MX6ULL 9x9 EVK (modular BSP)"
-      device: imx6ull9x9evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx6ull9x9evk
+  #   - name: nxp-imx6ull9x9evk
+  #     description: "NXP i.MX6ULL 9x9 EVK (modular BSP)"
+  #     device: imx6ull9x9evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx6ull9x9evk
 
-    - name: nxp-imx6ulz14x14evk
-      description: "NXP i.MX6ULZ 14x14 EVK (modular BSP)"
-      device: imx6ulz14x14evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx6ulz14x14evk
+  #   - name: nxp-imx6ulz14x14evk
+  #     description: "NXP i.MX6ULZ 14x14 EVK (modular BSP)"
+  #     device: imx6ulz14x14evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx6ulz14x14evk
 
-    - name: nxp-imx8dxla1-ddr3l-evk
-      description: "NXP i.MX8DXL A1 DDR3L EVK (modular BSP)"
-      device: imx8dxla1-ddr3l-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8dxla1-ddr3l-evk
+  #   - name: nxp-imx8dxla1-ddr3l-evk
+  #     description: "NXP i.MX8DXL A1 DDR3L EVK (modular BSP)"
+  #     device: imx8dxla1-ddr3l-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8dxla1-ddr3l-evk
 
-    - name: nxp-imx8dxla1-lpddr4-evk
-      description: "NXP i.MX8DXL A1 LPDDR4 EVK (modular BSP)"
-      device: imx8dxla1-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8dxla1-lpddr4-evk
+  #   - name: nxp-imx8dxla1-lpddr4-evk
+  #     description: "NXP i.MX8DXL A1 LPDDR4 EVK (modular BSP)"
+  #     device: imx8dxla1-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8dxla1-lpddr4-evk
 
-    - name: nxp-imx8dxlb0-ddr3l-evk
-      description: "NXP i.MX8DXL B0 DDR3L EVK (modular BSP)"
-      device: imx8dxlb0-ddr3l-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8dxlb0-ddr3l-evk
+  #   - name: nxp-imx8dxlb0-ddr3l-evk
+  #     description: "NXP i.MX8DXL B0 DDR3L EVK (modular BSP)"
+  #     device: imx8dxlb0-ddr3l-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8dxlb0-ddr3l-evk
 
-    - name: nxp-imx8dxlb0-fips-lpddr4-evk
-      description: "NXP i.MX8DXL B0 FIPS LPDDR4 EVK (modular BSP)"
-      device: imx8dxlb0-fips-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8dxlb0-fips-lpddr4-evk
+  #   - name: nxp-imx8dxlb0-fips-lpddr4-evk
+  #     description: "NXP i.MX8DXL B0 FIPS LPDDR4 EVK (modular BSP)"
+  #     device: imx8dxlb0-fips-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8dxlb0-fips-lpddr4-evk
 
-    - name: nxp-imx8dxlb0-lpddr4-evk
-      description: "NXP i.MX8DXL B0 LPDDR4 EVK (modular BSP)"
-      device: imx8dxlb0-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8dxlb0-lpddr4-evk
+  #   - name: nxp-imx8dxlb0-lpddr4-evk
+  #     description: "NXP i.MX8DXL B0 LPDDR4 EVK (modular BSP)"
+  #     device: imx8dxlb0-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8dxlb0-lpddr4-evk
 
-    - name: nxp-imx8dxlevk
-      description: "NXP i.MX8DXL EVK (modular BSP)"
-      device: imx8dxlevk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8dxlevk
+  #   - name: nxp-imx8dxlevk
+  #     description: "NXP i.MX8DXL EVK (modular BSP)"
+  #     device: imx8dxlevk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8dxlevk
 
-    - name: nxp-imx8mmevk
-      description: "NXP i.MX8MM EVK (modular BSP)"
-      device: imx8mmevk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8mmevk
+  #   - name: nxp-imx8mmevk
+  #     description: "NXP i.MX8MM EVK (modular BSP)"
+  #     device: imx8mmevk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8mmevk
 
-    - name: nxp-imx8mnddr3levk
-      description: "NXP i.MX8MN DDR3L EVK (modular BSP)"
-      device: imx8mnddr3levk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8mnddr3levk
+  #   - name: nxp-imx8mnddr3levk
+  #     description: "NXP i.MX8MN DDR3L EVK (modular BSP)"
+  #     device: imx8mnddr3levk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8mnddr3levk
 
-    - name: nxp-imx8mnevk
-      description: "NXP i.MX8MN EVK (modular BSP)"
-      device: imx8mnevk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8mnevk
+  #   - name: nxp-imx8mnevk
+  #     description: "NXP i.MX8MN EVK (modular BSP)"
+  #     device: imx8mnevk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8mnevk
 
-    - name: nxp-imx8mpevk
-      description: "NXP i.MX8MP EVK (modular BSP)"
-      device: imx8mpevk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8mpevk
+  #   - name: nxp-imx8mpevk
+  #     description: "NXP i.MX8MP EVK (modular BSP)"
+  #     device: imx8mpevk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8mpevk
 
-    - name: nxp-imx8mpul-lpddr4-evk
-      description: "NXP i.MX8MPUL LPDDR4 EVK (modular BSP)"
-      device: imx8mpul-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8mpul-lpddr4-evk
+  #   - name: nxp-imx8mpul-lpddr4-evk
+  #     description: "NXP i.MX8MPUL LPDDR4 EVK (modular BSP)"
+  #     device: imx8mpul-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8mpul-lpddr4-evk
 
-    - name: nxp-imx8mqevk
-      description: "NXP i.MX8MQ EVK (modular BSP)"
-      device: imx8mqevk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8mqevk
+  #   - name: nxp-imx8mqevk
+  #     description: "NXP i.MX8MQ EVK (modular BSP)"
+  #     device: imx8mqevk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8mqevk
 
-    - name: nxp-imx8ulp-9x9-lpddr4x-evk
-      description: "NXP i.MX8ULP 9x9 LPDDR4X EVK (modular BSP)"
-      device: imx8ulp-9x9-lpddr4x-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx8ulp-9x9-lpddr4x-evk
+  #   - name: nxp-imx8ulp-9x9-lpddr4x-evk
+  #     description: "NXP i.MX8ULP 9x9 LPDDR4X EVK (modular BSP)"
+  #     device: imx8ulp-9x9-lpddr4x-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx8ulp-9x9-lpddr4x-evk
 
-    - name: nxp-imx91-11x11-lpddr4-evk
-      description: "NXP i.MX91 11x11 LPDDR4 EVK (modular BSP)"
-      device: imx91-11x11-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx91-11x11-lpddr4-evk
+  #   - name: nxp-imx91-11x11-lpddr4-evk
+  #     description: "NXP i.MX91 11x11 LPDDR4 EVK (modular BSP)"
+  #     device: imx91-11x11-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx91-11x11-lpddr4-evk
 
-    - name: nxp-imx91evk
-      description: "NXP i.MX91 EVK (modular BSP)"
-      device: imx91evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx91evk
+  #   - name: nxp-imx91evk
+  #     description: "NXP i.MX91 EVK (modular BSP)"
+  #     device: imx91evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx91evk
 
-    - name: nxp-imx93-11x11-lpddr4x-pf0900-evk
-      description: "NXP i.MX93 11x11 LPDDR4X PF0900 EVK (modular BSP)"
-      device: imx93-11x11-lpddr4x-pf0900-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx93-11x11-lpddr4x-pf0900-evk
+  #   - name: nxp-imx93-11x11-lpddr4x-pf0900-evk
+  #     description: "NXP i.MX93 11x11 LPDDR4X PF0900 EVK (modular BSP)"
+  #     device: imx93-11x11-lpddr4x-pf0900-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx93-11x11-lpddr4x-pf0900-evk
 
-    - name: nxp-imx93evk
-      description: "NXP i.MX93 EVK (modular BSP)"
-      device: imx93evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx93evk
+  #   - name: nxp-imx93evk
+  #     description: "NXP i.MX93 EVK (modular BSP)"
+  #     device: imx93evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx93evk
 
-    - name: nxp-imx93w-14x12-lpddr4x-evk
-      description: "NXP i.MX93W 14x12 LPDDR4X EVK (modular BSP)"
-      device: imx93w-14x12-lpddr4x-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx93w-14x12-lpddr4x-evk
+  #   - name: nxp-imx93w-14x12-lpddr4x-evk
+  #     description: "NXP i.MX93W 14x12 LPDDR4X EVK (modular BSP)"
+  #     device: imx93w-14x12-lpddr4x-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx93w-14x12-lpddr4x-evk
 
-    - name: nxp-imx941-19x19-lpddr4-evk
-      description: "NXP i.MX941 19x19 LPDDR4 EVK (modular BSP)"
-      device: imx941-19x19-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx941-19x19-lpddr4-evk
+  #   - name: nxp-imx941-19x19-lpddr4-evk
+  #     description: "NXP i.MX941 19x19 LPDDR4 EVK (modular BSP)"
+  #     device: imx941-19x19-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx941-19x19-lpddr4-evk
 
-    - name: nxp-imx942-19x19-lpddr4-evk
-      description: "NXP i.MX942 19x19 LPDDR4 EVK (modular BSP)"
-      device: imx942-19x19-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx942-19x19-lpddr4-evk
+  #   - name: nxp-imx942-19x19-lpddr4-evk
+  #     description: "NXP i.MX942 19x19 LPDDR4 EVK (modular BSP)"
+  #     device: imx942-19x19-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx942-19x19-lpddr4-evk
 
-    - name: nxp-imx943-15x15-lpddr4-evk
-      description: "NXP i.MX943 15x15 LPDDR4 EVK (modular BSP)"
-      device: imx943-15x15-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx943-15x15-lpddr4-evk
+  #   - name: nxp-imx943-15x15-lpddr4-evk
+  #     description: "NXP i.MX943 15x15 LPDDR4 EVK (modular BSP)"
+  #     device: imx943-15x15-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx943-15x15-lpddr4-evk
 
-    - name: nxp-imx943-19x19-lpddr4-evk
-      description: "NXP i.MX943 19x19 LPDDR4 EVK (modular BSP)"
-      device: imx943-19x19-lpddr4-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx943-19x19-lpddr4-evk
+  #   - name: nxp-imx943-19x19-lpddr4-evk
+  #     description: "NXP i.MX943 19x19 LPDDR4 EVK (modular BSP)"
+  #     device: imx943-19x19-lpddr4-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx943-19x19-lpddr4-evk
 
-    - name: nxp-imx943-19x19-lpddr5-evk
-      description: "NXP i.MX943 19x19 LPDDR5 EVK (modular BSP)"
-      device: imx943-19x19-lpddr5-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx943-19x19-lpddr5-evk
+  #   - name: nxp-imx943-19x19-lpddr5-evk
+  #     description: "NXP i.MX943 19x19 LPDDR5 EVK (modular BSP)"
+  #     device: imx943-19x19-lpddr5-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx943-19x19-lpddr5-evk
 
-    - name: nxp-imx943evk
-      description: "NXP i.MX943 EVK (modular BSP)"
-      device: imx943evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx943evk
+  #   - name: nxp-imx943evk
+  #     description: "NXP i.MX943 EVK (modular BSP)"
+  #     device: imx943evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx943evk
 
-    - name: nxp-imx95-15x15-lpddr4x-evk
-      description: "NXP i.MX95 15x15 LPDDR4X EVK (modular BSP)"
-      device: imx95-15x15-lpddr4x-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx95-15x15-lpddr4x-evk
+  #   - name: nxp-imx95-15x15-lpddr4x-evk
+  #     description: "NXP i.MX95 15x15 LPDDR4X EVK (modular BSP)"
+  #     device: imx95-15x15-lpddr4x-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx95-15x15-lpddr4x-evk
 
-    - name: nxp-imx95-19x19-lpddr5-evk
-      description: "NXP i.MX95 19x19 LPDDR5 EVK (modular BSP)"
-      device: imx95-19x19-lpddr5-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx95-19x19-lpddr5-evk
+  #   - name: nxp-imx95-19x19-lpddr5-evk
+  #     description: "NXP i.MX95 19x19 LPDDR5 EVK (modular BSP)"
+  #     device: imx95-19x19-lpddr5-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx95-19x19-lpddr5-evk
 
-    - name: nxp-imx95-a1-15x15-lpddr4x-evk
-      description: "NXP i.MX95 A1 15x15 LPDDR4X EVK (modular BSP)"
-      device: imx95-a1-15x15-lpddr4x-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx95-a1-15x15-lpddr4x-evk
+  #   - name: nxp-imx95-a1-15x15-lpddr4x-evk
+  #     description: "NXP i.MX95 A1 15x15 LPDDR4X EVK (modular BSP)"
+  #     device: imx95-a1-15x15-lpddr4x-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx95-a1-15x15-lpddr4x-evk
 
-    - name: nxp-imx95-a1-19x19-lpddr5-evk
-      description: "NXP i.MX95 A1 19x19 LPDDR5 EVK (modular BSP)"
-      device: imx95-a1-19x19-lpddr5-evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx95-a1-19x19-lpddr5-evk
+  #   - name: nxp-imx95-a1-19x19-lpddr5-evk
+  #     description: "NXP i.MX95 A1 19x19 LPDDR5 EVK (modular BSP)"
+  #     device: imx95-a1-19x19-lpddr5-evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx95-a1-19x19-lpddr5-evk
 
-    - name: nxp-imx95a1evk
-      description: "NXP i.MX95 A1 EVK (modular BSP)"
-      device: imx95a1evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx95a1evk
+  #   - name: nxp-imx95a1evk
+  #     description: "NXP i.MX95 A1 EVK (modular BSP)"
+  #     device: imx95a1evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx95a1evk
 
-    - name: nxp-imx95evk
-      description: "NXP i.MX95 EVK (modular BSP)"
-      device: imx95evk
-      releases: [scarthgap, styhead, walnascar, whinlatter]
-      features: [systemd, security, virtualization, ipv6, root-login]
-      build:
-        path: build/nxp-imx95evk
+  #   - name: nxp-imx95evk
+  #     description: "NXP i.MX95 EVK (modular BSP)"
+  #     device: imx95evk
+  #     releases: [scarthgap, styhead, walnascar, whinlatter]
+  #     features: [systemd, security, virtualization, ipv6, root-login]
+  #     build:
+  #       path: build/nxp-imx95evk

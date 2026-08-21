@@ -164,44 +164,7 @@ ready-made preset exists and can be built directly with `bsp build <preset>-<rel
 | **ROM-5722 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **AOM-5521 (DB2510)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **AOM-5521 A1** | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
-| **AOM-5521 A2** | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **AOM-2521 B0** | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **ECU-150** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8ULP EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX6UL 9x9 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX6ULL 14x14 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX6ULL 9x9 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX6ULZ 14x14 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8DXL A1 DDR3L EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8DXL A1 LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8DXL B0 DDR3L EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8DXL B0 FIPS LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8DXL B0 LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8DXL EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8MM EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8MN DDR3L EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8MN EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8MP EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8MPUL LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8MQ EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX8ULP 9x9 LPDDR4X EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX91 11x11 LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX91 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX93 11x11 LPDDR4X PF0900 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX93 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX93W 14x12 LPDDR4X EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX941 19x19 LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX942 19x19 LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX943 15x15 LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX943 19x19 LPDDR4 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX943 19x19 LPDDR5 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX943 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX95 15x15 LPDDR4X EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX95 19x19 LPDDR5 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX95 A1 15x15 LPDDR4X EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX95 A1 19x19 LPDDR5 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX95 A1 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **NXP i.MX95 EVK** | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 **Legend:**
 
@@ -248,41 +211,6 @@ preset name (for example `bsp build advantech-rsb3730-mickledore`).
 | **AOM-5521 A2** | `advantech-imx95aom5521a2` | walnascar | 🟡 Development | *(Same as above)* |
 | **AOM-2521 B0** | `advantech-imx95aom2521b0` | walnascar, whinlatter | 🟡 Development | [Advantech AOM-2521 Product Page](https://www.advantech.com/en/products/som/aom-2521) |
 | **ECU-150**     | `modular-bsp-ecu-150` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟡 Development | [Advantech ECU-150 Product page](https://www.advantech.com/en-us/products/7332cf9e-bf70-4a79-b0b6-fd8a2182cd72/ecu-150/mod_7af3b0b8-4e52-4ed2-bbdc-22ad3222def0) |
-| **NXP i.MX8ULP EVK** | `nxp-imx8ulp-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | [NXP i.MX 8ULP EVK](https://www.nxp.com/design/design-center/development-boards-and-designs/i-mx-evaluation-and-development-boards/i-mx-8ulp-evaluation-kit:i.MX8ULP-EVK) |
-| **NXP i.MX6UL 9x9 EVK** | `nxp-imx6ul9x9evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx6ul9x9evk` |
-| **NXP i.MX6ULL 14x14 EVK** | `nxp-imx6ull14x14evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx6ull14x14evk` |
-| **NXP i.MX6ULL 9x9 EVK** | `nxp-imx6ull9x9evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx6ull9x9evk` |
-| **NXP i.MX6ULZ 14x14 EVK** | `nxp-imx6ulz14x14evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx6ulz14x14evk` |
-| **NXP i.MX8DXL A1 DDR3L EVK** | `nxp-imx8dxla1-ddr3l-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxla1-ddr3l-evk` |
-| **NXP i.MX8DXL A1 LPDDR4 EVK** | `nxp-imx8dxla1-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxla1-lpddr4-evk` |
-| **NXP i.MX8DXL B0 DDR3L EVK** | `nxp-imx8dxlb0-ddr3l-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-ddr3l-evk` |
-| **NXP i.MX8DXL B0 FIPS LPDDR4 EVK** | `nxp-imx8dxlb0-fips-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-fips-lpddr4-evk` |
-| **NXP i.MX8DXL B0 LPDDR4 EVK** | `nxp-imx8dxlb0-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlb0-lpddr4-evk` |
-| **NXP i.MX8DXL EVK** | `nxp-imx8dxlevk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8dxlevk` |
-| **NXP i.MX8MM EVK** | `nxp-imx8mmevk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8mmevk` |
-| **NXP i.MX8MN DDR3L EVK** | `nxp-imx8mnddr3levk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8mnddr3levk` |
-| **NXP i.MX8MN EVK** | `nxp-imx8mnevk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8mnevk` |
-| **NXP i.MX8MP EVK** | `nxp-imx8mpevk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8mpevk` |
-| **NXP i.MX8MPUL LPDDR4 EVK** | `nxp-imx8mpul-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8mpul-lpddr4-evk` |
-| **NXP i.MX8MQ EVK** | `nxp-imx8mqevk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8mqevk` |
-| **NXP i.MX8ULP 9x9 LPDDR4X EVK** | `nxp-imx8ulp-9x9-lpddr4x-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx8ulp-9x9-lpddr4x-evk` |
-| **NXP i.MX91 11x11 LPDDR4 EVK** | `nxp-imx91-11x11-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx91-11x11-lpddr4-evk` |
-| **NXP i.MX91 EVK** | `nxp-imx91evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx91evk` |
-| **NXP i.MX93 11x11 LPDDR4X PF0900 EVK** | `nxp-imx93-11x11-lpddr4x-pf0900-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx93-11x11-lpddr4x-pf0900-evk` |
-| **NXP i.MX93 EVK** | `nxp-imx93evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx93evk` |
-| **NXP i.MX93W 14x12 LPDDR4X EVK** | `nxp-imx93w-14x12-lpddr4x-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx93w-14x12-lpddr4x-evk` |
-| **NXP i.MX941 19x19 LPDDR4 EVK** | `nxp-imx941-19x19-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx941-19x19-lpddr4-evk` |
-| **NXP i.MX942 19x19 LPDDR4 EVK** | `nxp-imx942-19x19-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx942-19x19-lpddr4-evk` |
-| **NXP i.MX943 15x15 LPDDR4 EVK** | `nxp-imx943-15x15-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx943-15x15-lpddr4-evk` |
-| **NXP i.MX943 19x19 LPDDR4 EVK** | `nxp-imx943-19x19-lpddr4-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx943-19x19-lpddr4-evk` |
-| **NXP i.MX943 19x19 LPDDR5 EVK** | `nxp-imx943-19x19-lpddr5-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx943-19x19-lpddr5-evk` |
-| **NXP i.MX943 EVK** | `nxp-imx943evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx943evk` |
-| **NXP i.MX95 15x15 LPDDR4X EVK** | `nxp-imx95-15x15-lpddr4x-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx95-15x15-lpddr4x-evk` |
-| **NXP i.MX95 19x19 LPDDR5 EVK** | `nxp-imx95-19x19-lpddr5-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx95-19x19-lpddr5-evk` |
-| **NXP i.MX95 A1 15x15 LPDDR4X EVK** | `nxp-imx95-a1-15x15-lpddr4x-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx95-a1-15x15-lpddr4x-evk` |
-| **NXP i.MX95 A1 19x19 LPDDR5 EVK** | `nxp-imx95-a1-19x19-lpddr5-evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx95-a1-19x19-lpddr5-evk` |
-| **NXP i.MX95 A1 EVK** | `nxp-imx95a1evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx95a1evk` |
-| **NXP i.MX95 EVK** | `nxp-imx95evk` | scarthgap, styhead, walnascar, whinlatter | 🟡 Development | *Upstream meta-imx machine config:* `imx95evk` |
 
 **Status Legend:**
 
