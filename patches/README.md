@@ -45,7 +45,7 @@ patches/
         └── ostree/         # OSTree OTA implementation patches
 ```
 
-The repository currently contains **24 patches**: 20 for NXP, 2 for MediaTek and 2 for the OSTree OTA feature.
+The repository currently contains **25 patches**: 21 for NXP, 2 for MediaTek and 2 for the OSTree OTA feature.
 
 ## 2. NXP Vendor Patches
 
@@ -82,8 +82,9 @@ Patches in the `nxp/` directory address build issues, compatibility fixes, and h
 |-------|-------------|----------------------|------------|
 | `nxp/styhead/0001-Add-alsa-tools-to-dependencies-to-fix-build.patch` | Adds alsa-tools to mx93 build dependencies in gstreamer plugin | meta-imx-bsp/recipes-multimedia/gstreamer | `vendors/nxp/imx-6.12.3-1.0.0-styhead.yml` |
 | `nxp/styhead/0002-tensorflow-lite-fix-build.patch` | Fixes the TensorFlow Lite 2.18.0 build | meta-imx-ml/recipes-libraries/tensorflow-lite | `vendors/nxp/imx-6.12.3-1.0.0-styhead.yml` |
+| `nxp/styhead/0003-fix-imx-gst-dependencies.patch` | Adds alsa-tools to i.MX9 dependencies in imx-gst plugin | meta-imx-bsp/recipes-multimedia/gstreamer | `vendors/nxp/imx-6.12.3-1.0.0-styhead.yml` |
 
-**Purpose**: Resolves missing dependency issues during audio stack builds for i.MX93 and fixes the machine-learning stack build.
+**Purpose**: Resolves missing dependency issues during audio stack builds for i.MX9/i.MX93 and fixes the machine-learning stack build.
 
 ### 2.5. Walnascar Release
 
