@@ -966,7 +966,7 @@ LAYERDEPENDS_custom = "eecc-nxp"
 
 The BSP registry uses patches to fix build issues, add hardware support, and ensure compatibility across different Yocto releases. Patches are organized by vendor and Yocto version to maintain stability and reproducibility.
 
-The repository contains **24 patches** organized into:
+The repository contains **25 patches** organized into:
 
 * **NXP vendor patches** (20 patches): Address build failures, dependency corrections, and hardware-specific configurations for NXP i.MX platforms across Kirkstone, Mickledore, Scarthgap, Styhead, Walnascar, Whinlatter and Wrynose
 * **OTA feature patches** (2 patches): Enable OSTree-based over-the-air updates for the Styhead and Walnascar releases
