@@ -1,0 +1,342 @@
+# LAVA Job Definition – Advantech aom2521b0 ModBSP Full QA Suite
+# Board: aom2521b0
+---
+device_type: advantech-aom2521b0
+job_name: "Advantech aom2521b0 ModBSP Full QA"
+visibility: public
+priority: medium
+
+timeouts:
+  job:
+    minutes: 60
+  action:
+    minutes: 5
+  connection:
+    minutes: 2
+
+metadata:
+  source: https://github.com/Advantech-EECC/modular-bsp-test-definitions
+  board: aom2521b0
+  bsp: ModBSP
+  cpu: Cortex-A53
+
+tags: []
+
+actions:
+
+  - test:
+      timeout:
+        minutes: 50
+      definitions:
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/context/context.yaml
+          name: adv-context
+          parameters:
+            DISTRO_ID: Yocto
+            DISTRO_VER: ""
+            KERNEL_MIN_VER: 6.6
+            CPU_MODEL: Cortex-A55
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/thermal/thermal.yaml
+          name: adv-thermal
+          parameters:
+            THERMAL_COUNT: 1
+            TZ0_DEV: thermal_zone0
+            TZ0_MIN: 10
+            TZ0_MAX: 70
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/cpu/cpu.yaml
+          name: adv-cpu
+          parameters:
+            CPU_MODEL: Cortex-A55
+            CPU_NPROC: "6"
+            CPU_CSTATES: ""
+            CPU_SCALING_MIN: 1200000
+            CPU_SCALING_MAX: 1600000
+            CPU_SCALING_GOVERNORS: "performance powersave"
+            CPU_SUSPENSION_STATES: "freeze mem"
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/ram/ram.yaml
+          name: adv-ram
+          parameters:
+            RAM_SLOT_COUNT: 1
+            RAM_MIN_AVAIL: 5400
+            RAM_SLOT0_SIZE: 6144
+            RAM_SLOT0_SPEED: ""
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/disk/disk.yaml
+          name: adv-disk
+          parameters:
+            DISK_COUNT: 3
+            DISK_ROOTFS_MOUNT: "/dev/mmcblk1p2:rw:SD /dev/mmcblk2p2:rw:MMC"
+            DISK0_DEV: /dev/mmcblk1
+            DISK0_TYPE: SD
+            DISK0_SECTORS: 0
+            DISK0_MIN_RS: 40
+            DISK0_MIN_WS: 10
+            DISK1_DEV: /dev/mmcblk2
+            DISK1_TYPE: MMC
+            DISK1_SECTORS: 30777344
+            DISK1_MIN_RS: 100
+            DISK1_MIN_WS: 50
+            DISK2_DEV: /dev/sda
+            DISK2_TYPE: USB
+            DISK2_SECTORS: 0
+            DISK2_MIN_RS: 100
+            DISK2_MIN_WS: 50
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/eth/eth.yaml
+          name: adv-eth
+          parameters:
+            ETH_COUNT: 2
+            IPERF3_SERVER_IP: ""
+            IPERF3_DURATION: 5
+            ETH0_DEV: eth0
+            ETH0_BUS: soc
+            ETH0_BUS_ID: 30be0000
+            ETH0_LINK: 1000
+            ETH0_WOL_FEATURED: "y"
+            ETH0_WOL_WAKEUP: "n"
+            ETH0_MIN_TX_SPEED: 700
+            ETH0_MIN_RX_SPEED: 700
+            ETH1_DEV: eth1
+            ETH1_BUS: soc
+            ETH1_BUS_ID: 30bf0000
+            ETH1_LINK: 1000
+            ETH1_WOL_FEATURED: "y"
+            ETH1_WOL_WAKEUP: "n"
+            ETH1_MIN_TX_SPEED: 700
+            ETH1_MIN_RX_SPEED: 700
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/uart/uart.yaml
+          name: adv-uart
+          parameters:
+            UART_COUNT: 4
+            UART0_DEV: /dev/ttymxc0
+            UART0_BUS: soc
+            UART0_BUS_ID: 30860000
+            UART0_HWFC: "y"
+            UART0_DEBUG_CONSOLE: "n"
+            UART0_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART0_REFERENCE: UART1-COM3A
+            UART1_DEV: /dev/ttymxc1
+            UART1_BUS: soc
+            UART1_BUS_ID: 30890000
+            UART1_HWFC: "n"
+            UART1_DEBUG_CONSOLE: "y"
+            UART1_LOOPBACK_TEST: skip
+            UART1_REFERENCE: UART2-COM4
+            UART2_DEV: /dev/ttymxc2
+            UART2_BUS: soc
+            UART2_BUS_ID: 30880000
+            UART2_HWFC: "y"
+            UART2_DEBUG_CONSOLE: "n"
+            UART2_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART2_REFERENCE: UART3-COM3B
+            UART3_DEV: /dev/ttymxc3
+            UART3_BUS: soc
+            UART3_BUS_ID: 30a60000
+            UART3_HWFC: "n"
+            UART3_DEBUG_CONSOLE: "n"
+            UART3_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART3_REFERENCE: UART4-COM4B
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/i2c/i2c.yaml
+          name: adv-i2c
+          parameters:
+            I2C_COUNT: 7
+            I2C1_DEV: /dev/i2c-1
+            I2C1_CONTROLLER: 44350000.i2c
+            I2C1_REFERENCE: ""
+            I2C2_DEV: /dev/i2c-2
+            I2C2_CONTROLLER: 42530000.i2c
+            I2C2_REFERENCE: ""
+            I2C3_DEV: /dev/i2c-3
+            I2C3_CONTROLLER: 42540000.i2c
+            I2C3_REFERENCE: ""
+            I2C4_DEV: /dev/i2c-4
+            I2C4_CONTROLLER: 426b0000.i2c
+            I2C4_REFERENCE: ""
+            I2C6_DEV: /dev/i2c-6
+            I2C6_CONTROLLER: 426d0000.i2c
+            I2C6_REFERENCE: ""
+            I2C7_DEV: /dev/i2c-7
+            I2C7_CONTROLLER: 426e0000.i2c
+            I2C7_REFERENCE: ""
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/pwm/pwm.yaml
+          name: adv-pwm
+          parameters:
+            PWM_COUNT: 2
+            PWM0_DEV: pwmchip0
+            PWM0_BUS: soc
+            PWM0_BUS_ID: 30670000
+            PWM0_REFERENCE: ""
+            PWM1_DEV: pwmchip1
+            PWM1_BUS: soc
+            PWM1_BUS_ID: 30680000
+            PWM1_REFERENCE: ""
+            PWM_BACKLIGHT_DEV: ""
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/spi/spi.yaml
+          name: adv-spi
+          parameters:
+            SPI_COUNT: 0
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/npu/npu.yaml
+          name: adv-npu
+          parameters:
+            NPU_COUNT: 1
+            NPU0_DEV: /dev/galcore
+            NPU0_BUS: soc
+            NPU0_BUS_ID: 30380000
+            NPU0_BUS_DEVICE_TYPE: clock-controller
+            NPU0_BUS_NODE_NAME: "consumer:platform:38500000.vipsi"
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/can/can.yaml
+          name: adv-can
+          parameters:
+            CAN_COUNT: 2
+            CAN_EXT_LOOPBACK: "\""
+            CAN0_DEV: can0
+            CAN0_BUS: soc
+            CAN0_BUS_ID: 308c0000
+            CAN0_CLOCK: 40000000
+            CAN0_LOOPBACK_SPEEDS: "125000 2000000"
+            CAN1_DEV: can1
+            CAN1_BUS: soc
+            CAN1_BUS_ID: 308d0000
+            CAN1_CLOCK: 40000000
+            CAN1_LOOPBACK_SPEEDS: "125000 2000000"
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/gpio/gpio.yaml
+          name: adv-gpio
+          parameters:
+            GPIO_COUNT: 6
+            GPIO_PINS: ""
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/usb/usb.yaml
+          name: adv-usb
+          parameters:
+            USB_DEV_COUNT: 2
+            USB_OTG_ENABLED: 1
+            USB_OTG_CONF: ""
+            USB_DEV0_PORT: 1
+            USB_DEV0_DRIVER: usbhid
+            USB_DEV0_SPEED: 1.5M
+            USB_DEV1_PORT: 2
+            USB_DEV1_DRIVER: usbhid
+            USB_DEV1_SPEED: 1.5M
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/rtc/rtc.yaml
+          name: adv-rtc
+          parameters:
+            RTC_COUNT: 2
+            RTC0_DEV: /dev/rtc0
+            RTC0_WAKEUP: disabled
+            RTC1_DEV: /dev/rtc1
+            RTC1_WAKEUP: enabled
+            RTC_SUSPEND_DEV: /dev/rtc0
+            RTC_SUSPEND_SLEEP_STATE: mem
+            RTC_SUSPEND_WAKE_SLEEP_S: skip
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/watchdog/watchdog.yaml
+          name: adv-watchdog
+          parameters:
+            WATCHDOG_COUNT: 1
+            WATCHDOG0_DEV: /dev/watchdog0
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/tpm/tpm.yaml
+          name: adv-tpm
+          parameters:
+            TPM_COUNT: 1
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/optee/optee.yaml
+          name: adv-optee
+          parameters:
+            OPTEE_DEV: /dev/tee0
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/gpu/gpu.yaml
+          name: adv-gpu
+          parameters:
+            GPU_COUNT: 2
+            GPU_WAYLAND: weston
+            GPU_VA_CODECS: ""
+            GPU0_DRI_KMS_DEV: /dev/dri/card0
+            GPU0_BACKLIGHT_DEV: ""
+            GPU0_LVDS_MOD: ""
+            GPU0_LVDS_DEV: ""
+            GPU0_DRM_CONNECTOR: ""
+            GPU0_DRM_CONNECTOR_ENCODER: ""
+            GPU0_RESOLUTION: ""
+            GPU0_REFRESH_RATE: ""
+
+        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+          from: git
+          branch: main
+          path: automated/linux/audio/audio.yaml
+          name: adv-audio
+          parameters:
+            AUDIO_PLAYBACK_COUNT: 1
+            AUDIO_CAPTURE_COUNT: 0
+            AUDIO_PB0_CARD: audio-hdmi
+            AUDIO_PB0_CONTROLLER: "card 0"
+            AUDIO_PB0_DEV_ID: ""
+            AUDIO_PB0_CODEC: "i.MX HDMI i2s-hifi-0"
