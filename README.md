@@ -164,6 +164,7 @@ ready-made preset exists and can be built directly with `bsp build <preset>-<rel
 | **ROM-5722 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **AOM-5521 (DB2510)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **AOM-5521 A1** | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
+| **AOM-5521 A2** | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **ECU-150** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 **Legend:**
@@ -206,7 +207,8 @@ preset name (for example `bsp build advantech-rsb3730-mickledore`).
 | **ROM-5721 1G** | `modular-bsp-rom5721-1g-db5901` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as ROM-5721, variant-specific)* |
 | **ROM-5721 2G** | `modular-bsp-rom5721-2g-db5901` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as ROM-5721, variant-specific)* |
 | **ROM-5722**    | `modular-bsp-rom5722-db2510` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-5722 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5722/mod_11aa0c77-868e-4014-8151-ac7a7a1c5c1b) |
-| **AOM-5521 (DB2510)** | `modular-bsp-aom5521-db2510` | walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
+| **AOM-5521 (DB2510)** | `modular-bsp-aom5521a1-db2510` | walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
+| **AOM-5521 (DB2510)** | `modular-bsp-aom5521a2-db2510` | walnascar | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
 | **AOM-5521 A1** | `advantech-imx95aom5521a1` | scarthgap, walnascar | 🟡 Development | *(Same as above)* |
 | **AOM-5521 A2** | `advantech-imx95aom5521a2` | walnascar | 🟡 Development | *(Same as above)* |
 | **AOM-2521 B0** | `advantech-imx95aom2521b0` | walnascar, whinlatter | 🟡 Development | [Advantech AOM-2521 Product Page](https://www.advantech.com/en/products/som/aom-2521) |
