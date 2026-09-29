@@ -362,7 +362,7 @@ registry:
     - name: modular-bsp-aom5521a1-db2510
       description: "Advantech AOM-5521 A1 DB2510 (i.MX95)"
       device: aom5521a1-db2510
-      releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
+      releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, ipv6, root-login]
       build:
         container: "ubuntu-22.04"
@@ -371,7 +371,7 @@ registry:
     - name: modular-bsp-aom5521a2-db2510
       description: "Advantech AOM-5521 A2 DB2510 (i.MX95)"
       device: aom5521a2-db2510
-      releases: [walnascar]
+      releases: [walnascar, wrynose]
       features: [systemd, security, virtualization, ipv6, root-login]
       build:
         container: "ubuntu-22.04"

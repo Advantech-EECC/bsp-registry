@@ -16,7 +16,7 @@ timeouts:
 
 metadata:
   source: https://github.com/Advantech-EECC/modular-bsp-test-definitions
-  board: AOM5521-A1-DB2510
+  board: AOM5521-A2-DB2510
   bsp: ModBSP
   cpu: Cortex-A53
 
