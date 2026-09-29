@@ -5,3 +5,8 @@ repos:
   meta-virtualization:
     layers:
       .:
+
+local_conf_header:
+  ipv6: |
+    DISTRO_FEATURES:append = " virtualization"
+    IMAGE_INSTALL:append = " docker-ce docker-compose"
