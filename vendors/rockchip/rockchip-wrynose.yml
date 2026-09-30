@@ -1,0 +1,23 @@
+header:
+  version: 14
+  includes:
+    - vendors/rockchip/rockchip-common.yml
+
+# Community Rockchip BSP layer maintained by Trevor Woerner on
+# git.yoctoproject.org.  It builds mainline U-Boot and linux-yocto and
+# depends only on `core` and `meta-arm`; meta-arm is provided by
+# yocto/yocto.yaml and tracks the wrynose branch via the defaults in
+# yocto/releases/wrynose.yml.
+#
+# The RK3568 and RK3588(S) machine includes set ROCKCHIP_CLOSED_TPL = "1",
+# which pulls the proprietary rkbin DDR initialiser, TF-A and OP-TEE blobs
+# (recipes-bsp/rkbin, LICENSE = "Proprietary").  RK3399 has no such setting
+# and builds entirely from open source.
+repos:
+  meta-rockchip:
+    url: "https://git.yoctoproject.org/meta-rockchip"
+    branch: "wrynose"
+    commit: "9d02575bfd9ca5e87c394f593f2bbdbdee914d4e"
+    path: "layers/meta-rockchip"
+    layers:
+      .:

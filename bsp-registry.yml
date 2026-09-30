@@ -609,6 +609,12 @@ registry:
       includes:
         - yocto/releases/wrynose.yml
       vendor_overrides:
+        - vendor: rockchip
+          releases:
+            - slug: rockchip
+              description: "Rockchip community BSP (mainline U-Boot + linux-yocto, Yocto 6.0)"
+              includes:
+                - vendors/rockchip/rockchip-wrynose.yml
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
