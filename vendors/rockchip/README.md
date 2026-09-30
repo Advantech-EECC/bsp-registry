@@ -119,7 +119,7 @@ be reviewed before shipping a product image.
   need their own `releases: [wrynose]` presets rather than being added to the existing ones. Check
   `conf/machine/` on the target branch before adding a board to a preset's `releases:` list.
 - **No RK3576.** This layer has no RK3576 support; only the vendor layer provides it.
-- **Features.** Presets enable only `systemd` and `ipv6`. Other registry features
+- **Features.** Presets enable only `systemd`, `ipv6` and `usrmerge`. Other registry features
   (`security`, `virtualization`, `ostree`, `rauc`) are untested on Rockchip and should be added
   per feature after a successful build. The layer does carry an optional RAUC A/B demo
   (`rk-rauc-demo`), which is not wired into the registry.
