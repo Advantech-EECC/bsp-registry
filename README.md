@@ -598,14 +598,15 @@ The BSP registry supports **Rockchip** platforms through the community
 > ([`JeffyCN/meta-rockchip`](https://github.com/JeffyCN/meta-rockchip), Rockchip BSP kernel plus
 > proprietary `libmali`). It is **not** used by this registry.
 
-Coverage is limited to **scarthgap** and **walnascar**: the layer has no `wrynose` branch for
-these boards.
+Coverage spans **scarthgap**, **walnascar** and **wrynose**. The layer also carries `styhead` and
+`whinlatter` branches, but they are deliberately not offered: `styhead` is an EOL non-LTS release,
+and `whinlatter` is a stub branch that never received the fixes present on `wrynose`.
 
-| Board \ Yocto        | scarthgap | walnascar | Status        |
-| -------------------- | :-------: | :-------: | ------------- |
-| **Radxa ROCK 5B**    |     🅿️     |     🅿️     | 🟡 Development |
-| **Radxa ROCK 3A**    |     🅿️     |     🅿️     | 🟡 Development |
-| **Radxa ROCK Pi 4C** |     🅿️     |     🅿️     | 🟡 Development |
+| Board \ Yocto        | scarthgap | walnascar | wrynose | Status        |
+| -------------------- | :-------: | :-------: | :-----: | ------------- |
+| **Radxa ROCK 5B**    |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
+| **Radxa ROCK 3A**    |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
+| **Radxa ROCK Pi 4C** |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
 
 **Status Legend:**
 
@@ -615,9 +616,9 @@ these boards.
 
 | **Hardware**         | **Preset** | **SoC** | **Supported Releases** | **Boot chain** | **Status**     | **Documentation** |
 |----------------------|------------|---------|------------------------|----------------|----------------|-------------------|
-| **Radxa ROCK 5B**    | `rock-5b` | RK3588 | scarthgap, walnascar | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 5B](https://radxa.com/products/rock5/5b) |
-| **Radxa ROCK 3A**    | `rock-3a` | RK3568 | scarthgap, walnascar | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 3A](https://radxa.com/products/rock3/3a) |
-| **Radxa ROCK Pi 4C** | `rock-pi-4c` | RK3399 | scarthgap, walnascar | fully open source | 🟡 Development | [Radxa ROCK Pi 4](https://radxa.com/products/rock4) |
+| **Radxa ROCK 5B**    | `rock-5b` | RK3588 | scarthgap, walnascar, wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 5B](https://radxa.com/products/rock5/5b) |
+| **Radxa ROCK 3A**    | `rock-3a` | RK3568 | scarthgap, walnascar, wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 3A](https://radxa.com/products/rock3/3a) |
+| **Radxa ROCK Pi 4C** | `rock-pi-4c` | RK3399 | scarthgap, walnascar, wrynose | fully open source | 🟡 Development | [Radxa ROCK Pi 4](https://radxa.com/products/rock4) |
 
 The RK3568 and RK3588 machine includes set `ROCKCHIP_CLOSED_TPL = "1"`, which pulls proprietary
 `rockchip-rkbin` binaries into the boot chain. RK3399 does not, and builds entirely from source.
@@ -634,6 +635,9 @@ bsp build rock-5b-scarthgap
 
 # Build Radxa ROCK Pi 4C (RK3399, walnascar)
 bsp build rock-pi-4c-walnascar
+
+# Build Radxa ROCK 3A (RK3568, wrynose)
+bsp build rock-3a-wrynose
 ```
 
 Each build emits `.wic` plus `.wic.bmap`, so images can be written directly with
