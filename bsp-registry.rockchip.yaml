@@ -64,7 +64,7 @@ registry:
     - name: rock-5b
       description: "Radxa ROCK 5B (RK3588)"
       device: rock-5b
-      releases: [scarthgap, walnascar]
+      releases: [scarthgap, walnascar, wrynose]
       vendor_release: rockchip
       features: [systemd, ipv6]
       build:
@@ -73,7 +73,7 @@ registry:
     - name: rock-3a
       description: "Radxa ROCK 3A (RK3568)"
       device: rock-3a
-      releases: [scarthgap, walnascar]
+      releases: [scarthgap, walnascar, wrynose]
       vendor_release: rockchip
       features: [systemd, ipv6]
       build:
@@ -82,7 +82,7 @@ registry:
     - name: rock-pi-4c
       description: "Radxa ROCK Pi 4C (RK3399)"
       device: rock-pi-4c
-      releases: [scarthgap, walnascar]
+      releases: [scarthgap, walnascar, wrynose]
       vendor_release: rockchip
       features: [systemd, ipv6]
       build:

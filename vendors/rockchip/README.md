@@ -19,8 +19,8 @@ on `git.yoctoproject.org`, which builds **mainline U-Boot and `linux-yocto`** an
 
 - `rockchip-common.yml` — shared settings: image targets `core-image-base` and
   `core-image-full-cmdline`. No `distro` is set; the registry release supplies `poky`.
-- `rockchip-scarthgap.yml` / `rockchip-walnascar.yml` — pin `meta-rockchip` to the matching
-  upstream branch and commit, and include `rockchip-common.yml`.
+- `rockchip-scarthgap.yml` / `rockchip-walnascar.yml` / `rockchip-wrynose.yml` — pin
+  `meta-rockchip` to the matching upstream branch and commit, and include `rockchip-common.yml`.
 
 The layer depends only on `core` and `meta-arm` (`conf/layer.conf`:
 `LAYERDEPENDS_rockchip = "core meta-arm"`). Both `meta-arm` and `meta-arm-toolchain` are already
@@ -43,9 +43,9 @@ All three are listed as *"builds and boots wic image"* in the upstream layer's `
 
 | Preset | Releases | Device | Machine config |
 |--------|----------|--------|----------------|
-| `rock-5b` | scarthgap, walnascar | `rock-5b` | `vendors/rockchip/machine/rock-5b.yml` |
-| `rock-3a` | scarthgap, walnascar | `rock-3a` | `vendors/rockchip/machine/rock-3a.yml` |
-| `rock-pi-4c` | scarthgap, walnascar | `rock-pi-4c` | `vendors/rockchip/machine/rock-pi-4c.yml` |
+| `rock-5b` | scarthgap, walnascar, wrynose | `rock-5b` | `vendors/rockchip/machine/rock-5b.yml` |
+| `rock-3a` | scarthgap, walnascar, wrynose | `rock-3a` | `vendors/rockchip/machine/rock-3a.yml` |
+| `rock-pi-4c` | scarthgap, walnascar, wrynose | `rock-pi-4c` | `vendors/rockchip/machine/rock-pi-4c.yml` |
 
 A preset that declares `releases:` is addressed on the command line as `<preset>-<release>`, so
 the buildable names are `rock-5b-scarthgap`, `rock-5b-walnascar`, and so on. All presets select
@@ -98,8 +98,8 @@ chain is not uniformly open:
 | RK3568 (`rock-3a`) | `"1"` | `rockchip-rkbin` | proprietary DDR init, TF-A and OP-TEE blobs |
 | RK3588/RK3588S (`rock-5b`) | `"1"` | `rockchip-rkbin` | proprietary DDR init, TF-A and OP-TEE blobs |
 
-The blobs come from the `rockchip-rkbin` recipe (`recipes-bsp/rkbin/rockchip-rkbin_git.bb`,
-`LICENSE = "Proprietary"`), fetched from
+The blobs come from the `rockchip-rkbin` recipes under `recipes-bsp/rkbin` in the layer
+(`LICENSE = "Proprietary"`), fetched from
 [`rockchip-linux/rkbin`](https://github.com/rockchip-linux/rkbin). The upstream licence text does
 permit redistribution, so no `LICENSE_FLAGS_ACCEPTED` entry is required, but the blobs must still
 be reviewed before shipping a product image.
@@ -109,10 +109,14 @@ be reviewed before shipping a product image.
 - **Layer priority.** Upstream sets `BBFILE_PRIORITY_rockchip = "1"`, which is unusually low. It
   is left untouched here because nothing in this registry overlays the layer. Any future Rockchip
   overlay layer must raise the priority, or its `.bbappend` files will lose.
-- **Release coverage.** The layer has no `wrynose` branch matching the boards above, so presets
-  are deliberately limited to `scarthgap` and `walnascar`.
+- **Release coverage.** Presets cover `scarthgap`, `walnascar` and `wrynose`. The layer also has
+  `styhead` and `whinlatter` branches, but both are deliberately skipped: `styhead` is an EOL
+  non-LTS release, and the `whinlatter` branch is a stub whose only commit is the
+  `LAYERSERIES_COMPAT` bump, so it lacks fixes (notably the TF-A deploy fix) that later branches
+  carry.
 - **Board coverage varies per branch.** `soquartz-model-a` exists on `walnascar` but not
-  `scarthgap`; `nanopc-t6` and `orangepi-3b` exist only on `master`. Check
+  `scarthgap`; `nanopc-t6` and `orangepi-3b` exist only on `wrynose` and `master`, so they would
+  need their own `releases: [wrynose]` presets rather than being added to the existing ones. Check
   `conf/machine/` on the target branch before adding a board to a preset's `releases:` list.
 - **No RK3576.** This layer has no RK3576 support; only the vendor layer provides it.
 - **Features.** Presets enable only `systemd` and `ipv6`. Other registry features
