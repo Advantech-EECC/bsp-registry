@@ -22,6 +22,7 @@ Vendor documentation lives under `vendors/<vendor>/README.md`:
 [Qualcomm](../vendors/qualcomm/README.md),
 [MediaTek](../vendors/mediatek/README.md),
 [NVIDIA](../vendors/nvidia/README.md),
+[Rockchip](../vendors/rockchip/README.md),
 [Advantech Europe / Qualcomm](../vendors/advantech-europe/qualcomm/README.md),
 [Advantech Europe / MediaTek](../vendors/advantech-europe/mediatek/README.md).
 

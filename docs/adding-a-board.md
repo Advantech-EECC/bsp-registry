@@ -139,6 +139,26 @@ Most NXP releases need patches applied to `meta-freescale` or the BSP layers. Pa
 Secure boot requires the `ubuntu-22.04-csb` environment, which provides NXP's Code Signing Tool
 at `SIG_TOOL_PATH=/opt/cst`. See [secure-boot.md](secure-boot.md).
 
+### Rockchip
+
+Two actively maintained layers are both named `meta-rockchip`. This registry uses the
+community one on `git.yoctoproject.org` (mainline U-Boot + `linux-yocto`, Mesa graphics,
+`LAYERDEPENDS_rockchip = "core meta-arm"`), **not**
+[`JeffyCN/meta-rockchip`](https://github.com/JeffyCN/meta-rockchip) (Rockchip BSP kernel,
+proprietary `libmali`). Mixing the two is not possible — both register the `rockchip`
+collection.
+
+Two further points when adding a Rockchip board:
+
+* The RK3568 and RK3588(S) machine includes set `ROCKCHIP_CLOSED_TPL = "1"`, which pulls the
+  proprietary `rockchip-rkbin` TF-A, OP-TEE and DDR-init blobs. RK3399 does not.
+* Upstream sets `BBFILE_PRIORITY_rockchip = "1"`. Any layer that overlays it must raise its own
+  priority above that value.
+
+Machine availability differs per branch (for example `soquartz-model-a` exists on `walnascar`
+but not `scarthgap`), so check `conf/machine/` on the target branch before listing a release in
+a preset. See [`vendors/rockchip/README.md`](../vendors/rockchip/README.md).
+
 ---
 
 ## 8. Documentation

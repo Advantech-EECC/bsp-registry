@@ -68,6 +68,7 @@ EXTERNAL_REFERENCES = {
     "classes/image_types_ota.bbclass",
     "lib/oeqa/selftest/cases/updater_qemux86_64.py",
     "recipes-sota/aktualizr/aktualizr_git.bb",
+    "recipes-bsp/rkbin/rockchip-rkbin_git.bb",
     "imx-image-%.bbappend",
 }
 
