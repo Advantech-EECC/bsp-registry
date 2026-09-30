@@ -12,6 +12,7 @@ include:
   - bsp-registry.nxp.yaml
   - bsp-registry.mediatek.yaml
   - bsp-registry.qualcomm.yaml
+  - bsp-registry.rockchip.yaml
   - bsp-registry.advantech.yaml
   - bsp-registry.advantech-aim-linux.yaml
   - bsp-registry.advantech-europe.yaml
@@ -380,6 +381,12 @@ registry:
               description: "Qualcomm QCS6490 RB3 Gen2 Vision Kit (Yocto 5.0 LTS Kernel 6.6.97)"
               includes:
                 - vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml
+        - vendor: rockchip
+          releases:
+            - slug: rockchip
+              description: "Rockchip community BSP (mainline U-Boot + linux-yocto, Yocto 5.0 LTS)"
+              includes:
+                - vendors/rockchip/rockchip-scarthgap.yml
         - vendor: nvidia
           distro: 
           releases:
@@ -492,6 +499,12 @@ registry:
               description: "i.MX8/9 Release 2.2.0 Yocto 5.4 Kernel 6.12.49"
               includes:
                 - vendors/nxp/imx-6.12.49-2.2.0-walnascar.yml               
+        - vendor: rockchip
+          releases:
+            - slug: rockchip
+              description: "Rockchip community BSP (mainline U-Boot + linux-yocto, Yocto 5.4)"
+              includes:
+                - vendors/rockchip/rockchip-walnascar.yml
         - vendor: advantech
           soc_vendors:
             - vendor: nxp

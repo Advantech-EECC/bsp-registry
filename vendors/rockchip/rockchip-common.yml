@@ -1,0 +1,10 @@
+header:
+  version: 14
+
+# Settings shared by every Rockchip build.
+#
+# No `distro` is set here: the community meta-rockchip layer does not require
+# a vendor distro, so the registry release supplies `poky`.
+target:
+  - core-image-base
+  - core-image-full-cmdline

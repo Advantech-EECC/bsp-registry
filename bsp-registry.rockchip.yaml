@@ -1,0 +1,89 @@
+# Rockchip BSP registry extension.
+# Included by bsp-registry.yml via the top-level ``include:`` directive.
+# Contains all Rockchip-specific vendor, device, and preset definitions.
+# Release-level vendor_overrides that wire the Rockchip BSP layer into the
+# per-Yocto-release entries remain in bsp-registry.yml because the registry
+# merge mechanism concatenates the ``releases`` list rather than merging
+# entries by slug, which would otherwise create duplicate release slugs.
+
+registry:
+
+  # =====================================
+  # Vendors
+  # =====================================
+
+  vendors:
+
+    - slug: rockchip
+      name: "Rockchip"
+      description: "Rockchip, application processors for edge, industrial and multimedia devices."
+      website: "https://www.rock-chips.com/"
+      includes:
+        - vendors/rockchip/rockchip-common.yml
+
+  # =====================================
+  # Devices
+  # =====================================
+
+  devices:
+
+    # --- Rockchip Devices (community meta-rockchip, mainline U-Boot + linux-yocto) ---
+
+    - slug: rock-5b
+      description: "Radxa ROCK 5B (RK3588)"
+      vendor: rockchip
+      soc_vendor: rockchip
+      architecture: arm64
+      includes:
+        - vendors/rockchip/machine/rock-5b.yml
+
+    - slug: rock-3a
+      description: "Radxa ROCK 3A (RK3568)"
+      vendor: rockchip
+      soc_vendor: rockchip
+      architecture: arm64
+      includes:
+        - vendors/rockchip/machine/rock-3a.yml
+
+    - slug: rock-pi-4c
+      description: "Radxa ROCK Pi 4C (RK3399)"
+      vendor: rockchip
+      soc_vendor: rockchip
+      architecture: arm64
+      includes:
+        - vendors/rockchip/machine/rock-pi-4c.yml
+
+  # =====================================
+  # Presets
+  # =====================================
+
+  bsp:
+
+    # --- Rockchip reference SBCs ---
+
+    - name: rock-5b
+      description: "Radxa ROCK 5B (RK3588)"
+      device: rock-5b
+      releases: [scarthgap, walnascar]
+      vendor_release: rockchip
+      features: [systemd, ipv6]
+      build:
+        path: build/rock-5b
+
+    - name: rock-3a
+      description: "Radxa ROCK 3A (RK3568)"
+      device: rock-3a
+      releases: [scarthgap, walnascar]
+      vendor_release: rockchip
+      features: [systemd, ipv6]
+      build:
+        path: build/rock-3a
+
+    - name: rock-pi-4c
+      description: "Radxa ROCK Pi 4C (RK3399)"
+      device: rock-pi-4c
+      releases: [scarthgap, walnascar]
+      vendor_release: rockchip
+      features: [systemd, ipv6]
+      build:
+        path: build/rock-pi-4c
