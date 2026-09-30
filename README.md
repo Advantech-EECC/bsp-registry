@@ -41,8 +41,10 @@ The registry supports two build systems:
     - [2.4.1. Building Qualcomm BSPs](#241-building-qualcomm-bsps)
   - [2.5. NVIDIA Jetson Boards Compatibility Matrix](#25-nvidia-jetson-boards-compatibility-matrix)
     - [2.5.1. Building NVIDIA Jetson BSPs](#251-building-nvidia-jetson-bsps)
-  - [2.6. QEMU and Reference BSPs](#26-qemu-and-reference-bsps)
-    - [2.6.1. Building QEMU BSPs](#261-building-qemu-bsps)
+  - [2.6. Rockchip Boards Compatibility Matrix](#26-rockchip-boards-compatibility-matrix)
+    - [2.6.1. Building Rockchip BSPs](#261-building-rockchip-bsps)
+  - [2.7. QEMU and Reference BSPs](#27-qemu-and-reference-bsps)
+    - [2.7.1. Building QEMU BSPs](#271-building-qemu-bsps)
 - [3. BSP Registry Manager](#3-bsp-registry-manager)
   - [3.1. Overview](#31-overview)
   - [3.2. Installation](#32-installation)
@@ -584,7 +586,62 @@ bsp build jetson-orin-nano-devkit-wrynose
 ```
 ---
 
-## 2.6. QEMU and Reference BSPs
+## 2.6. Rockchip Boards Compatibility Matrix
+
+The BSP registry supports **Rockchip** platforms through the community
+[`meta-rockchip`](https://git.yoctoproject.org/meta-rockchip) layer maintained on
+`git.yoctoproject.org`, which builds **mainline U-Boot and `linux-yocto`** with **Mesa**
+(Panfrost/Panthor) graphics. For detailed configuration, see the
+[Rockchip vendor README](vendors/rockchip/README.md).
+
+> Note that a second, unrelated layer is also called `meta-rockchip`
+> ([`JeffyCN/meta-rockchip`](https://github.com/JeffyCN/meta-rockchip), Rockchip BSP kernel plus
+> proprietary `libmali`). It is **not** used by this registry.
+
+Coverage is limited to **scarthgap** and **walnascar**: the layer has no `wrynose` branch for
+these boards.
+
+| Board \ Yocto        | scarthgap | walnascar | Status        |
+| -------------------- | :-------: | :-------: | ------------- |
+| **Radxa ROCK 5B**    |     🅿️     |     🅿️     | 🟡 Development |
+| **Radxa ROCK 3A**    |     🅿️     |     🅿️     | 🟡 Development |
+| **Radxa ROCK Pi 4C** |     🅿️     |     🅿️     | 🟡 Development |
+
+**Status Legend:**
+
+* 🟢 **Stable**: Production-ready, fully tested and supported
+* 🟡 **Development**: Under active development, may have limitations
+* 🅿️ **Preset available**: a preset is shipped for this board and release
+
+| **Hardware**         | **Preset** | **SoC** | **Supported Releases** | **Boot chain** | **Status**     | **Documentation** |
+|----------------------|------------|---------|------------------------|----------------|----------------|-------------------|
+| **Radxa ROCK 5B**    | `rock-5b` | RK3588 | scarthgap, walnascar | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 5B](https://radxa.com/products/rock5/5b) |
+| **Radxa ROCK 3A**    | `rock-3a` | RK3568 | scarthgap, walnascar | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 3A](https://radxa.com/products/rock3/3a) |
+| **Radxa ROCK Pi 4C** | `rock-pi-4c` | RK3399 | scarthgap, walnascar | fully open source | 🟡 Development | [Radxa ROCK Pi 4](https://radxa.com/products/rock4) |
+
+The RK3568 and RK3588 machine includes set `ROCKCHIP_CLOSED_TPL = "1"`, which pulls proprietary
+`rockchip-rkbin` binaries into the boot chain. RK3399 does not, and builds entirely from source.
+See [binary blobs and licensing](vendors/rockchip/README.md#binary-blobs-and-licensing).
+
+### 2.6.1. Building Rockchip BSPs
+
+```bash
+# List available Rockchip BSPs
+bsp list | grep -iE 'rock-'
+
+# Build Radxa ROCK 5B (RK3588, scarthgap)
+bsp build rock-5b-scarthgap
+
+# Build Radxa ROCK Pi 4C (RK3399, walnascar)
+bsp build rock-pi-4c-walnascar
+```
+
+Each build emits `.wic` plus `.wic.bmap`, so images can be written directly with
+`bsp flash rock-5b-scarthgap` (equivalently `bmaptool copy <image>.wic <device>`).
+
+---
+
+## 2.7. QEMU and Reference BSPs
 
 In addition to hardware BSPs, the registry ships emulated QEMU targets. They require no hardware
 and are the fastest way to validate the toolchain, a feature fragment, or a new Yocto release.
@@ -599,7 +656,7 @@ and are the fastest way to validate the toolchain, a feature fragment, or a new 
 | `isar-qemuamd64` | `qemuamd64` | Isar | ubuntu-noble, ubuntu-jammy, debian-trixie | Debian-based build, see [§2.2](#22-isar-build-system-support) |
 | `isar-qemuarm64` | `qemuarm64` | Isar | debian-trixie | Debian-based build, see [§2.2](#22-isar-build-system-support) |
 
-### 2.6.1. Building QEMU BSPs
+### 2.7.1. Building QEMU BSPs
 
 ```bash
 # List the emulated targets
