@@ -7,6 +7,6 @@ repos:
       .:
 
 local_conf_header:
-  ipv6: |
+  virtualization-docker: |
     DISTRO_FEATURES:append = " virtualization"
     IMAGE_INSTALL:append = " docker-ce docker-compose"
