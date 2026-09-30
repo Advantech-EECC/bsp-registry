@@ -7,6 +7,5 @@ repos:
       .:
 
 local_conf_header:
-  virtualization-docker: |
+  virtualization: |
     DISTRO_FEATURES:append = " virtualization"
-    IMAGE_INSTALL:append = " docker-ce docker-compose"

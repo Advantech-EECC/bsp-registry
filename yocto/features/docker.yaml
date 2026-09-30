@@ -1,0 +1,6 @@
+header:
+  version: 14
+
+local_conf_header:
+  virtualization-docker: |
+    IMAGE_INSTALL:append = " docker docker-compose"

@@ -688,6 +688,12 @@ registry:
       includes:
         - yocto/features/virtualization.yaml
 
+    - slug: docker
+      description: "Enable Docker support in the Yocto image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/docker.yaml
+
     - slug: wayland
       description: "Enable Wayland support in the Yocto image"
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
