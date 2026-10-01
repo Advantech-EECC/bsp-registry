@@ -25,7 +25,6 @@ repos:
   meta-modular-bsp-rockchip:
     url: "https://github.com/miketsukerman/meta-modular-bsp-rockchip.git"
     branch: "copilot/research-support-for-advantech-rsb-4810"
-    commit: "0797d87a232143d09d96cc570e8cb452f02fa1a7"
     path: "layers/meta-modular-bsp-rockchip"
     layers:
       .:
