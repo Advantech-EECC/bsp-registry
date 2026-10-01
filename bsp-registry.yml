@@ -597,6 +597,19 @@ registry:
       includes:
         - yocto/releases/wrynose.yml
       vendor_overrides:
+        - vendor: nxp
+          distro: fsl-imx-xwayland
+          includes:
+            - vendors/nxp/nxp.yaml
+          releases:
+            - slug: imx-6.18.20-2.0.0
+              description: "i.MX8/9 Release 2.0.0 Yocto 6.0 Kernel 6.18.20"
+              includes:
+                - vendors/nxp/imx-6.18.20-2.0.0-wrynose.yml
+            - slug: imx-6.18.37-2.1.0
+              description: "i.MX8/9 Release 2.1.0 Yocto 6.0 Kernel 6.18.37"
+              includes:
+                - vendors/nxp/imx-6.18.37-2.1.0-wrynose.yml
         - vendor: advantech-europe
           soc_vendors:
             - vendor: nxp
