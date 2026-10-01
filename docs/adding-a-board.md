@@ -159,6 +159,20 @@ Machine availability differs per branch (for example `soquartz-model-a` exists o
 but not `scarthgap`), so check `conf/machine/` on the target branch before listing a release in
 a preset. See [`vendors/rockchip/README.md`](../vendors/rockchip/README.md).
 
+If the board is not an upstream `meta-rockchip` machine, add it with an overlay layer rather than
+by patching upstream. Three rules keep the overlay composable:
+
+* **Pick a collection name other than `rockchip`.** BitBake rejects a second layer registering an
+  existing collection, so the overlay must use its own — for example `eecc-rockchip` in
+  [`meta-modular-bsp-rockchip`](https://github.com/miketsukerman/meta-modular-bsp-rockchip) — and
+  declare `LAYERDEPENDS_<collection> = "core rockchip"`.
+* **Set `BBFILE_PRIORITY_<collection>` above upstream's `1`** so the overlay's `.bbappend` and
+  machine files win.
+* **Keep `LAYERSERIES_COMPAT_<collection>` in sync with the releases the preset advertises.** A
+  preset listing a release the overlay is not compatible with fails at parse time, not at
+  checkout. See [`vendors/advantech-europe/rockchip/README.md`](../vendors/advantech-europe/rockchip/README.md)
+  for a worked example.
+
 ---
 
 ## 8. Documentation

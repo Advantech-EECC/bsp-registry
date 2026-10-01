@@ -607,22 +607,33 @@ and `whinlatter` is a stub branch that never received the fixes present on `wryn
 | **Radxa ROCK 5B**    |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
 | **Radxa ROCK 3A**    |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
 | **Radxa ROCK Pi 4C** |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
+| **Advantech RSB-4810** |    ❌     |     ❌     |    🅿️    | 🧪 Preliminary |
 
 **Status Legend:**
 
 * 🟢 **Stable**: Production-ready, fully tested and supported
 * 🟡 **Development**: Under active development, may have limitations
+* 🧪 **Preliminary**: a preset is shipped, but it has not been build- or boot-tested
 * 🅿️ **Preset available**: a preset is shipped for this board and release
+* ❌ **Not offered**: no preset for this board/release combination
 
 | **Hardware**         | **Preset** | **SoC** | **Supported Releases** | **Boot chain** | **Status**     | **Documentation** |
 |----------------------|------------|---------|------------------------|----------------|----------------|-------------------|
 | **Radxa ROCK 5B**    | `rock-5b` | RK3588 | scarthgap, walnascar, wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 5B](https://radxa.com/products/rock5/5b) |
 | **Radxa ROCK 3A**    | `rock-3a` | RK3568 | scarthgap, walnascar, wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 3A](https://radxa.com/products/rock3/3a) |
 | **Radxa ROCK Pi 4C** | `rock-pi-4c` | RK3399 | scarthgap, walnascar, wrynose | fully open source | 🟡 Development | [Radxa ROCK Pi 4](https://radxa.com/products/rock4) |
+| **Advantech RSB-4810** | `modular-bsp-rsb4810` | RK3568 | wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🧪 Preliminary | [Advantech Rockchip README](vendors/advantech-europe/rockchip/README.md) |
 
 The RK3568 and RK3588 machine includes set `ROCKCHIP_CLOSED_TPL = "1"`, which pulls proprietary
 `rockchip-rkbin` binaries into the boot chain. RK3399 does not, and builds entirely from source.
 See [binary blobs and licensing](vendors/rockchip/README.md#binary-blobs-and-licensing).
+
+The Advantech RSB-4810 is not a `meta-rockchip` machine. It is added by the Advantech overlay
+layer [`meta-modular-bsp-rockchip`](https://github.com/miketsukerman/meta-modular-bsp-rockchip),
+which declares its own `eecc-rockchip` layer collection on top of the community layer and is
+compatible with `wrynose` only. Support is preliminary: the board devicetree is carried by the
+overlay rather than by mainline, and no peripheral has been validated on hardware. See the
+[Advantech Rockchip README](vendors/advantech-europe/rockchip/README.md).
 
 ### 2.6.1. Building Rockchip BSPs
 
@@ -638,6 +649,9 @@ bsp build rock-pi-4c-walnascar
 
 # Build Radxa ROCK 3A (RK3568, wrynose)
 bsp build rock-3a-wrynose
+
+# Build Advantech RSB-4810 (RK3568, wrynose)
+bsp build modular-bsp-rsb4810-wrynose
 ```
 
 Each build emits `.wic` plus `.wic.bmap`, so images can be written directly with

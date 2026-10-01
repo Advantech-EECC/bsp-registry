@@ -24,7 +24,8 @@ Vendor documentation lives under `vendors/<vendor>/README.md`:
 [NVIDIA](../vendors/nvidia/README.md),
 [Rockchip](../vendors/rockchip/README.md),
 [Advantech Europe / Qualcomm](../vendors/advantech-europe/qualcomm/README.md),
-[Advantech Europe / MediaTek](../vendors/advantech-europe/mediatek/README.md).
+[Advantech Europe / MediaTek](../vendors/advantech-europe/mediatek/README.md),
+[Advantech Europe / Rockchip](../vendors/advantech-europe/rockchip/README.md).
 
 NXP boards do not have a dedicated vendor README; they are covered by the compatibility matrix in
 the [root README](../README.md#21-nxp-boards-compatibility-matrix) and by
