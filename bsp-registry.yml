@@ -626,6 +626,14 @@ registry:
                   description: "i.MX8 Release 2.0.0 Yocto 6.0 Kernel 6.18.20"
                   includes:
                     - vendors/advantech-europe/nxp/imx-6.18.20-2.0.0-wrynose.yml
+            - vendor: rockchip
+              includes:
+                - vendors/advantech-europe/rockchip/modular-bsp-rockchip.yml
+              releases:
+                - slug: rk3568-1.0.0
+                  description: "Advantech Rockchip RK3568 BSP 1.0.0 (Yocto 6.0 Wrynose)"
+                  includes:
+                    - vendors/advantech-europe/rockchip/rk3568-1.0.0-wrynose.yml
         - vendor: nvidia
           distro: 
           releases:

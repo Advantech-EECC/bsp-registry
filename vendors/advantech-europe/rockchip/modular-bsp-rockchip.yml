@@ -1,0 +1,31 @@
+header:
+  version: 14
+
+# Advantech overlay layer for Rockchip-based boards.
+#
+# It sits on top of the community `meta-rockchip` layer from
+# git.yoctoproject.org (pinned by vendors/rockchip/rockchip-wrynose.yml) and
+# only adds Advantech machine configurations plus the kernel and U-Boot
+# devicetree wiring for them.  Its own `conf/layer.conf` declares:
+#
+#   BBFILE_COLLECTIONS            += "eecc-rockchip"
+#   BBFILE_PRIORITY_eecc-rockchip  = "9"     (above upstream's "1")
+#   LAYERSERIES_COMPAT_eecc-rockchip = "wrynose"
+#   LAYERDEPENDS_eecc-rockchip     = "core rockchip"
+#
+# The distinct collection name is what allows it to coexist with upstream
+# `meta-rockchip`, and LAYERSERIES_COMPAT is why this fragment exists for
+# `wrynose` only.
+#
+# TODO: the layer content currently lives on the
+# `copilot/research-support-for-advantech-rsb-4810` branch; repoint `branch:`
+# to `wrynose` once it is merged there.  The pinned `commit:` below is what
+# KAS actually checks out, so the build is reproducible either way.
+repos:
+  meta-modular-bsp-rockchip:
+    url: "https://github.com/miketsukerman/meta-modular-bsp-rockchip.git"
+    branch: "copilot/research-support-for-advantech-rsb-4810"
+    commit: "0797d87a232143d09d96cc570e8cb452f02fa1a7"
+    path: "layers/meta-modular-bsp-rockchip"
+    layers:
+      .:
