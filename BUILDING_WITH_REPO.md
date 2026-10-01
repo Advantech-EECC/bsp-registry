@@ -102,7 +102,12 @@ The Advantech i.MX manifest repository provides BSP releases for multiple Yocto 
 
 | Yocto Release | Yocto Version | Kernel Version | imx-manifest Branch | Manifest File |
 |---------------|---------------|----------------|---------------------|---------------|
-| Walnascar | 5.2 (latest) | Linux 6.12.49 | imx-linux-walnascar-adv | imx-6.12.49-2.2.0-adv-r2.xml |
+| Wrynose | 6.0 (latest) | Linux 6.18.20 | imx-linux-wrynose-adv | imx-6.18.20-2.0.0-adv-r2.xml |
+| Wrynose | 6.0 | Linux 6.18.20 | imx-linux-wrynose-adv | imx-6.18.20-2.0.0-adv-r1.xml |
+| Wrynose | 6.0 | Linux 6.18.20 | imx-linux-wrynose-adv | imx-6.18.20-2.0.0-adv.xml |
+| Whinlatter | 5.3 | Linux 6.18.2 | imx-linux-whinlatter-adv | imx-6.18.2-1.0.0-adv-r5.xml |
+| Whinlatter | 5.3 | Linux 6.18.2 | imx-linux-whinlatter-adv | imx-6.18.2-1.0.0-adv.xml |
+| Walnascar | 5.2 | Linux 6.12.49 | imx-linux-walnascar-adv | imx-6.12.49-2.2.0-adv-r2.xml |
 | Walnascar | 5.2 | Linux 6.12.49 | imx-linux-walnascar-adv | imx-6.12.49-2.2.0-adv.xml |
 | Walnascar | 5.2 | Linux 6.12.34 | imx-linux-walnascar-adv | imx-6.12.34-2.1.0-adv.xml |
 | Walnascar | 5.2 | Linux 6.12.20 | imx-linux-walnascar-adv | imx-6.12.20-2.0.0-adv.xml |
@@ -113,7 +118,7 @@ The Advantech i.MX manifest repository provides BSP releases for multiple Yocto 
 | Scarthgap | 5.0 | Linux 6.6.23 | imx-linux-scarthgap-adv | imx-6.6.23-2.0.0-adv.xml |
 | Nanbield | 4.3 | Linux 6.6.3 | imx-linux-nanbield-adv | imx-6.6.3-1.0.0-adv.xml |
 
-> **Note:** Manifest files with the `-r2` suffix (e.g. `imx-6.12.49-2.2.0-adv-r2.xml`) are revision 2 releases of the same NXP BSP version, using a newer commit of the `meta-modular-bsp-nxp` layer.
+> **Note:** Manifest files with an `-rN` suffix (e.g. `imx-6.18.20-2.0.0-adv-r2.xml`) are later revisions of the same NXP BSP version, using a newer commit of the `meta-modular-bsp-nxp` layer. Intermediate revisions (e.g. `-r1` … `-r4` on Whinlatter) remain available on the corresponding branch.
 
 ### 3.2 Download Process
 
@@ -125,9 +130,33 @@ mkdir -p ~/imx-yocto-bsp
 cd ~/imx-yocto-bsp
 
 # Initialize repo with a specific release manifest
-repo init -u https://github.com/Advantech-EECC/imx-manifest -b imx-linux-walnascar-adv -m imx-6.12.49-2.2.0-adv-r2.xml
+repo init -u https://github.com/Advantech-EECC/imx-manifest -b imx-linux-wrynose-adv -m imx-6.18.20-2.0.0-adv-r2.xml
 
 # Download all the source repositories
+repo sync
+```
+
+**Examples for Wrynose (Yocto 6.0) Releases:**
+
+```bash
+# For 6.18.20-2.0.0 release (latest revision)
+repo init -u https://github.com/Advantech-EECC/imx-manifest -b imx-linux-wrynose-adv -m imx-6.18.20-2.0.0-adv-r2.xml
+repo sync
+
+# For 6.18.20-2.0.0 release
+repo init -u https://github.com/Advantech-EECC/imx-manifest -b imx-linux-wrynose-adv -m imx-6.18.20-2.0.0-adv.xml
+repo sync
+```
+
+**Examples for Whinlatter (Yocto 5.3) Releases:**
+
+```bash
+# For 6.18.2-1.0.0 release (latest revision)
+repo init -u https://github.com/Advantech-EECC/imx-manifest -b imx-linux-whinlatter-adv -m imx-6.18.2-1.0.0-adv-r5.xml
+repo sync
+
+# For 6.18.2-1.0.0 release
+repo init -u https://github.com/Advantech-EECC/imx-manifest -b imx-linux-whinlatter-adv -m imx-6.18.2-1.0.0-adv.xml
 repo sync
 ```
 
@@ -193,7 +222,9 @@ repo sync
 
 | Branch | Yocto Release | Yocto Version |
 |--------|---------------|---------------|
-| `imx-linux-walnascar-adv` | Walnascar | 5.2 (Latest) |
+| `imx-linux-wrynose-adv` | Wrynose | 6.0 (Latest) |
+| `imx-linux-whinlatter-adv` | Whinlatter | 5.3 |
+| `imx-linux-walnascar-adv` | Walnascar | 5.2 |
 | `imx-linux-styhead-adv` | Styhead | 5.1 |
 | `imx-linux-scarthgap-adv` | Scarthgap | 5.0 |
 | `imx-linux-nanbield-adv` | Nanbield | 4.3 |
@@ -202,7 +233,9 @@ repo sync
 
 | Branch | Yocto Release | Yocto Version |
 |--------|---------------|---------------|
-| `walnascar` | Walnascar | 5.2 (Latest) |
+| `wrynose` | Wrynose | 6.0 (Latest) |
+| `whinlatter` | Whinlatter | 5.3 |
+| `walnascar` | Walnascar | 5.2 |
 | `styhead` | Styhead | 5.1 |
 | `scarthgap` | Scarthgap | 5.0 |
 | `nanbield` | Nanbield | 4.3 |
@@ -229,7 +262,7 @@ MACHINE=<machine> DISTRO=fsl-imx-<backend> source ./imx-setup-release.sh -b bld-
 # For RSB-3720 (6G) board with XWayland
 MACHINE=rsb3720 DISTRO=fsl-imx-xwayland source ./imx-setup-release.sh -b bld-xwayland
 
-# For RSB-3720 (4G) board with XWayland (Walnascar only)
+# For RSB-3720 (4G) board with XWayland (Walnascar and later)
 MACHINE=rsb3720-4g DISTRO=fsl-imx-xwayland source ./imx-setup-release.sh -b bld-xwayland
 
 # For ROM-2620-ED91 board with XWayland
@@ -244,13 +277,13 @@ MACHINE=rom5720-db5901 DISTRO=fsl-imx-xwayland source ./imx-setup-release.sh -b 
 # For ROM-5721-DB5901 (2G) board with XWayland
 MACHINE=rom5721-db5901 DISTRO=fsl-imx-xwayland source ./imx-setup-release.sh -b bld-xwayland
 
-# For ROM-5721-DB5901 (1G) board with XWayland (Walnascar only)
+# For ROM-5721-DB5901 (1G) board with XWayland (Walnascar and later)
 MACHINE=rom5721-1g-db5901 DISTRO=fsl-imx-xwayland source ./imx-setup-release.sh -b bld-xwayland
 
 # For ROM-5722-DB2510 board with XWayland
 MACHINE=rom5722-db2510 DISTRO=fsl-imx-xwayland source ./imx-setup-release.sh -b bld-xwayland
 
-# For AOM-5521-DB2510 board with XWayland (Walnascar only)
+# For AOM-5521-DB2510 board with XWayland (Walnascar and later)
 MACHINE=aom5521-db2510 DISTRO=fsl-imx-xwayland source ./imx-setup-release.sh -b bld-xwayland
 ```
 
@@ -338,17 +371,17 @@ The following Advantech boards are supported in the modular BSP. Support availab
 
 ### 6.1 Board Compatibility Matrix
 
-| Board | Machine Name | NXP SoC | Nanbield (4.3) | Scarthgap (5.0) | Styhead (5.1) | Walnascar (5.2) |
-|-------|-------------|---------|:--------------:|:---------------:|:-------------:|:---------------:|
-| ROM-2620-ED91 | `rom2620-ed91` | i.MX 8ULP | ✅ | ✅ | ✅ | ✅ |
-| ROM-2820-ED93 | `rom2820-ed93` | i.MX 93 | ❌ | ✅ | ✅ | ✅ |
-| ROM-5720-DB5901 | `rom5720-db5901` | i.MX 8M | ❌ | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) |
-| ROM-5721-DB5901 (1G) | `rom5721-1g-db5901` | i.MX 8M Mini | ❌ | ❌ | ❌ | ✅ (preliminary) |
-| ROM-5721-DB5901 (2G) | `rom5721-db5901` / `rom5721-2g-db5901` | i.MX 8M Mini | ❌ | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) |
-| ROM-5722-DB2510 | `rom5722-db2510` | i.MX 8M Plus | ❌ | ✅ | ✅ | ✅ |
-| RSB-3720 (6G) | `rsb3720` / `rsb3720-6g` | i.MX 8M Plus | ❌ | ✅ | ✅ | ✅ |
-| RSB-3720 (4G) | `rsb3720-4g` | i.MX 8M Plus | ❌ | ❌ | ❌ | ✅ |
-| AOM-5521-DB2510 | `aom5521-db2510` | i.MX 95 | ❌ | ❌ | ❌ | ✅ (preliminary) |
+| Board | Machine Name | NXP SoC | Nanbield (4.3) | Scarthgap (5.0) | Styhead (5.1) | Walnascar (5.2) | Whinlatter (5.3) | Wrynose (6.0) |
+|-------|-------------|---------|:--------------:|:---------------:|:-------------:|:---------------:|:----------------:|:-------------:|
+| ROM-2620-ED91 | `rom2620-ed91` | i.MX 8ULP | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ROM-2820-ED93 | `rom2820-ed93` | i.MX 93 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ROM-5720-DB5901 | `rom5720-db5901` | i.MX 8M | ❌ | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) |
+| ROM-5721-DB5901 (1G) | `rom5721-1g-db5901` | i.MX 8M Mini | ❌ | ❌ | ❌ | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) |
+| ROM-5721-DB5901 (2G) | `rom5721-db5901` / `rom5721-2g-db5901` | i.MX 8M Mini | ❌ | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) |
+| ROM-5722-DB2510 | `rom5722-db2510` | i.MX 8M Plus | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| RSB-3720 (6G) | `rsb3720` / `rsb3720-6g` | i.MX 8M Plus | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| RSB-3720 (4G) | `rsb3720-4g` | i.MX 8M Plus | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| AOM-5521-DB2510 | `aom5521-db2510` | i.MX 95 | ❌ | ❌ | ❌ | ✅ (preliminary) | ✅ (preliminary) | ✅ (preliminary) |
 
 ### 6.2 i.MX 8ULP Boards
 - **ROM-2620-ED91** - Embedded module with i.MX 8ULP SoC (`rom2620-ed91`)
@@ -360,16 +393,16 @@ The following Advantech boards are supported in the modular BSP. Support availab
 - **ROM-5720-DB5901** - Embedded module with i.MX 8M SoC (`rom5720-db5901`) — preliminary support
 
 ### 6.5 i.MX 8M Mini Boards
-- **ROM-5721-DB5901 (1G)** - Embedded module with i.MX 8M Mini, 1GB RAM (`rom5721-1g-db5901`) — Walnascar only, preliminary support
+- **ROM-5721-DB5901 (1G)** - Embedded module with i.MX 8M Mini, 1GB RAM (`rom5721-1g-db5901`) — Walnascar and later, preliminary support
 - **ROM-5721-DB5901 (2G)** - Embedded module with i.MX 8M Mini, 2GB RAM (`rom5721-db5901` / `rom5721-2g-db5901`) — preliminary support
 
 ### 6.6 i.MX 8M Plus Boards
 - **ROM-5722-DB2510** - Embedded module with i.MX 8M Plus SoC (`rom5722-db2510`)
 - **RSB-3720 (6G)** - Industrial SBC with i.MX 8M Plus, 6GB RAM (`rsb3720` / `rsb3720-6g`)
-- **RSB-3720 (4G)** - Industrial SBC with i.MX 8M Plus, 4GB RAM (`rsb3720-4g`) — Walnascar only
+- **RSB-3720 (4G)** - Industrial SBC with i.MX 8M Plus, 4GB RAM (`rsb3720-4g`) — Walnascar and later
 
 ### 6.7 i.MX 95 Boards
-- **AOM-5521-DB2510** - Module with i.MX 95 SoC (`aom5521-db2510`) — Walnascar only, preliminary support
+- **AOM-5521-DB2510** - Module with i.MX 95 SoC (`aom5521-db2510`) — Walnascar and later, preliminary support
 
 ## 7. Comparison with KAS-based Workflow
 
