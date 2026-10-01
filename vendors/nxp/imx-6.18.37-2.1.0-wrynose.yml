@@ -30,7 +30,7 @@ repos:
 
   meta-arm:
     commit: "0979b80429099f1a42dc0026c8c466cee780bc74"
-    branch: "master"
+    branch: "wrynose"
 
   meta-browser:
     commit: "407e3ac990f5ed466cb76e5002f918860503799c"
@@ -39,7 +39,7 @@ repos:
   meta-virtualization:
     url: "https://git.yoctoproject.org/meta-virtualization"
     commit: "30f1a9d7e5ef1b41c64ff4c3c40951133d548ed8"
-    branch: "master"
+    branch: "wrynose"
     path: "layers/meta-virtualization"
     layers:
       .:
@@ -55,12 +55,12 @@ repos:
 
   meta-timesys:
     commit: "bf4ff1bb4c85bb7a1c65bc6f2cc6188ff5b76ef2"
-    branch: "master"
+    branch: "wrynose"
 
   meta-freescale:
     url: "https://github.com/Freescale/meta-freescale.git"
     commit: "ca31f33c5b5e433939c5f8442d2de56925d638bd"
-    branch: "master"
+    branch: "wrynose"
     path: "layers/meta-freescale"
     layers:
       .:
@@ -76,7 +76,7 @@ repos:
   meta-freescale-distro:
     url: "https://github.com/Freescale/meta-freescale-distro.git"
     commit: "4464f38b4aa618b5942f5e35dd25cff590f410a6"
-    branch: "master"
+    branch: "wrynose"
     path: "layers/meta-freescale-distro"
     layers:
       .:
