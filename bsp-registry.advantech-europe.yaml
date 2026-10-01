@@ -174,6 +174,17 @@ registry:
       includes:
         - vendors/advantech-europe/qualcomm/machine/aom2721.yml
 
+    # --- Advantech Rockchip Devices ---
+    # --- Advantech RSB-4810 ---
+
+    - slug: rsb4810
+      description: "Advantech RSB-4810 (Rockchip RK3568)"
+      vendor: advantech-europe
+      soc_vendor: rockchip
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/rockchip/machine/rsb4810.yml
+
   # =====================================
   # BSP Presets (named shortcuts)
   # =====================================
@@ -189,6 +200,22 @@ registry:
       features: [systemd, security, virtualization, ipv6]
       build:
         path: build/modular-bsp-rsb3810
+
+    # --- Advantech RSB-4810 (Rockchip RK3568) ---
+    #
+    # wrynose only: the Advantech overlay layer declares
+    # LAYERSERIES_COMPAT_eecc-rockchip = "wrynose".
+    # Features are deliberately minimal - nothing here has been build- or
+    # boot-tested yet, so `security` and `virtualization` are not claimed.
+
+    - name: modular-bsp-rsb4810
+      description: "Advantech RSB-4810 (Rockchip RK3568)"
+      device: rsb4810
+      releases: [wrynose]
+      vendor_release: rk3568-1.0.0
+      features: [systemd, ipv6, usrmerge]
+      build:
+        path: build/modular-bsp-rsb4810
     
     # --- Advantech ROM-2620 (i.MX8) ---    
 

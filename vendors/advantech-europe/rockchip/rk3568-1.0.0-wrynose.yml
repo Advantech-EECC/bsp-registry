@@ -1,0 +1,7 @@
+header:
+  version: 14
+  includes:
+    # Upstream community meta-rockchip, pinned for the wrynose branch.
+    - vendors/rockchip/rockchip-wrynose.yml
+    # Advantech overlay carrying the RSB-4810 machine configuration.
+    - vendors/advantech-europe/rockchip/modular-bsp-rockchip.yml
