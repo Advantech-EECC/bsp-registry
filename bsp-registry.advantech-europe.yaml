@@ -213,7 +213,7 @@ registry:
       device: rsb4810
       releases: [wrynose]
       vendor_release: rk3568-1.0.0
-      features: [systemd, ipv6, usrmerge]
+      features: [systemd, ipv6, usrmerge, ipv6, root-login, usb-debug, wayland]
       build:
         path: build/modular-bsp-rsb4810
     

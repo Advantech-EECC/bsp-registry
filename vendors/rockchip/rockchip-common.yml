@@ -6,5 +6,6 @@ header:
 # No `distro` is set here: the community meta-rockchip layer does not require
 # a vendor distro, so the registry release supplies `poky`.
 target:
-  - core-image-base
+  - core-image-minimal
+  - core-image-weston
   - core-image-full-cmdline
