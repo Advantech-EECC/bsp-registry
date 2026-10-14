@@ -1,0 +1,8 @@
+header:
+  version: 14
+
+local_conf_header:
+  bash-shell: |
+    IMAGE_INSTALL:append = " bash"
+    IMAGE_INSTALL:append = " coreutils findutils gawk sed grep"
+    IMAGE_INSTALL:append = " iproute2-ip util-linux-hwclock"

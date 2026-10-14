@@ -1,0 +1,7 @@
+header:
+  version: 14
+
+local_conf_header:
+  stress-test: |
+    IMAGE_INSTALL:append = " stress-ng htop sysstat iotop"
+    IMAGE_INSTALL:append = " memtester stressapptest"

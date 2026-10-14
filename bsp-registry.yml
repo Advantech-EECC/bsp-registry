@@ -662,6 +662,18 @@ registry:
       includes:
         - yocto/features/systemd.yaml
 
+    - slug: bash-shell
+      description: "Add bash shell to the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/bash.yaml
+
+    - slug: stress-test
+      description: "Add stress test tools to the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/stress-test.yaml
+
     - slug: yocto-ssh
       description: "Enable SSH server in the Yocto image"
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
