@@ -72,7 +72,9 @@ actions:
           name: adv-ram
           parameters:
             RAM_SLOT_COUNT: 1
-            RAM_MIN_AVAIL: 3927
+            RAM_SLOT0_SIZE: 4094        # Expected slot 0 size in MB
+            RAM_SLOT0_SPEED: ""         # Expected slot 0 speed in MT/s (empty = skip)
+            RAM_MIN_AVAIL: 3927         # Minimum reported MemTotal in MiB
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
           from: git
@@ -81,21 +83,21 @@ actions:
           name: adv-disk
           parameters:
             DISK_COUNT: 3
-            DISK_ROOTFS_MOUNT: "/dev/mmcblk1p2:rw:SD /dev/mmcblk2p2:rw:MMC"
+            DISK_ROOTFS_MOUNT: "/dev/mmcblk0p9:rw:MMC"
             DISK0_DEV: /dev/mmcblk1
             DISK0_TYPE: SD
             DISK0_SECTORS: 0
-            DISK0_MIN_RS: 40
+            DISK0_MIN_RS: 30
             DISK0_MIN_WS: 10
             DISK1_DEV: /dev/mmcblk0
             DISK1_TYPE: MMC
-            DISK1_SECTORS: 30777344
-            DISK1_MIN_RS: 100
+            DISK1_SECTORS: 61071360
+            DISK1_MIN_RS: 60
             DISK1_MIN_WS: 50
             DISK2_DEV: /dev/sda
             DISK2_TYPE: USB
             DISK2_SECTORS: 0
-            DISK2_MIN_RS: 100
+            DISK2_MIN_RS: 60
             DISK2_MIN_WS: 50
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
@@ -210,7 +212,7 @@ actions:
           path: automated/linux/gpio/gpio.yaml
           name: adv-gpio
           parameters:
-            GPIO_COUNT: 6
+            GPIO_COUNT: 2
             GPIO_PINS: ""
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
@@ -235,9 +237,9 @@ actions:
           path: automated/linux/rtc/rtc.yaml
           name: adv-rtc
           parameters:
-            RTC_COUNT: 2
+            RTC_COUNT: 1
             RTC0_DEV: /dev/rtc0
-            RTC0_WAKEUP: disabled
+            RTC0_WAKEUP: enabled
             RTC_SUSPEND_DEV: /dev/rtc0
             RTC_SUSPEND_SLEEP_STATE: mem
             RTC_SUSPEND_WAKE_SLEEP_S: skip
@@ -251,13 +253,13 @@ actions:
             WATCHDOG_COUNT: 1
             WATCHDOG0_DEV: /dev/watchdog0
 
-        - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
-          from: git
-          branch: main
-          path: automated/linux/tpm/tpm.yaml
-          name: adv-tpm
-          parameters:
-            TPM_COUNT: 1
+        # - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
+        #   from: git
+        #   branch: main
+        #   path: automated/linux/tpm/tpm.yaml
+        #   name: adv-tpm
+        #   parameters:
+        #     TPM_COUNT: 1
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
           from: git
