@@ -3,7 +3,9 @@ header:
 
 repos:
   meta-qt6:
-    url: "https://code.qt.io/yocto/meta-qt6.git"
+    # code.qt.io version is commented out because it is not reliable.
+    # url: "https://code.qt.io/yocto/meta-qt6.git"
+    url: "https://github.com/YoeDistro/meta-qt6.git"
     path: "layers/meta-qt6"
     layers:
       .:
