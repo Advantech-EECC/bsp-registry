@@ -1,0 +1,35 @@
+From 58d4bdd4ef90662cfee6b835572b24de60123e0e Mon Sep 17 00:00:00 2001
+From: Mikhail Tsukerman <miketsukerman@gmail.com>
+Date: Sun, 18 Oct 2026 21:07:02 +0200
+Subject: [PATCH] Fix python import for wrynose build
+
+---
+ scripts/lib/wic/plugins/source/bootimg_sota_efi.py | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/lib/wic/plugins/source/bootimg_sota_efi.py b/scripts/lib/wic/plugins/source/bootimg_sota_efi.py
+index 179185d..8bb535c 100644
+--- a/scripts/lib/wic/plugins/source/bootimg_sota_efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg_sota_efi.py
+@@ -22,7 +22,17 @@ from wic.engine import get_custom_config
+ from wic.pluginbase import SourcePlugin
+ from wic.misc import (exec_cmd, exec_native_cmd,
+                       get_bitbake_var, BOOTDD_EXTRA_SPACE)
+-from wic.oe.path import copyhardlinktree
++
++try:
++    from wic.oe.path import copyhardlinktree
++except (ImportError, ModuleNotFoundError):
++    # Fallback for newer OE-core versions where wic.oe.path was removed
++    import shutil
++    def copyhardlinktree(src, dst):
++        """Fallback implementation for copyhardlinktree compatibility"""
++        if os.path.exists(dst):
++            shutil.rmtree(dst)
++        shutil.copytree(src, dst, copy_function=shutil.copy2)
+ 
+ logger = logging.getLogger('wic')
+ 
+-- 
+2.53.0
+
