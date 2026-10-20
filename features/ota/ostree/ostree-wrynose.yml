@@ -1,0 +1,18 @@
+header:
+  version: 14
+
+repos:
+  this:
+    layers:
+      .: "disabled"
+
+  meta-updater:
+    url: "https://github.com/uptane/meta-updater.git"
+    branch: "wrynose"
+    path: "layers/meta-updater"
+    layers:
+      .:
+    patches: 
+      python-import-fix:
+        repo: this
+        path: "patches/ota/ostree/wrynose/0001-Fix-python-import-for-wrynose-build.patch"

@@ -764,6 +764,12 @@ registry:
         - release: walnascar
           includes:
             - features/ota/ostree/ostree-walnascar.yml
+        - release: whinlatter
+          includes:
+            - features/ota/ostree/ostree-whinlatter.yml
+        - release: wrynose
+          includes:
+            - features/ota/ostree/ostree-wrynose.yml
       vendor_overrides:               
         - vendor: advantech-europe
           soc_vendors:
