@@ -17,3 +17,5 @@ local_conf_header:
 
     INHERIT += "buildstats buildstats-summary buildhistory"
     PATCHRESOLVE = "noop"
+
+    CORE_IMAGE_EXTRA_INSTALL += " htop"
