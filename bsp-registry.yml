@@ -58,6 +58,7 @@ deploy:
   artifact_dirs:                                    # subdirs under build_path to search
     - build/tmp/deploy/images
     - build/tmp/deploy/sdk
+    - build/tmp/deploy/deb
     - test-results
   include_manifest: true                            # upload a JSON manifest of all artifacts
   include_build_manifest: true                      # upload a JSON manifest of the build environment
