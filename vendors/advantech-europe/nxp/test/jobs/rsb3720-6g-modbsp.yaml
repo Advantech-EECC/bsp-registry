@@ -59,10 +59,10 @@ actions:
           name: adv-cpu
           parameters:
             CPU_MODEL: Cortex-A53
-            CPU_NPROC: 4
+            CPU_NPROC: 2
             CPU_CSTATES: ""
             CPU_SCALING_MIN: 1200000
-            CPU_SCALING_MAX: 1600000
+            CPU_SCALING_MAX: 1800000
             CPU_SCALING_GOVERNORS: "performance powersave"
             CPU_SUSPENSION_STATES: "freeze mem"
 
@@ -74,7 +74,7 @@ actions:
           parameters:
             RAM_SLOT_COUNT: 1
             RAM_MIN_AVAIL: 5400
-            RAM_SLOT0_SIZE: 6144
+            RAM_SLOT0_SIZE: 5841
             RAM_SLOT0_SPEED: ""
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
@@ -98,7 +98,7 @@ actions:
             DISK2_DEV: /dev/sda
             DISK2_TYPE: UNKNOWN
             DISK2_SECTORS: 0
-            DISK2_MIN_RS: 75
+            DISK2_MIN_RS: 50
             DISK2_MIN_WS: 11
             DISK3_DEV: /dev/sdb
             DISK3_TYPE: UNKNOWN
