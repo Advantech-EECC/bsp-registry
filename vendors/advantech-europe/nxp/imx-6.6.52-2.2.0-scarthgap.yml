@@ -5,7 +5,7 @@ header:
 
 repos:
   meta-modular-bsp-nxp:
-    commit: "6bd341f65dfe9b45994745a10ec29bbe5551b3af"
+    commit: "39c52c0c76631ceb1a8a5b85bf5fe66e6fff304f"
 
   meta-nxp-security-reference-design:
     branch: "scarthgap-6.6.23-2.0.0"
