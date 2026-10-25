@@ -123,6 +123,28 @@ containers:
       volumes:
         - host: $ENV{CST_TOOL_PATH}
           container: "/opt/cst/"
+  # Advantech secure-boot / rootfs-encryption environment (meta-modular-bsp-extra).
+  # All three host variables must point to existing directories; for
+  # secure-boot-only builds FACTORY_KEYS_DIR may point to an empty directory
+  # (an unset variable produces an invalid empty volume mount).
+  - ubuntu-22.04-adv-sb:
+      file: Dockerfile.ubuntu
+      image: "advantech/bsp-registry/ubuntu-22.04/kas:5.5"
+      args:
+        - name: "DISTRO"
+          value: "ubuntu:22.04"
+        - name: "KAS_VERSION"
+          value: "5.5"
+        # Pre-openat2 tar; newer jammy-security builds break pseudo (see Dockerfile)
+        - name: "TAR_VERSION"
+          value: "1.34+dfsg-1build3"
+      volumes:
+        - host: $ENV{CST_TOOL_PATH}
+          container: "/opt/cst/"
+        - host: $ENV{SIG_DATA_PATH}
+          container: "/opt/keys/nxp"
+        - host: $ENV{FACTORY_KEYS_DIR}
+          container: "/opt/keys/factory"
   - debian-12:
       file: Dockerfile.debian
       image: "advantech/bsp-registry/debian-12/kas:5.5"
@@ -173,6 +195,16 @@ environments:
     variables:
       - name: "SIG_TOOL_PATH"
         value: "/opt/cst"  # Path inside the container where the signing tool is mounted
+  ubuntu-22.04-adv-sb:
+    container: ubuntu-22.04-adv-sb
+    variables:
+      # Paths inside the container where the signing tool and key material are mounted
+      - name: "SIG_TOOL_PATH"
+        value: "/opt/cst"
+      - name: "SIG_DATA_PATH"
+        value: "/opt/keys/nxp"
+      - name: "FACTORY_KEYS_DIR"
+        value: "/opt/keys/factory"
   ubuntu-20.04:
     container: ubuntu-20.04
   debian-13:
@@ -727,6 +759,33 @@ registry:
             - vendor: nxp
               includes:
                 - vendors/nxp/features/secure-boot/imx-secure-boot.yml
+
+    - slug: adv-secure-boot
+      description: "Advantech HAB/AHAB Secure Boot from meta-modular-bsp-extra (NXP i.MX8/i.MX9)"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      # The meta-modular-bsp-extra repo is only declared for advantech-europe/nxp,
+      # so the fragment is applied through a vendor override rather than top-level
+      # includes. Mutually exclusive with the `secure-boot` feature (both layers
+      # bbappend u-boot-imx, imx-boot and linux-imx).
+      vendor_overrides:
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              includes:
+                - features/secure-boot/adv-secure-boot-nxp.yml
+
+    - slug: rootfs-encryption
+      description: "Advantech Secure Boot + dm-crypt rootfs encryption from meta-modular-bsp-extra (NXP i.MX8/i.MX9)"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      # Always implies Advantech Secure Boot: meta-rootfs-enc-nxp LAYERDEPENDS
+      # on meta-secure-boot-nxp, so both fragments are included.
+      vendor_overrides:
+        - vendor: advantech-europe
+          soc_vendors:
+            - vendor: nxp
+              includes:
+                - features/secure-boot/adv-secure-boot-nxp.yml
+                - features/secure-boot/adv-rootfs-enc-nxp.yml
 
     - slug: virtualization
       description: "Enable virtualization features in the Yocto image"

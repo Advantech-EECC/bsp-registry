@@ -10,3 +10,6 @@ repos:
 
   meta-nxp-security-reference-design:
     branch: "walnascar-6.12.49-2.2.0-adv"
+
+  meta-modular-bsp-extra:
+    commit: "a3e381233e7a9fe7d11c85be5894a32cfc1ee3e7"

@@ -237,6 +237,28 @@ registry:
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom2820-ed93
+
+    # AHAB secure-boot / rootfs-encryption variants (meta-modular-bsp-extra).
+    # AHAB works best on Yocto >= walnascar, so earlier releases are not listed.
+    - name: modular-bsp-rom2820-ed93-adv-secureboot
+      description: "Advantech ROM-2820 ED93 (i.MX93, AHAB) with Advantech Secure Boot"
+      device: rom2820-ed93
+      releases: [walnascar, whinlatter, wrynose]
+      features: [systemd, security, virtualization, ipv6, root-login, adv-secure-boot]
+      targets: [core-image-minimal, imx-image-core, imx-image-full]
+      build:
+        environment: "ubuntu-22.04-adv-sb" # Signing tool + key material mounts
+        path: build/modular-bsp-rom2820-ed93-adv-secureboot
+
+    - name: modular-bsp-rom2820-ed93-rootfs-enc
+      description: "Advantech ROM-2820 ED93 (i.MX93, AHAB) with Secure Boot + rootfs encryption"
+      device: rom2820-ed93
+      releases: [walnascar, whinlatter, wrynose]
+      features: [systemd, security, virtualization, ipv6, root-login, rootfs-encryption]
+      targets: [core-image-minimal, imx-image-core, imx-image-full]
+      build:
+        environment: "ubuntu-22.04-adv-sb" # Signing tool + key material mounts
+        path: build/modular-bsp-rom2820-ed93-rootfs-enc
     
     # --- Advantech Europe RSB-3720 ---
 
@@ -383,6 +405,27 @@ registry:
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5722-db2510
+
+    # HABv4 secure-boot / rootfs-encryption variants (meta-modular-bsp-extra).
+    - name: modular-bsp-rom5722-db2510-adv-secureboot
+      description: "Advantech ROM-5722 DB2510 (i.MX8, HABv4) with Advantech Secure Boot"
+      device: rom5722-db2510
+      releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
+      features: [systemd, security, virtualization, ipv6, debug-tweaks, root-login, adv-secure-boot]
+      targets: [core-image-minimal, imx-image-core, imx-image-full]
+      build:
+        environment: "ubuntu-22.04-adv-sb" # Signing tool + key material mounts
+        path: build/modular-bsp-rom5722-db2510-adv-secureboot
+
+    - name: modular-bsp-rom5722-db2510-rootfs-enc
+      description: "Advantech ROM-5722 DB2510 (i.MX8, HABv4) with Secure Boot + rootfs encryption"
+      device: rom5722-db2510
+      releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
+      features: [systemd, security, virtualization, ipv6, debug-tweaks, root-login, rootfs-encryption]
+      targets: [core-image-minimal, imx-image-core, imx-image-full]
+      build:
+        environment: "ubuntu-22.04-adv-sb" # Signing tool + key material mounts
+        path: build/modular-bsp-rom5722-db2510-rootfs-enc
     
     # --- Advantech Europe Modular BSP AOM-5521 DB2510 ---
 

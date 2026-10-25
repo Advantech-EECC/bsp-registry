@@ -10,3 +10,6 @@ repos:
   meta-nxp-security-reference-design:
     branch: "scarthgap-6.6.23-2.0.0"
     commit: "b9ddc151c452ae09232f5d5cb5c8e52a77617f6e"
+
+  meta-modular-bsp-extra:
+    commit: "a3e381233e7a9fe7d11c85be5894a32cfc1ee3e7"

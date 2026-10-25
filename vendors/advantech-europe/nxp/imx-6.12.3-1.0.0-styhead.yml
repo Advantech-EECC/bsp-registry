@@ -10,3 +10,6 @@ repos:
   meta-nxp-security-reference-design:
     branch: "styhead-6.12.3-1.0.0"
     commit: "8f8264146cb639a6eee13da463560c5e7a893fb2"
+
+  meta-modular-bsp-extra:
+    commit: "a3e381233e7a9fe7d11c85be5894a32cfc1ee3e7"
