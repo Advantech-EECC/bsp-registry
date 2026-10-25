@@ -49,7 +49,7 @@ One include per upstream `meta-qcom-hwe` machine, each simply selecting the corr
 
 ## BSPs in the registry
 
-The top-level registry file `bsp-registry.yml` exposes one preset per machine listed above, named
+The registry file `bsp-registry.qualcomm.yaml` exposes one preset per machine listed above, named
 after the machine, e.g. `qcs6490-rb3gen2-vision-kit`. A preset that declares `releases:` is
 addressed on the command line as `<preset>-<release>`, so the buildable names are suffixed with the
 release, e.g. `qcs6490-rb3gen2-vision-kit-scarthgap`. Run `bsp list | grep -i qualcomm` for the

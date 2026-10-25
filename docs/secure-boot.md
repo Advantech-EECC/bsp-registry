@@ -69,7 +69,8 @@ Support is listed at two levels:
 
 * **🅿️ Preset** — a ready-made secure-boot preset is shipped by the registry
 * **➕ Composable** — the board supports signing; enable it by adding the `secure-boot` feature to
-  the preset's `features:` list in `bsp-registry.yml`, or by composing
+  the preset's `features:` list in its registry fragment
+  (`bsp-registry.advantech-europe.yaml`), or by composing
   `features/secure-boot/secure-boot.yml` with KAS
 
 The releases listed are those for which the board has a preset the `secure-boot` feature can be
@@ -94,7 +95,7 @@ added to.
 | Board              | Support | Yocto releases                                    |
 |--------------------|:-------:|---------------------------------------------------|
 | ROM-2820 (ed93)    | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| AOM-5521 (db2510)  | ➕ | walnascar, whinlatter, wrynose                    |
+| AOM-5521 (db2510)  | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
 
 The only secure-boot preset shipped today is `modular-bsp-rom5721-2g-db5901-secureboot`
 (walnascar).
@@ -200,7 +201,7 @@ export IMX_HAB_IMG_KEY=/path/to/keys/IMG1_1_sha256_4096_65537_v3_usr_key.pem
 bsp build <bsp-name> --feature secure-boot
 ```
 
-Replace `<bsp-name>` with the target BSP preset (e.g., `rom5720-walnascar-imx-6.12.49-2.2.0`).
+Replace `<bsp-name>` with the target BSP preset (e.g., `modular-bsp-rom5722-db2510-walnascar`).
 
 ### Using KAS directly
 

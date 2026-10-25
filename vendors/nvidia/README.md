@@ -43,7 +43,7 @@ docker demo images.
 
 ## BSPs in the registry
 
-The top-level `bsp-registry.yml` exposes these NVIDIA presets:
+The registry file `bsp-registry.nvidia.yaml` exposes these NVIDIA presets:
 
 | Preset | Releases | Vendor release |
 |--------|----------|----------------|

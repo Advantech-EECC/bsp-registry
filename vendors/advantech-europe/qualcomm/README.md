@@ -24,7 +24,7 @@ If you are looking for the **upstream Qualcomm QLI** layer definitions and EVK c
 Machine config `vendors/advantech-europe/qualcomm/machine/aom2721.yml` selects the Advantech
 AOM-2721 board when composing a full BSP alongside
 `vendors/qualcomm/qcom-6.6.97-qli.1.6-ver.1.2-scarthgap.yml`. It is registered as the `aom2721`
-device in `bsp-registry.yml`.
+device in `bsp-registry.advantech-europe.yaml`.
 
 ## Status: preview
 
@@ -34,7 +34,8 @@ preset is added, compose the configuration manually with KAS (see below).
 
 ## Build
 
-The only Qualcomm preset currently shipped by the registry targets the upstream QCS6490
+The registry ships Qualcomm presets for the upstream QCS/QCM machines (see
+`vendors/qualcomm/README.md`); the closest match for this board is the QCS6490
 RB3 Gen2 Vision Kit. From the repository root:
 
 ```bash

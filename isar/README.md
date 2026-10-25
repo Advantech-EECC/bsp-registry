@@ -468,7 +468,8 @@ Isar uses Debian architecture names, so the x86-64 machine is `qemuamd64`
 The registry does not currently ship an Isar preset for real hardware — all Isar presets target
 QEMU. Additional hardware platforms can be added through
 [meta-modular-bsp-isar](https://github.com/Advantech-EECC/meta-modular-bsp-isar) by
-registering a device and a preset in `bsp-registry.yml`.
+registering a device and a preset in a registry fragment (for example
+`bsp-registry.qemu.yaml`, where the current Isar devices and presets live).
 
 ---
 
@@ -717,11 +718,11 @@ For all options, environment variables, boot modes, and troubleshooting, see [is
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            Privileged Docker Container                      │
-│  Image: advantech/bsp-registry/isar/debian-13/kas:5.2       │
-│  Base: ghcr.io/siemens/kas/kas-isar:5.0-debian-bookworm    │
+│  Image: advantech/bsp-registry/isar/debian-13/kas:5.5       │
+│  Base: ghcr.io/siemens/kas/kas-isar:5.5-debian-trixie      │
 │                                                             │
 │  ┌───────────────────────────────────────────────────────┐ │
-│  │  KAS Build System (v5.0)                              │ │
+│  │  KAS Build System (v5.5)                              │ │
 │  │  • Configuration parsing                              │ │
 │  │  • Repository management                              │ │
 │  │  • BitBake orchestration                              │ │

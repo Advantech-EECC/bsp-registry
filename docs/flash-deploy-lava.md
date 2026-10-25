@@ -22,13 +22,13 @@ plus build arguments.
 
 | Name | Base | KAS | Notes |
 |------|------|-----|-------|
-| `ubuntu-20.04` | Ubuntu 20.04 | 4.7 | Legacy releases (kirkstone and older BSPs) |
-| `ubuntu-22.04` | Ubuntu 22.04 | 5.2 | Default |
-| `ubuntu-22.04-csb` | Ubuntu 22.04 | 5.2 | Adds a bind mount of `$CST_TOOL_PATH` → `/opt/cst` for NXP code signing |
-| `ubuntu-24.04` | Ubuntu 24.04 | 5.2 | |
-| `debian-12` | Debian bookworm | 5.2 | |
-| `debian-13` | Debian trixie | 5.2 | |
-| `isar-debian-13` | Debian trixie | 5.2 | Isar builds. `privileged: true` plus `runtime_args: -p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN` for `debootstrap` and QEMU networking |
+| `ubuntu-20.04` | Ubuntu 20.04 | 5.5 | Legacy releases (kirkstone and older BSPs) |
+| `ubuntu-22.04` | Ubuntu 22.04 | 5.5 | Default |
+| `ubuntu-22.04-csb` | Ubuntu 22.04 | 5.5 | Adds a bind mount of `$CST_TOOL_PATH` → `/opt/cst` for NXP code signing |
+| `ubuntu-24.04` | Ubuntu 24.04 | 5.5 | |
+| `debian-12` | Debian bookworm | 5.5 | |
+| `debian-13` | Debian trixie | 5.5 | |
+| `isar-debian-13` | Debian trixie | 5.5 | Isar builds. `privileged: true` plus `runtime_args: -p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN` for `debootstrap` and QEMU networking |
 
 Images are tagged `advantech/bsp-registry/<name>/kas:<KAS_VERSION>`.
 
