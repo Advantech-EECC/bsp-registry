@@ -769,7 +769,7 @@ bsp export <bsp_name>
 | `containers` | List available containers | `bsp containers` |
 | `flash <bsp_name>` | Flash a built image to a device | `bsp flash modular-bsp-rsb3720-wrynose --device /dev/sdX` |
 | `deploy <bsp_name>` | Upload build artifacts to cloud storage | `bsp deploy modular-bsp-rsb3720-wrynose` |
-| `lava <bsp_name>` | Submit a LAVA test job for a built image | `bsp lava modular-bsp-rsb3720-wrynose` |
+| `test <bsp_name>` | Run tests using the LAVA backend | `bsp test modular-bsp-rsb3720-wrynose --backend lava` |
 
 Global flags:
 
@@ -778,7 +778,7 @@ Global flags:
 | `--local` | Resolve fragments from the local working tree instead of the published registry. Use it when developing registry changes. |
 | `--no-color` | Disable ANSI colour output. Recommended in CI; used by [`azure-pipelines.yml`](azure-pipelines.yml). |
 
-`flash`, `deploy` and `lava` are driven by the corresponding top-level blocks in
+`flash`, `deploy` and LAVA testing are driven by the corresponding top-level blocks in
 `bsp-registry.yml` — see [docs/flash-deploy-lava.md](docs/flash-deploy-lava.md).
 
 > **Preset names:** a preset declared with `releases: [a, b]` is addressed as `<name>-a` /

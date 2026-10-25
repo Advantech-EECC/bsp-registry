@@ -20,7 +20,7 @@ specification:          # registry schema version (currently "2.0")
 include:                # additional registry files merged into this one
 flash:                  # defaults for `bsp flash`
 deploy:                 # defaults for `bsp deploy`
-lava:                   # defaults for `bsp lava`
+lava:                   # defaults for `bsp test --backend lava`
 environment:            # variables exported into every build
 containers:             # container image definitions
 environments:           # named build environments (container + variables)

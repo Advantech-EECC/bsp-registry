@@ -141,10 +141,10 @@ lava:
 | `poll_interval` | Seconds between job-status polls (default 30) |
 
 ```bash
-bsp lava modular-bsp-rsb3720-scarthgap
+bsp test modular-bsp-rsb3720-scarthgap --backend lava
 ```
 
-The typical CI order is **build → deploy → lava**: deployment publishes the image to a URL that
+The typical CI order is **build → deploy → test**: deployment publishes the image to a URL that
 the LAVA job definition then references.
 
 ---

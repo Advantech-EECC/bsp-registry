@@ -42,7 +42,7 @@ SKIPPED_DIRS = {".git", "venv", ".venv", "build", "layers", "node_modules", "__p
 # mentioning a command in passing does not trip the checker.
 FENCE_RE = re.compile(r"^\s*```")
 BSP_COMMAND_RE = re.compile(
-    r"\bbsp\s+(?:--[\w-]+\s+)*(?P<verb>build|shell|export|flash|deploy|lava|show)\s+"
+    r"\bbsp\s+(?:--[\w-]+\s+)*(?P<verb>build|shell|export|flash|deploy|test|show)\s+"
     r"(?P<name>[A-Za-z0-9][\w.-]*)"
 )
 # Inline-code paths such as `vendors/nvidia/README.md` or `isar/distro/debian-trixie.yaml`.
