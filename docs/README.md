@@ -14,7 +14,7 @@ Other documentation elsewhere in the repository:
 |----------|----------|
 | [Root README](../README.md) | Overview, hardware compatibility matrices, quick start, CLI reference |
 | [CONTRIBUTING](../CONTRIBUTING.md) | Repository layout, local checks, CI |
-| [Patches](../patches/README.md) | Inventory of the 24 downstream patches and which fragment applies each |
+| [Patches](../patches/README.md) | Inventory of the 26 downstream patches and which fragment applies each |
 | [Isar](../isar/README.md) | Debian-based builds with Isar |
 | [Building with `repo`](../BUILDING_WITH_REPO.md) | Alternative workflow using Google `repo` manifests |
 

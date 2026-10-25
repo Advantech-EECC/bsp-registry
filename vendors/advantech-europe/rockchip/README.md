@@ -55,7 +55,7 @@ Two consequences matter for the registry:
 | `modular-bsp-rsb4810` | wrynose | `rsb4810` | `rsb4810` | `vendors/advantech-europe/rockchip/machine/rsb4810.yml` |
 
 The buildable target name is `modular-bsp-rsb4810-wrynose`. It selects the `adv-rockchip-1.0.0` vendor
-release and enables the `systemd`, `ipv6` and `usrmerge` features.
+release and enables the `systemd`, `ipv6`, `usrmerge`, `root-login`, `usb-debug` and `wayland` features.
 
 ## Build
 

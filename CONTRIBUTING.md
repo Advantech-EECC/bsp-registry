@@ -7,8 +7,8 @@ checks that run in CI, and how to run them locally.
 
 | Path | Contents |
 |------|----------|
-| `bsp-registry.yml` | The registry — the single source of truth for all buildable configurations |
-| `bsp-registry.nvidia.yaml` | NVIDIA vendor, devices and presets, merged via the top-level `include:` |
+| `bsp-registry.yml` | The root registry — global settings, shared releases and features, and the `include:` list |
+| `bsp-registry.*.yaml` | Vendor registry fragments (isar, qemu, nxp, mediatek, qualcomm, rockchip, advantech, advantech-aim-linux, advantech-europe, nvidia) with their vendors, devices and presets, merged via the top-level `include:` |
 | `yocto/` | Framework base, Yocto releases, distros and generic feature fragments |
 | `isar/` | Isar framework base, versions, distros and helper scripts |
 | `vendors/` | Per-vendor release, machine and feature fragments |

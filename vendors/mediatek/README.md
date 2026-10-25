@@ -31,7 +31,7 @@ cache variables, and the build directory layout.
 
 ## BSPs in the registry
 
-The top-level registry file `bsp-registry.yml` currently exposes the following MediaTek BSP build targets:
+The registry file `bsp-registry.mediatek.yaml` currently exposes the following MediaTek BSP build targets:
 
 | Preset | Releases | Device | Machine config |
 |--------|----------|--------|----------------|

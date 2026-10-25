@@ -27,7 +27,9 @@ All registered features are `compatible_with: [yocto]`.
 | `udev` | [`yocto/features/udev.yaml`](../yocto/features/udev.yaml) | Enable udev |
 | `usrmerge` | [`yocto/features/usrmerge.yaml`](../yocto/features/usrmerge.yaml) | Enable the merged-`/usr` layout |
 | `ipv6` | [`yocto/features/ipv6.yaml`](../yocto/features/ipv6.yaml) | Enable IPv6 |
+| `bash-shell` | [`yocto/features/bash.yaml`](../yocto/features/bash.yaml) | Add the bash shell to the image |
 | `virtualization` | [`yocto/features/virtualization.yaml`](../yocto/features/virtualization.yaml) | Enable container/VM support |
+| `docker` | [`yocto/features/docker.yaml`](../yocto/features/docker.yaml) | Enable Docker support in the image |
 
 ### 1.2. Development and Debug
 
@@ -37,6 +39,8 @@ All registered features are `compatible_with: [yocto]`.
 | `debug-tweaks` | [`yocto/features/debug-tweaks.yaml`](../yocto/features/debug-tweaks.yaml) | Passwordless root, dev-friendly defaults |
 | `root-login` | [`yocto/features/root-login.yaml`](../yocto/features/root-login.yaml) | Permit root login |
 | `ethernet-debug` | [`yocto/features/ethernet-debug.yaml`](../yocto/features/ethernet-debug.yaml) | Ethernet debugging aids |
+| `usb-debug` | [`yocto/features/debug-usb.yaml`](../yocto/features/debug-usb.yaml) | USB debugging aids |
+| `stress-test` | [`yocto/features/stress-test.yaml`](../yocto/features/stress-test.yaml) | Stress-test tools in the image |
 
 > `debug-tweaks` and `root-login` disable authentication safeguards. Do not ship them in
 > production images.
@@ -63,9 +67,9 @@ All registered features are `compatible_with: [yocto]`.
 | `swupdate` | [`features/ota/swupdate/swupdate.yml`](../features/ota/swupdate/swupdate.yml) | [`features/ota/swupdate/modular-bsp-ota-nxp.yml`](../features/ota/swupdate/modular-bsp-ota-nxp.yml) |
 | `ostree` | [`features/ota/ostree/ostree.yml`](../features/ota/ostree/ostree.yml) | [`features/ota/ostree/modular-bsp-ota-nxp.yml`](../features/ota/ostree/modular-bsp-ota-nxp.yml) |
 
-`ostree` additionally carries `release_overrides` for scarthgap, styhead and walnascar
-([`ostree-scarthgap.yml`](../features/ota/ostree/ostree-scarthgap.yml), [`ostree-styhead.yml`](../features/ota/ostree/ostree-styhead.yml), [`ostree-walnascar.yml`](../features/ota/ostree/ostree-walnascar.yml)), because the OSTree layer
-API changed between those releases.
+`ostree` additionally carries `release_overrides` for every supported release —
+[`ostree-scarthgap.yml`](../features/ota/ostree/ostree-scarthgap.yml), [`ostree-styhead.yml`](../features/ota/ostree/ostree-styhead.yml), [`ostree-walnascar.yml`](../features/ota/ostree/ostree-walnascar.yml), [`ostree-whinlatter.yml`](../features/ota/ostree/ostree-whinlatter.yml) and [`ostree-wrynose.yml`](../features/ota/ostree/ostree-wrynose.yml) —
+because the OSTree layer API changed between releases.
 
 ### 1.6. Acceleration
 

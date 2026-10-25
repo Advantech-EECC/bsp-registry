@@ -34,7 +34,7 @@ selection.
 
 ## Where it is used
 
-The `rsb3810` device in `bsp-registry.yml` includes
+The `rsb3810` device in `bsp-registry.advantech-europe.yaml` includes
 `vendors/advantech-europe/mediatek/machine/rsb3810.yaml` to select the machine. The
 `modular-bsp-rsb3810` preset pairs that device with the `mtk-rity-v25.0` vendor release for
 Yocto Scarthgap.
