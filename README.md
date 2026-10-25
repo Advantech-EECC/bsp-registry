@@ -166,7 +166,6 @@ ready-made preset exists and can be built directly with `bsp build <preset>-<rel
 | **ROM-5721 1G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **ROM-5721 2G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **ROM-5722 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **AOM-5521 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **AOM-5521 A1** | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
 | **AOM-5521 A2** | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **AOM-2521 B0** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
