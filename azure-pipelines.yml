@@ -131,3 +131,76 @@ jobs:
           DL_DIR: $(DL_DIR)
           SSTATE_DIR: $(SSTATE_DIR)
 
+  # -----------------------------------------------------------------------------
+  # Job 3: Secure-boot / rootfs-encryption builds
+  #
+  # These builds need NXP's proprietary CST binary and private signing keys and
+  # must only run on the dedicated self-hosted signing pool - never on shared or
+  # cloud agents, and never via GitHub Actions. The job is gated to manual runs.
+  #
+  # Required secret pipeline variables (host paths on the signing agent):
+  #   CST_TOOL_PATH    - NXP CST installation (mounted at /opt/cst)
+  #   SIG_DATA_PATH    - PKI directory with csf_hab4.cfg / csf_ahab.cfg, crts/,
+  #                      keys/ (mounted at /opt/keys/nxp)
+  #   FACTORY_KEYS_DIR - factory signing keys for rootfs encryption (mounted at
+  #                      /opt/keys/factory; may point to an empty directory for
+  #                      secure-boot-only builds, but must exist)
+  # -----------------------------------------------------------------------------
+  - job: BuildSecureBootBSP
+    displayName: "Build Secure Boot BSP"
+    condition: eq(variables['Build.Reason'], 'Manual')
+    pool:
+      name: aeu.de.secure
+
+    strategy:
+      matrix:
+        # NXP reference-design secure boot (meta-secure-boot)
+        rom5721_2g_db5901_secureboot_walnascar:
+          BSP_NAME: modular-bsp-rom5721-2g-db5901-secureboot-walnascar
+        # Advantech secure boot (meta-modular-bsp-extra, HABv4)
+        rom5722_db2510_adv_secureboot_walnascar:
+          BSP_NAME: modular-bsp-rom5722-db2510-adv-secureboot-walnascar
+        rom5722_db2510_rootfs_enc_walnascar:
+          BSP_NAME: modular-bsp-rom5722-db2510-rootfs-enc-walnascar
+        # Advantech secure boot (meta-modular-bsp-extra, AHAB)
+        rom2820_ed93_adv_secureboot_walnascar:
+          BSP_NAME: modular-bsp-rom2820-ed93-adv-secureboot-walnascar
+        rom2820_ed93_rootfs_enc_wrynose:
+          BSP_NAME: modular-bsp-rom2820-ed93-rootfs-enc-wrynose
+
+    timeoutInMinutes: 500
+
+    variables:
+      DL_DIR: "$(Build.SourcesDirectory)/../downloads"
+      SSTATE_DIR: "$(Build.SourcesDirectory)/../sstate-data"
+
+    steps:
+      - checkout: self
+        fetchDepth: 1
+        clean: true
+        displayName: 'Checkout repository'
+
+      - script: |
+          echo "Building Variant: $(BSP_NAME)"
+        displayName: 'Display Variant Info'
+
+      - script: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --user --upgrade bsp-registry-tools
+          echo "##vso[task.prependpath]$HOME/.local/bin"
+          which bsp || true
+          bsp --help || true
+        displayName: "Install bsp-registry-tools and expose bsp on PATH"
+
+      - script: |
+          bsp --local build $(BSP_NAME)
+        displayName: 'Run bsp build (signed)'
+        env:
+          DL_DIR: $(DL_DIR)
+          SSTATE_DIR: $(SSTATE_DIR)
+          # Secret pipeline variables are not exported automatically; map them
+          # explicitly so bsp-registry-tools can expand the $ENV{} volume mounts.
+          CST_TOOL_PATH: $(CST_TOOL_PATH)
+          SIG_DATA_PATH: $(SIG_DATA_PATH)
+          FACTORY_KEYS_DIR: $(FACTORY_KEYS_DIR)
+
