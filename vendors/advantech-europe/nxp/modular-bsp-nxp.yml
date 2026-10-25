@@ -13,3 +13,16 @@ repos:
     path: "layers/meta-nxp-security-reference-design"
     layers:
       meta-secure-boot: "disabled"
+
+  # Advantech secure-boot + rootfs-encryption layers. Drop-in replacement for
+  # NXP's meta-secure-boot above - the two must never be enabled together.
+  # All layers are disabled by default; the adv-secure-boot and
+  # rootfs-encryption features enable them.
+  meta-modular-bsp-extra:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-extra.git"
+    path: "layers/meta-modular-bsp-extra"
+    branch: "main"
+    layers:
+      meta-secure-boot-nxp: "disabled"
+      meta-rootfs-enc-core: "disabled"
+      meta-rootfs-enc-nxp: "disabled"
