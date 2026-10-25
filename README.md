@@ -310,11 +310,20 @@ bsp build modular-bsp-ostree-rsb3720-scarthgap
 
 NXP-based Advantech Europe boards support cryptographic boot-image signing via
 **HAB** (High Assurance Boot, i.MX8 family) and **AHAB** (Advanced High Assurance Boot,
-i.MX9 / i.MX95 family).
+i.MX9 / i.MX95 family). Two mutually exclusive implementations are available:
+
+* **`secure-boot`** — NXP's `meta-secure-boot` reference-design layer
+  (builds dedicated `imx-image-*-secure-boot` targets).
+* **`adv-secure-boot`** — Advantech's `meta-secure-boot-nxp` layer from
+  [meta-modular-bsp-extra](https://github.com/Advantech-EECC/meta-modular-bsp-extra)
+  (signs the standard image targets in place).
+* **`rootfs-encryption`** — `adv-secure-boot` plus dm-crypt root filesystem
+  encryption (CAAM / trusted-key backends) via `meta-rootfs-enc-core`/`-nxp`.
 
 📖 **See [docs/secure-boot.md](docs/secure-boot.md)** for full instructions including:
+- Comparison of the two implementations
 - Obtaining and configuring the NXP Code Signing Tool (CST)
-- Generating SRK keys and certificates
+- Generating SRK keys, certificates and factory signing keys
 - Required environment variables
 - Board fusing / provisioning procedures
 - CI / Azure Pipelines integration
@@ -325,36 +334,59 @@ As with OTA, the registry distinguishes a shipped preset from a supported-but-co
 configuration:
 
 * **🅿️ Preset** — a ready-made secure-boot preset exists
-* **➕ Composable** — the board supports signing; enable it by adding the `secure-boot` feature to
-  the preset's `features:` list in its registry fragment, or by composing
-  `features/secure-boot/secure-boot.yml` with KAS
+* **➕ Composable** — the board supports signing; enable it by adding the corresponding feature
+  to the preset's `features:` list, or by composing the KAS fragment
+  (`features/secure-boot/secure-boot.yml` or `features/secure-boot/adv-secure-boot-nxp.yml` /
+  `features/secure-boot/adv-rootfs-enc-nxp.yml`) with KAS
+* **⚠️ Work in progress** — known limitation, see footnotes
 
-| Board              | SoC Family | Secure Boot | Support | Yocto Releases                        |
-|--------------------|-----------|-------------|:-------:|---------------------------------------|
-| ROM-2620 (ed91)    | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| ROM-5720 (db5901)  | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| ROM-5721 (db5901)  | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar         |
-| ROM-5721 1G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
-| ROM-5721 2G        | i.MX8     | HAB         | 🅿️ | walnascar (preset), whinlatter, wrynose |
-| ROM-5722 (db2510)  | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| RSB-3720           | i.MX8     | HAB         | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| RSB-3720 4G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
-| RSB-3720 6G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
-| ROM-2820 (ed93)    | i.MX9     | AHAB        | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| AOM-5521 A2        | i.MX95    | AHAB        | ➕ | walnascar, wrynose                       |
+| Board              | SoC Family | Secure Boot | `secure-boot` | `adv-secure-boot` | `rootfs-encryption` | Yocto Releases                        |
+|--------------------|-----------|-------------|:-------------:|:-----------------:|:-------------------:|----------------------------------------|
+| ROM-2620 (ed91)    | i.MX8     | HAB         | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| ROM-5720 (db5901)  | i.MX8     | HAB         | ➕ | ➕ | ➕ ¹ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| ROM-5721 (db5901)  | i.MX8     | HAB         | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar         |
+| ROM-5721 1G        | i.MX8     | HAB         | ➕ | ➕ | ➕ | walnascar, whinlatter, wrynose        |
+| ROM-5721 2G        | i.MX8     | HAB         | 🅿️ | ➕ | ➕ | walnascar (preset), whinlatter, wrynose |
+| ROM-5722 (db2510)  | i.MX8     | HAB         | ➕ | 🅿️ | 🅿️ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| RSB-3720           | i.MX8     | HAB         | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| RSB-3720 4G        | i.MX8     | HAB         | ➕ | ➕ | ➕ | walnascar, whinlatter, wrynose        |
+| RSB-3720 6G        | i.MX8     | HAB         | ➕ | ➕ | ➕ | walnascar, whinlatter, wrynose        |
+| ECU-150A1          | i.MX8     | HAB         | ➕ | ⚠️ ² | ⚠️ ² | walnascar                             |
+| ROM-2820 (ed93)    | i.MX9     | AHAB        | ➕ | 🅿️ | 🅿️ | walnascar, whinlatter, wrynose (adv); scarthgap, styhead too for `secure-boot` |
+| AOM-5521 (db2510)  | i.MX95    | AHAB        | ➕ | ➕ | ➕ / ⚠️ ³ | walnascar, whinlatter, wrynose        |
 
-The only secure-boot preset shipped today is `modular-bsp-rom5721-2g-db5901-secureboot`
-(walnascar). The listed releases are those for which the board has a preset that the
-`secure-boot` feature can be added to.
+> ¹ Rootfs encryption on ROM-5620 (db5901) is work in progress on wrynose.
+> ² Secure boot on ECU-150A1 is work in progress on all releases except walnascar.
+> ³ Rootfs encryption on AOM-5521 A2 (db2510) is work in progress on all releases.
+
+The shipped secure-boot presets are `modular-bsp-rom5721-2g-db5901-secureboot` (walnascar,
+NXP reference design) and the meta-modular-bsp-extra presets
+`modular-bsp-rom5722-db2510-adv-secureboot`, `modular-bsp-rom5722-db2510-rootfs-enc`
+(scarthgap … wrynose) and `modular-bsp-rom2820-ed93-adv-secureboot`,
+`modular-bsp-rom2820-ed93-rootfs-enc` (walnascar, whinlatter, wrynose). The listed
+releases are those for which the board has a preset that the corresponding feature can
+be added to; the meta-modular-bsp-extra layers do not support kirkstone.
 
 #### 2.1.4.2. Building Images with Secure Boot
 
 ```bash
+# --- NXP reference design (secure-boot) ---
 # Export signing environment variables before building
 export CST_TOOL_PATH=/opt/cst
 
 # Build a signed image (example: ROM-5721, Walnascar release)
 bsp build  modular-bsp-rom5721-2g-db5901-secureboot-walnascar
+
+# --- Advantech meta-modular-bsp-extra (adv-secure-boot / rootfs-encryption) ---
+# HABv4 secure boot (ROM-5722, Walnascar)
+export CST_TOOL_PATH=/opt/cst-4.0.1
+export SIG_DATA_PATH=/opt/private/keys/nxp/hab4_rsa2048_sha256
+export FACTORY_KEYS_DIR=/opt/private/keys/factory   # must exist; may be empty for secure-boot-only
+bsp build modular-bsp-rom5722-db2510-adv-secureboot-walnascar
+
+# AHAB secure boot + rootfs encryption (ROM-2820, Wrynose)
+export SIG_DATA_PATH=/opt/private/keys/nxp/ahab_ecc256_sha256_no_ca_flag
+bsp build modular-bsp-rom2820-ed93-rootfs-enc-wrynose
 ```
 
 ## 2.2. Isar Build System Support
@@ -1084,7 +1116,7 @@ For detailed information about each patch, including what they fix and which com
 * [Adding a board](docs/adding-a-board.md) - Checklist for onboarding new hardware
 * [Feature catalogue](docs/features.md) - Registered, preview and vendor-bundled feature fragments
 * [Flash, deploy and LAVA](docs/flash-deploy-lava.md) - Post-build workflows and container environments
-* [Secure boot](docs/secure-boot.md) - NXP HAB/AHAB image signing
+* [Secure boot](docs/secure-boot.md) - NXP HAB/AHAB image signing (reference design and meta-modular-bsp-extra) and rootfs encryption
 * [Patches](patches/README.md) - Inventory of downstream patches
 * [Isar builds](isar/README.md) - Debian-based images
 * [Contributing](CONTRIBUTING.md) - Repository layout, local checks and CI

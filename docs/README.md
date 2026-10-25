@@ -6,7 +6,7 @@
 | [Adding a Board](adding-a-board.md) | The four wiring points needed to make a new board appear in `bsp list`, plus vendor-specific gotchas |
 | [Feature Catalogue](features.md) | Registered features, preview fragments, vendor-bundled fragments, manual KAS composition |
 | [Flash, Deploy and LAVA](flash-deploy-lava.md) | Containers, environments, and the `flash` / `deploy` / `lava` configuration blocks |
-| [Secure Boot](secure-boot.md) | NXP HAB/AHAB signing, supported boards, key management |
+| [Secure Boot](secure-boot.md) | NXP HAB/AHAB signing (NXP reference design and Advantech meta-modular-bsp-extra), rootfs encryption, supported boards, key management |
 
 Other documentation elsewhere in the repository:
 
