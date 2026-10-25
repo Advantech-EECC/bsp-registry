@@ -19,3 +19,5 @@ local_conf_header:
     PATCHRESOLVE = "noop"
 
     CORE_IMAGE_EXTRA_INSTALL += " htop"
+
+    BB_HASHSERVE_DB_DIR = "${SSTATE_DIR}"
