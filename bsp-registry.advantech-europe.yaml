@@ -212,7 +212,7 @@ registry:
       description: "Advantech RSB-4810 (Rockchip RK3568)"
       device: rsb4810
       releases: [wrynose]
-      vendor_release: rk3568-1.0.0
+      vendor_release: adv-rockchip-1.0.0
       features: [systemd, ipv6, usrmerge, ipv6, root-login, usb-debug, wayland]
       build:
         path: build/modular-bsp-rsb4810

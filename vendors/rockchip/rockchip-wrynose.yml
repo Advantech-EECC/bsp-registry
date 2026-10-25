@@ -3,21 +3,34 @@ header:
   includes:
     - vendors/rockchip/rockchip-common.yml
 
-# Community Rockchip BSP layer maintained by Trevor Woerner on
-# git.yoctoproject.org.  It builds mainline U-Boot and linux-yocto and
-# depends only on `core` and `meta-arm`; meta-arm is provided by
-# yocto/yocto.yaml and tracks the wrynose branch via the defaults in
-# yocto/releases/wrynose.yml.
-#
-# The RK3568 and RK3588(S) machine includes set ROCKCHIP_CLOSED_TPL = "1",
-# which pulls the proprietary rkbin DDR initialiser, TF-A and OP-TEE blobs
-# (recipes-bsp/rkbin, LICENSE = "Proprietary").  RK3399 has no such setting
-# and builds entirely from open source.
 repos:
   meta-rockchip:
-    url: "https://git.yoctoproject.org/meta-rockchip"
     branch: "wrynose"
     commit: "9d02575bfd9ca5e87c394f593f2bbdbdee914d4e"
-    path: "layers/meta-rockchip"
-    layers:
-      .:
+
+  bitbake:
+    commit: "1763256342ae4d7f8028e8222400c6fc8c24d4a3"
+
+  openembedded-core:
+    commit: "884a91e689d545238cfabd7926c93663950ca286"
+
+  meta-yocto:
+    commit: "7c25b11156553145fa6b241a2d4f65d94438f804"
+
+  poky:
+    commit: "5c2b3d184065b0a15695bad7db455ef65653e4c6"
+
+  meta-openembedded:
+    commit: "f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
+
+  meta-selinux:
+    commit: "1c3a699f363167571ab39fecb0fe6f56691a4e20"
+
+  meta-security:
+    commit: "2703974d5e2d61b221dffa302c2e059a522adbf3"
+
+  meta-arm:
+    commit: "673e8d7c5dcd14de58092eb73e6ecc5eee5c1735"
+
+  meta-virtualization:
+    commit: "18d58082b2458cf85438ac6e0f2f1fd0153318cb"

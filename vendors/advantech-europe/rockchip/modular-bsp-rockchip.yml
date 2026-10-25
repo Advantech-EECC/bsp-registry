@@ -23,7 +23,7 @@ header:
 # KAS actually checks out, so the build is reproducible either way.
 repos:
   meta-modular-bsp-rockchip:
-    url: "https://github.com/miketsukerman/meta-modular-bsp-rockchip.git"
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-rockchip.git"
     path: "layers/meta-modular-bsp-rockchip"
     layers:
       .:

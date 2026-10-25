@@ -631,10 +631,10 @@ registry:
               includes:
                 - vendors/advantech-europe/rockchip/modular-bsp-rockchip.yml
               releases:
-                - slug: rk3568-1.0.0
-                  description: "Advantech Rockchip RK3568 BSP 1.0.0 (Yocto 6.0 Wrynose)"
+                - slug: adv-rockchip-1.0.0
+                  description: "Advantech Rockchip BSP 1.0.0 (Yocto 6.0 Wrynose)"
                   includes:
-                    - vendors/advantech-europe/rockchip/rk3568-1.0.0-wrynose.yml
+                    - vendors/advantech-europe/rockchip/adv-rockchip-1.0.0-wrynose.yml
         - vendor: nvidia
           distro: 
           releases:

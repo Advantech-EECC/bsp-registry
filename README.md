@@ -35,7 +35,7 @@ The registry supports two build systems:
     - [2.2.3. Building Isar BSPs](#223-building-isar-bsps)
     - [2.2.4. Isar Container Configuration](#224-isar-container-configuration)
     - [2.2.5. Isar Resources](#225-isar-resources)
-  - [2.3. MediaTek Boards Compatibility Matrix \[preview\]](#23-mediatek-boards-compatibility-matrix-preview)
+  - [2.3. MediaTek Boards Compatibility Matrix](#23-mediatek-boards-compatibility-matrix-preview)
     - [2.3.1. Building MediaTek BSPs](#231-building-mediatek-bsps)
   - [2.4. Qualcomm Boards Compatibility Matrix](#24-qualcomm-boards-compatibility-matrix)
     - [2.4.1. Building Qualcomm BSPs](#241-building-qualcomm-bsps)
@@ -608,6 +608,7 @@ and `whinlatter` is a stub branch that never received the fixes present on `wryn
 | **Radxa ROCK 3A**    |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
 | **Radxa ROCK Pi 4C** |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
 | **Advantech RSB-4810** |    ❌     |     ❌     |    🅿️    | 🧪 Preliminary |
+| **Advantech ROM-6881** |    ❌     |     ❌     |    ❌    | 🧪 Planned   |
 
 **Status Legend:**
 
@@ -623,6 +624,7 @@ and `whinlatter` is a stub branch that never received the fixes present on `wryn
 | **Radxa ROCK 3A**    | `rock-3a` | RK3568 | scarthgap, walnascar, wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 3A](https://radxa.com/products/rock3/3a) |
 | **Radxa ROCK Pi 4C** | `rock-pi-4c` | RK3399 | scarthgap, walnascar, wrynose | fully open source | 🟡 Development | [Radxa ROCK Pi 4](https://radxa.com/products/rock4) |
 | **Advantech RSB-4810** | `modular-bsp-rsb4810` | RK3568 | wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🧪 Preliminary | [Advantech Rockchip README](vendors/advantech-europe/rockchip/README.md) |
+| **Advantech ROM-6881-DB2510** | `modular-bsp-rom6881-db2510` | RK3588 | wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🧪 Planned | [Advantech Rockchip README](vendors/advantech-europe/rockchip/README.md) |
 
 The RK3568 and RK3588 machine includes set `ROCKCHIP_CLOSED_TPL = "1"`, which pulls proprietary
 `rockchip-rkbin` binaries into the boot chain. RK3399 does not, and builds entirely from source.
