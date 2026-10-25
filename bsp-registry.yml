@@ -662,6 +662,12 @@ registry:
       includes:
         - yocto/features/systemd.yaml
 
+    - slug: opengl
+      description: "Enable OpenGL support in the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/opengl.yaml
+
     - slug: bash-shell
       description: "Add bash shell to the image"
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
