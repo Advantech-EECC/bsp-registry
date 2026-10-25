@@ -1049,7 +1049,7 @@ BBFILE_COLLECTIONS += "custom"
 BBFILE_PATTERN_custom = "^${LAYERDIR}/"
 BBFILE_PRIORITY_custom = "10"
 LAYERVERSION_custom = "0.1"
-LAYERSERIES_COMPAT_custom = "whinlatter"
+LAYERSERIES_COMPAT_custom = "wrynose"
 LAYERDEPENDS_custom = "eecc-nxp"
 ```
 
