@@ -117,9 +117,10 @@ top-level `include:` directive of `bsp-registry.yml`:
 | `bsp-registry.yml` | Root registry: global settings (flash, deploy, lava, environments, containers), the Yocto framework, the common Poky-based distros, the shared Yocto releases, the features and the `include:` list |
 | `bsp-registry.isar.yaml` | Isar framework, the `isar-v0.11` / `isar-v1.0` distros and the Debian/Ubuntu releases |
 | `bsp-registry.qemu.yaml` | `qemu` vendor, the emulated devices and their Yocto/Isar presets |
-| `bsp-registry.nxp.yaml` | `nxp` vendor, the `fsl-imx-xwayland` distro, the NXP i.MX EVK devices and the `nxp-*` presets |
+| `bsp-registry.nxp.yaml` | `nxp` vendor, the `fsl-imx-xwayland` distro and the NXP i.MX EVK devices. The `nxp-*` EVK presets are currently commented out, so no `nxp-*` preset exists |
 | `bsp-registry.mediatek.yaml` | `mediatek` vendor, the MediaTek reference devices and their presets |
 | `bsp-registry.qualcomm.yaml` | `qualcomm` vendor, the Qualcomm reference devices and their presets |
+| `bsp-registry.rockchip.yaml` | `rockchip` vendor, the Radxa ROCK reference devices and their presets |
 | `bsp-registry.advantech.yaml` | `advantech` vendor, the Advantech boards and their presets |
 | `bsp-registry.advantech-aim-linux.yaml` | `advantech-aim-linux` vendor, the Advantech AIM Linux boards and their presets |
 | `bsp-registry.advantech-europe.yaml` | `advantech-europe` vendor, the Advantech Europe (modular BSP) boards and their presets |
@@ -149,7 +150,8 @@ The BSP build system is designed to support a wide range of hardware platforms, 
 
 ## 2.1. NXP Boards Compatibility Matrix
 
-The table below is derived from the presets defined in `bsp-registry.yml`. A ✅ means a
+The table below is derived from the presets defined in the registry (the Advantech vendor
+fragments merged through the `include:` list of `bsp-registry.yml`). A ✅ means a
 ready-made preset exists and can be built directly with `bsp build <preset>-<release>`.
 
 | Board \ Yocto  | wrynose | whinlatter | walnascar | styhead | scarthgap | mickledore | kirkstone |
@@ -164,9 +166,10 @@ ready-made preset exists and can be built directly with `bsp build <preset>-<rel
 | **ROM-5721 1G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **ROM-5721 2G** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **ROM-5722 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **AOM-5521 (DB2510)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **AOM-5521 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **AOM-5521 A1** | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
 | **AOM-5521 A2** | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **AOM-2521 B0** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **ECU-150** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 **Legend:**
@@ -201,6 +204,7 @@ preset name (for example `bsp build advantech-rsb3730-mickledore`).
 | **RSB-3720**    | `modular-bsp-rsb3720` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech RSB-3720 Product Page](https://www.advantech.com/en-us/products/5912096e-f242-4b17-993a-1acdcaada6f6/rsb-3720/mod_d2f1b0bc-650b-449a-8ef7-b65ce4f69949) · [User Manual](https://www.manualslib.com/manual/2293645/Advantech-Rsb-3720.html) |
 | **RSB-3720 4G** | `modular-bsp-rsb3720-4g` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as RSB-3720, variant-specific)* |
 | **RSB-3720 6G** | `modular-bsp-rsb3720-6g` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as RSB-3720, variant-specific)* |
+| **RSB-3720 (ROS 2)** | `modular-ros-bsp-rsb3720` | ros2-humble-scarthgap | 🟡 Development | *(Same as RSB-3720, ROS 2 Humble image)* |
 | **RSB-3730**    | `advantech-rsb3730-mickledore` | mickledore | 🟡 Development | [Advantech RSB-3730 Product Page](https://www.advantech.com/en-eu/products/5912096e-f242-4b17-993a-1acdcaada6f6/rsb-3730/mod_5d7887e6-b7e3-427c-8729-b81ac7d89ccd) · [RSB-3730 User Manual (PDF)](https://advdownload.advantech.com/productfile/Downloadfile4/1-2HACYHA/RSB-3730_User_Manual_Eng_yocto%20Ed.1_FINAL.pdf) · [Yocto BSP Guide](https://ess-wiki.advantech.com.tw/view/Yocto_Linux_BSP_Ver.A_User_Guide_for_RSB-3730_series-Yocto_4.2) |
 | **ROM-2620**    | `modular-bsp-rom2620-ed91` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-2620 Product Page](https://www.advantech.com/en-eu/products/8fc6f753-ca1d-49f9-8676-10d53129570f/rom-2620/mod_294031c8-4a21-4b95-adf2-923c412ef761) |
 | **ROM-2820**    | `modular-bsp-rom2820-ed93` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-2820 Product Page](https://www.advantech.com/en-eu/products/8fc6f753-ca1d-49f9-8676-10d53129570f/rom-2820/mod_bb82922e-d3a2-49d7-80ff-dc57f400185e) |
@@ -209,12 +213,13 @@ preset name (for example `bsp build advantech-rsb3730-mickledore`).
 | **ROM-5721 1G** | `modular-bsp-rom5721-1g-db5901` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as ROM-5721, variant-specific)* |
 | **ROM-5721 2G** | `modular-bsp-rom5721-2g-db5901` | walnascar, whinlatter, wrynose | 🟢 Stable | *(Same as ROM-5721, variant-specific)* |
 | **ROM-5722**    | `modular-bsp-rom5722-db2510` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech ROM-5722 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/rom-5722/mod_11aa0c77-868e-4014-8151-ac7a7a1c5c1b) |
-| **AOM-5521 (DB2510)** | `modular-bsp-aom5521a1-db2510` | walnascar, whinlatter, wrynose | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
-| **AOM-5521 (DB2510)** | `modular-bsp-aom5521a2-db2510` | walnascar | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
+| **AOM-5521 (DB2510)** | `modular-bsp-aom5521a1-db2510` | scarthgap, styhead, walnascar, whinlatter | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
+| **AOM-5521 (DB2510)** | `modular-bsp-aom5521a2-db2510` | walnascar, wrynose | 🟢 Stable | [Advantech AOM-5521 Product Page](https://www.advantech.com/en-eu/products/77b59009-31a9-4751-bee1-45827a844421/aom-5521/mod_75b36e99-ac3f-4801-8b2b-1706ade1025d) |
 | **AOM-5521 A1** | `advantech-imx95aom5521a1` | scarthgap, walnascar | 🟡 Development | *(Same as above)* |
 | **AOM-5521 A2** | `advantech-imx95aom5521a2` | walnascar | 🟡 Development | *(Same as above)* |
+| **AOM-2521 B0** | `modular-bsp-aom2521b0` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟡 Development | [Advantech AOM-2521 Product Page](https://www.advantech.com/en/products/som/aom-2521) |
 | **AOM-2521 B0** | `advantech-imx95aom2521b0` | walnascar, whinlatter | 🟡 Development | [Advantech AOM-2521 Product Page](https://www.advantech.com/en/products/som/aom-2521) |
-| **ECU-150**     | `modular-bsp-ecu-150` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟡 Development | [Advantech ECU-150 Product page](https://www.advantech.com/en-us/products/7332cf9e-bf70-4a79-b0b6-fd8a2182cd72/ecu-150/mod_7af3b0b8-4e52-4ed2-bbdc-22ad3222def0) |
+| **ECU-150**     | `modular-bsp-ecu150a1` | scarthgap, styhead, walnascar, whinlatter, wrynose | 🟡 Development | [Advantech ECU-150 Product page](https://www.advantech.com/en-us/products/7332cf9e-bf70-4a79-b0b6-fd8a2182cd72/ecu-150/mod_7af3b0b8-4e52-4ed2-bbdc-22ad3222def0) |
 
 **Status Legend:**
 
@@ -252,7 +257,8 @@ The registry distinguishes two levels of support:
 
 * **🅿️ Preset** — a ready-made preset exists; build it directly with `bsp build <preset>-<release>`
 * **➕ Composable** — the OTA feature is supported on the board and can be enabled by adding the
-  feature to the preset's `features:` list in `bsp-registry.yml`, or by composing the feature
+  feature to the preset's `features:` list in its registry fragment
+  (`bsp-registry.advantech-europe.yaml`), or by composing the feature
   fragment manually with KAS. No preset is shipped today.
 
 | Board | RAUC | SWUpdate | OSTree | Supported Releases |
@@ -268,7 +274,7 @@ The registry distinguishes two levels of support:
 | **ROM-5722 (DB2510)** | ➕ | ➕ | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
 
 The three presets shipped today are `modular-bsp-rauc-rsb3720`, `modular-bsp-swupdate-rsb3720`
-and `modular-bsp-ostree-rsb3720`, each available for scarthgap through wrynose. The `qcs6490-rb3gen2-vision-kit`
+and `modular-bsp-ostree-rsb3720`, each available for scarthgap through wrynose. Every Qualcomm
 preset also enables the `ostree` feature.
 
 The corresponding feature fragments live under `features/ota/`:
@@ -281,7 +287,8 @@ The corresponding feature fragments live under `features/ota/`:
 
 OSTree additionally carries per-release compatibility fragments:
 `features/ota/ostree/ostree-scarthgap.yml`, `features/ota/ostree/ostree-styhead.yml`,
-`features/ota/ostree/ostree-walnascar.yml` and `features/ota/ostree/ostree-whinlatter.yml`.
+`features/ota/ostree/ostree-walnascar.yml`, `features/ota/ostree/ostree-whinlatter.yml` and
+`features/ota/ostree/ostree-wrynose.yml`.
 
 #### 2.1.3.3. Building Images with OTA Support
 
@@ -321,7 +328,8 @@ configuration:
 
 * **🅿️ Preset** — a ready-made secure-boot preset exists
 * **➕ Composable** — the board supports signing; enable it by adding the `secure-boot` feature to
-  the preset's `features:` list, or by composing `features/secure-boot/secure-boot.yml` with KAS
+  the preset's `features:` list in its registry fragment, or by composing
+  `features/secure-boot/secure-boot.yml` with KAS
 
 | Board              | SoC Family | Secure Boot | Support | Yocto Releases                        |
 |--------------------|-----------|-------------|:-------:|---------------------------------------|
@@ -335,7 +343,7 @@ configuration:
 | RSB-3720 4G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
 | RSB-3720 6G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
 | ROM-2820 (ed93)    | i.MX9     | AHAB        | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| AOM-5521 (db2510)  | i.MX95    | AHAB        | ➕ | walnascar, whinlatter, wrynose        |
+| AOM-5521 (db2510)  | i.MX95    | AHAB        | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
 
 The only secure-boot preset shipped today is `modular-bsp-rom5721-2g-db5901-secureboot`
 (walnascar). The listed releases are those for which the board has a preset that the
@@ -390,7 +398,8 @@ The registry includes Isar-based BSP configurations for the following targets:
 
 All Isar presets currently target QEMU. Real hardware can be added through the
 [meta-modular-bsp-isar](https://github.com/Advantech-EECC/meta-modular-bsp-isar) layer by
-registering a device and a preset in `bsp-registry.yml`.
+registering a device and a preset in a registry fragment (for example
+`bsp-registry.qemu.yaml`, where the current Isar devices and presets live).
 
 ### 2.2.3. Building Isar BSPs
 
@@ -411,7 +420,7 @@ bsp build isar-qemuamd64-ubuntu-noble
 Isar builds use the `isar-debian-13` container, which is automatically configured with:
 * Privileged mode for package management operations
 * Based on official kas-isar container images
-* KAS version 5.2
+* KAS version 5.5
 * Debian Trixie base distribution
 * Extra runtime arguments for TUN/TAP networking, required to run the built image under QEMU
 
@@ -419,12 +428,12 @@ The container definition in `bsp-registry.yml`:
 ```yaml
 - isar-debian-13:
     file: Dockerfile.isar.debian
-    image: "advantech/bsp-registry/isar/debian-13/kas:5.2"
+    image: "advantech/bsp-registry/isar/debian-13/kas:5.5"
     privileged: true
     runtime_args: "-p 2222:2222 --device=/dev/net/tun --cap-add=NET_ADMIN"
     args:
       - name: "KAS_VERSION"
-        value: "5.2"
+        value: "5.5"
       - name: "DISTRO"
         value: "debian-trixie"
 ```
@@ -609,13 +618,14 @@ and `whinlatter` is a stub branch that never received the fixes present on `wryn
 | **Radxa ROCK 3A**    |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
 | **Radxa ROCK Pi 4C** |     🅿️     |     🅿️     |    🅿️    | 🟡 Development |
 | **Advantech RSB-4810** |    ❌     |     ❌     |    🅿️    | 🧪 Preliminary |
-| **Advantech ROM-6881** |    ❌     |     ❌     |    ❌    | 🧪 Planned   |
+| **Advantech ROM-6881** |    ❌     |     ❌     |    ❌    | 📅 Planned   |
 
 **Status Legend:**
 
 * 🟢 **Stable**: Production-ready, fully tested and supported
 * 🟡 **Development**: Under active development, may have limitations
 * 🧪 **Preliminary**: a preset is shipped, but it has not been build- or boot-tested
+* 📅 **Planned**: board is planned, but no device or preset exists in the registry yet
 * 🅿️ **Preset available**: a preset is shipped for this board and release
 * ❌ **Not offered**: no preset for this board/release combination
 
@@ -625,7 +635,7 @@ and `whinlatter` is a stub branch that never received the fixes present on `wryn
 | **Radxa ROCK 3A**    | `rock-3a` | RK3568 | scarthgap, walnascar, wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🟡 Development | [Radxa ROCK 3A](https://radxa.com/products/rock3/3a) |
 | **Radxa ROCK Pi 4C** | `rock-pi-4c` | RK3399 | scarthgap, walnascar, wrynose | fully open source | 🟡 Development | [Radxa ROCK Pi 4](https://radxa.com/products/rock4) |
 | **Advantech RSB-4810** | `modular-bsp-rsb4810` | RK3568 | wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🧪 Preliminary | [Advantech Rockchip README](vendors/advantech-europe/rockchip/README.md) |
-| **Advantech ROM-6881-DB2510** | `modular-bsp-rom6881-db2510` | RK3588 | wrynose | rkbin blobs (TF-A, OP-TEE, DDR init) | 🧪 Planned | [Advantech Rockchip README](vendors/advantech-europe/rockchip/README.md) |
+| **Advantech ROM-6881-DB2510** | *(none — planned, not yet in the registry)* | RK3588 | — | rkbin blobs (TF-A, OP-TEE, DDR init) | 📅 Planned | [Advantech Rockchip README](vendors/advantech-europe/rockchip/README.md) |
 
 The RK3568 and RK3588 machine includes set `ROCKCHIP_CLOSED_TPL = "1"`, which pulls proprietary
 `rockchip-rkbin` binaries into the boot chain. RK3399 does not, and builds entirely from source.
@@ -717,7 +727,7 @@ The BSP Registry Manager supports:
 
 ## 3.2. Installation
 
-The BSP Registry Manager requires Python 3.7+ and is installed via pip. A virtual environment is recommended to avoid conflicts with system packages:
+The BSP Registry Manager requires Python 3.8+ and is installed via pip. A virtual environment is recommended to avoid conflicts with system packages:
 
 ```bash
 # Optional: create and activate a virtual environment
@@ -753,15 +763,15 @@ bsp export <bsp_name>
 |---------|-------------|---------|
 | `list` | List all available BSPs | `bsp list` |
 | `tree` | Show all available BSPs as a tree | `bsp tree` |
-| `build <bsp_name>` | Build a specific BSP | `bsp build imx8mpevk` |
-| `build <bsp_name> --checkout` | Checkout and validate BSP configuration without building (fast) | `bsp build imx8mpevk --checkout` |
-| `shell <bsp_name>` | Enter interactive shell | `bsp shell imx8mpevk` |
-| `export <bsp_name>` | Export KAS configuration | `bsp export imx8mpevk` |
-| `show <bsp_name>` | Show the resolved configuration for a BSP | `bsp show imx8mpevk` |
+| `build <bsp_name>` | Build a specific BSP | `bsp build modular-bsp-rsb3720-wrynose` |
+| `build <bsp_name> --checkout` | Checkout and validate BSP configuration without building (fast) | `bsp build modular-bsp-rsb3720-wrynose --checkout` |
+| `shell <bsp_name>` | Enter interactive shell | `bsp shell modular-bsp-rsb3720-wrynose` |
+| `export <bsp_name>` | Export KAS configuration | `bsp export modular-bsp-rsb3720-wrynose` |
+| `show <bsp_name>` | Show the resolved configuration for a BSP | `bsp show modular-bsp-rsb3720-wrynose` |
 | `containers` | List available containers | `bsp containers` |
-| `flash <bsp_name>` | Flash a built image to a device | `bsp flash imx8mpevk --device /dev/sdX` |
-| `deploy <bsp_name>` | Upload build artifacts to cloud storage | `bsp deploy imx8mpevk` |
-| `lava <bsp_name>` | Submit a LAVA test job for a built image | `bsp lava imx8mpevk` |
+| `flash <bsp_name>` | Flash a built image to a device | `bsp flash modular-bsp-rsb3720-wrynose --device /dev/sdX` |
+| `deploy <bsp_name>` | Upload build artifacts to cloud storage | `bsp deploy modular-bsp-rsb3720-wrynose` |
+| `lava <bsp_name>` | Submit a LAVA test job for a built image | `bsp lava modular-bsp-rsb3720-wrynose` |
 
 Global flags:
 
@@ -819,11 +829,11 @@ The host system must provide essential tools and libraries required for building
 * Docker
 * Git
 
-The build have been tested on the following host systems: `Ubuntu 22.04`, `Ubuntu 24.04`
+The builds have been tested on the following host systems: `Ubuntu 22.04`, `Ubuntu 24.04`
 
 ### 4.1.1. Setup Python virtual environment
 
-It is recommended to install python based tools and packages in a separate python virtual envronment, which could be created
+It is recommended to install python based tools and packages in a separate python virtual environment, which could be created
 using python virtualenv package.
 
 ```bash
@@ -864,7 +874,7 @@ To run docker from a non root user (which is required) please follow instruction
 sudo usermod -aG docker $USER
 ```
 
-and reboot or re-login the system for the changes to take affect.
+and reboot or re-login the system for the changes to take effect.
 
 #### 4.1.2.1. Docker `buildx`
 
@@ -889,7 +899,7 @@ source venv/bin/activate
 
 # add proper KAS configuration variables to your environment
 export KAS_CONTAINER_ENGINE=docker
-export KAS_CONTAINER_IMAGE=advantech/bsp-registry/ubuntu:22.04
+export KAS_CONTAINER_IMAGE=advantech/bsp-registry/ubuntu-22.04/kas:5.5
 export GITCONFIG_FILE=$HOME/.gitconfig
 export DL_DIR=$HOME/cache/downloads/
 export SSTATE_DIR=$HOME/cache/sstate/
@@ -908,7 +918,7 @@ For example:
 
 ```bash
 export KAS_CONTAINER_ENGINE=docker
-export KAS_CONTAINER_IMAGE=advantech/bsp-registry/ubuntu:22.04
+export KAS_CONTAINER_IMAGE=advantech/bsp-registry/ubuntu-22.04/kas:5.5
 ```
 
 Container image should have `kas` tool installed inside and use [scripts/kas/container-entrypoint](./scripts/kas/container-entrypoint) script. Check [Dockerfile.ubuntu](./Dockerfile.ubuntu) for reference.
@@ -962,7 +972,7 @@ This chapter provides overview of advanced topics working with KAS build configu
 
 ## 5.1. Export KAS configuration
 
-kas tool can dump final configuration in standart output with `kas dump` command
+kas tool can dump final configuration in standard output with `kas dump` command
 
 ```bash
 kas dump kas-configuration-file.yaml > final.yaml
@@ -975,13 +985,18 @@ For details check https://kas.readthedocs.io/en/latest/userguide/plugins.html#mo
 ## 5.2. Lock KAS configuration
 
 Similar to `kas dump` there is a `kas lock` command, it would generate a yaml file with all layer revisions. 
-For datailed overview check official kas documentation https://kas.readthedocs.io/en/latest/userguide/plugins.html#module-kas.plugins.lock
+For detailed overview check official kas documentation https://kas.readthedocs.io/en/latest/userguide/plugins.html#module-kas.plugins.lock
 
 ## 5.3. Reusing BSP Registry configurations
 
-It is possible to include BSP registry YAML configurations in your images (provided your project uses kas to assemble OS images). An example KAS configuration 
+It is possible to include BSP registry YAML configurations in your images (provided your project
+uses kas to assemble OS images).
 
-To extend an existing BSP with a custom Yocto layer create a following kas config:
+To extend an existing BSP with a custom Yocto layer create a following kas config. The included
+file is a KAS configuration exported from the registry (see
+[§5.1](#51-export-kas-configuration) — for example
+`bsp export modular-bsp-rsb3720-6g-whinlatter`) and committed to the referenced repository; it is
+not shipped by this repository itself:
 
 ```yaml
 header:
@@ -996,13 +1011,13 @@ repos:
       meta-custom:
 
   bsp-registry:
-    url: "https://github.com/Advantech-EECC/modular-bsp-build"
+    url: "https://github.com/Advantech-EECC/bsp-registry"
     branch: "main"
     layers:
       .: "disabled"
 ```
 
-where `meta-custom` repository scructure looks like:
+where `meta-custom` repository structure looks like:
 
 ```bash
 (venv) ➜  meta-custom
@@ -1036,7 +1051,7 @@ BBFILE_COLLECTIONS += "custom"
 BBFILE_PATTERN_custom = "^${LAYERDIR}/"
 BBFILE_PRIORITY_custom = "10"
 LAYERVERSION_custom = "0.1"
-LAYERSERIES_COMPAT_custom = "scarthgap"
+LAYERSERIES_COMPAT_custom = "whinlatter"
 LAYERDEPENDS_custom = "eecc-nxp"
 ```
 
