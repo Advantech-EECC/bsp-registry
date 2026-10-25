@@ -40,12 +40,15 @@ patches/
 │   └── wrynose/            # Patches for Yocto Wrynose release
 ├── mediatek/               # MediaTek vendor-specific patches
 │   └── scarthgap/          # Patches for the Rity Scarthgap BSP
+├── ota/                    # Release-specific OTA patches
+│   └── ostree/
+│       └── wrynose/        # Patches for Yocto Wrynose release
 └── features/               # Feature-specific patches
     └── ota/                # Over-The-Air update features
         └── ostree/         # OSTree OTA implementation patches
 ```
 
-The repository currently contains **25 patches**: 21 for NXP, 2 for MediaTek and 2 for the OSTree OTA feature.
+The repository currently contains **26 patches**: 21 for NXP, 2 for MediaTek and 3 for the OSTree OTA feature.
 
 ## 2. NXP Vendor Patches
 
@@ -140,7 +143,7 @@ Patches in the `mediatek/` directory fix recipe and fetch issues in the MediaTek
 
 ### 4.1. OTA (Over-The-Air Updates)
 
-Patches in the `features/ota/` directory enable and fix OTA update functionality using OSTree technology.
+Patches in the `features/ota/` and `ota/` directories enable and fix OTA update functionality using OSTree technology.
 
 #### 4.1.1. OSTree Patches
 
@@ -148,6 +151,7 @@ Patches in the `features/ota/` directory enable and fix OTA update functionality
 |-------|-------------|---------------|------------|
 | `features/ota/ostree/0001-Make-layer-compatible-with-yocto-styhead-release.patch` | Updates meta-updater layer for Styhead compatibility | Styhead | `features/ota/ostree/ostree-styhead.yml` |
 | `features/ota/ostree/0001-Make-layer-compatible-with-yocto-walnascar-release.patch` | Updates meta-updater layer for Walnascar compatibility | Walnascar | `features/ota/ostree/ostree-walnascar.yml` |
+| `ota/ostree/wrynose/0001-Fix-python-import-for-wrynose-build.patch` | Adds a fallback for the removed `wic.oe.path` import in the meta-updater EFI boot image plugin | Wrynose | `features/ota/ostree/ostree-wrynose.yml` |
 
 **Key Changes**:
 - Updates `WORKDIR` references to `UNPACKDIR` (new Yocto variable naming convention)
