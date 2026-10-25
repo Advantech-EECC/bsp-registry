@@ -1,0 +1,18 @@
+header:
+  version: 14
+
+# dm-crypt root filesystem encryption from meta-modular-bsp-extra.
+# Must be combined with adv-secure-boot-nxp.yml: meta-rootfs-enc-nxp declares
+# LAYERDEPENDS on meta-secure-boot-nxp (the rootfs-encryption registry feature
+# includes both fragments).
+repos:
+  meta-modular-bsp-extra:
+    layers:
+      meta-rootfs-enc-core:
+      meta-rootfs-enc-nxp:
+
+# Directory with factory-signing.key.pem / factory-validation.pub.pem
+# (generate with tools/gen-factory-signing-keys.sh from meta-modular-bsp-extra).
+# The build fails with "FACTORY_KEYS_DIR not given" if the keys are missing.
+env:
+  FACTORY_KEYS_DIR: "/opt/keys/factory"
