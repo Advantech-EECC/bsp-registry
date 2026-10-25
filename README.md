@@ -341,7 +341,7 @@ configuration:
 | RSB-3720 4G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
 | RSB-3720 6G        | i.MX8     | HAB         | ➕ | walnascar, whinlatter, wrynose        |
 | ROM-2820 (ed93)    | i.MX9     | AHAB        | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
-| AOM-5521 (db2510)  | i.MX95    | AHAB        | ➕ | scarthgap, styhead, walnascar, whinlatter, wrynose |
+| AOM-5521 A2        | i.MX95    | AHAB        | ➕ | walnascar, wrynose                       |
 
 The only secure-boot preset shipped today is `modular-bsp-rom5721-2g-db5901-secureboot`
 (walnascar). The listed releases are those for which the board has a preset that the
@@ -827,7 +827,7 @@ The host system must provide essential tools and libraries required for building
 * Docker
 * Git
 
-The builds have been tested on the following host systems: `Ubuntu 22.04`, `Ubuntu 24.04`
+The builds have been tested on the following host systems: `Ubuntu 22.04`, `Ubuntu 24.04`, `Ubuntu 26.04`
 
 ### 4.1.1. Setup Python virtual environment
 
