@@ -336,7 +336,7 @@ The following ASCII diagrams illustrate the Isar image generation workflow:
 
    ┌─────────────────────────────────────────────────┐
    │        User Custom Layers (optional)            │
-   │  • meta-isar-modular-bsp-nxp                    │
+   │  • meta-modular-bsp-isar                        │
    │  • Custom machine and distro definitions        │
    │  • Application-specific recipes                 │
    └──────────────────┬──────────────────────────────┘
@@ -467,7 +467,7 @@ Isar uses Debian architecture names, so the x86-64 machine is `qemuamd64`
 
 The registry does not currently ship an Isar preset for real hardware — all Isar presets target
 QEMU. Additional hardware platforms can be added through
-[meta-isar-modular-bsp-nxp](https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp) by
+[meta-modular-bsp-isar](https://github.com/Advantech-EECC/meta-modular-bsp-isar) by
 registering a device and a preset in `bsp-registry.yml`.
 
 ---
@@ -918,7 +918,7 @@ kas-container build \
 
 ### 14.3 Advantech-Specific Resources
 
-- **Advantech Isar Modular BSP for NXP**: [https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp](https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp)
+- **Advantech Isar Modular BSP**: [https://github.com/Advantech-EECC/meta-modular-bsp-isar](https://github.com/Advantech-EECC/meta-modular-bsp-isar)
 - **BSP Registry Main README**: [../README.md](../README.md)
 
 ### 14.4 KAS Tool

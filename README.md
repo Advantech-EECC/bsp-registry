@@ -226,6 +226,7 @@ preset name (for example `bsp build advantech-rsb3730-mickledore`).
 
 This list below covers the most recent and commonly referenced Yocto releases:
 
+* [Wrynose (Yocto 6.0 LTS)](https://docs.yoctoproject.org/wrynose/releases.html)  
 * [Whinlatter (Yocto 5.3)](https://docs.yoctoproject.org/whinlatter/releases.html)  
 * [Walnascar (Yocto 5.2)](https://docs.yoctoproject.org/walnascar/releases.html)  
 * [Styhead (Yocto 5.1)](https://docs.yoctoproject.org/dev/migration-guides/release-5.1.html)  
@@ -388,7 +389,7 @@ The registry includes Isar-based BSP configurations for the following targets:
 * ✅ **Ready**: Functional and available for testing/development
 
 All Isar presets currently target QEMU. Real hardware can be added through the
-[meta-isar-modular-bsp-nxp](https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp) layer by
+[meta-modular-bsp-isar](https://github.com/Advantech-EECC/meta-modular-bsp-isar) layer by
 registering a device and a preset in `bsp-registry.yml`.
 
 ### 2.2.3. Building Isar BSPs
@@ -433,7 +434,7 @@ The container definition in `bsp-registry.yml`:
 * **[Isar Directory README](isar/README.md)** - Comprehensive guide to Isar configuration, build process diagrams, and advanced topics
 * [Isar Documentation](https://github.com/ilbers/isar/blob/master/doc/user_manual.md)
 * [Isar GitHub Repository](https://github.com/ilbers/isar)
-* [Advantech Isar Modular BSP](https://github.com/Advantech-EECC/meta-isar-modular-bsp-nxp)
+* [Advantech Isar Modular BSP](https://github.com/Advantech-EECC/meta-modular-bsp-isar)
 
 ## 2.3. MediaTek Boards Compatibility Matrix [preview]
 
@@ -485,7 +486,7 @@ bsp build modular-bsp-rsb3810-scarthgap
 ## 2.4. Qualcomm Boards Compatibility Matrix
 
 The BSP registry supports Qualcomm-based boards through the **Qualcomm Linux (QLI)** BSP stack.
-The current integration targets the Yocto **Scarthgap** release and uses the QLI v1.5 Ver.1.1 layer
+The current integration targets the Yocto **Scarthgap** release and uses the QLI v1.6 Ver.1.2 layer
 set. For detailed configuration, see the [Qualcomm vendor README](vendors/qualcomm/README.md) and
 the [Advantech Qualcomm overlay README](vendors/advantech-europe/qualcomm/README.md).
 
