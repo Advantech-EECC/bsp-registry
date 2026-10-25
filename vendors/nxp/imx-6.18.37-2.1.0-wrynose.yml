@@ -1,0 +1,123 @@
+header:
+  version: 14
+  includes:
+    - vendors/nxp/common.yml
+    - compilers/clang/clang.yml
+    - features/sbom/timesys-wrynose.yml
+    - features/browser/browser.yml
+    - features/qt/qt6.11.0.yml
+
+repos:
+  this:
+    layers:
+      .: "disabled"
+
+  openembedded-core:
+    commit: "5d1aa5c806c061a2994f4decb59016610f093213"
+
+  meta-yocto:
+    commit: "24c24cef5d1523fefe43a3e3d34667b37ae551f3"
+
+  bitbake:
+    branch: "2.18"
+    commit: "acfe02fa38b5da9e6a36c6cedcf91d4fcbefbfbd"
+
+  meta-openembedded:
+    commit: "6bf0d8ad57b33950bab4c7f6c037e1ccb6f6e2eb"
+
+  meta-clang:
+    commit: "ef0d22f21910a0c30c967eeb17d8f209806e2d81"
+
+  meta-arm:
+    commit: "0979b80429099f1a42dc0026c8c466cee780bc74"
+    branch: "wrynose"
+
+  meta-browser:
+    commit: "407e3ac990f5ed466cb76e5002f918860503799c"
+    branch: "wrynose"
+
+  meta-virtualization:
+    url: "https://git.yoctoproject.org/meta-virtualization"
+    commit: "30f1a9d7e5ef1b41c64ff4c3c40951133d548ed8"
+    branch: "wrynose"
+    path: "layers/meta-virtualization"
+    layers:
+      .:
+
+  meta-security:
+    url: "https://git.yoctoproject.org/meta-security"
+    commit: "c0d1d6200e7a84c39fb940cb1f22aad4b0b3d808"
+    branch: "wrynose"
+    path: "layers/meta-security"
+    layers:
+      meta-parsec:
+      meta-tpm:
+
+  meta-timesys:
+    commit: "bf4ff1bb4c85bb7a1c65bc6f2cc6188ff5b76ef2"
+    branch: "wrynose"
+
+  meta-freescale:
+    url: "https://github.com/Freescale/meta-freescale.git"
+    commit: "ca31f33c5b5e433939c5f8442d2de56925d638bd"
+    branch: "wrynose"
+    path: "layers/meta-freescale"
+    layers:
+      .:
+
+  meta-freescale-3rdparty:
+    url: "https://github.com/Freescale/meta-freescale-3rdparty.git"
+    commit: "26d8b36a72acf1458a2520e4e9f4d654a4ba77e4"
+    branch: "master"
+    path: "layers/meta-freescale-3rdparty"
+    layers:
+      .:
+
+  meta-freescale-distro:
+    url: "https://github.com/Freescale/meta-freescale-distro.git"
+    commit: "4464f38b4aa618b5942f5e35dd25cff590f410a6"
+    branch: "wrynose"
+    path: "layers/meta-freescale-distro"
+    layers:
+      .:
+
+  meta-freescale-ml:
+    url: "https://github.com/Freescale/meta-freescale-ml.git"
+    branch: "master"
+    commit: "1330790bc6cdd3808260a16383d928e05a0e0eeb"
+    path: "layers/meta-freescale-ml"
+    layers:
+      .:
+
+  meta-nxp-connectivity:
+    url: "https://github.com/nxp-imx/meta-nxp-connectivity.git"
+    # tag: "refs/tags/rel_imx_6.18.37_2.1.0"
+    branch: "imx_matter_2026_q1-post"
+    path: "layers/meta-nxp-connectivity"
+    layers:
+      meta-nxp-matter-baseline:
+      meta-nxp-openthread:
+
+  meta-nxp-demo-experience:
+    url: "https://github.com/nxp-imx-support/meta-nxp-demo-experience.git"
+    branch: "wrynose-6.18.37-2.1.0"
+    # tag: "refs/tags/rel_imx_6.18.37_2.1.0"
+    path: "layers/meta-nxp-demo-experience"
+    layers:
+      .:
+
+  meta-imx:
+    url: "https://github.com/nxp-imx/meta-imx.git"
+    # tag: "refs/tags/rel_imx_6.18.37_2.1.0"
+    branch: "wrynose-6.18.37-2.1.0"
+    path: "layers/meta-imx"
+    layers:
+      meta-imx-bsp:
+      meta-imx-cockpit:
+      meta-imx-ml:
+      meta-imx-sdk:
+      meta-imx-v2x:
+
+local_conf_header:
+  fsl-imx: |
+    DISTRO_FEATURES += "opencl ipv6"
