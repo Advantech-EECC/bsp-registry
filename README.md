@@ -168,7 +168,6 @@ ready-made preset exists and can be built directly with `bsp build <preset>-<rel
 | **ROM-5722 (DB2510)** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **AOM-5521 A1** | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
 | **AOM-5521 A2** | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **AOM-2521 B0** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | **ECU-150** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
 
 **Legend:**
