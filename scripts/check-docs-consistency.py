@@ -13,6 +13,12 @@ Checks performed:
 2. Repository-relative file paths referenced from Markdown actually exist.
 3. The patch count stated in ``README.md`` matches the number of ``*.patch`` files.
 4. Every file under ``patches/`` is mentioned in ``patches/README.md``.
+5. The ``include:`` list of ``bsp-registry.yml`` and the README "Registry File Layout"
+   table agree in both directions.
+6. Backticked preset-looking names inside Markdown table cells exist in the registry.
+7. Tables carrying both a "Preset" and a "(Supported) Releases" column state exactly
+   the releases the registry defines for those presets.
+8. Every preset in the registry is mentioned in at least one Markdown file.
 
 Exits non-zero when any check fails so it can be wired into CI.
 """
@@ -36,7 +42,7 @@ SKIPPED_DIRS = {".git", "venv", ".venv", "build", "layers", "node_modules", "__p
 # mentioning a command in passing does not trip the checker.
 FENCE_RE = re.compile(r"^\s*```")
 BSP_COMMAND_RE = re.compile(
-    r"\bbsp\s+(?:--[\w-]+\s+)*(?P<verb>build|shell|export|flash|deploy|lava)\s+"
+    r"\bbsp\s+(?:--[\w-]+\s+)*(?P<verb>build|shell|export|flash|deploy|lava|show)\s+"
     r"(?P<name>[A-Za-z0-9][\w.-]*)"
 )
 # Inline-code paths such as `vendors/nvidia/README.md` or `isar/distro/debian-trixie.yaml`.
@@ -49,7 +55,6 @@ PLACEHOLDER_NAMES = {
     "bsp_name",
     "bsp-name",
     "name",
-    "imx8mpevk",
 }
 
 # Names used in "how to add your own board" examples, which deliberately do not exist.
@@ -70,6 +75,14 @@ EXTERNAL_REFERENCES = {
     "recipes-sota/aktualizr/aktualizr_git.bb",
     "imx-image-%.bbappend",
 }
+
+# Preset-looking names that tables may mention even though the registry does not (yet)
+# define them, e.g. boards that are announced as planned. Extend this list for new
+# intentional exceptions instead of loosening the table checks.
+PLANNED_PRESET_NAMES: set[str] = set()
+
+# Backticked tokens inside table cells; candidates for the preset-existence check.
+TABLE_CODE_RE = re.compile(r"`([A-Za-z0-9][A-Za-z0-9._/-]*)`")
 
 
 def load_registry(root: str) -> dict:
@@ -105,6 +118,26 @@ def preset_names(registry: dict) -> set[str]:
         else:
             names.add(name)
     return names
+
+
+def preset_releases(registry: dict) -> dict[str, list[str]]:
+    """Map each preset base name to the list of releases the registry defines for it.
+
+    A preset carrying a single ``release:`` maps to a one-element list; a preset
+    without any release information maps to an empty list.
+    """
+    releases: dict[str, list[str]] = {}
+    for preset in registry.get("registry", {}).get("bsp") or []:
+        name = preset.get("name")
+        if not name:
+            continue
+        if preset.get("releases"):
+            releases[name] = list(preset["releases"])
+        elif preset.get("release"):
+            releases[name] = [preset["release"]]
+        else:
+            releases[name] = []
+    return releases
 
 
 def markdown_files(root: str) -> list[str]:
@@ -227,6 +260,154 @@ def check_patches_documented(root: str, patches: list[str]) -> list[str]:
     return errors
 
 
+def check_include_list_documented(root: str, registry: dict) -> list[str]:
+    """The README Registry File Layout table and the root ``include:`` list must agree."""
+    includes = set(registry.get("include") or [])
+    readme = os.path.join(root, "README.md")
+    with open(readme, encoding="utf-8") as handle:
+        text = handle.read()
+
+    documented = set()
+    for line in text.splitlines():
+        if not line.lstrip().startswith("|"):
+            continue
+        for token in TABLE_CODE_RE.findall(line):
+            if re.fullmatch(r"bsp-registry\.[\w-]+\.ya?ml", token):
+                documented.add(token)
+
+    errors = []
+    for missing in sorted(includes - documented):
+        errors.append(
+            f"README.md: included registry fragment '{missing}' is missing from the "
+            f"Registry File Layout table"
+        )
+    for stale in sorted(documented - includes):
+        errors.append(
+            f"README.md: Registry File Layout table lists '{stale}', which is not in "
+            f"the include: list of {REGISTRY_FILE}"
+        )
+    return errors
+
+
+def non_preset_entities(registry: dict) -> set[str]:
+    """Names the registry defines that are not presets but may appear in table cells:
+    vendor slugs, distro slugs, container names and build-environment names."""
+    names: set[str] = set()
+    for vendor in registry.get("registry", {}).get("vendors") or []:
+        if vendor.get("slug"):
+            names.add(vendor["slug"])
+    for distro in registry.get("registry", {}).get("distro") or []:
+        if distro.get("slug"):
+            names.add(distro["slug"])
+    for container in registry.get("containers") or []:
+        names.update(container.keys())
+    names.update((registry.get("environments") or {}).keys())
+    return names
+
+
+def check_table_preset_names(
+    root: str, docs: list[str], bases: dict[str, list[str]], presets: set[str], registry: dict
+) -> list[str]:
+    """Backticked preset-looking names in table cells must exist in the registry.
+
+    A token "looks like a preset" when its first hyphen-separated segment matches the
+    first segment of a real preset name; this keeps device names, feature names and
+    file names out of the check without hardcoding every table.
+    """
+    prefixes = {name.split("-", 1)[0] for name in bases}
+    known = set(bases) | presets | non_preset_entities(registry)
+    errors = []
+    for path in docs:
+        with open(path, encoding="utf-8") as handle:
+            text = handle.read()
+        relative = os.path.relpath(path, root)
+        for number, line in enumerate(text.splitlines(), start=1):
+            if not line.lstrip().startswith("|"):
+                continue
+            for token in TABLE_CODE_RE.findall(line):
+                if "/" in token or "." in token or "-" not in token:
+                    continue
+                if token.split("-", 1)[0] not in prefixes:
+                    continue
+                if token in known or token in PLANNED_PRESET_NAMES:
+                    continue
+                errors.append(
+                    f"{relative}:{number}: table mentions preset '{token}', "
+                    f"which is not in the registry"
+                )
+    return errors
+
+
+def check_table_release_lists(
+    root: str, docs: list[str], bases: dict[str, list[str]]
+) -> list[str]:
+    """Tables with "Preset" and "(Supported) Releases" columns must match the registry."""
+    errors = []
+    for path in docs:
+        with open(path, encoding="utf-8") as handle:
+            lines = handle.read().splitlines()
+        relative = os.path.relpath(path, root)
+
+        preset_col = releases_col = None
+        for number, line in enumerate(lines, start=1):
+            stripped = line.strip()
+            if not stripped.startswith("|"):
+                preset_col = releases_col = None
+                continue
+            cells = [cell.strip() for cell in stripped.strip("|").split("|")]
+            headers = [cell.strip("*` ").lower() for cell in cells]
+            if "preset" in headers and (
+                "supported releases" in headers or "releases" in headers
+            ):
+                preset_col = headers.index("preset")
+                if "supported releases" in headers:
+                    releases_col = headers.index("supported releases")
+                else:
+                    releases_col = headers.index("releases")
+                continue
+            if preset_col is None or set(cells[0]) <= {"-", ":", " "}:
+                continue
+            if len(cells) <= max(preset_col, releases_col):
+                continue
+
+            row_presets = [
+                token
+                for token in TABLE_CODE_RE.findall(cells[preset_col])
+                if token in bases
+            ]
+            if not row_presets:
+                continue  # planned boards and placeholder rows carry no real preset
+            expected = set()
+            for name in row_presets:
+                expected.update(bases[name])
+            stated = {
+                entry.strip().strip("`")
+                for entry in cells[releases_col].split(",")
+                if entry.strip().strip("`")
+            }
+            if stated != expected:
+                errors.append(
+                    f"{relative}:{number}: releases for {', '.join(row_presets)} are "
+                    f"'{', '.join(sorted(stated))}' but the registry defines "
+                    f"'{', '.join(sorted(expected))}'"
+                )
+    return errors
+
+
+def check_presets_documented(root: str, docs: list[str], bases: dict[str, list[str]]) -> list[str]:
+    """Every preset defined in the registry must be mentioned somewhere in the docs."""
+    corpus = []
+    for path in docs:
+        with open(path, encoding="utf-8") as handle:
+            corpus.append(handle.read())
+    text = "\n".join(corpus)
+    return [
+        f"registry preset '{name}' is not mentioned in any Markdown file"
+        for name in sorted(bases)
+        if name not in text
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -239,6 +420,7 @@ def main() -> int:
 
     registry = load_registry(root)
     presets = preset_names(registry)
+    bases = preset_releases(registry)
     docs = markdown_files(root)
     patches = collect_patches(root)
 
@@ -247,6 +429,10 @@ def main() -> int:
     errors += check_referenced_paths(root, docs)
     errors += check_patch_count(root, patches)
     errors += check_patches_documented(root, patches)
+    errors += check_include_list_documented(root, registry)
+    errors += check_table_preset_names(root, docs, bases, presets, registry)
+    errors += check_table_release_lists(root, docs, bases)
+    errors += check_presets_documented(root, docs, bases)
 
     print(
         f"Checked {len(docs)} Markdown file(s) against "
