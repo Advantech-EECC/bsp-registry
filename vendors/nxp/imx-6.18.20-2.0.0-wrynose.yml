@@ -97,6 +97,7 @@ repos:
     url: "https://github.com/nxp-imx/meta-nxp-connectivity.git"
     # tag: "refs/tags/rel_imx_6.18.20_2.0.0"
     branch: "imx_matter_2026_q1-post"
+    commit: "12e139aa362660e2a7545b2924076038958e5144"
     path: "layers/meta-nxp-connectivity"
     layers:
       meta-nxp-matter-baseline:
@@ -105,6 +106,7 @@ repos:
   meta-nxp-demo-experience:
     url: "https://github.com/nxp-imx-support/meta-nxp-demo-experience.git"
     branch: "wrynose-6.18.20-2.0.0"
+    commit: "ca3288a7a4c59cbc53e05c4f486513e521f4f74a"
     # tag: "refs/tags/rel_imx_6.18.20_2.0.0"
     path: "layers/meta-nxp-demo-experience"
     layers:
@@ -114,6 +116,7 @@ repos:
     url: "https://github.com/nxp-imx/meta-imx.git"
     # tag: "refs/tags/rel_imx_6.18.20_2.0.0"
     branch: "wrynose-6.18.20-2.0.0"
+    commit: "7163fab7d8923da56d5cf8a29c05ae4edab3ac2f"
     path: "layers/meta-imx"
     layers:
       meta-imx-bsp:
