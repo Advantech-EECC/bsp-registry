@@ -287,7 +287,7 @@ registry:
       description: "Advantech RSB-3720 6GB (i.MX8) with RAUC support"
       device: rsb3720
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
-      features: [systemd, security, virtualization, ipv6, usrmerge, rauc]
+      features: [systemd, security, virtualization, ipv6, usrmerge, rauc, root-login]
       build:
         path: build/modular-bsp-rauc-rsb3720
       deploy:
