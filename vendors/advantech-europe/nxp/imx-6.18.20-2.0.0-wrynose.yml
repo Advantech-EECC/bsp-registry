@@ -5,7 +5,7 @@ header:
 
 repos:
   meta-modular-bsp-nxp:
-    commit: "2ec3c7f67bddf343e4c7e71b327649a3ac72ff1c"
+    commit: "ba0ddf9455ba8f4739a4b4afbdc4e924cd178284"
 
   meta-nxp-security-reference-design:
     branch: "wrynose-imx-6.18.20-2.0.0-adv"
