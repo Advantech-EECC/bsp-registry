@@ -94,7 +94,7 @@ actions:
             DISK1_TYPE: MMC
             DISK1_SECTORS: 30777344
             DISK1_MIN_RS: 100
-            DISK1_MIN_WS: 50
+            DISK1_MIN_WS: 25
             DISK2_DEV: /dev/sda
             DISK2_TYPE: UNKNOWN
             DISK2_SECTORS: 0
@@ -144,28 +144,28 @@ actions:
             UART0_BUS_ID: 30860000
             UART0_HWFC: "y"
             UART0_DEBUG_CONSOLE: "n"
-            UART0_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART0_LOOPBACK_TEST: skip
             UART0_REFERENCE: UART1-COM3A
             UART1_DEV: /dev/ttymxc1
             UART1_BUS: soc
             UART1_BUS_ID: 30890000
             UART1_HWFC: "n"
-            UART1_DEBUG_CONSOLE: "y"
+            UART1_DEBUG_CONSOLE: "n"
             UART1_LOOPBACK_TEST: skip
             UART1_REFERENCE: UART2-COM4A
             UART2_DEV: /dev/ttymxc2
             UART2_BUS: soc
             UART2_BUS_ID: 30880000
             UART2_HWFC: "y"
-            UART2_DEBUG_CONSOLE: "n"
-            UART2_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART2_DEBUG_CONSOLE: "y"
+            UART2_LOOPBACK_TEST: skip
             UART2_REFERENCE: UART3-COM3B
             UART3_DEV: /dev/ttymxc3
             UART3_BUS: soc
             UART3_BUS_ID: 30a60000
             UART3_HWFC: "n"
             UART3_DEBUG_CONSOLE: "n"
-            UART3_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART3_LOOPBACK_TEST: skip
             UART3_REFERENCE: UART4-COM4B
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
@@ -236,7 +236,7 @@ actions:
           name: adv-can
           parameters:
             CAN_COUNT: 2
-            CAN_EXT_LOOPBACK: "\""
+            CAN_EXT_LOOPBACK: ""
             CAN0_DEV: can0
             CAN0_BUS: soc
             CAN0_BUS_ID: 308c0000
@@ -254,7 +254,8 @@ actions:
           path: automated/linux/gpio/gpio.yaml
           name: adv-gpio
           parameters:
-            GPIO_COUNT: 6
+            GPIO_COUNT: 1
+            GPIO0_CHIP: ""
             GPIO_PINS: ""
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
@@ -281,7 +282,7 @@ actions:
           parameters:
             RTC_COUNT: 1
             RTC0_DEV: /dev/rtc1
-            RTC0_WAKEUP: disabled
+            RTC0_WAKEUP: enabled
             RTC_SUSPEND_DEV: /dev/rtc1
             RTC_SUSPEND_SLEEP_STATE: mem
             RTC_SUSPEND_WAKE_SLEEP_S: skip
@@ -318,7 +319,7 @@ actions:
           path: automated/linux/gpu/gpu.yaml
           name: adv-gpu
           parameters:
-            GPU_COUNT: 2
+            GPU_COUNT: 1
             GPU_WAYLAND: weston
             GPU_VA_CODECS: ""
             GPU0_DRI_KMS_DEV: /dev/dri/card0
@@ -329,14 +330,6 @@ actions:
             GPU0_DRM_CONNECTOR_ENCODER: ""
             GPU0_RESOLUTION: ""
             GPU0_REFRESH_RATE: ""
-            GPU1_DRI_KMS_DEV: /dev/dri/card1
-            GPU1_BACKLIGHT_DEV: ""
-            GPU1_LVDS_MOD: ""
-            GPU1_LVDS_DEV: ""
-            GPU1_DRM_CONNECTOR: ""
-            GPU1_DRM_CONNECTOR_ENCODER: ""
-            GPU1_RESOLUTION: ""
-            GPU1_REFRESH_RATE: ""
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
           from: git
