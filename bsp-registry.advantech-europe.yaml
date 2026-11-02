@@ -214,6 +214,12 @@ registry:
       releases: [wrynose]
       vendor_release: adv-rockchip-1.0.0
       features: [systemd, ipv6, usrmerge, ipv6, root-login, usb-debug, wayland]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/rockchip/test/jobs/rsb4810-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         path: build/modular-bsp-rsb4810
     
@@ -224,6 +230,12 @@ registry:
       device: rom2620-ed91
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom2620-ed91-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         path: build/modular-bsp-rom2620-ed91
     
@@ -234,6 +246,12 @@ registry:
       device: rom2820-ed93
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom2820-ed93-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom2820-ed93
@@ -256,6 +274,12 @@ registry:
       device: ecu150a1
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/ecu150a1-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         path: build/modular-bsp-ecu150a1
     
@@ -264,6 +288,12 @@ registry:
       device: rsb3720
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rsb3720-6g-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         path: build/modular-bsp-rsb3720
     
@@ -272,6 +302,12 @@ registry:
       device: rsb3720-4g
       releases: [walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rsb3720-4g-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         path: build/modular-bsp-rsb3720-4g
     
@@ -280,6 +316,12 @@ registry:
       device: rsb3720-6g
       releases: [walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, usrmerge, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rsb3720-6g-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         path: build/modular-bsp-rsb3720-6g
     
@@ -327,6 +369,12 @@ registry:
       device: rom5720-db5901
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom5720-db5901-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5720-db5901
@@ -338,6 +386,12 @@ registry:
       device: rom5721-db5901
       releases: [scarthgap, styhead, walnascar]
       features: [systemd, security, virtualization, ipv6]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom5721-db5901-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5721-db5901
@@ -347,6 +401,12 @@ registry:
       device: rom5721-1g-db5901
       releases: [walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom5721-1g-db5901-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5721-1g-db5901
@@ -356,6 +416,12 @@ registry:
       device: rom5721-2g-db5901
       releases: [walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom5721-2g-db5901-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5721-2g-db5901
@@ -380,6 +446,12 @@ registry:
       device: rom5722-db2510
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, debug-tweaks, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom5722-db2510-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5722-db2510
@@ -391,6 +463,12 @@ registry:
       device: aom5521a1-db2510
       releases: [scarthgap, styhead, walnascar, whinlatter]
       features: [systemd, security, virtualization, docker, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/aom5521a1-db2510-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-aom5521a1-db2510
@@ -400,6 +478,12 @@ registry:
       device: aom5521a2-db2510
       releases: [walnascar, wrynose]
       features: [systemd, security, virtualization, docker, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/aom5521a2-db2510-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-aom5521a2-db2510
@@ -409,6 +493,12 @@ registry:
       device: aom2521b0
       releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
       features: [systemd, security, virtualization, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/aom2521b0-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-aom2521b0
