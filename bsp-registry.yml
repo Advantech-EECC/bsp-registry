@@ -656,6 +656,12 @@ registry:
 
   features: 
   
+    - slug: tpm
+      description: "Enable TPM tools in the image"
+      compatible_with: [yocto]   # This feature is only compatible with the Yocto framework
+      includes:
+        - yocto/features/tpm.yaml
+
     - slug: systemd
       description: "Enable systemd as the init system"
       compatible_with: [yocto]   # This feature is only compatible with the Yocto framework

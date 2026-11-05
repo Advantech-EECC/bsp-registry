@@ -1,6 +1,13 @@
 header:
   version: 14
 
+repos:
+  meta-security:
+    layers:
+      meta-tpm:
+
 local_conf_header:
-  tpm: |
-    DISTRO_FEATURES += "tpm tpm2"
+   tpm: |
+      DISTRO_FEATURES += "tpm tpm2"
+      DISTRO_FEATURES:append = " tpm tpm2"
+      IMAGE_INSTALL:append = " tpm2-tools libtss2-tcti-device"
