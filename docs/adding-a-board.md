@@ -98,7 +98,7 @@ This yields the build targets `my-board-scarthgap` and `my-board-walnascar`. See
 
 ```console
 $ bsp list | grep my-board          # the board should now be listed
-$ bsp show my-board-scarthgap       # inspect the resolved KAS configuration
+$ bsp export my-board-scarthgap     # inspect the resolved KAS configuration
 $ bsp build my-board-scarthgap      # build it
 ```
 
