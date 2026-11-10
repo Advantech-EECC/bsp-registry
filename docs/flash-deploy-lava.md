@@ -80,7 +80,7 @@ flash:
 | `extra_args` | Extra arguments passed through to the flashing tool |
 
 ```bash
-bsp flash modular-bsp-rsb3720-scarthgap --device /dev/sdX
+bsp flash modular-bsp-rsb3720-scarthgap --target /dev/sdX
 ```
 
 `uuu` is the right choice for NXP i.MX boards in serial-download mode; `bmaptool` is fastest for

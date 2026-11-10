@@ -764,12 +764,15 @@ bsp export <bsp_name>
 | `build <bsp_name>` | Build a specific BSP | `bsp build modular-bsp-rsb3720-wrynose` |
 | `build <bsp_name> --checkout` | Checkout and validate BSP configuration without building (fast) | `bsp build modular-bsp-rsb3720-wrynose --checkout` |
 | `shell <bsp_name>` | Enter interactive shell | `bsp shell modular-bsp-rsb3720-wrynose` |
-| `export <bsp_name>` | Export KAS configuration | `bsp export modular-bsp-rsb3720-wrynose` |
-| `show <bsp_name>` | Show the resolved configuration for a BSP | `bsp show modular-bsp-rsb3720-wrynose` |
+| `export <bsp_name>` | Export the resolved KAS configuration | `bsp export modular-bsp-rsb3720-wrynose` |
+| `fetch <bsp_name>` | Fetch sources for a BSP | `bsp fetch modular-bsp-rsb3720-wrynose` |
 | `containers` | List available containers | `bsp containers` |
-| `flash <bsp_name>` | Flash a built image to a device | `bsp flash modular-bsp-rsb3720-wrynose --device /dev/sdX` |
+| `flash <bsp_name>` | Flash a built image to a block device | `bsp flash modular-bsp-rsb3720-wrynose --target /dev/sdX` |
 | `deploy <bsp_name>` | Upload build artifacts to cloud storage | `bsp deploy modular-bsp-rsb3720-wrynose` |
+| `gather <bsp_name>` | Download build artifacts from cloud storage | `bsp gather modular-bsp-rsb3720-wrynose` |
+| `scan <bsp_name>` | Scan built images for CVEs and generate an SBOM | `bsp scan modular-bsp-rsb3720-wrynose` |
 | `test <bsp_name>` | Run tests using the LAVA backend | `bsp test modular-bsp-rsb3720-wrynose --backend lava` |
+| `remotes` | Manage named remote registry sources | `bsp remotes` |
 
 Global flags:
 
