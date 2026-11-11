@@ -1,0 +1,21 @@
+header:
+  version: 14
+
+# Advantech Secure Boot (HABv4/AHAB) from meta-modular-bsp-extra.
+# Enables the meta-secure-boot-nxp sublayer that is declared (disabled) in
+# vendors/advantech-europe/nxp/modular-bsp-nxp.yml.
+#
+# Drop-in replacement for NXP's meta-secure-boot from
+# meta-nxp-security-reference-design: both bbappend u-boot-imx, imx-boot and
+# linux-imx, so never combine this feature with the `secure-boot` feature.
+repos:
+  meta-modular-bsp-extra:
+    layers:
+      meta-secure-boot-nxp:
+
+# kas exports these into the BitBake environment and BB_ENV_PASSTHROUGH_ADDITIONS.
+# Defaults are the container mount points configured in bsp-registry.yml
+# (environment ubuntu-22.04-adv-sb).
+env:
+  SIG_TOOL_PATH: "/opt/cst"
+  SIG_DATA_PATH: "/opt/keys/nxp"

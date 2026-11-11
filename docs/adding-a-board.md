@@ -136,8 +136,20 @@ Most NXP releases need patches applied to `meta-freescale` or the BSP layers. Pa
 
 ### Secure boot on NXP
 
-Secure boot requires the `ubuntu-22.04-csb` environment, which provides NXP's Code Signing Tool
-at `SIG_TOOL_PATH=/opt/cst`. See [secure-boot.md](secure-boot.md).
+Two implementations exist — see [secure-boot.md](secure-boot.md) for the comparison (they are
+mutually exclusive):
+
+* **`secure-boot`** (NXP reference design) requires the `ubuntu-22.04-csb` environment, which
+  provides NXP's Code Signing Tool at `SIG_TOOL_PATH=/opt/cst`.
+* **`adv-secure-boot`** / **`rootfs-encryption`** (meta-modular-bsp-extra) require the
+  `ubuntu-22.04-adv-sb` environment, which additionally mounts the PKI directory
+  (`SIG_DATA_PATH=/opt/keys/nxp`) and factory keys (`FACTORY_KEYS_DIR=/opt/keys/factory`).
+
+To add such presets for a new NXP board, copy the board's base preset, append
+`adv-secure-boot` (or `rootfs-encryption`) to `features:`, set
+`environment: "ubuntu-22.04-adv-sb"`, and keep only releases ≥ scarthgap (the layers are not
+kirkstone-compatible; AHAB boards should stick to walnascar or newer). The build targets stay
+the standard image names — meta-modular-bsp-extra bbappends them directly.
 
 ### Rockchip
 

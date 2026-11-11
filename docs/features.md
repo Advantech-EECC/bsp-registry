@@ -57,7 +57,9 @@ All registered features are `compatible_with: [yocto]`.
 | Slug | Fragment | Description |
 |------|----------|-------------|
 | `security` | [`yocto/features/security.yaml`](../yocto/features/security.yaml) | Hardening options (`meta-security`) |
-| `secure-boot` | [`features/secure-boot/secure-boot.yml`](../features/secure-boot/secure-boot.yml) | HAB/AHAB image signing. Overridden to [`vendors/nxp/features/secure-boot/imx-secure-boot.yml`](../vendors/nxp/features/secure-boot/imx-secure-boot.yml) for Advantech boards with NXP SoCs. See [secure-boot.md](secure-boot.md). |
+| `secure-boot` | [`features/secure-boot/secure-boot.yml`](../features/secure-boot/secure-boot.yml) | HAB/AHAB image signing via NXP's `meta-secure-boot` reference-design layer. Overridden to [`vendors/nxp/features/secure-boot/imx-secure-boot.yml`](../vendors/nxp/features/secure-boot/imx-secure-boot.yml) for Advantech boards with NXP SoCs. See [secure-boot.md](secure-boot.md). |
+| `adv-secure-boot` | [`features/secure-boot/adv-secure-boot-nxp.yml`](../features/secure-boot/adv-secure-boot-nxp.yml) | Advantech HABv4/AHAB signing via `meta-secure-boot-nxp` from [meta-modular-bsp-extra](https://github.com/Advantech-EECC/meta-modular-bsp-extra). advantech-europe/NXP only (applied via vendor override). **Mutually exclusive with `secure-boot`.** See [secure-boot.md](secure-boot.md). |
+| `rootfs-encryption` | [`features/secure-boot/adv-secure-boot-nxp.yml`](../features/secure-boot/adv-secure-boot-nxp.yml) + [`features/secure-boot/adv-rootfs-enc-nxp.yml`](../features/secure-boot/adv-rootfs-enc-nxp.yml) | Advantech Secure Boot plus dm-crypt rootfs encryption (`meta-rootfs-enc-core`/`-nxp`). advantech-europe/NXP only; always implies `adv-secure-boot`. **Mutually exclusive with `secure-boot`.** See [secure-boot.md](secure-boot.md). |
 
 ### 1.5. OTA Update
 

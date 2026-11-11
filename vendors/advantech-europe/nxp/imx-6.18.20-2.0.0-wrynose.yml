@@ -10,3 +10,6 @@ repos:
   meta-nxp-security-reference-design:
     branch: "wrynose-imx-6.18.20-2.0.0-adv"
     commit: "48eb47ff2440adca252230eb0716a66f13c528d3"
+
+  meta-modular-bsp-extra:
+    commit: "a3e381233e7a9fe7d11c85be5894a32cfc1ee3e7"
