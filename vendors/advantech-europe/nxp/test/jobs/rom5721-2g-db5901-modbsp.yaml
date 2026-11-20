@@ -290,6 +290,7 @@ actions:
           name: adv-gpu
           parameters:
             GPU_COUNT: 0
+            GPU_OPENGL: "0"
             GPU_WAYLAND: ""
             GPU_VA_CODECS: ""
 

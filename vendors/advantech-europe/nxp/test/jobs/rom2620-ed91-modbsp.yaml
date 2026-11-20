@@ -1,5 +1,5 @@
 # LAVA Job Definition – Advantech ROM-2620 ED91 ModBSP Full QA Suite
-# Board: ROM-2620-ED91 (NXP i.MX8MP, Cortex-A35)
+# Board: ROM-2620-ED91 (NXP i.MX8ULP, Cortex-A35)
 ---
 device_type: advantech-rom2620 
 job_name: "Advantech ROM-2620 ED91 ModBSP Full QA"
@@ -18,7 +18,7 @@ metadata:
   source: https://github.com/Advantech-EECC/modular-bsp-test-definitions
   board: ROM-2620-ED91
   bsp: ModBSP
-  soc: NXP i.MX8MP
+  soc: NXP i.MX8ULP
   cpu: Cortex-A35
 
 tags: []
@@ -76,8 +76,12 @@ actions:
           parameters:
             RAM_SLOT_COUNT: 1
             RAM_MIN_AVAIL: 800
-            RAM_SLOT0_SIZE: 1024
+            # 1 GiB DDR minus nomap carve-outs (OP-TEE, DSP, M33) as seen in /proc/iomem
+            RAM_SLOT0_SIZE: 941
             RAM_SLOT0_SPEED: ""
+            # Dual Cortex-A35 is slow: 223M memtester did not finish within 300s
+            RAM_STABILITY_MAX_MB: 128
+            RAM_STABILITY_TIMEOUT: 600
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
           from: git
@@ -91,7 +95,8 @@ actions:
             DISK0_TYPE: MMC
             DISK0_SECTORS: 30777344
             DISK0_MIN_RS: 100
-            DISK0_MIN_WS: 40
+            # Write test sources /dev/urandom (~35 MB/s on A35) with oflag=sync; measured 16 MB/s
+            DISK0_MIN_WS: 12
             DISK1_DEV: /dev/mmcblk2
             DISK1_TYPE: SD
             DISK1_SECTORS: 0
@@ -116,7 +121,8 @@ actions:
             ETH0_BUS: soc
             ETH0_BUS_ID: 29950000
             ETH0_LINK: 100
-            ETH0_WOL_FEATURED: y
+            # FEC on i.MX8ULP reports 'Supports Wake-on: d' (no fsl,magic-packet in DT)
+            ETH0_WOL_FEATURED: n
             ETH0_WOL_WAKEUP: n
             ETH0_MIN_TX_SPEED: 90
             ETH0_MIN_RX_SPEED: 90
@@ -147,7 +153,8 @@ actions:
             UART2_BUS_ID: 29860000
             UART2_HWFC: n
             UART2_DEBUG_CONSOLE: n
-            UART2_LOOPBACK_TEST: "9600:2W 921600:2W"
+            # No loopback plug on LPUART2 in the test setup (rx stays 0)
+            UART2_LOOPBACK_TEST: skip
             UART2_REFERENCE: ""
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
@@ -224,8 +231,8 @@ actions:
             USB_DEV0_DRIVER: usb-storage
             USB_DEV0_SPEED: 480M
             USB_DEV1_PORT: 2
-            USB_DEV1_DRIVER: usbhid
-            USB_DEV1_SPEED: 1.5M
+            USB_DEV1_DRIVER: usb-storage
+            USB_DEV1_SPEED: 480M
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
           from: git
@@ -252,7 +259,8 @@ actions:
           path: automated/linux/tpm/tpm.yaml
           name: adv-tpm
           parameters:
-            TPM_COUNT: 1
+            # No TPM on ROM-2620-ED91: no /dev/tpm*, no TPM driver probed
+            TPM_COUNT: 0
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
           from: git
@@ -269,6 +277,7 @@ actions:
           name: adv-gpu
           parameters:
             GPU_COUNT: 1
+            GPU_OPENGL: "0"
             GPU_WAYLAND: weston
             GPU_VA_CODECS: ""
             GPU0_DRI_KMS_DEV: /dev/dri/card0

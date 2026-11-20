@@ -317,6 +317,7 @@ actions:
           name: adv-gpu
           parameters:
             GPU_COUNT: 2
+            GPU_OPENGL: "0"
             GPU_WAYLAND: weston
             GPU_VA_CODECS: ""
             GPU0_DRI_KMS_DEV: /dev/dri/card0

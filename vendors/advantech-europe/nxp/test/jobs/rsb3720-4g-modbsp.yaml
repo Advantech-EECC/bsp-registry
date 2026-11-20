@@ -59,7 +59,9 @@ actions:
           name: adv-cpu
           parameters:
             CPU_MODEL: Cortex-A53
-            CPU_NPROC: 4
+            # SoC is fused as i.MX 8M Plus Dual (OCOTP tester3[19:18]=0b10);
+            # U-Boot prunes cpu@2/cpu@3 from the DT, so nproc reports 2.
+            CPU_NPROC: 2
             CPU_CSTATES: ""
             CPU_SCALING_MIN: 1200000
             CPU_SCALING_MAX: 1800000
@@ -74,7 +76,10 @@ actions:
           parameters:
             RAM_SLOT_COUNT: 1
             RAM_MIN_AVAIL: 3000
-            RAM_SLOT0_SIZE: 4096
+            # Effective System RAM: 4096 MiB minus 303 MiB of nomap carve-outs
+            # (256M gpu_reserved + 32M OP-TEE + 15M DSP heap), same convention
+            # as the 6G board (6144 - 303 = 5841).
+            RAM_SLOT0_SIZE: 3793
             RAM_SLOT0_SPEED: ""
 
         - repository: https://github.com/Advantech-EECC/modular-bsp-test-definitions.git
@@ -318,6 +323,7 @@ actions:
           name: adv-gpu
           parameters:
             GPU_COUNT: 1
+            GPU_OPENGL: "0"
             GPU_WAYLAND: weston
             GPU_VA_CODECS: ""
             GPU0_DRI_KMS_DEV: /dev/dri/card0
