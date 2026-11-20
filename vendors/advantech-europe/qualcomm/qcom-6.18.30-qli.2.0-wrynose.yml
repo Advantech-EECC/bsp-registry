@@ -9,5 +9,5 @@ header:
 repos:
   meta-modular-bsp-qcom:
     # Preliminary support: switch to a wrynose branch/tag once available.
-    branch: "wrynose-test"
-    commit: "4ef8934db02277944b7d7830367bf2c72f1651f2"
+    branch: "wrynose-test2"
+    commit: "7989b8bb9e37377774f6bc14d885324202aef9b4"
