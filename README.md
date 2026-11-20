@@ -492,24 +492,25 @@ bsp build modular-bsp-rsb3810-scarthgap
 
 ## 2.4. Qualcomm Boards Compatibility Matrix
 
-The BSP registry supports Qualcomm-based boards through the **Qualcomm Linux (QLI)** BSP stack.
-The current integration targets the Yocto **Scarthgap** release and uses the QLI v1.6 Ver.1.2 layer
-set. For detailed configuration, see the [Qualcomm vendor README](vendors/qualcomm/README.md) and
-the [Advantech Qualcomm overlay README](vendors/advantech-europe/qualcomm/README.md).
+The Qualcomm modular BSP for the Advantech AOM-5721 uses **QLI 2.0 on Wrynose**, while the legacy Advantech Qualcomm BSP uses **QLI 1.6 Ver.1.2 on Scarthgap**.
 
-| Board \ Yocto         | scarthgap | Status        |
-| --------------------- | :-------: | ------------- |
-| **QCM6490 IDP**       |     🅿️     | 🟡 Development |
-| **QCS615 ADP Air**    |     🅿️     | 🟡 Development |
-| **IQ-615 EVK**        |     🅿️     | 🟡 Development |
-| **QCS6490 RB3gen2**   |     🅿️     | 🟡 Development |
-| **IQ-8275 EVK**       |     🅿️     | 🟡 Development |
-| **IQ-8300 EVK (Monza)** |   🅿️     | 🟡 Development |
-| **QCS8300 Ride SX**   |     🅿️     | 🟡 Development |
-| **IQ-9075 EVK**       |     🅿️     | 🟡 Development |
-| **QCS9075 Ride SX**   |     🅿️     | 🟡 Development |
-| **QCS9100 Ride SX**   |     🅿️     | 🟡 Development |
-| **AOM-2721**          |     🔍     | 🔍 Preview     |
+See the [Advantech Qualcomm README](vendors/advantech-europe/qualcomm/README.md)
+and the [Qualcomm vendor README](vendors/qualcomm/README.md).
+
+| Board \ Yocto         | scarthgap | wrynose | Status        |
+| --------------------- | :-------: | :-------: | ------------- |
+| **QCM6490 IDP**       |     🅿️     | — | 🟡 Development |
+| **QCS615 ADP Air**    |     🅿️     | — | 🟡 Development |
+| **IQ-615 EVK**        |     🅿️     | — | 🟡 Development |
+| **QCS6490 RB3gen2**   |     🅿️     | — | 🟡 Development |
+| **IQ-8275 EVK**       |     🅿️     | — | 🟡 Development |
+| **IQ-8300 EVK (Monza)** |   🅿️     | — | 🟡 Development |
+| **QCS8300 Ride SX**   |     🅿️     | — | 🟡 Development |
+| **IQ-9075 EVK**       |     🅿️     | — | 🟡 Development |
+| **QCS9075 Ride SX**   |     🅿️     | — | 🟡 Development |
+| **QCS9100 Ride SX**   |     🅿️     | — | 🟡 Development |
+| **AOM-2721**          |     🔍     | — | 🔍 Preview     |
+| **AOM-5721-A1-QCS6490 / AOM-DB6700-A1** | — | 🅿️ | 🟡 Development |
 
 **Status Legend:**
 
@@ -531,16 +532,38 @@ the [Advantech Qualcomm overlay README](vendors/advantech-europe/qualcomm/README
 | **QCS9075 Ride SX**   | `qcs9075-ride-sx` | scarthgap | 🟡 Development | [Qualcomm Ride SX](https://www.qualcomm.com/developer/hardware/ride-sx-development-kit) |
 | **QCS9100 Ride SX**   | `qcs9100-ride-sx` | scarthgap | 🟡 Development | [Qualcomm Ride SX](https://www.qualcomm.com/developer/hardware/ride-sx-development-kit) |
 | **AOM-2721**          | *(none — `aom2721` device only)* | — | 🔍 Preview | [Advantech AOM-2721 Product Page](https://www.advantech.com/en/products/som/aom-2721) |
+| **AOM-5721-A1-QCS6490 / AOM-DB6700-A1** | `modular-bsp-aom5721-qcs6490-db6700-wrynose` | wrynose (qli-2.0) | 🟡 Development | [Advantech Qualcomm modular BSP](vendors/advantech-europe/qualcomm/README.md) |
 
 ### 2.4.1. Building Qualcomm BSPs
+
+Using bsp-registry:
 
 ```bash
 # List available Qualcomm BSPs
 bsp list | grep -i qualcomm
 
+# Build the Advantech modular BSP (wrynose)
+bsp build modular-bsp-aom5721-qcs6490-db6700-wrynose
+
 # Build Qualcomm QCS6490 RB3gen2 EVK (scarthgap)
 bsp build qcs6490-rb3gen2-vision-kit-scarthgap
 ```
+
+Using plain kas: export the preset into a single, self-contained kas file and
+build it with `kas` (or `kas-container`, which brings its own build host):
+
+```bash
+# Export the resolved kas configuration (layers, pinned revisions, local.conf, targets)
+bsp export modular-bsp-aom5721-qcs6490-db6700-wrynose -o aom5721.yml
+
+# Build the targets listed in the file
+# (core-image-minimal, qcom-multimedia-proprietary-image)
+kas-container build aom5721.yml
+
+# ...or build a single image
+kas-container build aom5721.yml --target core-image-minimal
+```
+
 ---
 
 ## 2.5. NVIDIA Jetson Boards Compatibility Matrix

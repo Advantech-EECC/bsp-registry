@@ -20,8 +20,17 @@ package) which takes care of container selection, cache variables, and the build
     - `features/deep-learning/tensorflow.yml`
     - `vendors/qualcomm/qualcomm-common.yml`
 
+- `qcom-6.18.30-qli.2.0-wrynose.yml`
+  - Qualcomm Linux 2.0 on Yocto Wrynose, used as the `qli-2.0` vendor release of the
+    `wrynose` release. Declares `meta-qcom`, `meta-qcom-distro`, `meta-lts-mixins`,
+    `meta-audioreach` and `meta-updater`, and pins all core layers to the
+    [QLI 2.0 lock](https://github.com/qualcomm-linux/meta-qcom-releases/blob/qli-2.0/lock.yml)
+    (plus meta-qcom's `ci/base.lock.yml`). The `qcom-distro` distro is selected through
+    the registry (`distro/qcom-distro.yaml`).
+
 - `qualcomm-common.yml`
-  - Sets the default distro (`qcom-wayland`) and target image (`qcom-console-image`).
+  - Sets the default distro (`qcom-wayland`) and target image (`qcom-console-image`) for the
+    QLI 1.6 / scarthgap integration (not used by QLI 2.0).
 
 ### Reference machine configs
 

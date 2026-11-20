@@ -1,0 +1,125 @@
+header:
+  version: 14
+
+# Qualcomm Linux 2.0 (QLI 2.0) on Yocto 6.0 Wrynose.
+#
+# Layer set and revisions follow the `qli-2.0` release of
+# https://github.com/qualcomm-linux/meta-qcom-releases (lock.yml @ 6612feff)
+# and the matching meta-qcom `ci/base.yml`, `ci/base.lock.yml` and
+# `ci/qcom-distro.yml` (meta-qcom @ ef0004df). Repositories that are already
+# declared by the registry's wrynose release (yocto/yocto.yaml,
+# yocto/releases/wrynose.yml) are only pinned here; Qualcomm-specific
+# repositories are declared in full. The `qcom-distro` distro itself is
+# selected by the registry (vendors/qualcomm/distro/qcom-distro.yaml).
+
+target:
+  - core-image-minimal
+  - qcom-multimedia-proprietary-image
+
+repos:
+  # --- Qualcomm layers ---
+
+  meta-qcom:
+    url: "https://github.com/qualcomm-linux/meta-qcom"
+    branch: "wrynose"
+    commit: "ef0004df267743cc89d6a09bc724bc99ff541c01"
+    path: "layers/meta-qcom"
+    layers:
+      .:
+
+  meta-qcom-distro:
+    url: "https://github.com/qualcomm-linux/meta-qcom-distro"
+    commit: "775dc8c710f382ef8183000e7f0d40bc7dcf61cc"
+    path: "layers/meta-qcom-distro"
+    layers:
+      .:
+
+  meta-lts-mixins:
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
+    branch: "wrynose/linux-firmware"
+    commit: "348a9eaaf3991e2329d0cef14dce23fabaef9191"
+    path: "layers/meta-lts-mixins"
+    layers:
+      .:
+
+  meta-audioreach:
+    url: "https://github.com/AudioReach/meta-audioreach"
+    branch: "master"
+    commit: "c80ebf5be5cc47a1bab1acb4b1987c8cd8b48218"
+    path: "layers/meta-audioreach"
+    layers:
+      .:
+
+  meta-updater:
+    url: "https://github.com/uptane/meta-updater"
+    commit: "f0e1ccafaa877d2781ed953236981dac57439dc8"
+    path: "layers/meta-updater"
+    layers:
+      .:
+
+  # --- Core layers (declared by the wrynose release, pinned to QLI 2.0) ---
+
+  bitbake:
+    branch: "2.18"
+    commit: "22021758e66737bcf68dfd2b74adc6a0cb1d42d9"
+
+  openembedded-core:
+    commit: "06dd66e6220e5ce4ed4b9af4d8231ae5f0a8ce80"
+
+  meta-openembedded:
+    commit: "9af4488d46cb4fd4c0d2d64820c86225ebd6ac71"
+    patches:
+      mariadb-armv83a:
+        repo: meta-qcom
+        path: patches/meta-oe/0001-mariadb-fix-building-for-the-ARMv8.3-A-and-later-sys.patch
+
+  meta-arm:
+    commit: "d3b55902fb9963978be90d6f283296de456b4b63"
+
+  meta-selinux:
+    commit: "1c3a699f363167571ab39fecb0fe6f56691a4e20"
+
+  # meta-qcom-distro depends on `security` and `tpm-layer`.
+  meta-security:
+    commit: "c0d1d6200e7a84c39fb940cb1f22aad4b0b3d808"
+    layers:
+      .:
+      meta-tpm:
+
+  # meta-qcom-distro depends on `virtualization-layer`.
+  meta-virtualization:
+    commit: "959a211fbba059689a1c3a1b24fe0abb9224281a"
+    layers:
+      .:
+
+  # Not part of the QLI lock (meta-poky is unused with qcom-distro); pinned to
+  # the same wrynose revisions as the other wrynose vendor BSPs.
+  meta-yocto:
+    commit: "7c25b11156553145fa6b241a2d4f65d94438f804"
+
+  poky:
+    commit: "5c2b3d184065b0a15695bad7db455ef65653e4c6"
+
+local_conf_header:
+  qcom-mirrors: |
+    MIRRORS:append = " \
+    git://github.com git://git.codelinaro.org/clo/yocto-mirrors/github/ \
+    git://.*/ git://git.codelinaro.org/clo/yocto-mirrors/ \
+    https://.*/.*/ https://artifacts.codelinaro.org/codelinaro-le/ \
+    "
+
+  qcom-image: |
+    INHERIT += "image-buildinfo"
+    IMAGE_CLASSES += "image_types_qcom"
+    IMAGE_FSTYPES += "qcomflash"
+    DISTRO_FEATURES:append = " efi pam pni-names"
+    IMAGE_ROOTFS_EXTRA_SPACE = "307200"
+    WATCHDOG_RUNTIME_SEC:pn-systemd = "30"
+
+  qcom-debug: |
+    # Enables crash dump collection on the target (Qualcomm CI default).
+    # Remove for production images.
+    KERNEL_CMDLINE_EXTRA:append = " qcom_scm.download_mode=1"
+
+  qcom-virtualization: |
+    SKIP_META_VIRT_SANITY_CHECK = "1"

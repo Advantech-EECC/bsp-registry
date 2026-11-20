@@ -635,6 +635,22 @@ registry:
                   description: "Advantech Rockchip BSP 1.0.0 (Yocto 6.0 Wrynose)"
                   includes:
                     - vendors/advantech-europe/rockchip/adv-rockchip-1.0.0-wrynose.yml
+            - vendor: qualcomm
+              distro: qcom-distro
+              includes:
+                - vendors/advantech-europe/qualcomm/modular-bsp-qcom.yml
+              releases:
+                - slug: qli-2.0
+                  description: "Advantech Qualcomm Linux 2.0 (Yocto 6.0 Wrynose Kernel 6.18.30)"
+                  includes:
+                    - vendors/advantech-europe/qualcomm/qcom-6.18.30-qli.2.0-wrynose.yml
+        - vendor: qualcomm
+          distro: qcom-distro
+          releases:
+            - slug: qli-2.0
+              description: "Qualcomm Linux 2.0 (Yocto 6.0 Wrynose Kernel 6.18.30)"
+              includes:
+                - vendors/qualcomm/qcom-6.18.30-qli.2.0-wrynose.yml
         - vendor: nvidia
           distro: 
           releases:

@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+repos:
+  meta-modular-bsp-qcom:
+    url: "https://github.com/Advantech-EECC/meta-modular-bsp-qcom.git"
+    path: "layers/meta-modular-bsp-qcom"
+    layers:
+      .:

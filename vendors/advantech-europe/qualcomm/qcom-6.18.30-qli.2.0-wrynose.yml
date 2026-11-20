@@ -1,0 +1,13 @@
+header:
+  version: 14
+  includes:
+    # Upstream Qualcomm Linux 2.0 layer set, pinned for the wrynose branch.
+    - vendors/qualcomm/qcom-6.18.30-qli.2.0-wrynose.yml
+    # Advantech overlay carrying the AOM-5721 machine configuration.
+    - vendors/advantech-europe/qualcomm/modular-bsp-qcom.yml
+
+repos:
+  meta-modular-bsp-qcom:
+    # Preliminary support: switch to a wrynose branch/tag once available.
+    branch: "wrynose-test"
+    commit: "4ef8934db02277944b7d7830367bf2c72f1651f2"
