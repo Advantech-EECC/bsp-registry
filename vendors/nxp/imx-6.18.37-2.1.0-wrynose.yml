@@ -118,6 +118,10 @@ repos:
       meta-imx-sdk:
       meta-imx-v2x:
 
+  meta-qt6:
+    branch: "6.11"
+    commit: "302c4fab8d230f5cb7b21e4304c728831a0658cb"
+
 local_conf_header:
   fsl-imx: |
     DISTRO_FEATURES += "opencl ipv6"

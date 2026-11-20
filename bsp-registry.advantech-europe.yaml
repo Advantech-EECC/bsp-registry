@@ -79,7 +79,15 @@ registry:
       architecture: arm64
       includes:
         - vendors/advantech-europe/nxp/machine/imx8/rom5720-db5901.yml
-    
+
+    - slug: rom5620-db5901
+      description: "Advantech ROM-5620 (i.MX8, 2GB)"
+      vendor: advantech-europe
+      soc_vendor: nxp
+      architecture: arm64
+      includes:
+        - vendors/advantech-europe/nxp/machine/imx8/rom5620-db5901.yml
+
     - slug: rom5722-db2510
       description: "Advantech ROM-5722 (i.MX8)"
       vendor: advantech-europe
@@ -397,7 +405,24 @@ registry:
       build:
         container: "ubuntu-22.04"
         path: build/modular-bsp-rom5720-db5901
-    
+
+    # --- Advantech Europe Modular BSP ROM-5620 DB5901 ---
+
+    - name: modular-bsp-rom5620-db5901
+      description: "Advantech ROM-5620 DB5901 (i.MX8)"
+      device: rom5620-db5901
+      releases: [scarthgap, styhead, walnascar, whinlatter, wrynose]
+      features: [systemd, security, virtualization, ipv6, root-login]
+      testing:
+        backend: direct-ssh
+        direct:
+          lava_job: vendors/advantech-europe/nxp/test/jobs/rom5620-db5901-modbsp.yaml
+          # suites: [adv-context, adv-cpu, adv-ram, adv-thermal, adv-eth]   # optional subset
+          transport: { mode: ssh, user: root, strict_host_key_checking: false, known_hosts_file: /dev/null }        
+      build:
+        container: "ubuntu-22.04"
+        path: build/modular-bsp-rom5620-db5901
+
     # --- Advantech Europe Modular BSP ROM-5721 DB5901 ---
 
     - name: modular-bsp-rom5721-db5901
