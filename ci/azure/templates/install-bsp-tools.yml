@@ -15,3 +15,5 @@ steps:
       echo "##vso[task.prependpath]$VENV/bin"
       "$VENV/bin/bsp" --version
     displayName: "Install bsp-registry-tools and expose bsp on PATH"
+    # PyPI hiccups should not fail a run; the step is cheap to repeat.
+    retryCountOnTaskFailure: 2

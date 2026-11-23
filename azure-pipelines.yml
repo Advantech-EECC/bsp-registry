@@ -224,30 +224,34 @@ jobs:
 
       - template: ci/azure/templates/install-bsp-tools.yml
 
-      # Build the BSP using the tool
-      # Using --local ensures it uses the bsp-registry.yml from the current repo (PR content)
-      # In check-only mode (checkbox, or any pull request build) only
-      # 'bsp build --checkout' runs: fetch layers and validate, no bitbake.
-      - script: |
-          set -e
-          MODE_ARGS=""
-          if [ "${{ parameters.checkoutOnly }}" = "True" ] || [ "$(Build.Reason)" = "PullRequest" ]; then
-            echo "Check-only mode: fetching layers and validating configuration (no build)."
-            MODE_ARGS="--checkout"
-          fi
-          bsp --local build $MODE_ARGS "$(BSP_NAME)"
-        displayName: 'Run bsp build'
+      # Fetch the layers and validate the configuration first, with retries:
+      # git/network hiccups are cheap to repeat here, unlike a full build.
+      # In check-only mode (checkbox, or any pull request build) this is the
+      # only build step. --local uses the registry from this checkout.
+      - script: bsp --local build --checkout "$(BSP_NAME)"
+        displayName: 'Fetch layers and validate (bsp build --checkout)'
+        retryCountOnTaskFailure: 2
+
+      # Full build, not retried: a real failure would just burn hours again.
+      # Layers are already present from the step above.
+      - ${{ if eq(parameters.checkoutOnly, false) }}:
+        - script: bsp --local build "$(BSP_NAME)"
+          displayName: 'Run bsp build'
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
       # CVE scan + SBOM of the built images. Runs before deploy so a scan
       # failure (finding at/above the selected severity) blocks the upload.
       - ${{ if and(eq(parameters.scan, true), eq(parameters.checkoutOnly, false)) }}:
+        - script: bash ci/azure/install_trivy.sh "$(TRIVY_VERSION)" "$(Agent.TempDirectory)/trivy-bin"
+          displayName: 'Install Trivy'
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+          retryCountOnTaskFailure: 2
+
         - script: |
             set -e
             echo "##vso[task.setvariable variable=BSP_SCAN_RAN]true"
             OUT="$(Agent.TempDirectory)/scan-reports"
             rm -rf "$OUT"; mkdir -p "$OUT"
-            bash ci/azure/install_trivy.sh "$(TRIVY_VERSION)" "$(Agent.TempDirectory)/trivy-bin"
-            export PATH="$(Agent.TempDirectory)/trivy-bin:$PATH"
             bsp --local scan --fail-on "${{ parameters.scanFailOn }}" --output-dir "$OUT" "$(BSP_NAME)"
           displayName: 'CVE scan and SBOM'
           condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
