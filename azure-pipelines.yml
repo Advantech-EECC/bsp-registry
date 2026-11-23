@@ -309,6 +309,54 @@ jobs:
             # Secret variables are not exposed to scripts unless mapped.
             AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
 
+      # On failure, keep the logs needed for debugging before the cleanup
+      # step deletes the build directory: the bitbake console log, the log
+      # of every failed task, conf/ and build-manifest.json. Published as the
+      # pipeline artifact "failure-logs-<preset>-<attempt>".
+      - script: |
+          SRC="$(Build.SourcesDirectory)/build/$(BSP_NAME)"
+          OUT="$(Agent.TempDirectory)/failure-logs"
+          rm -rf "$OUT"; mkdir -p "$OUT/failed-tasks"
+          {
+            echo "Preset:  $(BSP_NAME)"
+            echo "Run:     $(Build.BuildNumber) (id $(Build.BuildId)), job attempt $(System.JobAttempt)"
+            echo "Commit:  $(Build.SourceVersion) on $(Build.SourceBranch)"
+          } > "$OUT/README.txt"
+          if [ ! -d "$SRC" ]; then
+            echo "Build directory $SRC does not exist (failed before kas ran)." >> "$OUT/README.txt"
+            exit 0
+          fi
+          cp -L "$SRC/build-manifest.json" "$OUT/" 2>/dev/null || true
+          cp -rL "$SRC/build/conf" "$OUT/conf" 2>/dev/null || true
+          for LOG in "$SRC"/build/tmp*/log/cooker/*/console-latest.log; do
+            [ -e "$LOG" ] || continue
+            MACHINE_DIR="${LOG%/console-latest.log}"
+            cp -L "$LOG" "$OUT/console-${MACHINE_DIR##*/}.log"
+          done
+          # Bitbake prints "Logfile of failure stored in: <path>" per failed
+          # task. Paths may be container paths (/build, /work) from kas-container.
+          grep -ho "Logfile of failure stored in: [^ ]*" "$OUT"/console-*.log 2>/dev/null | \
+            awk '{print $NF}' | sort -u | while read -r P; do
+              for C in "$P" "$SRC/build/${P#/build/}" "$SRC/${P#/work/}"; do
+                if [ -f "$C" ]; then
+                  NAME="${C##*/work/}"
+                  cp -L "$C" "$OUT/failed-tasks/${NAME//\//__}"
+                  break
+                fi
+              done
+            done
+          echo "Collected:"; find "$OUT" -type f | sed "s|^$OUT/|  |"
+        displayName: 'Collect failure logs'
+        condition: failed()
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish failure logs'
+        condition: failed()
+        continueOnError: true
+        inputs:
+          targetPath: '$(Agent.TempDirectory)/failure-logs'
+          artifact: 'failure-logs-$(BSP_NAME)-$(System.JobAttempt)'
+
       # Fail fast: when this preset failed, cancel the whole run so queued
       # and running presets stop. The cleanup step below still runs because
       # it uses always(). Only added when "Stop all builds" is ticked.
