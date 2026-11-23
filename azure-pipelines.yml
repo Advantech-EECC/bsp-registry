@@ -12,6 +12,11 @@
 # bsp-registry.yml) and refresh the container's index.html. Requires the
 # secret pipeline variable AZURE_STORAGE_CONNECTION_STRING.
 #
+# "Stop all builds when one preset fails" (default on) cancels the whole run
+# as soon as any preset fails; untick it to let the remaining presets build.
+# Cancelling uses System.AccessToken, so the project's Build Service identity
+# needs the "Stop builds" permission on this pipeline.
+#
 
 pool:
   name: aeu.de
@@ -63,6 +68,10 @@ parameters:
     displayName: "Deploy artifacts to Azure Blob Storage"
     type: boolean
     default: false
+  - name: stopOnFailure
+    displayName: "Stop all builds when one preset fails"
+    type: boolean
+    default: true
 
 variables:
   # Pinned bsp-registry-tools release. Bump deliberately: the matrix
@@ -281,6 +290,24 @@ jobs:
           env:
             # Secret variables are not exposed to scripts unless mapped.
             AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
+
+      # Fail fast: when this preset failed, cancel the whole run so queued
+      # and running presets stop. The cleanup step below still runs because
+      # it uses always(). Only added when "Stop all builds" is ticked.
+      - ${{ if eq(parameters.stopOnFailure, true) }}:
+        - script: |
+            echo "##vso[task.logissue type=error]Preset $(BSP_NAME) failed; cancelling remaining builds (stop on failure)."
+            URL="$(System.CollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)?api-version=7.1"
+            if ! curl -sS -f -X PATCH \
+                 -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+                 -H "Content-Type: application/json" \
+                 -d '{"status":"cancelling"}' "$URL" >/dev/null; then
+              echo "##vso[task.logissue type=warning]Could not cancel the run. Grant the project Build Service the 'Stop builds' permission on this pipeline."
+            fi
+          displayName: 'Stop remaining builds'
+          condition: failed()
+          env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
       # Remove this preset's build directory so the Yocto/Isar tmp tree does
       # not stay on the agent until the next checkout. Isar builds run in a
