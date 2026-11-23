@@ -35,6 +35,9 @@
 # Each build job starts with a pre-flight check (Docker, privileged
 # containers for Isar, free disk space) so a broken agent fails in seconds.
 #
+# After each build, the shared sstate cache is pruned of entries unused for
+# "sstatePruneDays" days (at most once a day per agent; downloads are kept).
+#
 # Helper scripts and templates live in ci/azure/ (unit-tested by
 # .github/workflows/test-azure-pipeline-scripts.yml).
 #
@@ -155,6 +158,10 @@ parameters:
     displayName: "Max parallel builds (0 = no limit; leaves agents free for other pipelines)"
     type: number
     default: 0
+  - name: sstatePruneDays
+    displayName: "Prune sstate cache entries unused for this many days (daily per agent; 0 = off)"
+    type: number
+    default: 30
   - name: minFreeDiskGB
     displayName: "Pre-flight: minimum free disk space in GB for a full build (0 = skip check)"
     type: number
@@ -368,6 +375,15 @@ jobs:
           fi
         displayName: 'Clean up build directory'
         condition: always()
+
+      # Keep the shared sstate cache from growing without bound: at most
+      # once a day per agent, delete sstate files nobody read for N days.
+      # The downloads cache is never pruned. Never fails the job.
+      - ${{ if gt(parameters.sstatePruneDays, 0) }}:
+        - script: python3 ci/azure/prune_sstate.py "$(Build.SourcesDirectory)" "${{ parameters.sstatePruneDays }}"
+          displayName: 'Prune old sstate cache entries'
+          condition: succeededOrFailed()
+          continueOnError: true
 
   # -----------------------------------------------------------------------------
   # Job 3: Refresh the browsable index.html of the artifact container once,
