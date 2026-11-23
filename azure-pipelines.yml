@@ -78,6 +78,13 @@ jobs:
                 
                 print(f"Found {len(bsp_list)} variants.")
 
+                # An empty matrix would skip every build and still report
+                # success (e.g. if the 'bsp list' output format changes).
+                if not bsp_list:
+                    print("##vso[task.logissue type=error]No BSP presets found in 'bsp list' output:")
+                    print(output)
+                    sys.exit(1)
+
                 # Construct Azure DevOps matrix dictionary
                 # Format: { "JobNameSuffix": { "VAR_NAME": "value" }, ... }
                 matrix = {}
