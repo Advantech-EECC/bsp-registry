@@ -7,6 +7,11 @@
 # Select what to build when queuing the run: tick one or more preset groups
 # and/or enter a regular expression. The union of all selections is built.
 #
+# Tick "Deploy artifacts" to upload the build outputs to Azure Blob Storage
+# (account/container/patterns come from the 'deploy' section of
+# bsp-registry.yml) and refresh the container's index.html. Requires the
+# secret pipeline variable AZURE_STORAGE_CONNECTION_STRING.
+#
 
 pool:
   name: aeu.de
@@ -54,6 +59,10 @@ parameters:
     displayName: "Additional presets: regular expression (Python re.search, e.g. ^modular-bsp-rsb3720-.*-wrynose$)"
     type: string
     default: " "
+  - name: deploy
+    displayName: "Deploy artifacts to Azure Blob Storage"
+    type: boolean
+    default: false
 
 variables:
   # Pinned bsp-registry-tools release. Bump deliberately: the matrix
@@ -80,7 +89,7 @@ jobs:
           VENV="$(Agent.TempDirectory)/bsp-venv"
           python3 -m venv "$VENV"
           "$VENV/bin/python" -m pip install --upgrade pip
-          "$VENV/bin/python" -m pip install "bsp-registry-tools==$(BSP_TOOLS_VERSION)"
+          "$VENV/bin/python" -m pip install "bsp-registry-tools[azure]==$(BSP_TOOLS_VERSION)"
           echo "##vso[task.prependpath]$VENV/bin"
           "$VENV/bin/bsp" --version
         displayName: "Install bsp-registry-tools and expose bsp on PATH"
@@ -244,7 +253,7 @@ jobs:
           VENV="$(Agent.TempDirectory)/bsp-venv"
           python3 -m venv "$VENV"
           "$VENV/bin/python" -m pip install --upgrade pip
-          "$VENV/bin/python" -m pip install "bsp-registry-tools==$(BSP_TOOLS_VERSION)"
+          "$VENV/bin/python" -m pip install "bsp-registry-tools[azure]==$(BSP_TOOLS_VERSION)"
           echo "##vso[task.prependpath]$VENV/bin"
           "$VENV/bin/bsp" --version
         displayName: "Install bsp-registry-tools and expose bsp on PATH"
@@ -255,3 +264,59 @@ jobs:
           bsp --local build $(BSP_NAME)
         displayName: 'Run bsp build'
 
+      # Upload artifacts of this preset. The step is only added to the run
+      # when "Deploy artifacts" is ticked, and only runs if the build passed.
+      # The index is refreshed once by the UpdateIndex job instead of by
+      # every parallel build job.
+      - ${{ if eq(parameters.deploy, true) }}:
+        - script: |
+            set -e
+            case "$AZURE_STORAGE_CONNECTION_STRING" in
+              ""|"\$("*)
+                echo "##vso[task.logissue type=error]Secret pipeline variable AZURE_STORAGE_CONNECTION_STRING is not set."
+                exit 1 ;;
+            esac
+            bsp --local deploy --no-update-index "$(BSP_NAME)"
+          displayName: 'Deploy artifacts'
+          env:
+            # Secret variables are not exposed to scripts unless mapped.
+            AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
+
+  # -----------------------------------------------------------------------------
+  # Job 3: Refresh the browsable index.html of the artifact container once,
+  # after all builds (also when some of them failed, so successful uploads
+  # still show up). Only present when "Deploy artifacts" is ticked.
+  # -----------------------------------------------------------------------------
+  - ${{ if eq(parameters.deploy, true) }}:
+    - job: UpdateIndex
+      displayName: "Update artifact index"
+      dependsOn: BuildBSP
+      condition: in(dependencies.BuildBSP.result, 'Succeeded', 'SucceededWithIssues', 'Failed')
+      timeoutInMinutes: 30
+      steps:
+        - checkout: self
+          fetchDepth: 1
+          clean: true
+          displayName: 'Checkout repository'
+
+        - script: |
+            set -e
+            VENV="$(Agent.TempDirectory)/bsp-venv"
+            python3 -m venv "$VENV"
+            "$VENV/bin/python" -m pip install --upgrade pip
+            "$VENV/bin/python" -m pip install "bsp-registry-tools[azure]==$(BSP_TOOLS_VERSION)"
+            echo "##vso[task.prependpath]$VENV/bin"
+            "$VENV/bin/bsp" --version
+          displayName: "Install bsp-registry-tools and expose bsp on PATH"
+
+        - script: |
+            set -e
+            case "$AZURE_STORAGE_CONNECTION_STRING" in
+              ""|"\$("*)
+                echo "##vso[task.logissue type=error]Secret pipeline variable AZURE_STORAGE_CONNECTION_STRING is not set."
+                exit 1 ;;
+            esac
+            bsp --local deploy index
+          displayName: 'Rebuild container index.html'
+          env:
+            AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
