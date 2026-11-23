@@ -5,7 +5,7 @@ header:
 
 repos:
   meta-modular-bsp-nxp:
-    commit: "2c8a8384deb701cbf4056d2a7dc206af29be7c18"
+    commit: "f54da88c938877315ba22b3fc3faa4a4fc12c53a"
 
   meta-nxp-security-reference-design:
     branch: "whinlatter-6.18.2-1.0.0-adv"
