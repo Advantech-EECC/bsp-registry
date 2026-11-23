@@ -32,6 +32,9 @@
 # with result and duration on the run's Extensions tab. Logs of failed
 # presets are published as "failure-logs-<preset>-<attempt>" artifacts.
 #
+# Helper scripts and templates live in ci/azure/ (unit-tested by
+# .github/workflows/test-azure-pipeline-scripts.yml).
+#
 
 pool:
   name: aeu.de
@@ -166,19 +169,10 @@ jobs:
         clean: true
         displayName: 'Checkout repository'
 
-      - script: |
-          set -e
-          # Use a venv: 'pip install --user' is rejected on PEP 668
-          # (externally-managed) system Pythons such as Debian 12 / Ubuntu 24.04.
-          VENV="$(Agent.TempDirectory)/bsp-venv"
-          python3 -m venv "$VENV"
-          "$VENV/bin/python" -m pip install --upgrade pip
-          "$VENV/bin/python" -m pip install "bsp-registry-tools[azure]==$(BSP_TOOLS_VERSION)"
-          echo "##vso[task.prependpath]$VENV/bin"
-          "$VENV/bin/bsp" --version
-        displayName: "Install bsp-registry-tools and expose bsp on PATH"
+      - template: ci/azure/templates/install-bsp-tools.yml
 
-      - task: PythonScript@0
+      - script: python3 ci/azure/generate_matrix.py
+        name: 'generator'
         displayName: 'Generate Build Matrix'
         env:
           BUILD_ALL: ${{ parameters.buildAll }}
@@ -201,152 +195,6 @@ jobs:
           REL_WRYNOSE: ${{ parameters.relWrynose }}
           REL_MASTER: ${{ parameters.relMaster }}
           REL_ISAR: ${{ parameters.relIsar }}
-        inputs:
-          scriptSource: 'inline'
-          script: |
-            import subprocess
-            import json
-            import os
-            import re
-            import sys
-
-            print("Listing available BSPs...")
-            try:
-                # Run 'bsp --no-color --local list' to get the list of variants.
-                # --local must match the build job, otherwise the matrix is
-                # generated from the remote (main) registry instead of the
-                # registry in this checkout.
-                result = subprocess.run(
-                    ['bsp', '--no-color', '--local', 'list'],
-                    capture_output=True,
-                    text=True,
-                    check=True
-                )
-
-                output = result.stdout
-                bsp_list = []
-                release_of = {}
-
-                # Parse output lines formatted like "- bsp-name: Description"
-                for line in output.splitlines():
-                    line = line.strip()
-                    if line.startswith("- "):
-                        # Extract name between "- " and ":"
-                        match = re.match(r'- ([^:]+):', line)
-                        if match:
-                            bsp_name = match.group(1).strip()
-                            bsp_list.append(bsp_name)
-                            rel = re.search(r'\(device: [^,]*, release: ([^,)]+)', line)
-                            release_of[bsp_name] = rel.group(1).strip() if rel else ""
-
-                print(f"Found {len(bsp_list)} variants.")
-
-                # An empty matrix would skip every build and still report
-                # success (e.g. if the 'bsp list' output format changes).
-                if not bsp_list:
-                    print("##vso[task.logissue type=error]No BSP presets found in 'bsp list' output:")
-                    print(output)
-                    sys.exit(1)
-
-                # ---- Preset selection (queue-time parameters) ----
-                # Env var -> regex matched against the preset name.
-                GROUPS = {
-                    "GROUP_POKY":      r"^poky-",
-                    "GROUP_ISAR":      r"^isar-",
-                    "GROUP_MODULAR":   r"^modular-",
-                    "GROUP_ADVANTECH": r"^advantech-",
-                    "GROUP_MEDIATEK":  r"^mediatek-",
-                    "GROUP_QUALCOMM":  r"^(qcm|qcs)[0-9]|^monaco-",
-                    "GROUP_ROCKCHIP":  r"^rock-",
-                    "GROUP_NVIDIA":    r"^jetson-",
-                }
-
-                def enabled(var):
-                    return os.environ.get(var, "").strip().lower() == "true"
-
-                # Presets not covered by any group are only reachable via
-                # "All presets" or the regex; flag them so groups get updated.
-                ungrouped = [b for b in bsp_list
-                             if not any(re.search(rx, b) for rx in GROUPS.values())]
-                for b in ungrouped:
-                    print(f"##vso[task.logissue type=warning]Preset '{b}' is not in any group checkbox")
-
-                if enabled("BUILD_ALL"):
-                    selected = list(bsp_list)
-                    print("Selection: all presets")
-                else:
-                    patterns = [rx for var, rx in GROUPS.items() if enabled(var)]
-                    user_rx = os.environ.get("PRESET_REGEX", "").strip()
-                    if user_rx:
-                        try:
-                            re.compile(user_rx)
-                        except re.error as err:
-                            print(f"##vso[task.logissue type=error]Invalid preset regex {user_rx!r}: {err}")
-                            sys.exit(1)
-                        patterns.append(user_rx)
-                    print("Selection patterns: " + (", ".join(patterns) or "<none>"))
-                    selected = [b for b in bsp_list
-                                if any(re.search(rx, b) for rx in patterns)]
-
-                # Release filter: narrows the selection above. A preset's
-                # release matches a ticked Yocto release exactly or as a
-                # suffix (ros2-humble-scarthgap counts as scarthgap).
-                # Nothing ticked = no release filtering.
-                YOCTO_RELEASES = ["kirkstone", "mickledore", "nanbield", "scarthgap",
-                                  "styhead", "walnascar", "whinlatter", "wrynose", "master"]
-
-                def release_matches(rel, ticked):
-                    for r in ticked:
-                        if r == "isar":
-                            if re.match(r"^(debian|ubuntu)-", rel):
-                                return True
-                        elif rel == r or rel.endswith("-" + r):
-                            return True
-                    return False
-
-                for b in bsp_list:
-                    if not release_matches(release_of.get(b, ""), YOCTO_RELEASES + ["isar"]):
-                        print(f"##vso[task.logissue type=warning]Preset '{b}' (release "
-                              f"'{release_of.get(b, '')}') is not covered by any release checkbox")
-
-                ticked = [r for r in YOCTO_RELEASES if enabled("REL_" + r.upper())]
-                if enabled("REL_ISAR"):
-                    ticked.append("isar")
-                if ticked:
-                    before = len(selected)
-                    selected = [b for b in selected
-                                if release_matches(release_of.get(b, ""), ticked)]
-                    print(f"Release filter {', '.join(ticked)}: {len(selected)} of {before} presets kept")
-
-                if not selected:
-                    print("##vso[task.logissue type=error]No presets selected: tick a group "
-                          "or 'All presets', or enter a regex that matches at least one preset "
-                          "(and check that the release filter does not exclude all of them).")
-                    sys.exit(1)
-
-                print(f"Building {len(selected)} of {len(bsp_list)} presets:")
-                for b in selected:
-                    print(f"  {b}")
-                bsp_list = selected
-
-                # Construct Azure DevOps matrix dictionary
-                # Format: { "JobNameSuffix": { "VAR_NAME": "value" }, ... }
-                matrix = {}
-                for bsp in bsp_list:
-                    # Create a safe job name (alphanumeric only)
-                    safe_name = re.sub(r'[^a-zA-Z0-9]', '_', bsp)
-                    matrix[safe_name] = { "BSP_NAME": bsp }
-
-                # Convert to JSON
-                matrix_json = json.dumps(matrix)
-
-                # Set the output variable 'matrix' for the next job
-                print(f"##vso[task.setvariable variable=matrix;isOutput=true]{matrix_json}")
-
-            except subprocess.CalledProcessError as e:
-                print(f"Error running bsp list: {e.stderr}")
-                sys.exit(1)
-        name: 'generator'
 
   # -----------------------------------------------------------------------------
   # Job 2: Build each BSP variant in parallel
@@ -374,17 +222,7 @@ jobs:
           echo "Building Variant: $(BSP_NAME)"
         displayName: 'Display Variant Info'
 
-      - script: |
-          set -e
-          # Use a venv: 'pip install --user' is rejected on PEP 668
-          # (externally-managed) system Pythons such as Debian 12 / Ubuntu 24.04.
-          VENV="$(Agent.TempDirectory)/bsp-venv"
-          python3 -m venv "$VENV"
-          "$VENV/bin/python" -m pip install --upgrade pip
-          "$VENV/bin/python" -m pip install "bsp-registry-tools[azure]==$(BSP_TOOLS_VERSION)"
-          echo "##vso[task.prependpath]$VENV/bin"
-          "$VENV/bin/bsp" --version
-        displayName: "Install bsp-registry-tools and expose bsp on PATH"
+      - template: ci/azure/templates/install-bsp-tools.yml
 
       # Build the BSP using the tool
       # Using --local ensures it uses the bsp-registry.yml from the current repo (PR content)
@@ -408,25 +246,8 @@ jobs:
             echo "##vso[task.setvariable variable=BSP_SCAN_RAN]true"
             OUT="$(Agent.TempDirectory)/scan-reports"
             rm -rf "$OUT"; mkdir -p "$OUT"
-            if ! command -v trivy >/dev/null 2>&1; then
-              V="$(TRIVY_VERSION)"
-              case "$(uname -m)" in
-                x86_64)  A=64bit ;;
-                aarch64) A=ARM64 ;;
-                *) echo "##vso[task.logissue type=error]No Trivy build for $(uname -m)"; exit 1 ;;
-              esac
-              BIN="$(Agent.TempDirectory)/trivy-bin"; mkdir -p "$BIN"
-              TGZ="trivy_${V}_Linux-${A}.tar.gz"
-              REL="https://github.com/aquasecurity/trivy/releases/download/v${V}"
-              echo "Installing Trivy $V into $BIN"
-              ( cd "$BIN"
-                curl -sSfLO "$REL/$TGZ"
-                curl -sSfLO "$REL/trivy_${V}_checksums.txt"
-                grep " $TGZ\$" "trivy_${V}_checksums.txt" | sha256sum -c -
-                tar -xzf "$TGZ" trivy )
-              export PATH="$BIN:$PATH"
-            fi
-            trivy --version
+            bash ci/azure/install_trivy.sh "$(TRIVY_VERSION)" "$(Agent.TempDirectory)/trivy-bin"
+            export PATH="$(Agent.TempDirectory)/trivy-bin:$PATH"
             bsp --local scan --fail-on "${{ parameters.scanFailOn }}" --output-dir "$OUT" "$(BSP_NAME)"
           displayName: 'CVE scan and SBOM'
           condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -459,44 +280,18 @@ jobs:
             AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
 
       # On failure, keep the logs needed for debugging before the cleanup
-      # step deletes the build directory: the bitbake console log, the log
-      # of every failed task, conf/ and build-manifest.json. Published as the
-      # pipeline artifact "failure-logs-<preset>-<attempt>".
-      - script: |
-          SRC="$(Build.SourcesDirectory)/build/$(BSP_NAME)"
-          OUT="$(Agent.TempDirectory)/failure-logs"
-          rm -rf "$OUT"; mkdir -p "$OUT/failed-tasks"
-          {
-            echo "Preset:  $(BSP_NAME)"
-            echo "Run:     $(Build.BuildNumber) (id $(Build.BuildId)), job attempt $(System.JobAttempt)"
-            echo "Commit:  $(Build.SourceVersion) on $(Build.SourceBranch)"
-          } > "$OUT/README.txt"
-          if [ ! -d "$SRC" ]; then
-            echo "Build directory $SRC does not exist (failed before kas ran)." >> "$OUT/README.txt"
-            exit 0
-          fi
-          cp -L "$SRC/build-manifest.json" "$OUT/" 2>/dev/null || true
-          cp -rL "$SRC/build/conf" "$OUT/conf" 2>/dev/null || true
-          for LOG in "$SRC"/build/tmp*/log/cooker/*/console-latest.log; do
-            [ -e "$LOG" ] || continue
-            MACHINE_DIR="${LOG%/console-latest.log}"
-            cp -L "$LOG" "$OUT/console-${MACHINE_DIR##*/}.log"
-          done
-          # Bitbake prints "Logfile of failure stored in: <path>" per failed
-          # task. Paths may be container paths (/build, /work) from kas-container.
-          grep -ho "Logfile of failure stored in: [^ ]*" "$OUT"/console-*.log 2>/dev/null | \
-            awk '{print $NF}' | sort -u | while read -r P; do
-              for C in "$P" "$SRC/build/${P#/build/}" "$SRC/${P#/work/}"; do
-                if [ -f "$C" ]; then
-                  NAME="${C##*/work/}"
-                  cp -L "$C" "$OUT/failed-tasks/${NAME//\//__}"
-                  break
-                fi
-              done
-            done
-          echo "Collected:"; find "$OUT" -type f | sed "s|^$OUT/|  |"
+      # step deletes the build directory. Published as the pipeline artifact
+      # "failure-logs-<preset>-<attempt>".
+      - script: >-
+          bash ci/azure/collect_failure_logs.sh
+          "$(Build.SourcesDirectory)/build/$(BSP_NAME)"
+          "$(Agent.TempDirectory)/failure-logs"
         displayName: 'Collect failure logs'
         condition: failed()
+        env:
+          PRESET: $(BSP_NAME)
+          RUN_INFO: $(Build.BuildNumber) (id $(Build.BuildId)), job attempt $(System.JobAttempt)
+          COMMIT_INFO: $(Build.SourceVersion) on $(Build.SourceBranch)
 
       - task: PublishPipelineArtifact@1
         displayName: 'Publish failure logs'
@@ -561,15 +356,7 @@ jobs:
           clean: true
           displayName: 'Checkout repository'
 
-        - script: |
-            set -e
-            VENV="$(Agent.TempDirectory)/bsp-venv"
-            python3 -m venv "$VENV"
-            "$VENV/bin/python" -m pip install --upgrade pip
-            "$VENV/bin/python" -m pip install "bsp-registry-tools[azure]==$(BSP_TOOLS_VERSION)"
-            echo "##vso[task.prependpath]$VENV/bin"
-            "$VENV/bin/bsp" --version
-          displayName: "Install bsp-registry-tools and expose bsp on PATH"
+        - template: ci/azure/templates/install-bsp-tools.yml
 
         - script: |
             set -e
@@ -598,106 +385,12 @@ jobs:
     variables:
       BSP_MATRIX: $[ dependencies.GenerateMatrix.outputs['generator.matrix'] ]
     steps:
-      - checkout: none
+      - checkout: self
+        fetchDepth: 1
+        clean: true
+        displayName: 'Checkout repository'
 
-      - script: |
-          python3 - <<'EOF'
-          import datetime, json, os, sys, urllib.request
-
-          env = os.environ.get
-          out = os.path.join(env("AGENT_TEMPDIRECTORY", "."), "bsp-summary.md")
-          check_only = env("CHECK_ONLY") == "True" or env("BUILD_REASON") == "PullRequest"
-          deploy = env("DEPLOY") == "True" and not check_only
-
-          try:
-              matrix = json.loads(env("BSP_MATRIX") or "{}")
-          except ValueError:
-              matrix = {}
-
-          lines = ["# BSP build summary", ""]
-          if not matrix:
-              lines.append("No presets were selected or matrix generation failed; "
-                           "see the *Discover BSP Variants* job.")
-          else:
-              url = (f"{env('SYSTEM_COLLECTIONURI')}{env('SYSTEM_TEAMPROJECT')}"
-                     f"/_apis/build/builds/{env('BUILD_BUILDID')}/timeline?api-version=7.1")
-              req = urllib.request.Request(
-                  url, headers={"Authorization": f"Bearer {env('SYSTEM_ACCESSTOKEN')}"})
-              try:
-                  with urllib.request.urlopen(req, timeout=60) as resp:
-                      records = json.load(resp).get("records") or []
-              except Exception as exc:
-                  print(f"##vso[task.logissue type=warning]Could not read run timeline: {exc}")
-                  records = []
-
-              jobs = [r for r in records if r.get("type") == "Job"]
-              tasks = [r for r in records if r.get("type") == "Task"]
-
-              def find_job(key):
-                  for r in jobs:
-                      name, ident = r.get("name") or "", r.get("identifier") or ""
-                      if name == key or name.endswith(" " + key) or ident.endswith("." + key):
-                          return r
-                  return None
-
-              def ts(v):
-                  if not v:
-                      return None
-                  v = v.rstrip("Z").split(".")[0]
-                  return datetime.datetime.fromisoformat(v)
-
-              def duration(r):
-                  a, b = ts(r.get("startTime")), ts(r.get("finishTime"))
-                  if not a or not b:
-                      return ""
-                  m, s = divmod(int((b - a).total_seconds()), 60)
-                  h, m = divmod(m, 60)
-                  return f"{h}h {m:02d}m" if h else f"{m}m {s:02d}s"
-
-              ICON = {"succeeded": "✅ Succeeded", "succeededWithIssues": "⚠️ With issues",
-                      "failed": "❌ Failed", "canceled": "⏹️ Canceled",
-                      "skipped": "⏭️ Skipped", "abandoned": "⏹️ Abandoned"}
-              ORDER = ["failed", "canceled", "abandoned", "notrun",
-                       "succeededWithIssues", "skipped", "succeeded"]
-
-              rows, counts = [], {}
-              for key, val in matrix.items():
-                  preset = val.get("BSP_NAME", key)
-                  r = find_job(key)
-                  res = (r or {}).get("result") or "notrun"
-                  counts[res] = counts.get(res, 0) + 1
-                  dep = ""
-                  if deploy and r:
-                      t = next((t for t in tasks if t.get("parentId") == r.get("id")
-                                and t.get("name") == "Deploy artifacts"), None)
-                      dep = ICON.get((t or {}).get("result") or "", "—")
-                  logs = ""
-                  if res == "failed":
-                      logs = f"`failure-logs-{preset}-{(r or {}).get('attempt', 1)}`"
-                  rows.append((ORDER.index(res) if res in ORDER else 0, preset,
-                               ICON.get(res, "⏳ Not run"), duration(r or {}), dep, logs))
-              rows.sort()
-
-              mode = "Check only (`bsp build --checkout`)" if check_only else "Full build"
-              if env("BUILD_REASON") == "PullRequest":
-                  mode += ", pull request"
-              lines += [f"**Mode:** {mode}  ", f"**Deploy:** {'on' if deploy else 'off'}  ",
-                        "**Presets:** " + ", ".join(
-                            f"{n} {ICON.get(k, '⏳ Not run').split(' ', 1)[1].lower()}"
-                            for k, n in sorted(counts.items(),
-                                               key=lambda kv: ORDER.index(kv[0]) if kv[0] in ORDER else 0)),
-                        ""]
-              head = ["Preset", "Result", "Duration"] + (["Deploy"] if deploy else []) + ["Failure logs artifact"]
-              lines += ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
-              for _, preset, res, dur, dep, logs in rows:
-                  cells = [f"`{preset}`", res, dur] + ([dep] if deploy else []) + [logs]
-                  lines.append("| " + " | ".join(cells) + " |")
-
-          with open(out, "w", encoding="utf-8") as f:
-              f.write("\n".join(lines) + "\n")
-          print("\n".join(lines))
-          print(f"##vso[task.uploadsummary]{out}")
-          EOF
+      - script: python3 ci/azure/summary.py
         displayName: 'Write run summary'
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)

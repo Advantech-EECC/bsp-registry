@@ -1,0 +1,56 @@
+name: Test Azure Pipeline Scripts
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - 'ci/azure/**'
+      - 'azure-pipelines.yml'
+      - 'bsp-registry*.y*ml'
+      - '.github/workflows/test-azure-pipeline-scripts.yml'
+  pull_request:
+    paths:
+      - 'ci/azure/**'
+      - 'azure-pipelines.yml'
+      - 'bsp-registry*.y*ml'
+      - '.github/workflows/test-azure-pipeline-scripts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: Azure pipeline helper scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Same version as BSP_TOOLS_VERSION in azure-pipelines.yml, so the
+      # registry coverage test parses the same 'bsp list' output.
+      - name: Install bsp-registry-tools
+        run: |
+          VERSION=$(sed -n 's/^  BSP_TOOLS_VERSION: "\(.*\)"/\1/p' azure-pipelines.yml)
+          echo "bsp-registry-tools $VERSION"
+          python -m pip install --upgrade pip
+          pip install "bsp-registry-tools==$VERSION"
+
+      - name: Run unit tests
+        run: python -m unittest discover -s ci/azure/tests -v
+
+      - name: Check shell scripts
+        run: |
+          bash -n ci/azure/*.sh
+          shellcheck ci/azure/*.sh

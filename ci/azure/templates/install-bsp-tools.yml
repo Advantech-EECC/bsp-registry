@@ -1,0 +1,17 @@
+#
+# Steps template: install the pinned bsp-registry-tools (variable
+# BSP_TOOLS_VERSION) into a per-job virtualenv and put it on PATH.
+#
+# A venv is used because 'pip install --user' is rejected on PEP 668
+# (externally-managed) system Pythons such as Debian 12 / Ubuntu 24.04.
+#
+steps:
+  - script: |
+      set -e
+      VENV="$(Agent.TempDirectory)/bsp-venv"
+      python3 -m venv "$VENV"
+      "$VENV/bin/python" -m pip install --upgrade pip
+      "$VENV/bin/python" -m pip install "bsp-registry-tools[azure]==$(BSP_TOOLS_VERSION)"
+      echo "##vso[task.prependpath]$VENV/bin"
+      "$VENV/bin/bsp" --version
+    displayName: "Install bsp-registry-tools and expose bsp on PATH"
