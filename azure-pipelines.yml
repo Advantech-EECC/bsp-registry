@@ -6,6 +6,8 @@
 #
 # Select what to build when queuing the run: tick one or more preset groups
 # and/or enter a regular expression. The union of all selections is built.
+# Optionally narrow it down with the release checkboxes (none ticked = all
+# releases), e.g. "Modular BSP" + "wrynose".
 #
 # Tick "Deploy artifacts" to upload the build outputs to Azure Blob Storage
 # (account/container/patterns come from the 'deploy' section of
@@ -77,6 +79,46 @@ parameters:
     displayName: "Additional presets: regular expression (Python re.search, e.g. ^modular-bsp-rsb3720-.*-wrynose$)"
     type: string
     default: " "
+  - name: relKirkstone
+    displayName: "Release filter: kirkstone"
+    type: boolean
+    default: false
+  - name: relMickledore
+    displayName: "Release filter: mickledore"
+    type: boolean
+    default: false
+  - name: relNanbield
+    displayName: "Release filter: nanbield"
+    type: boolean
+    default: false
+  - name: relScarthgap
+    displayName: "Release filter: scarthgap"
+    type: boolean
+    default: false
+  - name: relStyhead
+    displayName: "Release filter: styhead"
+    type: boolean
+    default: false
+  - name: relWalnascar
+    displayName: "Release filter: walnascar"
+    type: boolean
+    default: false
+  - name: relWhinlatter
+    displayName: "Release filter: whinlatter"
+    type: boolean
+    default: false
+  - name: relWrynose
+    displayName: "Release filter: wrynose"
+    type: boolean
+    default: false
+  - name: relMaster
+    displayName: "Release filter: master"
+    type: boolean
+    default: false
+  - name: relIsar
+    displayName: "Release filter: Isar distros (debian-*, ubuntu-*)"
+    type: boolean
+    default: false
   - name: checkoutOnly
     displayName: "Check only: fetch layers and validate configuration, no build (always used for PRs)"
     type: boolean
@@ -149,6 +191,16 @@ jobs:
           GROUP_ROCKCHIP: ${{ parameters.groupRockchip }}
           GROUP_NVIDIA: ${{ parameters.groupNvidia }}
           PRESET_REGEX: ${{ parameters.presetRegex }}
+          REL_KIRKSTONE: ${{ parameters.relKirkstone }}
+          REL_MICKLEDORE: ${{ parameters.relMickledore }}
+          REL_NANBIELD: ${{ parameters.relNanbield }}
+          REL_SCARTHGAP: ${{ parameters.relScarthgap }}
+          REL_STYHEAD: ${{ parameters.relStyhead }}
+          REL_WALNASCAR: ${{ parameters.relWalnascar }}
+          REL_WHINLATTER: ${{ parameters.relWhinlatter }}
+          REL_WRYNOSE: ${{ parameters.relWrynose }}
+          REL_MASTER: ${{ parameters.relMaster }}
+          REL_ISAR: ${{ parameters.relIsar }}
         inputs:
           scriptSource: 'inline'
           script: |
@@ -173,6 +225,7 @@ jobs:
 
                 output = result.stdout
                 bsp_list = []
+                release_of = {}
 
                 # Parse output lines formatted like "- bsp-name: Description"
                 for line in output.splitlines():
@@ -183,6 +236,8 @@ jobs:
                         if match:
                             bsp_name = match.group(1).strip()
                             bsp_list.append(bsp_name)
+                            rel = re.search(r'\(device: [^,]*, release: ([^,)]+)', line)
+                            release_of[bsp_name] = rel.group(1).strip() if rel else ""
 
                 print(f"Found {len(bsp_list)} variants.")
 
@@ -233,9 +288,40 @@ jobs:
                     selected = [b for b in bsp_list
                                 if any(re.search(rx, b) for rx in patterns)]
 
+                # Release filter: narrows the selection above. A preset's
+                # release matches a ticked Yocto release exactly or as a
+                # suffix (ros2-humble-scarthgap counts as scarthgap).
+                # Nothing ticked = no release filtering.
+                YOCTO_RELEASES = ["kirkstone", "mickledore", "nanbield", "scarthgap",
+                                  "styhead", "walnascar", "whinlatter", "wrynose", "master"]
+
+                def release_matches(rel, ticked):
+                    for r in ticked:
+                        if r == "isar":
+                            if re.match(r"^(debian|ubuntu)-", rel):
+                                return True
+                        elif rel == r or rel.endswith("-" + r):
+                            return True
+                    return False
+
+                for b in bsp_list:
+                    if not release_matches(release_of.get(b, ""), YOCTO_RELEASES + ["isar"]):
+                        print(f"##vso[task.logissue type=warning]Preset '{b}' (release "
+                              f"'{release_of.get(b, '')}') is not covered by any release checkbox")
+
+                ticked = [r for r in YOCTO_RELEASES if enabled("REL_" + r.upper())]
+                if enabled("REL_ISAR"):
+                    ticked.append("isar")
+                if ticked:
+                    before = len(selected)
+                    selected = [b for b in selected
+                                if release_matches(release_of.get(b, ""), ticked)]
+                    print(f"Release filter {', '.join(ticked)}: {len(selected)} of {before} presets kept")
+
                 if not selected:
                     print("##vso[task.logissue type=error]No presets selected: tick a group "
-                          "or 'All presets', or enter a regex that matches at least one preset.")
+                          "or 'All presets', or enter a regex that matches at least one preset "
+                          "(and check that the release filter does not exclude all of them).")
                     sys.exit(1)
 
                 print(f"Building {len(selected)} of {len(bsp_list)} presets:")
