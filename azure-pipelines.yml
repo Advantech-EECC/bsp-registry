@@ -99,12 +99,10 @@ jobs:
       matrix: $[ dependencies.GenerateMatrix.outputs['generator.matrix'] ]
     
     timeoutInMinutes: 500 # Adjust based on typical Yocto build times
-    
-    variables:
-      # Map Azure Pipelines variables to environment variables for bsp-registry-tools
-      # The tool supports $ENV{VAR} expansion
-      DL_DIR: "$(Build.SourcesDirectory)/../downloads"
-      SSTATE_DIR: "$(Build.SourcesDirectory)/../sstate-data"
+
+    # Download and sstate cache locations are defined by the registry
+    # (environment.variables in bsp-registry.yml): $HOME/data/cache/... on
+    # the agent, shared between builds.
 
     steps:
       - checkout: self
@@ -129,8 +127,4 @@ jobs:
       - script: |
           bsp --local build $(BSP_NAME)
         displayName: 'Run bsp build'
-        env:
-          # Pass required env vars if referenced in bsp-registry.yml environment section
-          DL_DIR: $(DL_DIR)
-          SSTATE_DIR: $(SSTATE_DIR)
 
