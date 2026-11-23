@@ -1,5 +1,5 @@
 #
-# azure-pipelines-all.yml
+# azure-pipelines.yml
 #
 # Builds ALL BSP variants defined in the registry using a dynamic matrix.
 # Uses bsp-registry-tools to discover and build variants.
@@ -39,7 +39,7 @@ jobs:
           echo "##vso[task.prependpath]$VENV/bin"
           "$VENV/bin/bsp" --version
         displayName: "Install bsp-registry-tools and expose bsp on PATH"
-        
+
       - task: PythonScript@0
         displayName: 'Generate Build Matrix'
         inputs:
@@ -58,14 +58,14 @@ jobs:
                 # registry in this checkout.
                 result = subprocess.run(
                     ['bsp', '--no-color', '--local', 'list'],
-                    capture_output=True, 
-                    text=True, 
+                    capture_output=True,
+                    text=True,
                     check=True
                 )
-                
+
                 output = result.stdout
                 bsp_list = []
-                
+
                 # Parse output lines formatted like "- bsp-name: Description"
                 for line in output.splitlines():
                     line = line.strip()
@@ -75,7 +75,7 @@ jobs:
                         if match:
                             bsp_name = match.group(1).strip()
                             bsp_list.append(bsp_name)
-                
+
                 print(f"Found {len(bsp_list)} variants.")
 
                 # An empty matrix would skip every build and still report
@@ -95,10 +95,10 @@ jobs:
 
                 # Convert to JSON
                 matrix_json = json.dumps(matrix)
-                
+
                 # Set the output variable 'matrix' for the next job
                 print(f"##vso[task.setvariable variable=matrix;isOutput=true]{matrix_json}")
-                
+
             except subprocess.CalledProcessError as e:
                 print(f"Error running bsp list: {e.stderr}")
                 sys.exit(1)
@@ -113,7 +113,7 @@ jobs:
     # Use the dynamic matrix output from the generator job
     strategy:
       matrix: $[ dependencies.GenerateMatrix.outputs['generator.matrix'] ]
-    
+
     timeoutInMinutes: 500 # Adjust based on typical Yocto build times
 
     # Download and sstate cache locations are defined by the registry
