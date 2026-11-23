@@ -1,14 +1,59 @@
 #
 # azure-pipelines.yml
 #
-# Builds ALL BSP variants defined in the registry using a dynamic matrix.
+# Builds BSP variants defined in the registry using a dynamic matrix.
 # Uses bsp-registry-tools to discover and build variants.
+#
+# Select what to build when queuing the run: tick one or more preset groups
+# and/or enter a regular expression. The union of all selections is built.
 #
 
 pool:
   name: aeu.de
 
 trigger: none
+
+parameters:
+  - name: buildAll
+    displayName: "All presets"
+    type: boolean
+    default: false
+  - name: groupPoky
+    displayName: "Poky QEMU (poky-*)"
+    type: boolean
+    default: false
+  - name: groupIsar
+    displayName: "Isar QEMU (isar-*)"
+    type: boolean
+    default: false
+  - name: groupModular
+    displayName: "Modular BSP (modular-*)"
+    type: boolean
+    default: true
+  - name: groupAdvantech
+    displayName: "Advantech NXP legacy (advantech-*)"
+    type: boolean
+    default: false
+  - name: groupMediatek
+    displayName: "MediaTek Genio (mediatek-*)"
+    type: boolean
+    default: false
+  - name: groupQualcomm
+    displayName: "Qualcomm (qcm*, qcs*, monaco-*)"
+    type: boolean
+    default: false
+  - name: groupRockchip
+    displayName: "Rockchip (rock-*)"
+    type: boolean
+    default: false
+  - name: groupNvidia
+    displayName: "NVIDIA Jetson (jetson-*)"
+    type: boolean
+    default: false
+  - name: presetRegex
+    displayName: "Additional presets: regular expression (Python re.search, e.g. ^modular-bsp-rsb3720-.*-wrynose$)"
+    type: string
+    default: " "
 
 variables:
   # Pinned bsp-registry-tools release. Bump deliberately: the matrix
@@ -42,11 +87,23 @@ jobs:
 
       - task: PythonScript@0
         displayName: 'Generate Build Matrix'
+        env:
+          BUILD_ALL: ${{ parameters.buildAll }}
+          GROUP_POKY: ${{ parameters.groupPoky }}
+          GROUP_ISAR: ${{ parameters.groupIsar }}
+          GROUP_MODULAR: ${{ parameters.groupModular }}
+          GROUP_ADVANTECH: ${{ parameters.groupAdvantech }}
+          GROUP_MEDIATEK: ${{ parameters.groupMediatek }}
+          GROUP_QUALCOMM: ${{ parameters.groupQualcomm }}
+          GROUP_ROCKCHIP: ${{ parameters.groupRockchip }}
+          GROUP_NVIDIA: ${{ parameters.groupNvidia }}
+          PRESET_REGEX: ${{ parameters.presetRegex }}
         inputs:
           scriptSource: 'inline'
           script: |
             import subprocess
             import json
+            import os
             import re
             import sys
 
@@ -84,6 +141,56 @@ jobs:
                     print("##vso[task.logissue type=error]No BSP presets found in 'bsp list' output:")
                     print(output)
                     sys.exit(1)
+
+                # ---- Preset selection (queue-time parameters) ----
+                # Env var -> regex matched against the preset name.
+                GROUPS = {
+                    "GROUP_POKY":      r"^poky-",
+                    "GROUP_ISAR":      r"^isar-",
+                    "GROUP_MODULAR":   r"^modular-",
+                    "GROUP_ADVANTECH": r"^advantech-",
+                    "GROUP_MEDIATEK":  r"^mediatek-",
+                    "GROUP_QUALCOMM":  r"^(qcm|qcs)[0-9]|^monaco-",
+                    "GROUP_ROCKCHIP":  r"^rock-",
+                    "GROUP_NVIDIA":    r"^jetson-",
+                }
+
+                def enabled(var):
+                    return os.environ.get(var, "").strip().lower() == "true"
+
+                # Presets not covered by any group are only reachable via
+                # "All presets" or the regex; flag them so groups get updated.
+                ungrouped = [b for b in bsp_list
+                             if not any(re.search(rx, b) for rx in GROUPS.values())]
+                for b in ungrouped:
+                    print(f"##vso[task.logissue type=warning]Preset '{b}' is not in any group checkbox")
+
+                if enabled("BUILD_ALL"):
+                    selected = list(bsp_list)
+                    print("Selection: all presets")
+                else:
+                    patterns = [rx for var, rx in GROUPS.items() if enabled(var)]
+                    user_rx = os.environ.get("PRESET_REGEX", "").strip()
+                    if user_rx:
+                        try:
+                            re.compile(user_rx)
+                        except re.error as err:
+                            print(f"##vso[task.logissue type=error]Invalid preset regex {user_rx!r}: {err}")
+                            sys.exit(1)
+                        patterns.append(user_rx)
+                    print("Selection patterns: " + (", ".join(patterns) or "<none>"))
+                    selected = [b for b in bsp_list
+                                if any(re.search(rx, b) for rx in patterns)]
+
+                if not selected:
+                    print("##vso[task.logissue type=error]No presets selected: tick a group "
+                          "or 'All presets', or enter a regex that matches at least one preset.")
+                    sys.exit(1)
+
+                print(f"Building {len(selected)} of {len(bsp_list)} presets:")
+                for b in selected:
+                    print(f"  {b}")
+                bsp_list = selected
 
                 # Construct Azure DevOps matrix dictionary
                 # Format: { "JobNameSuffix": { "VAR_NAME": "value" }, ... }
