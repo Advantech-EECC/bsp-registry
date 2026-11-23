@@ -10,6 +10,11 @@ pool:
 
 trigger: none
 
+variables:
+  # Pinned bsp-registry-tools release. Bump deliberately: the matrix
+  # generator parses the human-readable 'bsp list' output.
+  BSP_TOOLS_VERSION: "2.2.4"
+
 jobs:
   # -----------------------------------------------------------------------------
   # Job 1: Generate the build matrix by listing all BSPs
@@ -25,7 +30,7 @@ jobs:
 
       - script: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install --user --upgrade bsp-registry-tools
+          python3 -m pip install --user "bsp-registry-tools==$(BSP_TOOLS_VERSION)"
           echo "##vso[task.prependpath]$HOME/.local/bin"
           which bsp || true
           bsp --help || true
@@ -116,7 +121,7 @@ jobs:
 
       - script: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install --user --upgrade bsp-registry-tools
+          python3 -m pip install --user "bsp-registry-tools==$(BSP_TOOLS_VERSION)"
           echo "##vso[task.prependpath]$HOME/.local/bin"
           which bsp || true
           bsp --help || true
