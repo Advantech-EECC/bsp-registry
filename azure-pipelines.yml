@@ -282,6 +282,26 @@ jobs:
             # Secret variables are not exposed to scripts unless mapped.
             AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
 
+      # Remove this preset's build directory so the Yocto/Isar tmp tree does
+      # not stay on the agent until the next checkout. Isar builds run in a
+      # privileged container and leave root-owned files that the agent user
+      # cannot delete (which would also break the next 'git clean'), so fall
+      # back to deleting via a throwaway root container. Never fails the job.
+      - script: |
+          D="$(Build.SourcesDirectory)/build/$(BSP_NAME)"
+          [ -e "$D" ] || { echo "Nothing to clean: $D"; exit 0; }
+          du -sh "$D" 2>/dev/null || true
+          rm -rf "$D" 2>/dev/null || \
+            docker run --rm -v "$(Build.SourcesDirectory)/build:/b" alpine \
+              rm -rf "/b/$(BSP_NAME)" || true
+          if [ -e "$D" ]; then
+            echo "##vso[task.logissue type=warning]Could not fully remove $D"
+          else
+            echo "Removed $D"
+          fi
+        displayName: 'Clean up build directory'
+        condition: always()
+
   # -----------------------------------------------------------------------------
   # Job 3: Refresh the browsable index.html of the artifact container once,
   # after all builds (also when some of them failed, so successful uploads
