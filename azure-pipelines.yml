@@ -22,6 +22,10 @@
 # commit pins and repository URLs. Pull request builds (branch policy) always
 # use this mode and never deploy.
 #
+# Every run ends with a "Run summary" job: a table of all selected presets
+# with result and duration on the run's Extensions tab. Logs of failed
+# presets are published as "failure-logs-<preset>-<attempt>" artifacts.
+#
 
 pool:
   name: aeu.de
@@ -433,3 +437,124 @@ jobs:
           displayName: 'Rebuild container index.html'
           env:
             AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
+
+  # -----------------------------------------------------------------------------
+  # Job 4: One-page run summary (Extensions tab of the run): result and
+  # duration of every selected preset, read from the run's timeline via the
+  # REST API, so cancelled and never-started presets are listed too.
+  # -----------------------------------------------------------------------------
+  - job: Summary
+    displayName: "Run summary"
+    dependsOn:
+      - GenerateMatrix
+      - BuildBSP
+    condition: always()
+    timeoutInMinutes: 10
+    variables:
+      BSP_MATRIX: $[ dependencies.GenerateMatrix.outputs['generator.matrix'] ]
+    steps:
+      - checkout: none
+
+      - script: |
+          python3 - <<'EOF'
+          import datetime, json, os, sys, urllib.request
+
+          env = os.environ.get
+          out = os.path.join(env("AGENT_TEMPDIRECTORY", "."), "bsp-summary.md")
+          check_only = env("CHECK_ONLY") == "True" or env("BUILD_REASON") == "PullRequest"
+          deploy = env("DEPLOY") == "True" and not check_only
+
+          try:
+              matrix = json.loads(env("BSP_MATRIX") or "{}")
+          except ValueError:
+              matrix = {}
+
+          lines = ["# BSP build summary", ""]
+          if not matrix:
+              lines.append("No presets were selected or matrix generation failed; "
+                           "see the *Discover BSP Variants* job.")
+          else:
+              url = (f"{env('SYSTEM_COLLECTIONURI')}{env('SYSTEM_TEAMPROJECT')}"
+                     f"/_apis/build/builds/{env('BUILD_BUILDID')}/timeline?api-version=7.1")
+              req = urllib.request.Request(
+                  url, headers={"Authorization": f"Bearer {env('SYSTEM_ACCESSTOKEN')}"})
+              try:
+                  with urllib.request.urlopen(req, timeout=60) as resp:
+                      records = json.load(resp).get("records") or []
+              except Exception as exc:
+                  print(f"##vso[task.logissue type=warning]Could not read run timeline: {exc}")
+                  records = []
+
+              jobs = [r for r in records if r.get("type") == "Job"]
+              tasks = [r for r in records if r.get("type") == "Task"]
+
+              def find_job(key):
+                  for r in jobs:
+                      name, ident = r.get("name") or "", r.get("identifier") or ""
+                      if name == key or name.endswith(" " + key) or ident.endswith("." + key):
+                          return r
+                  return None
+
+              def ts(v):
+                  if not v:
+                      return None
+                  v = v.rstrip("Z").split(".")[0]
+                  return datetime.datetime.fromisoformat(v)
+
+              def duration(r):
+                  a, b = ts(r.get("startTime")), ts(r.get("finishTime"))
+                  if not a or not b:
+                      return ""
+                  m, s = divmod(int((b - a).total_seconds()), 60)
+                  h, m = divmod(m, 60)
+                  return f"{h}h {m:02d}m" if h else f"{m}m {s:02d}s"
+
+              ICON = {"succeeded": "✅ Succeeded", "succeededWithIssues": "⚠️ With issues",
+                      "failed": "❌ Failed", "canceled": "⏹️ Canceled",
+                      "skipped": "⏭️ Skipped", "abandoned": "⏹️ Abandoned"}
+              ORDER = ["failed", "canceled", "abandoned", "notrun",
+                       "succeededWithIssues", "skipped", "succeeded"]
+
+              rows, counts = [], {}
+              for key, val in matrix.items():
+                  preset = val.get("BSP_NAME", key)
+                  r = find_job(key)
+                  res = (r or {}).get("result") or "notrun"
+                  counts[res] = counts.get(res, 0) + 1
+                  dep = ""
+                  if deploy and r:
+                      t = next((t for t in tasks if t.get("parentId") == r.get("id")
+                                and t.get("name") == "Deploy artifacts"), None)
+                      dep = ICON.get((t or {}).get("result") or "", "—")
+                  logs = ""
+                  if res == "failed":
+                      logs = f"`failure-logs-{preset}-{(r or {}).get('attempt', 1)}`"
+                  rows.append((ORDER.index(res) if res in ORDER else 0, preset,
+                               ICON.get(res, "⏳ Not run"), duration(r or {}), dep, logs))
+              rows.sort()
+
+              mode = "Check only (`bsp build --checkout`)" if check_only else "Full build"
+              if env("BUILD_REASON") == "PullRequest":
+                  mode += ", pull request"
+              lines += [f"**Mode:** {mode}  ", f"**Deploy:** {'on' if deploy else 'off'}  ",
+                        "**Presets:** " + ", ".join(
+                            f"{n} {ICON.get(k, '⏳ Not run').split(' ', 1)[1].lower()}"
+                            for k, n in sorted(counts.items(),
+                                               key=lambda kv: ORDER.index(kv[0]) if kv[0] in ORDER else 0)),
+                        ""]
+              head = ["Preset", "Result", "Duration"] + (["Deploy"] if deploy else []) + ["Failure logs artifact"]
+              lines += ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
+              for _, preset, res, dur, dep, logs in rows:
+                  cells = [f"`{preset}`", res, dur] + ([dep] if deploy else []) + [logs]
+                  lines.append("| " + " | ".join(cells) + " |")
+
+          with open(out, "w", encoding="utf-8") as f:
+              f.write("\n".join(lines) + "\n")
+          print("\n".join(lines))
+          print(f"##vso[task.uploadsummary]{out}")
+          EOF
+        displayName: 'Write run summary'
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          CHECK_ONLY: ${{ parameters.checkoutOnly }}
+          DEPLOY: ${{ parameters.deploy }}
