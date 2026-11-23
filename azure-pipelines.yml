@@ -151,6 +151,10 @@ parameters:
     displayName: "Stop all builds when one preset fails"
     type: boolean
     default: true
+  - name: maxParallel
+    displayName: "Max parallel builds (0 = no limit; leaves agents free for other pipelines)"
+    type: number
+    default: 0
   - name: minFreeDiskGB
     displayName: "Pre-flight: minimum free disk space in GB for a full build (0 = skip check)"
     type: number
@@ -212,6 +216,10 @@ jobs:
     # Use the dynamic matrix output from the generator job
     strategy:
       matrix: $[ dependencies.GenerateMatrix.outputs['generator.matrix'] ]
+      # Each self-hosted agent runs one job at a time, so without a limit a
+      # large selection occupies every free agent of the pool.
+      ${{ if gt(parameters.maxParallel, 0) }}:
+        maxParallel: ${{ parameters.maxParallel }}
 
     timeoutInMinutes: 500 # Adjust based on typical Yocto build times
 
