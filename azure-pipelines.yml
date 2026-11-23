@@ -17,6 +17,11 @@
 # Cancelling uses System.AccessToken, so the project's Build Service identity
 # needs the "Stop builds" permission on this pipeline.
 #
+# "Check only" runs 'bsp build --checkout' instead of a full build: it fetches
+# the layers and validates the kas configuration in minutes, catching broken
+# commit pins and repository URLs. Pull request builds (branch policy) always
+# use this mode and never deploy.
+#
 
 pool:
   name: aeu.de
@@ -64,8 +69,12 @@ parameters:
     displayName: "Additional presets: regular expression (Python re.search, e.g. ^modular-bsp-rsb3720-.*-wrynose$)"
     type: string
     default: " "
+  - name: checkoutOnly
+    displayName: "Check only: fetch layers and validate configuration, no build (always used for PRs)"
+    type: boolean
+    default: false
   - name: deploy
-    displayName: "Deploy artifacts to Azure Blob Storage"
+    displayName: "Deploy artifacts to Azure Blob Storage (ignored in check-only mode)"
     type: boolean
     default: false
   - name: stopOnFailure
@@ -269,15 +278,23 @@ jobs:
 
       # Build the BSP using the tool
       # Using --local ensures it uses the bsp-registry.yml from the current repo (PR content)
+      # In check-only mode (checkbox, or any pull request build) only
+      # 'bsp build --checkout' runs: fetch layers and validate, no bitbake.
       - script: |
-          bsp --local build $(BSP_NAME)
+          set -e
+          MODE_ARGS=""
+          if [ "${{ parameters.checkoutOnly }}" = "True" ] || [ "$(Build.Reason)" = "PullRequest" ]; then
+            echo "Check-only mode: fetching layers and validating configuration (no build)."
+            MODE_ARGS="--checkout"
+          fi
+          bsp --local build $MODE_ARGS "$(BSP_NAME)"
         displayName: 'Run bsp build'
 
       # Upload artifacts of this preset. The step is only added to the run
       # when "Deploy artifacts" is ticked, and only runs if the build passed.
       # The index is refreshed once by the UpdateIndex job instead of by
       # every parallel build job.
-      - ${{ if eq(parameters.deploy, true) }}:
+      - ${{ if and(eq(parameters.deploy, true), eq(parameters.checkoutOnly, false)) }}:
         - script: |
             set -e
             case "$AZURE_STORAGE_CONNECTION_STRING" in
@@ -287,6 +304,7 @@ jobs:
             esac
             bsp --local deploy --no-update-index "$(BSP_NAME)"
           displayName: 'Deploy artifacts'
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
           env:
             # Secret variables are not exposed to scripts unless mapped.
             AZURE_STORAGE_CONNECTION_STRING: $(AZURE_STORAGE_CONNECTION_STRING)
@@ -334,11 +352,11 @@ jobs:
   # after all builds (also when some of them failed, so successful uploads
   # still show up). Only present when "Deploy artifacts" is ticked.
   # -----------------------------------------------------------------------------
-  - ${{ if eq(parameters.deploy, true) }}:
+  - ${{ if and(eq(parameters.deploy, true), eq(parameters.checkoutOnly, false)) }}:
     - job: UpdateIndex
       displayName: "Update artifact index"
       dependsOn: BuildBSP
-      condition: in(dependencies.BuildBSP.result, 'Succeeded', 'SucceededWithIssues', 'Failed')
+      condition: and(in(dependencies.BuildBSP.result, 'Succeeded', 'SucceededWithIssues', 'Failed'), ne(variables['Build.Reason'], 'PullRequest'))
       timeoutInMinutes: 30
       steps:
         - checkout: self
