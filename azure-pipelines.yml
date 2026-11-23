@@ -32,6 +32,9 @@
 # with result and duration on the run's Extensions tab. Logs of failed
 # presets are published as "failure-logs-<preset>-<attempt>" artifacts.
 #
+# Each build job starts with a pre-flight check (Docker, privileged
+# containers for Isar, free disk space) so a broken agent fails in seconds.
+#
 # Helper scripts and templates live in ci/azure/ (unit-tested by
 # .github/workflows/test-azure-pipeline-scripts.yml).
 #
@@ -148,6 +151,10 @@ parameters:
     displayName: "Stop all builds when one preset fails"
     type: boolean
     default: true
+  - name: minFreeDiskGB
+    displayName: "Pre-flight: minimum free disk space in GB for a full build (0 = skip check)"
+    type: number
+    default: 150
 
 variables:
   # Pinned bsp-registry-tools release. Bump deliberately: the matrix
@@ -221,6 +228,17 @@ jobs:
       - script: |
           echo "Building Variant: $(BSP_NAME)"
         displayName: 'Display Variant Info'
+
+      # Fail fast if this agent cannot build the preset (Docker unusable,
+      # no privileged containers for Isar, not enough free disk) instead of
+      # failing hours into the build. Check-only runs need little disk.
+      - script: |
+          MIN_GB="${{ parameters.minFreeDiskGB }}"
+          if [ "${{ parameters.checkoutOnly }}" = "True" ] || [ "$(Build.Reason)" = "PullRequest" ]; then
+            [ "$MIN_GB" -gt 5 ] && MIN_GB=5
+          fi
+          bash ci/azure/preflight.sh "$(Build.SourcesDirectory)/build" "$MIN_GB" "$(BSP_NAME)" "$(BSP_RELEASE)"
+        displayName: 'Pre-flight agent check'
 
       - template: ci/azure/templates/install-bsp-tools.yml
 
