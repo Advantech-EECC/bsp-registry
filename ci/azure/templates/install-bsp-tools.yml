@@ -1,6 +1,7 @@
 #
 # Steps template: install the pinned bsp-registry-tools (variable
-# BSP_TOOLS_VERSION) into a per-job virtualenv and put it on PATH.
+# BSP_TOOLS_VERSION) into a per-job virtualenv and put it on PATH, then
+# register the CI overlay "ci" (bsp --overlay ci, see setup_overlay.py).
 #
 # A venv is used because 'pip install --user' is rejected on PEP 668
 # (externally-managed) system Pythons such as Debian 12 / Ubuntu 24.04.
@@ -17,3 +18,9 @@ steps:
     displayName: "Install bsp-registry-tools and expose bsp on PATH"
     # PyPI hiccups should not fail a run; the step is cheap to repeat.
     retryCountOnTaskFailure: 2
+
+  - script: >-
+      python3 ci/azure/setup_overlay.py
+      "$(Build.SourcesDirectory)"
+      "$(Agent.TempDirectory)/bsp-overlays.yaml"
+    displayName: "Register CI overlay (cache root: $(BSP_CACHE_ROOT))"

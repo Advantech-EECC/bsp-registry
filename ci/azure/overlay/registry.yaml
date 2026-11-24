@@ -1,0 +1,26 @@
+# Registry overlay used by azure-pipelines.yml (bsp --overlay ci ...).
+#
+# Merged on top of bsp-registry.yml by bsp-registry-tools >= 2.3.0 when the
+# pipeline parameter "cacheRoot" is set (exported as BSP_CACHE_ROOT). It moves
+# the download and sstate caches of CI builds to that directory, e.g. a fast
+# SSD, without changing the paths developers get from bsp-registry.yml.
+#
+# Lists are appended to the registry's lists and the last definition of a
+# variable wins, so these entries replace DL_DIR/SSTATE_DIR. Every named
+# environment that sets its own DL_DIR/SSTATE_DIR must be repeated here
+# (enforced by ci/azure/tests/test_overlay.py).
+
+environment:
+  variables:
+    - name: "DL_DIR"
+      value: "$ENV{BSP_CACHE_ROOT}/downloads"
+    - name: "SSTATE_DIR"
+      value: "$ENV{BSP_CACHE_ROOT}/sstate"
+
+environments:
+  isar-build-environment:
+    variables:
+      - name: "DL_DIR"
+        value: "$ENV{BSP_CACHE_ROOT}/isar/downloads"
+      - name: "SSTATE_DIR"
+        value: "$ENV{BSP_CACHE_ROOT}/isar/sstate"

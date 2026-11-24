@@ -35,6 +35,13 @@
 # Each build job starts with a pre-flight check (Docker, privileged
 # containers for Isar, free disk space) so a broken agent fails in seconds.
 #
+# Downloads and sstate live under "cacheRoot" (default /build/ssd/azure),
+# shared by all builds on the agent. The pipeline applies the registry overlay
+# ci/azure/overlay/registry.yaml (bsp --overlay ci) to move them there;
+# developers keep the paths from bsp-registry.yml. Leave cacheRoot blank to
+# use the registry's paths ($HOME/data/cache). The directory must exist on
+# every agent and be writable by the agent user.
+#
 # After each build, the shared sstate cache is pruned of entries unused for
 # "sstatePruneDays" days (at most once a day per agent; downloads are kept).
 #
@@ -166,6 +173,10 @@ parameters:
     displayName: "Pre-flight: minimum free disk space in GB for a full build (0 = skip check)"
     type: number
     default: 150
+  - name: cacheRoot
+    displayName: "Download/sstate cache directory on the agents (blank = registry default $HOME/data/cache)"
+    type: string
+    default: /build/ssd/azure
 
 variables:
   # Pinned bsp-registry-tools release. Bump deliberately: the matrix
@@ -173,6 +184,9 @@ variables:
   BSP_TOOLS_VERSION: "2.3.0"
   # Trivy release downloaded for the CVE scan when the agent has no trivy.
   TRIVY_VERSION: "0.76.2"
+  # Cache root for the CI overlay (ci/azure/setup_overlay.py); exported to
+  # every script as $BSP_CACHE_ROOT and expanded by the registry overlay.
+  BSP_CACHE_ROOT: ${{ parameters.cacheRoot }}
 
 jobs:
   # -----------------------------------------------------------------------------
@@ -230,9 +244,8 @@ jobs:
 
     timeoutInMinutes: 500 # Adjust based on typical Yocto build times
 
-    # Download and sstate cache locations are defined by the registry
-    # (environment.variables in bsp-registry.yml): $HOME/data/cache/... on
-    # the agent, shared between builds.
+    # Download and sstate cache locations: $BSP_CACHE_ROOT via the CI
+    # overlay (see the header), shared between builds on the agent.
 
     steps:
       - checkout: self
@@ -261,14 +274,14 @@ jobs:
       # git/network hiccups are cheap to repeat here, unlike a full build.
       # In check-only mode (checkbox, or any pull request build) this is the
       # only build step. --local uses the registry from this checkout.
-      - script: bsp --local build --checkout "$(BSP_NAME)"
+      - script: bsp --local --overlay ci build --checkout "$(BSP_NAME)"
         displayName: 'Fetch layers and validate (bsp build --checkout)'
         retryCountOnTaskFailure: 2
 
       # Full build, not retried: a real failure would just burn hours again.
       # Layers are already present from the step above.
       - ${{ if eq(parameters.checkoutOnly, false) }}:
-        - script: bsp --local build "$(BSP_NAME)"
+        - script: bsp --local --overlay ci build "$(BSP_NAME)"
           displayName: 'Run bsp build'
           condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
@@ -285,7 +298,7 @@ jobs:
             echo "##vso[task.setvariable variable=BSP_SCAN_RAN]true"
             OUT="$(Agent.TempDirectory)/scan-reports"
             rm -rf "$OUT"; mkdir -p "$OUT"
-            bsp --local scan --fail-on "${{ parameters.scanFailOn }}" --output-dir "$OUT" "$(BSP_NAME)"
+            bsp --local --overlay ci scan --fail-on "${{ parameters.scanFailOn }}" --output-dir "$OUT" "$(BSP_NAME)"
           displayName: 'CVE scan and SBOM'
           condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
@@ -309,7 +322,7 @@ jobs:
                 echo "##vso[task.logissue type=error]Secret pipeline variable AZURE_STORAGE_CONNECTION_STRING is not set."
                 exit 1 ;;
             esac
-            bsp --local deploy --no-update-index "$(BSP_NAME)"
+            bsp --local --overlay ci deploy --no-update-index "$(BSP_NAME)"
           displayName: 'Deploy artifacts'
           condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
           env:
