@@ -28,6 +28,14 @@
 # the reports/SBOMs as "scan-<preset>-<attempt>" artifacts and fails the
 # preset if a finding reaches the selected severity (NONE = never fail).
 #
+# "Repo overrides" builds the selection with other layer revisions without
+# editing the registry: kas repo override specs separated by spaces, e.g.
+#   meta-modular-bsp-nxp@feature/x  poky@commit:<sha>
+#   meta-imx=https://github.com/org/meta-imx.git@tag:v2.1
+# (see 'bsp overlay set-repo'). Only select presets that use the overridden
+# repos: kas adds an unknown repo to the build. Deploy is skipped, so
+# artifacts from unreviewed revisions are never published.
+#
 # Every run ends with a "Run summary" job: a table of all selected presets
 # with result and duration on the run's Extensions tab. Logs of failed
 # presets are published as "failure-logs-<preset>-<attempt>" artifacts.
@@ -173,6 +181,10 @@ parameters:
     displayName: "Pre-flight: minimum free disk space in GB for a full build (0 = skip check)"
     type: number
     default: 150
+  - name: repoOverrides
+    displayName: "Repo overrides: kas repo specs separated by spaces, e.g. meta-x@feature/y poky@commit:<sha> (blank = none; disables deploy)"
+    type: string
+    default: " "
   - name: cacheRoot
     displayName: "Download/sstate cache directory on the agents (blank = registry default $HOME/data/cache)"
     type: string
@@ -187,6 +199,8 @@ variables:
   # Cache root for the CI overlay (ci/azure/setup_overlay.py); exported to
   # every script as $BSP_CACHE_ROOT and expanded by the registry overlay.
   BSP_CACHE_ROOT: ${{ parameters.cacheRoot }}
+  # Repo override specs added to the CI overlay by setup_overlay.py.
+  REPO_OVERRIDES: ${{ parameters.repoOverrides }}
 
 jobs:
   # -----------------------------------------------------------------------------
@@ -227,6 +241,10 @@ jobs:
           REL_WRYNOSE: ${{ parameters.relWrynose }}
           REL_MASTER: ${{ parameters.relMaster }}
           REL_ISAR: ${{ parameters.relIsar }}
+
+      - ${{ if and(eq(parameters.deploy, true), ne(replace(parameters.repoOverrides, ' ', ''), '')) }}:
+        - script: echo "##vso[task.logissue type=warning]Deploy is skipped because repo overrides are set ($(REPO_OVERRIDES))."
+          displayName: 'Deploy skipped (repo overrides)'
 
   # -----------------------------------------------------------------------------
   # Job 2: Build each BSP variant in parallel
@@ -311,10 +329,11 @@ jobs:
             artifact: 'scan-$(BSP_NAME)-$(System.JobAttempt)'
 
       # Upload artifacts of this preset. The step is only added to the run
-      # when "Deploy artifacts" is ticked, and only runs if the build passed.
+      # when "Deploy artifacts" is ticked and no repo overrides are set, and
+      # only runs if the build passed.
       # The index is refreshed once by the UpdateIndex job instead of by
       # every parallel build job.
-      - ${{ if and(eq(parameters.deploy, true), eq(parameters.checkoutOnly, false)) }}:
+      - ${{ if and(eq(parameters.deploy, true), eq(parameters.checkoutOnly, false), eq(replace(parameters.repoOverrides, ' ', ''), '')) }}:
         - script: |
             set -e
             case "$AZURE_STORAGE_CONNECTION_STRING" in
@@ -403,7 +422,7 @@ jobs:
   # after all builds (also when some of them failed, so successful uploads
   # still show up). Only present when "Deploy artifacts" is ticked.
   # -----------------------------------------------------------------------------
-  - ${{ if and(eq(parameters.deploy, true), eq(parameters.checkoutOnly, false)) }}:
+  - ${{ if and(eq(parameters.deploy, true), eq(parameters.checkoutOnly, false), eq(replace(parameters.repoOverrides, ' ', ''), '')) }}:
     - job: UpdateIndex
       displayName: "Update artifact index"
       dependsOn: BuildBSP
@@ -454,4 +473,4 @@ jobs:
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
           CHECK_ONLY: ${{ parameters.checkoutOnly }}
-          DEPLOY: ${{ parameters.deploy }}
+          DEPLOY: ${{ and(eq(parameters.deploy, true), eq(replace(parameters.repoOverrides, ' ', ''), '')) }}

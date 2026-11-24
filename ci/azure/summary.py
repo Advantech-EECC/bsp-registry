@@ -12,6 +12,7 @@ Rendering is a pure function (render) so it can be unit-tested.
 import datetime
 import json
 import os
+import re
 import sys
 import urllib.request
 
@@ -56,8 +57,11 @@ def _rank(result):
     return ORDER.index(result) if result in ORDER else 0
 
 
-def render(matrix, records, check_only, deploy, pull_request):
-    """Markdown summary for *matrix* ({key: {"BSP_NAME": ...}}) and timeline *records*."""
+def render(matrix, records, check_only, deploy, pull_request, overrides=()):
+    """Markdown summary for *matrix* ({key: {"BSP_NAME": ...}}) and timeline *records*.
+
+    *overrides* are the repo override specs the run was built with.
+    """
     lines = ["# BSP build summary", ""]
     if not matrix:
         lines.append("No presets were selected or matrix generation failed; "
@@ -90,6 +94,8 @@ def render(matrix, records, check_only, deploy, pull_request):
         for k, n in sorted(counts.items(), key=lambda kv: _rank(kv[0])))
     lines += [f"**Mode:** {mode}  ",
               f"**Deploy:** {'on' if deploy else 'off'}  ",
+              *([f"**Repo overrides:** {', '.join(f'`{o}`' for o in overrides)}  "]
+                if overrides else []),
               f"**Presets:** {totals}",
               ""]
 
@@ -128,7 +134,8 @@ def main():
         except Exception as exc:  # summary must never fail the run
             print(f"##vso[task.logissue type=warning]Could not read run timeline: {exc}")
 
-    text = render(matrix, records, check_only, deploy, pull_request)
+    overrides = [o for o in re.split(r"[\s,]+", env.get("REPO_OVERRIDES") or "") if o]
+    text = render(matrix, records, check_only, deploy, pull_request, overrides)
     out = os.path.join(env.get("AGENT_TEMPDIRECTORY", "."), "bsp-summary.md")
     with open(out, "w", encoding="utf-8") as f:
         f.write(text)

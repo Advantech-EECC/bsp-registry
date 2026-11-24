@@ -62,6 +62,11 @@ class RenderTest(unittest.TestCase):
         self.assertIn("Check only", text)
         self.assertIn("pull request", text)
 
+    def test_repo_overrides_line(self):
+        self.assertNotIn("Repo overrides", summary.render(MATRIX, RECORDS, False, False, False))
+        text = summary.render(MATRIX, RECORDS, False, False, False, ["meta-a@x", "poky@tag:v1"])
+        self.assertIn("**Repo overrides:** `meta-a@x`, `poky@tag:v1`", text)
+
     def test_counts(self):
         text = summary.render(MATRIX, RECORDS, False, False, False)
         self.assertIn("1 failed, 1 canceled, 1 not run, 1 succeeded", text)
