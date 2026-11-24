@@ -20,6 +20,14 @@ class SstateDirsTest(unittest.TestCase):
         self.assertIn("/home/agent/data/cache/isar/sstate", dirs)
         self.assertTrue(all("$ENV" not in d for d in dirs))
 
+    def test_cache_root_uses_ci_overlay(self):
+        dirs = ps.sstate_dirs(REGISTRY_ROOT, {"HOME": "/h", "BSP_CACHE_ROOT": " /ssd/azure/ "})
+        self.assertEqual(sorted(dirs), ["/ssd/azure/isar/sstate", "/ssd/azure/sstate"])
+
+    def test_blank_cache_root_uses_registry(self):
+        dirs = ps.sstate_dirs(REGISTRY_ROOT, {"HOME": "/h", "BSP_CACHE_ROOT": " "})
+        self.assertIn("/h/data/cache/sstate", dirs)
+
     def test_ignores_dl_dir(self):
         dirs = ps.sstate_dirs(REGISTRY_ROOT, {"HOME": "/h"})
         self.assertFalse(any("downloads" in d for d in dirs))
@@ -68,6 +76,7 @@ class MainTest(unittest.TestCase):
                 f.write('environment:\n  variables:\n'
                         '    - name: "SSTATE_DIR"\n      value: "$ENV{TESTHOME}/cache/sstate"\n')
             os.environ["TESTHOME"] = home
+            saved_root = os.environ.pop("BSP_CACHE_ROOT", None)
             try:
                 self.assertEqual(ps.main(["x", reg, "30"]), 0)
                 stamp = os.path.join(home, "cache", ".ci-sstate-prune.stamp")
@@ -78,6 +87,8 @@ class MainTest(unittest.TestCase):
                 self.assertEqual(ps.main(["x", reg, "0"]), 0)
             finally:
                 del os.environ["TESTHOME"]
+                if saved_root is not None:
+                    os.environ["BSP_CACHE_ROOT"] = saved_root
 
 
 if __name__ == "__main__":

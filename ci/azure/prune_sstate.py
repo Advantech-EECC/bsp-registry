@@ -5,7 +5,9 @@
 
 The sstate directories are read from the registry (every environment
 variable named SSTATE_DIR in bsp-registry*.y*ml, with $ENV{VAR} expanded), so
-they stay in sync with bsp-registry.yml. Files not accessed for <days> days
+they stay in sync with bsp-registry.yml. When BSP_CACHE_ROOT is set, builds
+use the CI overlay (ci/azure/overlay/registry.yaml) instead, so the
+directories are read from that file. Files not accessed for <days> days
 are deleted, then empty directories. The download caches (DL_DIR) are never
 touched: upstream source archives disappear, and the cache may be the only
 copy.
@@ -29,11 +31,23 @@ import time
 import yaml
 
 STAMP_MAX_AGE = 20 * 3600
+OVERLAY_REGISTRY = os.path.join("ci", "azure", "overlay", "registry.yaml")
+
+
+def registry_files(registry_dir, environ=os.environ):
+    """Registry files that define the SSTATE_DIRs CI builds use."""
+    if (environ.get("BSP_CACHE_ROOT") or "").strip():
+        return [os.path.join(registry_dir, OVERLAY_REGISTRY)]
+    return sorted(glob.glob(os.path.join(registry_dir, "bsp-registry*.y*ml")))
 
 
 def sstate_dirs(registry_dir, environ=os.environ):
     """All SSTATE_DIR values in the registry files, $ENV{VAR} expanded."""
     found = []
+    environ = dict(environ)
+    root = (environ.get("BSP_CACHE_ROOT") or "").strip()
+    if root:
+        environ["BSP_CACHE_ROOT"] = root.rstrip("/") or "/"
 
     def walk(node):
         if isinstance(node, dict):
@@ -45,7 +59,7 @@ def sstate_dirs(registry_dir, environ=os.environ):
             for v in node:
                 walk(v)
 
-    for path in sorted(glob.glob(os.path.join(registry_dir, "bsp-registry*.y*ml"))):
+    for path in registry_files(registry_dir, environ):
         with open(path, encoding="utf-8") as f:
             walk(yaml.safe_load(f))
 
