@@ -170,7 +170,7 @@ parameters:
 variables:
   # Pinned bsp-registry-tools release. Bump deliberately: the matrix
   # generator parses the human-readable 'bsp list' output.
-  BSP_TOOLS_VERSION: "2.2.4"
+  BSP_TOOLS_VERSION: "2.3.0"
   # Trivy release downloaded for the CVE scan when the agent has no trivy.
   TRIVY_VERSION: "0.76.2"
 
