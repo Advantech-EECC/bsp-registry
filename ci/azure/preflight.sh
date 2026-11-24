@@ -6,8 +6,11 @@
 #   - Docker must be usable by the agent user (kas-container needs it).
 #   - Isar presets (isar-* / debian-* / ubuntu-* releases) need privileged
 #     containers (kas-container --isar).
+#   - The cache root $BSP_CACHE_ROOT (pipeline parameter "cacheRoot", used
+#     by the CI overlay) must be an existing directory writable by the agent
+#     user. Blank means the registry default, $HOME/data/cache.
 #   - At least <min-free-gb> GB free on the filesystem of the build
-#     directory and of the shared cache ($HOME/data/cache). 0 skips the check.
+#     directory and of the cache root. 0 skips the check.
 # Also logs basic agent facts to make agent-specific failures easier to spot.
 
 set -uo pipefail
@@ -16,7 +19,8 @@ ROOT="$1"
 MIN_GB="$2"
 PRESET="$3"
 RELEASE="$4"
-CACHE="${HOME}/data/cache"
+CACHE_ROOT="$(echo "${BSP_CACHE_ROOT:-}" | xargs)"
+CACHE="${CACHE_ROOT:-${HOME}/data/cache}"
 FAIL=0
 
 error() {
@@ -42,6 +46,18 @@ else
     else
       error "privileged containers do not work on this agent; Isar builds need 'docker run --privileged'."
     fi
+  fi
+fi
+
+# --- Cache root ----------------------------------------------------------------
+echo "Cache:   $CACHE${CACHE_ROOT:+ (cacheRoot)}"
+if [ -n "$CACHE_ROOT" ]; then
+  if [ ! -d "$CACHE_ROOT" ]; then
+    error "cache root $CACHE_ROOT does not exist on this agent. Create it (owned by '$(id -un)') or queue with another 'cacheRoot'."
+  elif ! PROBE=$(mktemp "$CACHE_ROOT/.preflight.XXXXXX" 2>/dev/null); then
+    error "cache root $CACHE_ROOT is not writable by user '$(id -un)'."
+  else
+    rm -f "$PROBE"
   fi
 fi
 
