@@ -36,6 +36,12 @@ repos:
     commit: "407e3ac990f5ed466cb76e5002f918860503799c"
     branch: "wrynose"
 
+  # imx-6.18.37-2.1.0.xml takes meta-qt6 from the 6.11 branch, not the
+  # 6.11.0 branch that features/qt/qt6.11.0.yml pins for 6.18.20.
+  meta-qt6:
+    branch: "6.11"
+    commit: "302c4fab8d230f5cb7b21e4304c728831a0658cb"
+
   meta-virtualization:
     url: "https://git.yoctoproject.org/meta-virtualization"
     commit: "30f1a9d7e5ef1b41c64ff4c3c40951133d548ed8"
@@ -93,6 +99,7 @@ repos:
     url: "https://github.com/nxp-imx/meta-nxp-connectivity.git"
     # tag: "refs/tags/rel_imx_6.18.37_2.1.0"
     branch: "imx_matter_2026_q1-post"
+    commit: "12e139aa362660e2a7545b2924076038958e5144"
     path: "layers/meta-nxp-connectivity"
     layers:
       meta-nxp-matter-baseline:
@@ -102,6 +109,7 @@ repos:
     url: "https://github.com/nxp-imx-support/meta-nxp-demo-experience.git"
     branch: "wrynose-6.18.37-2.1.0"
     # tag: "refs/tags/rel_imx_6.18.37_2.1.0"
+    commit: "dd4e742a339c51f90dec8ea59c62add1f7f157fa"
     path: "layers/meta-nxp-demo-experience"
     layers:
       .:
@@ -110,6 +118,7 @@ repos:
     url: "https://github.com/nxp-imx/meta-imx.git"
     # tag: "refs/tags/rel_imx_6.18.37_2.1.0"
     branch: "wrynose-6.18.37-2.1.0"
+    commit: "2eb758f42cfb96042344815b7dd7755b06ba1e3b"
     path: "layers/meta-imx"
     layers:
       meta-imx-bsp:
